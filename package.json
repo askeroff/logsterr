@@ -1,0 +1,29 @@
+{
+  "name": "timetracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/askeroff/timetracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/askeroff/timetracker/issues"
+  },
+  "homepage": "https://github.com/askeroff/timetracker#readme",
+  "dependencies": {
+    "express": "^4.15.4",
+    "mongoose": "^4.11.10",
+    "next": "^3.2.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}

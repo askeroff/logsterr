@@ -1,7 +1,9 @@
+import Layout from '../components/Layout';
+
 const Index = (props) => (
-  <div>
-    <h1>TimeTracker App</h1>
-  </div>
+  <Layout>
+    <p> TimeTracker body </p>
+  </Layout>
 );
 
 

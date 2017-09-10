@@ -1,17 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Layout from './components/Layout';
+import { render } from 'react-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import App from './components/App';
+import Signup from './components/Signup';
+import NotFound from './components/NotFound';
 import 'normalize.css';
 import './styles/index.styl';
 
-class App extends React.Component {
-  render() {
-    return (
-      <Layout>
-        <h1>My App Works!</h1>
-      </Layout>
-    );
-  }
+const Root = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route path="/signup" component={Signup} />
+        <Route component={NotFound} />
+      </Switch> 
+    </BrowserRouter>
+  )
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+render(<Root />, document.getElementById('app'));

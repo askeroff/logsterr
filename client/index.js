@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Layout from './components/Layout';
+import 'normalize.css';
+import './styles/index.styl';
 
 class App extends React.Component {
   render() {

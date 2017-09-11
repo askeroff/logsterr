@@ -4,6 +4,8 @@
         "no-console": "off",
         "jsx-a11y/href-no-hash": "off",
         "react/jsx-filename-extension": "off",
-        "linebreak-style": ["error", "windows"]
+        "linebreak-style": ["error", "windows"],
+        "class-methods-use-this": "off",
+        "react/forbid-prop-types": "off"
     }
 }

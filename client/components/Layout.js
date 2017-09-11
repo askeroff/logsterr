@@ -12,12 +12,15 @@ const Layout = props => (
   </div>
 );
 
+/* children basically means anything that goes into the layout,
+  react components, html or whatever. */
+
 Layout.defaultProps = {
   children: 'Hello, world!',
 };
 
 Layout.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.array,
 };
 
 export default Layout;

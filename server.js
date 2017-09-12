@@ -18,6 +18,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('dist'));
 
+app.post('/signup', (req, res) => {
+  res.json({
+    title: 'This is what you sent',
+    email: req.body.email,
+    password: req.body.password,
+  });
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });

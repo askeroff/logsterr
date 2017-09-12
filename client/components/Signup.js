@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Layout from './Layout';
 
 class Signup extends React.Component {
@@ -22,8 +23,15 @@ class Signup extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log('Form was submitted');
     event.preventDefault();
+    axios.post('/signup', {
+      email: this.state.email,
+      password: this.state.password,
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   render() {

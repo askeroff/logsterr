@@ -9,7 +9,6 @@ import Signup from './components/Signup';
 import NotFound from './components/NotFound';
 
 const Root = () => {
-  console.log('hey');
   return (
     <BrowserRouter>
       <Switch>

@@ -1,11 +1,6 @@
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-const app = express();
-dotenv.config({ path: 'variables.env' });
+require('dotenv').config({ path: 'variables.env' });
 
 mongoose.connect(process.env.DATABASE);
 mongoose.Promise = global.Promise;
@@ -13,22 +8,9 @@ mongoose.connection.on('error', (err) => {
   console.error(`Oops - ${err.message}`);
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+require('./models/User');
 
-app.use(express.static('dist'));
-
-app.post('/signup', (req, res) => {
-  res.json({
-    title: 'This is what you sent',
-    email: req.body.email,
-    password: req.body.password,
-  });
-});
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-});
+const app = require('./app');
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('App Started');

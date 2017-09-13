@@ -24,12 +24,22 @@ class Signup extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    axios.post('/signup', {
-      email: this.state.email,
-      password: this.state.password,
-    }).then((res) => {
-      console.log(res);
-    }).catch((err) => {
+    axios
+      .post('/signup', {
+        email: this.state.email,
+        password: this.state.password,
+      })
+      .then((res) => {
+        if (res.data.result === 'error') {
+          res.data.errors.map((msg) => {
+            this.errorMessage.innerHTML += `<div>${msg}</div>`;
+            return msg;
+          });
+        } else if (res.data.result === 'success') {
+          console.log(res.data);
+        }
+      })
+    .catch((err) => {
       console.log(err);
     });
   }
@@ -60,6 +70,7 @@ class Signup extends React.Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
+        <div ref={(errorMessage) => { this.errorMessage = errorMessage; }} />
       </Layout>
     );
   }

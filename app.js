@@ -47,7 +47,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/auth', authController.isLoggedIn);
+app.get('/auth', (req, res) => {
+  res.send({ user: req.user });
+});
 
 app.post('/signup',
   userController.validateSignup,

@@ -47,28 +47,30 @@ class Signup extends React.Component {
   render() {
     return (
       <Layout>
-        <h1>Signup Page</h1>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="email">
-            E-mail:
-            <input
-              type="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleEmailChange}
-            />
-          </label>
+        <h1 className="page-title">Signup Page</h1>
+        <form onSubmit={this.handleSubmit} className="form signup">
+          <label htmlFor="email">E-mail:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            className="text-field"
+            value={this.state.email}
+            onChange={this.handleEmailChange}
+          />
 
-          <label htmlFor="password">
-            Password:
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-            />
-          </label>
-          <input type="submit" value="Submit" />
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            className="text-field"
+            value={this.state.password}
+            onChange={this.handlePasswordChange}
+          />
+
+
+          <input type="submit" value="Submit" className="submit-button" />
         </form>
         <div ref={(errorMessage) => { this.errorMessage = errorMessage; }} />
       </Layout>

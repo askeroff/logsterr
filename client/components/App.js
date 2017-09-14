@@ -3,7 +3,7 @@ import Layout from './Layout';
 
 const App = () => (
   <Layout>
-    <h1>TimeTracker</h1>
+    <h1 className="page-title">TimeTracker</h1>
   </Layout>
 );
 

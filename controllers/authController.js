@@ -4,7 +4,7 @@ exports.login = (req, res) => {
 
 exports.logout = (req, res) => {
   req.logout();
-  res.send(200);
+  res.json({ result: 'success' });
 };
 
 exports.isLoggedIn = (req, res, next) => {

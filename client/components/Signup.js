@@ -1,7 +1,6 @@
-/* global window */
-
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import Layout from './Layout';
 
 class Signup extends React.Component {
@@ -38,7 +37,7 @@ class Signup extends React.Component {
             return msg;
           });
         } else if (res.data.result === 'success') {
-          window.location.href = '/';
+          this.props.history.push('/');
         }
       })
     .catch((err) => {
@@ -79,5 +78,13 @@ class Signup extends React.Component {
     );
   }
 }
+
+Signup.defaultProps = {
+  history: {},
+};
+
+Signup.propTypes = {
+  history: PropTypes.object,
+};
 
 export default Signup;

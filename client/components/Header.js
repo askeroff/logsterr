@@ -1,61 +1,58 @@
-/* global window */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import Logout from './Logout';
 import '../styles/header.styl';
 
-// refactor later
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.guestLinks = this.guestLinks.bind(this);
+  }
 
-function logOut() {
-  axios
-    .get('/logout')
-    .then(() => {
-      window.location.href = '/';
-    })
-    .catch(err => console.log(err));
-}
-
-function guestLinks(user) {
-  if (!user) {
+  guestLinks() {
+    if (!this.props.user) {
+      return (
+        <ul className="header-menu">
+          <li className="header-menu-item">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="header-menu-item">
+            <Link to="/signup">Sign Up</Link>
+          </li>
+          <li className="header-menu-item">
+            <Link to="/login">Log In</Link>
+          </li>
+        </ul>
+      );
+    }
     return (
       <ul className="header-menu">
         <li className="header-menu-item">
           <Link to="/">Home</Link>
         </li>
-        <li className="header-menu-item">
-          <Link to="/signup">Sign Up</Link>
-        </li>
-        <li className="header-menu-item">
-          <Link to="/login">Log In</Link>
-        </li>
+        <Logout history={this.props.history} />
       </ul>
     );
   }
-  return (
-    <ul className="header-menu">
-      <li className="header-menu-item">
-        <Link to="/">Home</Link>
-      </li>
-      <li className="header-menu-item">
-        <Link onClick={logOut} to="/logout">Log Out</Link>
-      </li>
-    </ul>
-  );
-}
 
-const Header = props => (
-  <header>
-    { guestLinks(props.user) }
-  </header>
-);
+  render() {
+    return (
+      <header>
+        { this.guestLinks() }
+      </header>
+    );
+  }
+}
 
 Header.defaultProps = {
   user: null,
+  history: {},
 };
 
 Header.propTypes = {
   user: PropTypes.object,
+  history: PropTypes.object,
 };
 
 export default Header;

@@ -51,12 +51,16 @@ app.get('/auth', (req, res) => {
   res.send({ user: req.user });
 });
 
+app.get('/logout', authController.logout);
+
 app.post('/signup',
   userController.validateSignup,
   catchErrors(userController.signup),
   passport.authenticate('local'),
   authController.login,
 );
+
+app.post('/login', passport.authenticate('local'), authController.login);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));

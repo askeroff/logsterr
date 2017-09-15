@@ -2,6 +2,11 @@ exports.login = (req, res) => {
   res.json({ result: 'success', user: req.user });
 };
 
+exports.logout = (req, res) => {
+  req.logout();
+  res.send(200);
+};
+
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     res.json({ authenticated: true });

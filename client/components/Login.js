@@ -4,7 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import Layout from './Layout';
 
-class Signup extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ class Signup extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     axios
-      .post('/signup', {
+      .post('/login', {
         email: this.state.email,
         password: this.state.password,
       })
@@ -49,7 +49,7 @@ class Signup extends React.Component {
   render() {
     return (
       <Layout>
-        <h1 className="page-title">Signup Page</h1>
+        <h1 className="page-title">Login Page</h1>
         <form onSubmit={this.handleSubmit} className="form signup">
           <label htmlFor="email">E-mail:</label>
           <input
@@ -72,7 +72,7 @@ class Signup extends React.Component {
           />
 
 
-          <input type="submit" value="Submit" className="submit-button" />
+          <input type="submit" value="Log In!" className="submit-button" />
         </form>
         <div ref={(errorMessage) => { this.errorMessage = errorMessage; }} />
       </Layout>
@@ -80,4 +80,4 @@ class Signup extends React.Component {
   }
 }
 
-export default Signup;
+export default Login;

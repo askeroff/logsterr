@@ -24,6 +24,9 @@ class Header extends React.Component {
       <ul className="header-menu">
         <Li myClassName="header-menu-item" url="/" linkText="Home" />
         <Logout history={this.props.history} />
+        <li className="header-menu-item">
+          <span className="userInfo">(You are loged in as {this.props.user.email})</span>
+        </li>
       </ul>
     );
   }

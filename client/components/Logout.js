@@ -13,7 +13,7 @@ class Logout extends React.Component {
     axios
     .get('/logout')
     .then(() => {
-      this.props.history.push('/');
+      this.props.history.push('/login');
     })
     .catch(err => console.log(err));
   }

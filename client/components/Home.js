@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Layout from './layout/Layout';
 
-class App extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,12 +31,12 @@ class App extends React.Component {
   }
 }
 
-App.defaultProps = {
+Home.defaultProps = {
   history: {},
 };
 
-App.propTypes = {
+Home.propTypes = {
   history: PropTypes.object,
 };
 
-export default App;
+export default Home;

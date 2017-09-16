@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import Layout from './Layout';
+import Layout from './layout/Layout';
 
 class Login extends React.Component {
   constructor(props) {

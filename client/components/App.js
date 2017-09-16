@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import Layout from './Layout';
+import Layout from './layout/Layout';
 
 class App extends React.Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Logout from './Logout';
-import '../styles/header.styl';
+import Logout from '../Logout';
+import Li from './ListItem';
+import '../../styles/header.styl';
 
 class Header extends React.Component {
   constructor(props) {
@@ -14,23 +14,15 @@ class Header extends React.Component {
     if (!this.props.user) {
       return (
         <ul className="header-menu">
-          <li className="header-menu-item">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="header-menu-item">
-            <Link to="/signup">Sign Up</Link>
-          </li>
-          <li className="header-menu-item">
-            <Link to="/login">Log In</Link>
-          </li>
+          <Li myClassName="header-menu-item" url="/" linkText="Home" />
+          <Li myClassName="header-menu-item" url="/signup" linkText="Sign Up" />
+          <Li myClassName="header-menu-item" url="/login" linkText="Login" />
         </ul>
       );
     }
     return (
       <ul className="header-menu">
-        <li className="header-menu-item">
-          <Link to="/">Home</Link>
-        </li>
+        <Li myClassName="header-menu-item" url="/" linkText="Home" />
         <Logout history={this.props.history} />
       </ul>
     );

@@ -31,9 +31,9 @@ class Login extends React.Component {
         email: this.state.email,
         password: this.state.password,
       })
-      .then((res) => {
+      .then(res => {
         if (res.data.result === 'error') {
-          res.data.errors.map((msg) => {
+          res.data.errors.map(msg => {
             this.resultMessage.innerHTML += `<div>${msg}</div>`;
             return msg;
           });
@@ -41,9 +41,9 @@ class Login extends React.Component {
           this.props.history.push('/');
         }
       })
-    .catch((err) => {
-      this.resultMessage.innerHTML += `<div>${err}</div>`;
-    });
+      .catch(err => {
+        this.resultMessage.innerHTML += `<div>${err}</div>`;
+      });
   }
 
   render() {
@@ -58,7 +58,11 @@ class Login extends React.Component {
           handleEmailChange={this.handleEmailChange}
           handlePasswordChange={this.handlePasswordChange}
         />
-        <div ref={(resultMessage) => { this.resultMessage = resultMessage; }} />
+        <div
+          ref={resultMessage => {
+            this.resultMessage = resultMessage;
+          }}
+        />
       </Layout>
     );
   }
@@ -71,6 +75,5 @@ Login.defaultProps = {
 Login.propTypes = {
   history: PropTypes.object,
 };
-
 
 export default Login;

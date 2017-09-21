@@ -1,8 +1,12 @@
 function sampleReducer(state = [], action) {
   switch (action.type) {
-    case 'SAMPLE_REDUCER':
-      console.log('Sample Reducer');
-      return state;
+    case 'PAGE_LOAD':
+      return [
+        ...state,
+        {
+          user: action.data.data.user,
+        },
+      ];
     default:
       console.log('Sample Reducer');
       return state;

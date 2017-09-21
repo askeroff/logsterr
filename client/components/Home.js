@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import Layout from './layout/Layout';
 
 class Home extends React.Component {
@@ -12,14 +11,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    axios
-    .get('/auth')
-    .then((res) => {
-      this.setState({
-        user: res.data.user,
-      });
-    })
-    .catch(err => console.log(err));
+    this.props.pageLoad();
   }
 
   render() {

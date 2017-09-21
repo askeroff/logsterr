@@ -2,24 +2,25 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import { BrowserRouter, Switch, Route, browserHistory } from 'react-router-dom';
 import 'normalize.css';
 import './styles/index.styl';
 import rootReducer from './reducers/rootReducer';
-import Home from './components/Home';
+import App from './components/App';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Categories from './components/Categories';
 import NotFound from './components/NotFound';
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const Root = () => (
-  <Provider store={store}>
+  <Provider history={browserHistory} store={store}>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" s component={Home} />
+        <Route exact path="/" s component={App} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/cats" component={Categories} />

@@ -1,12 +1,23 @@
-// increment
-export function sample(index) {
+import axios from 'axios';
+
+export function pageLoadSuccess(data) {
   return {
-    type: 'SAMPLE_REDUCER',
-    index,
+    type: 'PAGE_LOAD',
+    data,
   };
 }
 
-// add comment
+export function pageLoad() {
+  return dispatch => {
+    return axios
+      .get('/auth')
+      .then(res => {
+        dispatch(pageLoadSuccess(res));
+      })
+      .catch(err => console.log(err));
+  };
+}
+
 export function othersample(index) {
   return {
     type: 'OTHER_SAMPLE_REDUCER',

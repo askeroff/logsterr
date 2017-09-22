@@ -12,6 +12,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.props.pageLoad();
+    console.log(this.state);
   }
 
   render() {

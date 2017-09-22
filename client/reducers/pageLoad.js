@@ -1,6 +1,7 @@
-function sampleReducer(state = [], action) {
+function pageLoad(state = [], action) {
   switch (action.type) {
     case 'PAGE_LOAD':
+      console.log('PAGE_LOAD WHAAAT?');
       return [
         ...state,
         {
@@ -13,4 +14,4 @@ function sampleReducer(state = [], action) {
   }
 }
 
-export default sampleReducer;
+export default pageLoad;

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Layout from './layout/Layout';
 
 class Home extends React.Component {
   constructor(props) {
@@ -16,11 +15,7 @@ class Home extends React.Component {
   }
 
   render() {
-    return (
-      <Layout user={this.state.user} history={this.props.history}>
-        <h1 className="page-title">TimeTracker</h1>
-      </Layout>
-    );
+    return <h1 className="page-title">TimeTracker</h1>;
   }
 }
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import Layout from './layout/Layout';
 import LoginForm from './layout/LoginForm';
 
 class Signup extends React.Component {
@@ -14,6 +13,10 @@ class Signup extends React.Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    console.log(this);
   }
 
   handleEmailChange(event) {
@@ -31,9 +34,9 @@ class Signup extends React.Component {
         email: this.state.email,
         password: this.state.password,
       })
-      .then((res) => {
+      .then(res => {
         if (res.data.result === 'error') {
-          res.data.errors.map((msg) => {
+          res.data.errors.map(msg => {
             this.resultMessage.innerHTML += `<div>${msg}</div>`;
             return msg;
           });
@@ -41,14 +44,14 @@ class Signup extends React.Component {
           this.props.history.push('/');
         }
       })
-    .catch((err) => {
-      this.resultMessage.innerHTML += `<div>${err}</div>`;
-    });
+      .catch(err => {
+        this.resultMessage.innerHTML += `<div>${err}</div>`;
+      });
   }
 
   render() {
     return (
-      <Layout>
+      <div>
         <h1 className="page-title">Signup Page</h1>
         <LoginForm
           myClassName="form signup"
@@ -58,8 +61,12 @@ class Signup extends React.Component {
           handleEmailChange={this.handleEmailChange}
           handlePasswordChange={this.handlePasswordChange}
         />
-        <div ref={(resultMessage) => { this.resultMessage = resultMessage; }} />
-      </Layout>
+        <div
+          ref={resultMessage => {
+            this.resultMessage = resultMessage;
+          }}
+        />
+      </div>
     );
   }
 }

@@ -3,12 +3,22 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-const Layout = props => (
-  <div>
-    <Header user={props.user} history={props.history} />
-    { props.children }
-    <Footer />
-  </div>
-);
+class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    console.log(this);
+  }
+  render() {
+    return (
+      <div>
+        <Header />
+        {React.cloneElement(this.props.children, this.props)}
+        <Footer />
+      </div>
+    );
+  }
+}
 
 export default Layout;

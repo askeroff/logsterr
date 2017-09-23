@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import Layout from './layout/Layout';
 import LoginForm from './layout/LoginForm';
 
 class Login extends React.Component {
@@ -48,7 +47,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Layout>
+      <div>
         <h1 className="page-title">Login Page</h1>
         <LoginForm
           myClassName="form signup"
@@ -63,7 +62,7 @@ class Login extends React.Component {
             this.resultMessage = resultMessage;
           }}
         />
-      </Layout>
+      </div>
     );
   }
 }

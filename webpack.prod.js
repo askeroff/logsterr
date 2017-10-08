@@ -4,29 +4,29 @@ module.exports = {
   entry: './client/index.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['es2015', 'react']
-          }
-        }
+            presets: ['es2015', 'react'],
+          },
+        },
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       // handling our stylus files
       {
         test: /\.styl$/,
-        use: ['style-loader', 'css-loader', 'stylus-loader']
-      }
-    ]
-  }
+        use: ['style-loader', 'css-loader', 'stylus-loader'],
+      },
+    ],
+  },
 };

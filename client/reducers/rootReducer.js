@@ -7,7 +7,7 @@ import otherSample from './otherSample';
 const rootReducer = combineReducers({
   pageLoad,
   otherSample,
-  routing: routerReducer,
+  router: routerReducer,
 });
 
 export default rootReducer;

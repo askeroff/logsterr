@@ -1,40 +1,33 @@
 /* global document */
-// global imports
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import { BrowserRouter, Route, browserHistory, Switch } from 'react-router-dom';
-// styles
-import 'normalize.css';
-import './styles/index.styl';
-// components
-import rootReducer from './reducers/rootReducer';
-import Layout from './components/Layout';
-import NotFound from './components/NotFound';
+import { Route, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
+
+import { store, history } from './store';
+import Home from './components/Home';
 import Signup from './components/Signup';
 import Login from './components/Login';
-import Home from './components/Home';
-import App from './components/App';
-import Categories from './components/Categories';
+import NotFound from './components/NotFound';
+import Layout from './components/layout/Layout';
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+import 'normalize.css'; // eslint-disable-line import/first
+import './styles/index.styl';
 
 const Root = () => (
-  <BrowserRouter>
-    <Provider history={browserHistory} store={store}>
-      <App>
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Layout>
         <Switch>
-          <Route exact path="/" s component={Home} />
+          <Route exact path="/" component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
-          <Route path="/cats" component={Categories} />
-          <Route path="/logout" component={Login} />
-          {/*<Route component={NotFound} />*/}
+          <Route component={NotFound} />
         </Switch>
-      </App>
-    </Provider>
-  </BrowserRouter>
+      </Layout>
+    </ConnectedRouter>
+  </Provider>
 );
+
 render(<Root />, document.getElementById('app'));

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lintme": "eslint client/**/*.js",
     "build": "webpack --config webpack.prod.js",
     "devbuild": "webpack --config webpack.dev.js",
@@ -41,8 +41,8 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.2.1",
     "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -56,14 +56,29 @@
   "devDependencies": {
     "concurrently": "^3.5.0",
     "css-loader": "^0.28.7",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.1",
+    "enzyme-to-json": "^3.1.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.3.0",
+    "jest": "^21.2.1",
+    "jest-serializer-enzyme": "^1.0.0",
+    "raf": "^3.4.0",
+    "react-test-renderer": "^16.0.0",
     "style-loader": "^0.18.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "webpack": "^3.5.6"
+  },
+  "jest": {
+    "setupFiles": [
+      "raf/polyfill"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   }
 }

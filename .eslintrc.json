@@ -9,5 +9,11 @@
     "react/forbid-prop-types": "off",
     "jsx-a11y/label-has-for": "off",
     "arrow-parens": "off"
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest": true
   }
 }

@@ -1,12 +1,12 @@
-function pageLoad(state = [], action) {
+import { PAGE_LOAD } from '../actions/actionTypes';
+
+function userData(state = {}, action) {
   switch (action.type) {
-    case 'PAGE_LOAD':
-      console.log('PAGE_LOAD WHAAAT?', action.payload);
-      return action.payload;
+    case PAGE_LOAD:
+      return Object.assign({}, state, action.user);
     default:
-      console.log('Sample Reducer');
       return state;
   }
 }
 
-export default pageLoad;
+export default userData;

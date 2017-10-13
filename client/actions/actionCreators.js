@@ -1,26 +1,26 @@
 import axios from 'axios';
+import { PAGE_LOAD, SAMPLE_ACTION } from './actionTypes';
 
-export function pageLoadSuccess(data) {
+export function pageLoadSuccess(user) {
   return {
-    type: 'PAGE_LOAD',
-    data,
+    type: PAGE_LOAD,
+    user,
   };
 }
 
 export function pageLoad() {
-  return dispatch => {
-    return axios
+  return dispatch =>
+    axios
       .get('/auth')
       .then(res => {
-        dispatch(pageLoadSuccess(res));
+        dispatch(pageLoadSuccess(res.data.user));
       })
       .catch(err => console.log(err));
-  };
 }
 
 export function othersample(index) {
   return {
-    type: 'OTHER_SAMPLE_REDUCER',
+    type: SAMPLE_ACTION,
     index,
   };
 }

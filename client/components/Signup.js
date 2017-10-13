@@ -1,5 +1,10 @@
 import React from 'react';
+import Layout from './layout/Layout';
 
-const Signup = () => <h1>Signup Page</h1>;
+const Signup = () => (
+  <Layout>
+    <h1>Signup</h1>
+  </Layout>
+);
 
 export default Signup;

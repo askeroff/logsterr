@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import pageLoad from './pageLoad';
+import userData from './pageLoad';
 import otherSample from './otherSample';
 
 const rootReducer = combineReducers({
-  pageLoad,
+  userData,
   otherSample,
   router: routerReducer,
 });

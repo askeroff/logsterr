@@ -1,32 +1,40 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import * as actionCreators from '../../actions/actionCreators';
+import { connect } from 'react-redux';
+import { pageLoad } from '../../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
 
-const Layout = props => (
-  <div className="wrapper">
-    <Header />
-    {React.cloneElement(props.children, props)}
-    <Footer />
-  </div>
-);
+class Layout extends React.Component {
+  componentDidMount() {
+    this.props.getUserData();
+  }
+
+  render() {
+    return (
+      <div className="wrapper">
+        <Header userEmail={this.props.user.email} />
+        {this.props.children}
+        <Footer />
+      </div>
+    );
+  }
+}
 
 Layout.propTypes = {
   children: PropTypes.any.isRequired,
+  user: PropTypes.object.isRequired,
+  getUserData: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-  };
-}
+const mapStateToProps = state => ({
+  user: state.userData,
+});
 
-function mapDispachToProps(dispatch) {
-  return bindActionCreators(actionCreators, dispatch);
-}
+const mapDispatchToProps = dispatch => ({
+  getUserData() {
+    dispatch(pageLoad());
+  },
+});
 
-export default withRouter(connect(mapStateToProps, mapDispachToProps)(Layout));
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

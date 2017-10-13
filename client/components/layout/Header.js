@@ -11,7 +11,7 @@ class Header extends React.Component {
   }
 
   guestLinks() {
-    if (!this.props.user) {
+    if (!this.props.userEmail) {
       return (
         <ul className="header-menu">
           <Li myClassName="header-menu-item" url="/" linkText="Home" />
@@ -27,7 +27,7 @@ class Header extends React.Component {
         {/* <Logout history={this.props.history} /> */}
         <li className="header-menu-item">
           <span className="userInfo">
-            (You are loged in as {/* this.props.user.email */})
+            (You are loged in as {this.props.userEmail})
           </span>
         </li>
       </ul>
@@ -40,11 +40,11 @@ class Header extends React.Component {
 }
 
 Header.defaultProps = {
-  user: null,
+  userEmail: null,
 };
 
 Header.propTypes = {
-  user: PropTypes.object,
+  userEmail: PropTypes.string,
 };
 
 export default Header;

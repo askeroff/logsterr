@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 import userData from './pageLoad';
-import otherSample from './otherSample';
+import logOut from './logOut';
 
 const rootReducer = combineReducers({
   userData,
-  otherSample,
+  logOut,
   router: routerReducer,
 });
 

@@ -1,2 +1,3 @@
-export const PAGE_LOAD = 'PAGE_LOAD';
-export const SAMPLE_ACTION = 'SAMPLE_ACTION';
+export const IS_LOGGED_IN = 'IS_LOGGED_IN';
+export const LOG_OUT = 'LOG_OUT ';
+export const LOG_IN = 'LOG_IN ';

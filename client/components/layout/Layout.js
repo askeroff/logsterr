@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { pageLoad } from '../../actions/actionCreators';
+import { logOut, isLoggedIn } from '../../actions/user';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -13,7 +13,7 @@ class Layout extends React.Component {
   render() {
     return (
       <div className="wrapper">
-        <Header userEmail={this.props.user.email} />
+        <Header logOut={this.props.logOut} userEmail={this.props.user.email} />
         {this.props.children}
         <Footer />
       </div>
@@ -25,15 +25,19 @@ Layout.propTypes = {
   children: PropTypes.any.isRequired,
   user: PropTypes.object.isRequired,
   getUserData: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  user: state.userData,
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   getUserData() {
-    dispatch(pageLoad());
+    dispatch(isLoggedIn());
+  },
+  logOut() {
+    dispatch(logOut());
   },
 });
 

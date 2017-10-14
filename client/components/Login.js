@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logIn } from '../actions/user';
 import LoginForm from './layout/LoginForm';
 import Layout from './layout/Layout';
 
@@ -24,6 +27,10 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.handleLogin({
+      email: this.state.email,
+      password: this.state.password,
+    });
   }
 
   render() {
@@ -48,4 +55,18 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleLogin(email, password) {
+    dispatch(logIn(email, password));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

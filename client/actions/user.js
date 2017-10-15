@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOG_OUT, LOG_IN, IS_LOGGED_IN } from './actionTypes';
+import { LOG_OUT, LOG_IN, IS_LOGGED_IN, SIGN_UP } from './actionTypes';
 
 export function logInSuccess(user) {
   return {
@@ -13,8 +13,9 @@ export function logIn(user) {
     axios
       .post('/login', user)
       .then(res => {
-        console.log('res from log in action', res);
-        dispatch(logInSuccess(user));
+        const { email, _id } = res.data.user;
+        const loggedUser = { email, _id };
+        dispatch(logInSuccess(loggedUser));
       })
       .catch(err => console.log(err));
 }
@@ -31,7 +32,6 @@ export function logOut() {
     axios
       .get('/logout')
       .then(res => {
-        console.log('res from log out action');
         dispatch(logOutSuccess(res));
       })
       .catch(err => console.log(err));
@@ -50,6 +50,25 @@ export function isLoggedIn() {
       .get('/auth')
       .then(res => {
         dispatch(isLoggedInSuccess(res.data.user));
+      })
+      .catch(err => console.log(err));
+}
+
+export function signUpSuccess(user) {
+  return {
+    type: SIGN_UP,
+    user,
+  };
+}
+
+export function signUp(user) {
+  return dispatch =>
+    axios
+      .post('/signup', user)
+      .then(res => {
+        const { email, _id } = res.data.user;
+        const loggedUser = { email, _id };
+        dispatch(signUpSuccess(loggedUser));
       })
       .catch(err => console.log(err));
 }

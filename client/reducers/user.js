@@ -1,19 +1,18 @@
-import { LOG_OUT, LOG_IN, IS_LOGGED_IN } from '../actions/actionTypes';
+import { LOG_OUT, LOG_IN, IS_LOGGED_IN, SIGN_UP } from '../actions/actionTypes';
 
-function handleUser(state = {}, action) {
+function user(state = {}, action) {
   switch (action.type) {
     case LOG_OUT:
-      console.log(action, 'Log Out');
-      return state;
+      return {};
     case LOG_IN:
-      console.log(action, 'Log In');
       return Object.assign({}, state, action.user);
     case IS_LOGGED_IN:
-      console.log(action, 'Is logged in');
+      return Object.assign({}, state, action.user);
+    case SIGN_UP:
       return Object.assign({}, state, action.user);
     default:
       return state;
   }
 }
 
-export default handleUser;
+export default user;

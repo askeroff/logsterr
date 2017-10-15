@@ -17,6 +17,12 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.email !== undefined) {
+      this.props.history.push('/');
+    }
+  }
+
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
   }
@@ -57,6 +63,8 @@ class Login extends React.Component {
 
 Login.propTypes = {
   handleLogin: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -64,8 +72,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleLogin(email, password) {
-    dispatch(logIn(email, password));
+  handleLogin(user) {
+    dispatch(logIn(user));
   },
 });
 

@@ -17,9 +17,17 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.user.error = undefined;
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.email !== undefined) {
       this.props.history.push('/');
+    }
+
+    if (nextProps.error !== '' && nextProps.error !== undefined) {
+      this.resultMessage.innerHTML = nextProps.error;
     }
   }
 
@@ -52,6 +60,7 @@ class Login extends React.Component {
           handlePasswordChange={this.handlePasswordChange}
         />
         <div
+          className="server-response"
           ref={resultMessage => {
             this.resultMessage = resultMessage;
           }}
@@ -61,14 +70,20 @@ class Login extends React.Component {
   }
 }
 
+Login.defaultProps = {
+  error: undefined,
+};
+
 Login.propTypes = {
   handleLogin: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  error: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   user: state.user,
+  error: state.user.error,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,10 +1,23 @@
 import axios from 'axios';
-import { LOG_OUT, LOG_IN, IS_LOGGED_IN, SIGN_UP } from './actionTypes';
+import {
+  LOG_OUT,
+  LOG_IN,
+  IS_LOGGED_IN,
+  SIGN_UP,
+  LOG_IN_ERROR,
+} from './actionTypes';
 
 export function logInSuccess(user) {
   return {
     type: LOG_IN,
     user,
+  };
+}
+
+export function logInError(error) {
+  return {
+    type: LOG_IN_ERROR,
+    error,
   };
 }
 
@@ -17,7 +30,7 @@ export function logIn(user) {
         const loggedUser = { email, _id };
         dispatch(logInSuccess(loggedUser));
       })
-      .catch(err => console.log(err));
+      .catch(err => dispatch(logInError(err)));
 }
 
 export function logOutSuccess(user) {

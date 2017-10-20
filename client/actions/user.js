@@ -5,6 +5,7 @@ import {
   IS_LOGGED_IN,
   SIGN_UP,
   LOG_IN_ERROR,
+  SIGN_UP_ERROR,
 } from './actionTypes';
 
 export function logInSuccess(user) {
@@ -67,6 +68,13 @@ export function isLoggedIn() {
       .catch(err => console.log(err));
 }
 
+export function signUpError(error) {
+  return {
+    type: SIGN_UP_ERROR,
+    error,
+  };
+}
+
 export function signUpSuccess(user) {
   return {
     type: SIGN_UP,
@@ -83,5 +91,5 @@ export function signUp(user) {
         const loggedUser = { email, _id };
         dispatch(signUpSuccess(loggedUser));
       })
-      .catch(err => console.log(err));
+      .catch(err => dispatch(signUpError(err)));
 }

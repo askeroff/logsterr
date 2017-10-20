@@ -1,3 +1,5 @@
+/* eslint react/no-array-index-key: off */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -11,15 +13,21 @@ class Signup extends React.Component {
     this.state = {
       email: '',
       password: '',
+      errors: [],
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderErrors = this.renderErrors.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.user.email !== undefined) {
       this.props.history.push('/');
+    }
+    if (nextProps.user.errors && nextProps.user.errors.length > 0) {
+      this.setState({ errors: nextProps.user.errors });
     }
   }
 
@@ -30,12 +38,21 @@ class Signup extends React.Component {
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
   }
+
   handleSubmit(event) {
     event.preventDefault();
     this.props.handleSignup({
       email: this.state.email,
       password: this.state.password,
     });
+  }
+
+  renderErrors() {
+    return this.state.errors.map((message, index) => (
+      <div key={index} className="server-response error">
+        {message}
+      </div>
+    ));
   }
 
   render() {
@@ -50,11 +67,7 @@ class Signup extends React.Component {
           handleEmailChange={this.handleEmailChange}
           handlePasswordChange={this.handlePasswordChange}
         />
-        <div
-          ref={resultMessage => {
-            this.resultMessage = resultMessage;
-          }}
-        />
+        <div>{this.renderErrors()}</div>
       </Layout>
     );
   }

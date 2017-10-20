@@ -29,14 +29,15 @@ app.use(express.static('dist'));
 app.use(expressValidator());
 
 // handle our sessions
-app.use(session({
-  secret: process.env.SECRET,
-  key: process.env.KEY,
-  resave: false,
-  saveUninitialized: false,
-  store: new MongoStore({ mongooseConnection: mongoose.connection }),
-}));
-
+app.use(
+  session({
+    secret: process.env.SECRET,
+    key: process.env.KEY,
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  })
+);
 
 // passport to handle our logins
 app.use(passport.initialize());
@@ -53,11 +54,12 @@ app.get('/auth', (req, res) => {
 
 app.get('/logout', authController.logout);
 
-app.post('/signup',
+app.post(
+  '/signup',
   userController.validateSignup,
   catchErrors(userController.signup),
   passport.authenticate('local'),
-  authController.login,
+  authController.login
 );
 
 app.post('/login', passport.authenticate('local'), authController.login);

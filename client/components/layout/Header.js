@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Li from './ListItem';
-import '../../styles/header.styl';
 
 class Header extends React.Component {
   constructor(props) {

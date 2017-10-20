@@ -10,7 +10,13 @@ const historyMiddleware = routerMiddleware(history);
 
 export const store = createStore(
   rootReducer,
-  compose(applyMiddleware(historyMiddleware, thunk)) // eslint-disable-line comma-dangle
+  compose(
+    applyMiddleware(historyMiddleware, thunk),
+    typeof window === 'object' &&
+    typeof window.devToolsExtension !== 'undefined'
+      ? window.devToolsExtension()
+      : f => f
+  ) // eslint-disable-line comma-dangle
 );
 
 // something

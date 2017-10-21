@@ -71,7 +71,7 @@ class Login extends React.Component {
 }
 
 Login.defaultProps = {
-  error: undefined,
+  error: '',
 };
 
 Login.propTypes = {
@@ -92,4 +92,5 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
+export const UnwrappedLogin = Login;
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

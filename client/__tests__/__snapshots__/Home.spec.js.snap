@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home renders correctly 1`] = `
+exports[`Home Component renders correctly 1`] = `
 <Connect(Layout)>
   <h1>
     Home Page

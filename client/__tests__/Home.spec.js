@@ -5,7 +5,7 @@ import Home from '../components/Home';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('Home renders correctly', () => {
+test('Home Component renders correctly', () => {
   const component = shallow(<Home />);
   expect(component).toMatchSnapshot();
 });

@@ -3,7 +3,7 @@ import Layout from './layout/Layout';
 
 const Home = () => (
   <Layout>
-    <h1>Home Page</h1>
+    <h1 className="page-title">Home Page</h1>
   </Layout>
 );
 

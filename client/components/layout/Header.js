@@ -21,7 +21,11 @@ class Header extends React.Component {
     return (
       <ul className="header-menu">
         <Li myClassName="header-menu-item" url="/" linkText="Home" />
-        <Li myClassName="header-menu-item" url="/cats" linkText="Categories" />
+        <Li
+          myClassName="header-menu-item"
+          url="/projects"
+          linkText="Projects"
+        />
         <Li
           trigger={this.props.logOut}
           myClassName="header-menu-item"

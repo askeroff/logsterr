@@ -19,16 +19,14 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 const app = express();
+const staticAssetsPath = path.resolve(__dirname, 'dist');
 
-// handling our request data, making em available on req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// serving static folder dist
-app.use(express.static('dist'));
-// special express validator to validate user input
+
+app.use(express.static(staticAssetsPath));
 app.use(expressValidator());
 
-// handle our sessions
 app.use(
   session({
     secret: process.env.SECRET,
@@ -39,7 +37,6 @@ app.use(
   })
 );
 
-// passport to handle our logins
 app.use(passport.initialize());
 app.use(passport.session());
 

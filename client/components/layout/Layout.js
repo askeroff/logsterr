@@ -14,7 +14,7 @@ class Layout extends React.Component {
     return (
       <div className="wrapper">
         <Header logOut={this.props.logOut} userEmail={this.props.user.email} />
-        {this.props.children}
+        <div className="content-wrapper">{this.props.children}</div>
         <Footer />
       </div>
     );

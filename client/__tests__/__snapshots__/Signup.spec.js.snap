@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Signup Component renders correctly 1`] = `
+<Connect(Layout)>
+  <h1
+    className="page-title"
+  >
+    Signup Page
+  </h1>
+  <LoginForm
+    emailValue=""
+    handleEmailChange={[Function]}
+    handlePasswordChange={[Function]}
+    handleSubmit={[Function]}
+    myClassName="form signup"
+    passwordValue=""
+  />
+  <div />
+</Connect(Layout)>
+`;

@@ -89,4 +89,5 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
+export const UnwrappedSignup = Signup;
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

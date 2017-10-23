@@ -18,7 +18,7 @@ class Add extends React.Component {
   render() {
     return (
       <Layout>
-        <h1 className="page-title">Add New Project</h1>
+        <h1 className="page-title">Add New Project!</h1>
         <p> Here you can add projects. You may think of them as categories. </p>
         <p>
           For instance, you might want to learn French, then create a project

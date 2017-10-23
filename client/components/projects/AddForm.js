@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import FormInput from '../layout/FormInput';
 
 const AddForm = props => (
-  <form action="/add" method="post" className="form">
-    <label htmlFor="project-name">Name of the project</label>
+  <form method="post" className="form">
+    <label htmlFor="project-name">Name of the project!!</label>
     <FormInput
       inputValue={props.inputValue}
       handleInput={props.handleInput}

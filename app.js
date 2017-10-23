@@ -12,6 +12,7 @@ const User = mongoose.model('User');
 const { catchErrors } = require('./helpers/');
 const userController = require('./controllers/userController');
 const authController = require('./controllers/authController');
+const projectsController = require('./controllers/projectsController');
 
 // passport config
 passport.use(User.createStrategy());
@@ -60,6 +61,8 @@ app.post(
 );
 
 app.post('/login', passport.authenticate('local'), authController.login);
+
+app.post('/projects/add', projectsController.add);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));

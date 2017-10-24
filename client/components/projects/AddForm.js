@@ -4,11 +4,11 @@ import FormInput from '../layout/FormInput';
 
 const AddForm = props => (
   <form method="post" className="form">
-    <label htmlFor="project-name">Name of the project!!</label>
+    <label htmlFor="project-name">Name of the project</label>
     <FormInput
       inputValue={props.inputValue}
       handleInput={props.handleInput}
-      inputName="project-name"
+      inputName="name"
     />
     <input type="submit" value="Add" className="submit-button" />
   </form>

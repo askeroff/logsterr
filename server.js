@@ -4,11 +4,12 @@ require('dotenv').config({ path: 'variables.env' });
 
 mongoose.connect(process.env.DATABASE);
 mongoose.Promise = global.Promise;
-mongoose.connection.on('error', (err) => {
+mongoose.connection.on('error', err => {
   console.error(`Oops - ${err.message}`);
 });
 
 require('./models/User');
+require('./models/Project');
 
 const app = require('./app');
 

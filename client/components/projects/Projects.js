@@ -1,27 +1,20 @@
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
+import Index from './Index';
 import Add from './Add';
 import Project from './Project';
-import Layout from '../layout/Layout';
 
 const Projects = ({ match }) => (
   <Switch>
-    <Route
-      exact
-      path={match.url}
-      render={() => (
-        <Layout>
-          <h1 className="page-title">Add A New Project</h1>
-
-          <Link className="submit-button link-button" to={`${match.url}/add`}>
-            Add
-          </Link>
-        </Layout>
-      )}
-    />
+    <Route exact path={match.url} render={() => <Index />} />
     <Route path={`${match.url}/add`} component={Add} />
     <Route path={`${match.url}/:project`} component={Project} />
   </Switch>
 );
+
+Projects.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 
 export default Projects;

@@ -9,7 +9,8 @@
     "react/forbid-prop-types": "off",
     "jsx-a11y/label-has-for": "off",
     "arrow-parens": "off",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "no-underscore-dangle": "off"
   },
   "env": {
     "es6": true,

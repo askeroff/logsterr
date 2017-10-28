@@ -1,9 +1,19 @@
-/* eslint import/prefer-default-export: "off" */
+import axios from 'axios';
 import { GET_PROJECTS } from '../actions/actionTypes';
 
-export function getProjects(authorID) {
+export function getProjectsSuccess(response) {
   return {
     type: GET_PROJECTS,
-    authorID,
+    response,
   };
+}
+
+export function getProjects(authorID) {
+  return dispatch =>
+    axios
+      .get('/projects/getProjects', authorID)
+      .then(res => {
+        dispatch(getProjectsSuccess(res));
+      })
+      .catch(err => console.log(err));
 }

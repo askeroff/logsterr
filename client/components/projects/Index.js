@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProjects } from '../../actions/projects';
 import Layout from '../layout/Layout';
+import ProjectsList from './ProjectsList';
 
 class Index extends React.Component {
   constructor(props) {
@@ -22,10 +23,10 @@ class Index extends React.Component {
 
   render() {
     let projects;
-    if (Object.keys(this.props.user).length === 0) {
+    if (!this.props.projects.projectsList) {
       projects = '...';
     } else {
-      projects = 'projects are loaded! well, not really. user is.';
+      projects = <ProjectsList projects={this.props.projects.projectsList} />;
     }
     return (
       <Layout>
@@ -42,11 +43,13 @@ class Index extends React.Component {
 }
 Index.defaultProps = {
   user: {},
+  projects: {},
 };
 
 Index.propTypes = {
   handleProjects: PropTypes.func.isRequired,
   user: PropTypes.object,
+  projects: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

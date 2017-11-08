@@ -11,6 +11,28 @@ exports.add = async (req, res) => {
   res.redirect(`/projects/${project.slug}`);
 };
 
-exports.getProjects = (req, res) => {
-  res.send({ projects: [{ name: 'project 1' }, { name: 'project 2' }] });
+exports.getProjects = async (req, res) => {
+  const page = req.params.page || 1;
+  const limit = 10;
+  const skip = page * limit - limit; // eslint-disable-line no-mixed-operators
+
+  const projectsPromise = Project.find({
+    author: req.user._id,
+  })
+    .skip(skip)
+    .limit(limit);
+  // .sort({ created: 'desc' });
+
+  const countPromise = Project.count();
+
+  const [projectsList, count] = await Promise.all([
+    projectsPromise,
+    countPromise,
+  ]);
+  const pages = Math.ceil(count / limit);
+  if (!projectsList.length && skip) {
+    res.redirect('/');
+    return;
+  }
+  res.send({ projectsList, page, pages, count });
 };

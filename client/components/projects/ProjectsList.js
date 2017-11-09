@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 
 const ProjectsList = props => {
   const listItems = props.projects.map(project => (
-    <li key={project._id}>
-      <Link to={`/projects/${project.slug}`}>{project.name}</Link>
+    <li className="projects-list-item" key={project._id}>
+      <Link className="project-list-title" to={`/projects/${project.slug}`}>
+        {project.name}
+      </Link>
+      <span>(Edit / Delete)</span>
     </li>
   ));
   return listItems;

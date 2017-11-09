@@ -24,9 +24,13 @@ class Index extends React.Component {
   render() {
     let projects;
     if (!this.props.projects.projectsList) {
-      projects = '...';
+      projects = 'There are no projects or they are loading.';
     } else {
-      projects = <ProjectsList projects={this.props.projects.projectsList} />;
+      projects = (
+        <ul className="projects-list">
+          <ProjectsList projects={this.props.projects.projectsList} />
+        </ul>
+      );
     }
     return (
       <Layout>

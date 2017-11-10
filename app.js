@@ -64,6 +64,7 @@ app.post('/login', passport.authenticate('local'), authController.login);
 
 app.post('/projects/add', projectsController.add);
 app.get('/projects/getProjects', projectsController.getProjects);
+app.post('/projects/delete', projectsController.delete);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));

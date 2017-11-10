@@ -36,3 +36,9 @@ exports.getProjects = async (req, res) => {
   }
   res.send({ projectsList, page, pages, count });
 };
+
+exports.delete = (req, res) => {
+  Project.findByIdAndRemove(req.body.id, () => {
+    res.redirect('/projects');
+  });
+};

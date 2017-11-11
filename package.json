@@ -52,7 +52,8 @@
     "redbox-react": "^1.5.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "slugs": "^0.1.3"
+    "slugs": "^0.1.3",
+    "sweetalert": "^2.0.8"
   },
   "devDependencies": {
     "babel-jest": "^21.2.0",

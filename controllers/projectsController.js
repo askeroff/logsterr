@@ -8,7 +8,16 @@ const Project = mongoose.model('Project');
 exports.add = async (req, res) => {
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
   const project = await new Project(req.body).save();
-  res.redirect(`/projects/${project.slug}`);
+  res.redirect(`/projects/${project.slug}/${project._id}`);
+};
+
+exports.update = (req, res) => {
+  Project.findById(req.params.id, (err, project) => {
+    project.name = req.body.name; // eslint-disable-line no-param-reassign
+    project.save();
+  });
+
+  res.redirect('/projects');
 };
 
 exports.getProjects = async (req, res) => {

@@ -29,13 +29,23 @@ class ProjectsList extends React.Component {
   render() {
     const listItems = this.props.projects.map(project => (
       <li className="projects-list-item" key={project._id}>
-        <Link className="project-list-title" to={`/projects/${project.slug}`}>
+        <Link
+          className="project-list-title"
+          to={`/projects/${project.slug}/${project._id}`}
+        >
           {project.name}
+        </Link>
+        <Link
+          className="info-button link"
+          to={`/projects/${project.slug}/${project._id}/edit`}
+        >
+          Edit
         </Link>
         <form
           ref={delForm => {
             this.delForm = delForm;
           }}
+          className="inline-form"
           action="/projects/delete"
           method="POST"
         >

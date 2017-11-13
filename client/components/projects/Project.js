@@ -1,11 +1,70 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getProjects } from '../../actions/projects';
 import Layout from '../layout/Layout';
 
-const Project = ({ match }) => (
-  <Layout>
-    <h1 className="page-title">{match.params.project}!</h1>
-    <p>Tasks related to your project will be here</p>
-  </Layout>
-);
+class Project extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentProject: {},
+      userLoaded: false,
+      projectsLoaded: false,
+    };
+  }
 
-export default Project;
+  componentWillReceiveProps(nextProps) {
+    if (Object.keys(nextProps.user).length !== 0 && !this.state.userLoaded) {
+      this.props.handleProjects(nextProps.user._id);
+      this.setState({ userLoaded: true });
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.projectsList.length !== 0 && !this.state.projectsLoaded) {
+      this.props.projectsList.forEach(item => {
+        if (item._id === this.props.match.params.id) {
+          this.setState({ currentProject: item, projectsLoaded: true });
+        }
+        return 0;
+      });
+    }
+  }
+
+  render() {
+    return (
+      <Layout>
+        <h1 className="page-title">
+          {this.state.currentProject.name || '...'}
+        </h1>
+        <p>Tasks related to your project will be here</p>
+      </Layout>
+    );
+  }
+}
+
+Project.defaultProps = {
+  projectsList: [],
+  user: {},
+};
+
+Project.propTypes = {
+  match: PropTypes.object.isRequired,
+  projectsList: PropTypes.array,
+  user: PropTypes.object,
+  handleProjects: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  projectsList: state.projects.projectsList,
+  user: state.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleProjects(authorID) {
+    dispatch(getProjects(authorID));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

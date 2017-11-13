@@ -7,8 +7,8 @@ const Project = mongoose.model('Project');
 
 exports.add = async (req, res) => {
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
-  const project = await new Project(req.body).save();
-  res.redirect(`/projects/${project.slug}/${project._id}`);
+  await new Project(req.body).save();
+  res.redirect('/projects');
 };
 
 exports.update = (req, res) => {
@@ -21,29 +21,11 @@ exports.update = (req, res) => {
 };
 
 exports.getProjects = async (req, res) => {
-  const page = req.params.page || 1;
-  const limit = 10;
-  const skip = page * limit - limit; // eslint-disable-line no-mixed-operators
-
-  const projectsPromise = Project.find({
+  const projectsList = await Project.find({
     author: req.user._id,
-  })
-    .skip(skip)
-    .limit(limit);
-  // .sort({ created: 'desc' });
+  });
 
-  const countPromise = Project.count();
-
-  const [projectsList, count] = await Promise.all([
-    projectsPromise,
-    countPromise,
-  ]);
-  const pages = Math.ceil(count / limit);
-  if (!projectsList.length && skip) {
-    res.redirect('/');
-    return;
-  }
-  res.send({ projectsList, page, pages, count });
+  res.send({ projectsList });
 };
 
 exports.delete = (req, res) => {

@@ -29,16 +29,10 @@ class ProjectsList extends React.Component {
   render() {
     const listItems = this.props.projects.map(project => (
       <li className="projects-list-item" key={project._id}>
-        <Link
-          className="project-list-title"
-          to={`/projects/${project.slug}/${project._id}`}
-        >
+        <Link className="project-list-title" to={`/projects/${project._id}`}>
           {project.name}
         </Link>
-        <Link
-          className="info-button link"
-          to={`/projects/${project.slug}/${project._id}/edit`}
-        >
+        <Link className="info-button link" to={`/projects/${project._id}/edit`}>
           Edit
         </Link>
         <form

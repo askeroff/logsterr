@@ -10,8 +10,8 @@ const Projects = ({ match }) => (
   <Switch>
     <Route exact path={match.url} render={() => <Index />} />
     <Route path={`${match.url}/add`} component={Add} />
-    <Route path={`${match.url}/:project/:id/edit`} component={Edit} />
-    <Route path={`${match.url}/:project/:id`} component={Project} />
+    <Route path={`${match.url}/:id/edit`} component={Edit} />
+    <Route path={`${match.url}/:id`} component={Project} />
   </Switch>
 );
 

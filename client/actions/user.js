@@ -46,7 +46,7 @@ export function logOut() {
     axios
       .get('/logout')
       .then(res => {
-        dispatch(logOutSuccess(res));
+        dispatch(logOutSuccess(res.data));
       })
       .catch(err => console.log(err));
 }

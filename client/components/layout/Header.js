@@ -26,12 +26,7 @@ class Header extends React.Component {
           url="/projects"
           linkText="Projects"
         />
-        <Li
-          trigger={this.props.logOut}
-          myClassName="header-menu-item"
-          url="#"
-          linkText="Log Out"
-        />
+        <Li myClassName="header-menu-item" url="/logmeout" linkText="Log Out" />
         <li className="header-menu-item">
           <span className="userInfo">
             (You are loged in as {this.props.userEmail})
@@ -52,7 +47,6 @@ Header.defaultProps = {
 
 Header.propTypes = {
   userEmail: PropTypes.string,
-  logOut: PropTypes.func.isRequired,
 };
 
 export default Header;

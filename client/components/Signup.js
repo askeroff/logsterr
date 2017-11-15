@@ -22,7 +22,6 @@ class Signup extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.user.email !== undefined) {
       this.props.history.push('/');
     }

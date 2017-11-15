@@ -6,3 +6,4 @@ export const SIGN_UP = 'SIGN_UP';
 export const SIGN_UP_ERROR = 'SIGN_UP_ERROR';
 
 export const GET_PROJECTS = 'GET_PROJECTS';
+export const CLEAR_PROJECTS = 'CLEAR_PROJECTS';

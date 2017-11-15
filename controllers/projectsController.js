@@ -29,7 +29,8 @@ exports.getProjects = async (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Project.findByIdAndRemove(req.body.id, () => {
+  /* Project.findByIdAndRemove(req.body.id, () => {
     res.redirect('/projects');
-  });
+  }); */
+  res.json({ id: req.body.id });
 };

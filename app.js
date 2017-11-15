@@ -46,9 +46,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/auth', (req, res) => {
-  res.send({ user: req.user });
-});
+app.get('/auth', authController.getClientAUser);
 
 app.get('/logout', authController.logout);
 

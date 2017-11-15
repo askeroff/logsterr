@@ -18,7 +18,7 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    this.props.user.error = undefined;
+    this.props.user.error = '';
   }
 
   componentWillReceiveProps(nextProps) {

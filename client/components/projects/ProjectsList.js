@@ -10,6 +10,7 @@ class ProjectsList extends React.Component {
   }
 
   onDelete(e) {
+    console.log(this);
     e.preventDefault();
     swal({
       title: 'Are you sure?',

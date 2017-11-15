@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_PROJECTS } from '../actions/actionTypes';
+import { GET_PROJECTS, CLEAR_PROJECTS } from '../actions/actionTypes';
 
 export function getProjectsSuccess(response) {
   return {
@@ -16,4 +16,11 @@ export function getProjects(authorID) {
         dispatch(getProjectsSuccess(res));
       })
       .catch(err => console.log(err));
+}
+
+export function clearProjects(response) {
+  return {
+    type: CLEAR_PROJECTS,
+    response,
+  };
 }

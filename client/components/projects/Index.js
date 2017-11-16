@@ -28,7 +28,7 @@ class Index extends React.Component {
     } else {
       projects = (
         <ul className="projects-list">
-          <ProjectsList projects={this.props.projects.projectsList} />
+          <ProjectsList />
         </ul>
       );
     }
@@ -68,4 +68,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);
-// test

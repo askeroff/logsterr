@@ -28,6 +28,7 @@ class Add extends React.Component {
         <AddForm
           inputValue={this.state.projectInput}
           handleInput={this.handleProjectInputChange}
+          labelName="Name Of Your New Project"
         />
       </Layout>
     );

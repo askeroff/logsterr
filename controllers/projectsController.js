@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 
 const Project = mongoose.model('Project');
-// const User = mongoose.model('User');
-
-// const promisify = require('es6-promisify');
+const Task = mongoose.model('Task');
 
 exports.add = async (req, res) => {
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
@@ -32,4 +30,9 @@ exports.delete = (req, res) => {
   Project.findByIdAndRemove(req.body.id, () => {
     res.json({ deleted: true });
   });
+};
+
+exports.newTask = async (req, res) => {
+  await new Task(req.body).save();
+  res.redirect(`/projects/${req.body.project}`);
 };

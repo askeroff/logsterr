@@ -10,6 +10,7 @@ mongoose.connection.on('error', err => {
 
 require('./models/User');
 require('./models/Project');
+require('./models/Task');
 
 const app = require('./app');
 

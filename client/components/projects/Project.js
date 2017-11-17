@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProjects } from '../../actions/projects';
 import Layout from '../layout/Layout';
@@ -38,6 +39,15 @@ class Project extends React.Component {
         <h1 className="page-title">
           {this.state.currentProject.name || '...'}
         </h1>
+        <Link
+          className="submit-button link-button"
+          to={{
+            pathname: `${this.props.location.pathname}/add`,
+            state: { projectName: this.state.currentProject.name },
+          }}
+        >
+          New Task
+        </Link>
         <p>Tasks related to your project will be here</p>
       </Layout>
     );
@@ -53,6 +63,7 @@ Project.propTypes = {
   match: PropTypes.object.isRequired,
   projectsList: PropTypes.array,
   user: PropTypes.object,
+  location: PropTypes.object.isRequired,
   handleProjects: PropTypes.func.isRequired,
 };
 

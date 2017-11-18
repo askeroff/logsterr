@@ -3,6 +3,7 @@ import {
   GET_PROJECTS,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
+  GET_TASKS,
 } from '../actions/actionTypes';
 
 export function getProjectsSuccess(response) {
@@ -42,6 +43,23 @@ export function deleteProject(id) {
       .post('/projects/delete', { id })
       .then(() => {
         dispatch(deleteProjectSuccess(id));
+      })
+      .catch(err => console.log(err));
+}
+
+export function getTasksSuccess(response) {
+  return {
+    type: GET_TASKS,
+    response,
+  };
+}
+
+export function getTasks(id) {
+  return dispatch =>
+    axios
+      .get(`/projects/${id}/getTasks`)
+      .then(res => {
+        dispatch(getTasksSuccess(res.data));
       })
       .catch(err => console.log(err));
 }

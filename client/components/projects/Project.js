@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getProjects } from '../../actions/projects';
+import { getProjects, getTasks } from '../../actions/projects';
 import Layout from '../layout/Layout';
+import TasksList from './TasksList';
 
 class Project extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class Project extends React.Component {
     if (Object.keys(nextProps.user).length !== 0 && !this.state.userLoaded) {
       this.props.handleProjects(nextProps.user._id);
       this.setState({ userLoaded: true });
+      this.props.handleTasks(this.props.match.params.id);
     }
   }
 
@@ -49,6 +51,7 @@ class Project extends React.Component {
           New Task
         </Link>
         <p>Tasks related to your project will be here</p>
+        <TasksList tasks={this.props.tasksList} />
       </Layout>
     );
   }
@@ -56,25 +59,32 @@ class Project extends React.Component {
 
 Project.defaultProps = {
   projectsList: [],
+  tasksList: [],
   user: {},
 };
 
 Project.propTypes = {
   match: PropTypes.object.isRequired,
   projectsList: PropTypes.array,
+  tasksList: PropTypes.array,
   user: PropTypes.object,
   location: PropTypes.object.isRequired,
   handleProjects: PropTypes.func.isRequired,
+  handleTasks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   projectsList: state.projects.projectsList,
   user: state.user,
+  tasksList: state.projects.tasksList,
 });
 
 const mapDispatchToProps = dispatch => ({
   handleProjects(authorID) {
     dispatch(getProjects(authorID));
+  },
+  handleTasks(projectId) {
+    dispatch(getTasks(projectId));
   },
 });
 

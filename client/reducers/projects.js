@@ -2,6 +2,7 @@ import {
   GET_PROJECTS,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
+  GET_TASKS,
 } from '../actions/actionTypes';
 
 function projects(state = {}, action) {
@@ -16,6 +17,8 @@ function projects(state = {}, action) {
       );
       return Object.assign({}, state, { projectsList });
     }
+    case GET_TASKS:
+      return Object.assign({}, state, { tasksList: action.response });
     default:
       return state;
   }

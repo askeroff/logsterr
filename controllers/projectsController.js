@@ -36,3 +36,10 @@ exports.newTask = async (req, res) => {
   await new Task(req.body).save();
   res.redirect(`/projects/${req.body.project}`);
 };
+
+exports.getTasks = async (req, res) => {
+  const tasksList = await Task.find({
+    project: req.params.id,
+  });
+  res.json(tasksList);
+};

@@ -9,3 +9,4 @@ export const GET_PROJECTS = 'GET_PROJECTS';
 export const CLEAR_PROJECTS = 'CLEAR_PROJECTS';
 export const DELETE_PROJECT = 'DELETE_PROJECT';
 export const GET_TASKS = 'GET_TASKS';
+export const DELETE_TASK = 'DELETE_TASK';

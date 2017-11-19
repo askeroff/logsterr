@@ -4,6 +4,7 @@ import {
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   GET_TASKS,
+  DELETE_TASK,
 } from '../actions/actionTypes';
 
 export function getProjectsSuccess(response) {
@@ -60,6 +61,23 @@ export function getTasks(id) {
       .get(`/projects/${id}/getTasks`)
       .then(res => {
         dispatch(getTasksSuccess(res.data));
+      })
+      .catch(err => console.log(err));
+}
+
+export function deleteTaskSuccess(id) {
+  return {
+    type: DELETE_TASK,
+    id,
+  };
+}
+
+export function deleteTask(id) {
+  return dispatch =>
+    axios
+      .post(`/projects/${id}/delete`, { id })
+      .then(() => {
+        dispatch(deleteTaskSuccess(id));
       })
       .catch(err => console.log(err));
 }

@@ -3,6 +3,7 @@ import {
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   GET_TASKS,
+  DELETE_TASK,
 } from '../actions/actionTypes';
 
 function projects(state = {}, action) {
@@ -19,6 +20,10 @@ function projects(state = {}, action) {
     }
     case GET_TASKS:
       return Object.assign({}, state, { tasksList: action.response });
+    case DELETE_TASK: {
+      const tasksList = state.tasksList.filter(item => item._id !== action.id);
+      return Object.assign({}, state, { tasksList });
+    }
     default:
       return state;
   }

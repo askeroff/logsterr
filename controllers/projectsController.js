@@ -26,7 +26,7 @@ exports.getProjects = async (req, res) => {
   res.send({ projectsList });
 };
 
-exports.delete = (req, res) => {
+exports.deleteProject = (req, res) => {
   Project.findByIdAndRemove(req.body.id, () => {
     res.json({ deleted: true });
   });
@@ -42,4 +42,10 @@ exports.getTasks = async (req, res) => {
     project: req.params.id,
   });
   res.json(tasksList);
+};
+
+exports.deleteTask = (req, res) => {
+  Task.findByIdAndRemove(req.body.id, () => {
+    res.json({ deleted: true });
+  });
 };

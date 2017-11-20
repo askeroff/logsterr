@@ -4,6 +4,7 @@ import {
   DELETE_PROJECT,
   GET_TASKS,
   DELETE_TASK,
+  RENAME_TASK,
 } from '../actions/actionTypes';
 
 function projects(state = {}, action) {
@@ -22,6 +23,16 @@ function projects(state = {}, action) {
       return Object.assign({}, state, { tasksList: action.response });
     case DELETE_TASK: {
       const tasksList = state.tasksList.filter(item => item._id !== action.id);
+      return Object.assign({}, state, { tasksList });
+    }
+    case RENAME_TASK: {
+      console.log(action);
+      const tasksList = state.tasksList.forEach(item => {
+        if (item._id === action.id) {
+          item.name = action.name;
+        }
+        return 0;
+      });
       return Object.assign({}, state, { tasksList });
     }
     default:

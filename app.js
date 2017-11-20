@@ -67,6 +67,7 @@ app.post('/projects/:id/edit', projectsController.update);
 app.post('/projects/:id/add', projectsController.newTask);
 app.get('/projects/:id/getTasks', projectsController.getTasks);
 app.post('/projects/:id/delete', projectsController.deleteTask);
+app.post('/projects/tasks/:id/edit', projectsController.renameTask);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));

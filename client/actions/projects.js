@@ -5,6 +5,7 @@ import {
   DELETE_PROJECT,
   GET_TASKS,
   DELETE_TASK,
+  RENAME_TASK,
 } from '../actions/actionTypes';
 
 export function getProjectsSuccess(response) {
@@ -78,6 +79,24 @@ export function deleteTask(id) {
       .post(`/projects/${id}/delete`, { id })
       .then(() => {
         dispatch(deleteTaskSuccess(id));
+      })
+      .catch(err => console.log(err));
+}
+
+export function renameTaskSuccess(id, name) {
+  return {
+    type: RENAME_TASK,
+    id,
+    name,
+  };
+}
+
+export function renameTask(id, name) {
+  return dispatch =>
+    axios
+      .post(`/projects/tasks/${id}/edit`, { id, name })
+      .then(() => {
+        dispatch(renameTaskSuccess(id, name));
       })
       .catch(err => console.log(err));
 }

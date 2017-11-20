@@ -49,3 +49,10 @@ exports.deleteTask = (req, res) => {
     res.json({ deleted: true });
   });
 };
+
+exports.renameTask = req => {
+  Task.findById(req.body.id, (err, task) => {
+    task.name = req.body.name; // eslint-disable-line no-param-reassign
+    task.save();
+  });
+};

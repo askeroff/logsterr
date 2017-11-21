@@ -26,12 +26,11 @@ function projects(state = {}, action) {
       return Object.assign({}, state, { tasksList });
     }
     case RENAME_TASK: {
-      console.log(action);
-      const tasksList = state.tasksList.forEach(item => {
+      const tasksList = state.tasksList.map(item => {
         if (item._id === action.id) {
           item.name = action.name;
         }
-        return 0;
+        return item;
       });
       return Object.assign({}, state, { tasksList });
     }

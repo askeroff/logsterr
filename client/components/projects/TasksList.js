@@ -3,17 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { deleteTask, renameTask } from '../../actions/projects';
-import RenameTask from './RenameTask';
+import Task from './Task';
 
 class TasksList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      editName: '',
-    };
     this.handleTaskDelete = this.handleTaskDelete.bind(this);
-    this.handleNameInput = this.handleNameInput.bind(this);
-    this.handleRenaming = this.handleRenaming.bind(this);
+    // this.handleRename = this.handleRename.bind(this);
   }
 
   handleTaskDelete(id) {
@@ -30,40 +26,17 @@ class TasksList extends React.Component {
     });
   }
 
-  handleRenaming(id, name) {
-    this.props.handleEditing(id, name);
-  }
-
-  handleNameInput(e) {
-    this.setState({ editName: e.target.value });
-  }
-
-  handleShowingRenamingForm() {
-    console.log('allegedly showing hiding something');
-  }
-
   render() {
     const listItems = this.props.tasks.map(task => (
-      <li className="projects-list-item" key={task._id}>
-        {task.name}{' '}
-        <button onClick={this.handleShowingRenamingForm} className="edit sign">
-          Rename
-        </button>
-        <button
-          onClick={() => this.handleTaskDelete(task._id)}
-          className="delete sign"
-        >
-          &#9746;
-        </button>
-        <RenameTask
-          inputValue={this.state.editName}
-          handleInput={this.handleNameInput}
-          handleSubmit={() =>
-            this.handleRenaming(task._id, this.state.editName)}
-        />
-      </li>
+      <Task
+        key={task._id}
+        id={task._id}
+        name={task.name}
+        handleDelete={this.handleTaskDelete}
+        handleRename={this.props.handleEditing}
+      />
     ));
-    return listItems;
+    return <ul>{listItems}</ul>;
   }
 }
 

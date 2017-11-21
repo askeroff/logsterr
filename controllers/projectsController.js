@@ -50,9 +50,10 @@ exports.deleteTask = (req, res) => {
   });
 };
 
-exports.renameTask = req => {
-  Task.findById(req.body.id, (err, task) => {
+exports.renameTask = async (req, res) => {
+  await Task.findById(req.body.id, (err, task) => {
     task.name = req.body.name; // eslint-disable-line no-param-reassign
     task.save();
   });
+  res.json({ renamed: true });
 };

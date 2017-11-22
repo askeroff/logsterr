@@ -31,29 +31,35 @@ class Task extends React.Component {
 
   render() {
     const { editName, showInput } = this.state;
-    const { id, handleDelete, name } = this.props;
+    const { id, handleDelete, name, taskDone, done } = this.props;
+    const spanClassName = done ? 'strikethrough' : '';
+    const doneButtonValue = done ? 'Undone' : 'Done';
     return (
       <li className="projects-list-item">
-        {!this.state.showInput && name}
+        <span className={`task-name ${spanClassName}`}>
+          {!this.state.showInput && name}
+        </span>
         {showInput ? (
           <input type="text" value={editName} onChange={this.handleNameInput} />
         ) : null}
-        {showInput ? (
-          <input
-            onClick={() => this.handleRenaming(id, this.state.editName)}
-            type="button"
-            value="Ok"
-            className="rename-button"
-          />
-        ) : null}
+        <div className="buttons-group">
+          {showInput ? (
+            <input
+              onClick={() => this.handleRenaming(id, this.state.editName)}
+              type="button"
+              value="Ok"
+            />
+          ) : null}
 
-        {!showInput ? (
-          <button onClick={this.handleShowInput}>Rename</button>
-        ) : null}
+          {!showInput ? (
+            <button onClick={this.handleShowInput}>Rename</button>
+          ) : null}
+          <button onClick={() => taskDone(id)}>{doneButtonValue}</button>
 
-        <button onClick={() => handleDelete(id)} className="delete sign">
-          &#9746;
-        </button>
+          <button onClick={() => handleDelete(id)} className="delete sign">
+            Delete
+          </button>
+        </div>
       </li>
     );
   }
@@ -63,6 +69,8 @@ Task.propTypes = {
   name: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleRename: PropTypes.func.isRequired,
+  taskDone: PropTypes.func.isRequired,
+  done: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
 };
 

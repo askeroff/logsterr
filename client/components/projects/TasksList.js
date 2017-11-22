@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import { deleteTask, renameTask } from '../../actions/projects';
+import { deleteTask, renameTask, toggleDone } from '../../actions/projects';
 import Task from './Task';
 
 class TasksList extends React.Component {
@@ -32,8 +32,10 @@ class TasksList extends React.Component {
         key={task._id}
         id={task._id}
         name={task.name}
+        done={task.done}
         handleDelete={this.handleTaskDelete}
         handleRename={this.props.handleEditing}
+        taskDone={this.props.handleDone}
       />
     ));
     return <ul>{listItems}</ul>;
@@ -48,6 +50,7 @@ TasksList.propTypes = {
   tasks: PropTypes.array,
   handleDeleting: PropTypes.func.isRequired,
   handleEditing: PropTypes.func.isRequired,
+  handleDone: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -60,6 +63,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleEditing(id, name) {
     dispatch(renameTask(id, name));
+  },
+  handleDone(id) {
+    dispatch(toggleDone(id));
   },
 });
 

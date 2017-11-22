@@ -6,6 +6,7 @@ import {
   GET_TASKS,
   DELETE_TASK,
   RENAME_TASK,
+  TOGGLE_DONE,
 } from '../actions/actionTypes';
 
 export function getProjectsSuccess(response) {
@@ -97,6 +98,24 @@ export function renameTask(id, name) {
       .post(`/projects/tasks/${id}/edit`, { id, name })
       .then(() => {
         dispatch(renameTaskSuccess(id, name));
+      })
+      .catch(err => console.log(err));
+}
+
+export function toggleDoneSuccess(id, done) {
+  return {
+    type: TOGGLE_DONE,
+    id,
+    done,
+  };
+}
+
+export function toggleDone(id) {
+  return dispatch =>
+    axios
+      .post(`/projects/tasks/${id}/done`, { id })
+      .then(res => {
+        dispatch(toggleDoneSuccess(id, res.data.done));
       })
       .catch(err => console.log(err));
 }

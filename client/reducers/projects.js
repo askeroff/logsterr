@@ -5,6 +5,7 @@ import {
   GET_TASKS,
   DELETE_TASK,
   RENAME_TASK,
+  TOGGLE_DONE,
 } from '../actions/actionTypes';
 
 function projects(state = {}, action) {
@@ -28,7 +29,16 @@ function projects(state = {}, action) {
     case RENAME_TASK: {
       const tasksList = state.tasksList.map(item => {
         if (item._id === action.id) {
-          item.name = action.name;
+          item.name = action.name; // eslint-disable-line no-param-reassign
+        }
+        return item;
+      });
+      return Object.assign({}, state, { tasksList });
+    }
+    case TOGGLE_DONE: {
+      const tasksList = state.tasksList.map(item => {
+        if (item._id === action.id) {
+          item.done = action.done; // eslint-disable-line no-param-reassign
         }
         return item;
       });

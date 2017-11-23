@@ -9,7 +9,6 @@ class TasksList extends React.Component {
   constructor(props) {
     super(props);
     this.handleTaskDelete = this.handleTaskDelete.bind(this);
-    // this.handleRename = this.handleRename.bind(this);
   }
 
   handleTaskDelete(id) {

@@ -16,9 +16,10 @@ class Task extends React.Component {
     this.setState({ editName: e.target.value });
   }
 
-  handleShowInput() {
+  handleShowInput(name) {
     this.setState({
       showInput: !this.state.showInput,
+      editName: name,
     });
   }
 
@@ -34,10 +35,14 @@ class Task extends React.Component {
     const { id, handleDelete, name, taskDone, done } = this.props;
     const spanClassName = done ? 'strikethrough' : '';
     const doneButtonValue = done ? 'Undone' : 'Done';
+    const hideTaskName = this.state.showInput ? 'none' : '';
     return (
       <li className="projects-list-item">
-        <span className={`task-name ${spanClassName}`}>
-          {!this.state.showInput && name}
+        <span
+          style={{ display: `${hideTaskName}` }}
+          className={`task-name ${spanClassName}`}
+        >
+          {name}
         </span>
         {showInput ? (
           <input type="text" value={editName} onChange={this.handleNameInput} />
@@ -52,7 +57,7 @@ class Task extends React.Component {
           ) : null}
 
           {!showInput ? (
-            <button onClick={this.handleShowInput}>Rename</button>
+            <button onClick={() => this.handleShowInput(name)}>Rename</button>
           ) : null}
           <button onClick={() => taskDone(id)}>{doneButtonValue}</button>
 

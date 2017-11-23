@@ -33,15 +33,22 @@ class ProjectsList extends React.Component {
         <Link className="project-list-title" to={`/projects/${project._id}`}>
           {project.name}
         </Link>
-        <Link className="info-button link" to={`/projects/${project._id}/edit`}>
-          Edit
-        </Link>
-        <input
-          type="button"
-          onClick={() => this.onDelete(project._id)}
-          value="Del"
-          className="danger-button"
-        />
+        <div className="buttons-group">
+          <Link
+            className="info-button link"
+            to={`/projects/${project._id}/edit`}
+          >
+            Edit
+          </Link>
+
+          <a
+            href="#"
+            onClick={() => this.onDelete(project._id)}
+            className="danger-button link"
+          >
+            Delete
+          </a>
+        </div>
       </li>
     ));
     return listItems;

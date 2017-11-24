@@ -36,13 +36,21 @@ class Task extends React.Component {
     const spanClassName = done ? 'strikethrough' : '';
     const doneButtonValue = done ? 'Undone' : 'Done';
     const hideTaskName = this.state.showInput ? 'none' : '';
+    const newDate = this.props.updated
+      ? new Date(this.props.updated)
+      : new Date(this.props.created);
+    const dateString = this.props.updated ? 'Updated:' : 'Created:';
+    const parsedDate = `${newDate.getDate()}/${newDate.getMonth() +
+      1}/${newDate.getFullYear()}`;
+
     return (
       <li className="projects-list-item">
         <span
           style={{ display: `${hideTaskName}` }}
           className={`task-name ${spanClassName}`}
         >
-          {name}
+          {name} (<strong>{dateString} </strong>
+          {parsedDate})
         </span>
         {showInput ? (
           <input type="text" value={editName} onChange={this.handleNameInput} />
@@ -70,6 +78,11 @@ class Task extends React.Component {
   }
 }
 
+Task.defaultProps = {
+  updated: undefined,
+  created: undefined,
+};
+
 Task.propTypes = {
   name: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,
@@ -77,6 +90,8 @@ Task.propTypes = {
   taskDone: PropTypes.func.isRequired,
   done: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
+  updated: PropTypes.string,
+  created: PropTypes.string,
 };
 
 export default Task;

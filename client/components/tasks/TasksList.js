@@ -26,28 +26,51 @@ class TasksList extends React.Component {
   }
 
   render() {
-    const listItems = this.props.tasks.map(task => (
+    let doneItems = this.props.tasks.filter(task => task.done);
+    let undoneItems = this.props.tasks.filter(task => !task.done);
+
+    if (this.props.filter) {
+      doneItems = doneItems.map(task => (
+        <Task
+          key={task._id}
+          id={task._id}
+          name={task.name}
+          done={task.done}
+          updated={task.updated}
+          handleDelete={this.handleTaskDelete}
+          handleRename={this.props.handleEditing}
+          taskDone={this.props.handleDone}
+        />
+      ));
+      return <ul>{doneItems}</ul>;
+    }
+
+    undoneItems = undoneItems.map(task => (
       <Task
         key={task._id}
         id={task._id}
         name={task.name}
         done={task.done}
+        created={task.created}
         handleDelete={this.handleTaskDelete}
         handleRename={this.props.handleEditing}
         taskDone={this.props.handleDone}
       />
     ));
-    return <ul>{listItems}</ul>;
+
+    return <ul>{undoneItems}</ul>;
   }
 }
 
 TasksList.defaultProps = {
   tasks: [],
+  filter: false,
 };
 
 TasksList.propTypes = {
   tasks: PropTypes.array,
   handleDeleting: PropTypes.func.isRequired,
+  filter: PropTypes.bool,
   handleEditing: PropTypes.func.isRequired,
   handleDone: PropTypes.func.isRequired,
 };

@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProjects, getTasks } from '../../actions/projects';
 import Layout from '../layout/Layout';
 import TasksList from '../tasks/TasksList';
 
-class Project extends React.Component {
+class Archive extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,37 +40,24 @@ class Project extends React.Component {
         <h1 className="page-title">
           {this.state.currentProject.name || '...'}
         </h1>
-        <Link
-          className="submit-button link-button"
-          to={{
-            pathname: `${this.props.location.pathname}/add`,
-            state: { projectName: this.state.currentProject.name },
-          }}
-        >
-          New Task
-        </Link>
-        <p>
-          You can checkout tasks you already done{' '}
-          <Link to={`${this.props.location.pathname}/archive`}>here</Link>
-        </p>
-        <TasksList tasks={this.props.tasksList} />
+        <p>Archive of your projects, dude!</p>
+        <TasksList filter tasks={this.props.tasksList} />
       </Layout>
     );
   }
 }
 
-Project.defaultProps = {
+Archive.defaultProps = {
   projectsList: [],
   tasksList: [],
   user: {},
 };
 
-Project.propTypes = {
+Archive.propTypes = {
   match: PropTypes.object.isRequired,
   projectsList: PropTypes.array,
   tasksList: PropTypes.array,
   user: PropTypes.object,
-  location: PropTypes.object.isRequired,
   handleProjects: PropTypes.func.isRequired,
   handleTasks: PropTypes.func.isRequired,
 };
@@ -91,4 +77,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(Archive);

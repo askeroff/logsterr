@@ -61,6 +61,7 @@ exports.renameTask = async (req, res) => {
 exports.toggleDone = async (req, res) => {
   await Task.findById(req.body.id, (err, task) => {
     task.done = !task.done; // eslint-disable-line no-param-reassign
+    task.updated = new Date(); // eslint-disable-line no-param-reassign
     task.save();
     res.json({ done: task.done });
   });

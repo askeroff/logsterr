@@ -5,7 +5,8 @@ import Index from './Index';
 import Add from './Add';
 import Edit from './Edit';
 import Project from './Project';
-import NewTask from './NewTask';
+import NewTask from '../tasks/NewTask';
+import Archive from '../tasks/Archive';
 
 const Projects = ({ match }) => (
   <Switch>
@@ -13,6 +14,7 @@ const Projects = ({ match }) => (
     <Route path={`${match.url}/add`} component={Add} />
     <Route path={`${match.url}/:id/edit`} component={Edit} />
     <Route path={`${match.url}/:id/add`} component={NewTask} />
+    <Route path={`${match.url}/:id/archive`} component={Archive} />
     <Route path={`${match.url}/:id`} component={Project} />
   </Switch>
 );

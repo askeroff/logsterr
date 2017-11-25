@@ -5,8 +5,8 @@ const Task = mongoose.model('Task');
 
 exports.add = async (req, res) => {
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
-  await new Project(req.body).save();
-  res.redirect('/projects');
+  const project = await new Project(req.body).save();
+  res.json({ project });
 };
 
 exports.update = (req, res) => {

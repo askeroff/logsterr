@@ -1,17 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getProjects } from '../../actions/projects';
+import { getProjects, addProject } from '../../actions/projects';
 import Layout from '../layout/Layout';
 import ProjectsList from './ProjectsList';
+import AddForm from './AddForm';
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userLoaded: false,
+      showForm: false,
+      formInput: '',
     };
+    this.showAddForm = this.showAddForm.bind(this);
+    this.handleFormInput = this.handleFormInput.bind(this);
+    this.addProject = this.addProject.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,8 +26,23 @@ class Index extends React.Component {
     }
   }
 
+  showAddForm() {
+    this.setState({
+      showForm: !this.state.showForm,
+    });
+  }
+
+  handleFormInput(event) {
+    this.setState({ formInput: event.target.value });
+  }
+
+  addProject(name) {
+    this.props.handleAdding(name);
+  }
+
   render() {
     let projects;
+    const addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
     if (!this.props.projects.projectsList) {
       projects = 'There are no projects or they are loading.';
     } else {
@@ -34,11 +54,24 @@ class Index extends React.Component {
     }
     return (
       <Layout>
-        <h1 className="page-title">Add A New Project</h1>
+        <h1 className="page-title">Projects</h1>
 
-        <Link className="submit-button link-button" to="projects/add">
-          Add
-        </Link>
+        <a
+          onClick={this.showAddForm}
+          href="#"
+          className="submit-button link-button"
+        >
+          {addLinkText}
+        </a>
+
+        {this.state.showForm ? (
+          <AddForm
+            inputValue={this.state.formInput}
+            handleInput={this.handleFormInput}
+            clickHandler={() => this.addProject(this.state.formInput)}
+            labelName="Name Of Your New Project"
+          />
+        ) : null}
 
         {projects}
       </Layout>
@@ -52,6 +85,7 @@ Index.defaultProps = {
 
 Index.propTypes = {
   handleProjects: PropTypes.func.isRequired,
+  handleAdding: PropTypes.func.isRequired,
   user: PropTypes.object,
   projects: PropTypes.object,
 };
@@ -64,6 +98,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleProjects(authorID) {
     dispatch(getProjects(authorID));
+  },
+  handleAdding(name) {
+    dispatch(addProject(name));
   },
 });
 

@@ -1,5 +1,6 @@
 import {
   GET_PROJECTS,
+  ADD_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   GET_TASKS,
@@ -10,6 +11,10 @@ import {
 
 function projects(state = {}, action) {
   switch (action.type) {
+    case ADD_PROJECT: {
+      const projectsList = [...state.projectsList, action.project];
+      return Object.assign({}, state, { projectsList });
+    }
     case GET_PROJECTS:
       return Object.assign({}, state, action.response.data);
     case CLEAR_PROJECTS:

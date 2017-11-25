@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   GET_PROJECTS,
+  ADD_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   GET_TASKS,
@@ -8,6 +9,23 @@ import {
   RENAME_TASK,
   TOGGLE_DONE,
 } from '../actions/actionTypes';
+
+export function addProjectSuccess(project) {
+  return {
+    type: ADD_PROJECT,
+    project,
+  };
+}
+
+export function addProject(name) {
+  return dispatch =>
+    axios
+      .post('/projects/add', { name })
+      .then(res => {
+        dispatch(addProjectSuccess(res.data.project));
+      })
+      .catch(err => console.log(err));
+}
 
 export function getProjectsSuccess(response) {
   return {

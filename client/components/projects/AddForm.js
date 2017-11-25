@@ -10,13 +10,23 @@ const AddForm = props => (
       handleInput={props.handleInput}
       inputName="name"
     />
-    <input type="submit" value="Add" className="submit-button" />
+    <input
+      onClick={props.clickHandler}
+      type="button"
+      value="Add"
+      className="submit-button"
+    />
   </form>
 );
+
+AddForm.defaultProps = {
+  clickHandler: () => 0,
+};
 
 AddForm.propTypes = {
   inputValue: PropTypes.string.isRequired,
   handleInput: PropTypes.func.isRequired,
+  clickHandler: PropTypes.func,
   labelName: PropTypes.string.isRequired,
 };
 

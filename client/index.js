@@ -11,7 +11,7 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import NotFound from './components/NotFound';
-import Projects from './components/projects/Projects';
+import ProjectsRoutes from './components/projects/ProjectsRoutes';
 
 import 'normalize.css'; // eslint-disable-line import/first
 import './styles/index.styl';
@@ -24,7 +24,7 @@ const Root = () => (
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/logmeout" component={Logout} />
-        <Route path="/projects" component={Projects} />
+        <Route path="/projects" component={ProjectsRoutes} />
         <Route component={NotFound} />
       </Switch>
     </ConnectedRouter>

@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   GET_PROJECTS,
   ADD_PROJECT,
+  RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   GET_TASKS,
@@ -23,6 +24,23 @@ export function addProject(name) {
       .post('/projects/add', { name })
       .then(res => {
         dispatch(addProjectSuccess(res.data.project));
+      })
+      .catch(err => console.log(err));
+}
+
+export function renameProjectSuccess(project) {
+  return {
+    type: RENAME_PROJECT,
+    project,
+  };
+}
+
+export function renameProject(id, name) {
+  return dispatch =>
+    axios
+      .post(`/projects/${id}/edit`, { name })
+      .then(res => {
+        dispatch(renameProjectSuccess(res.data.project));
       })
       .catch(err => console.log(err));
 }

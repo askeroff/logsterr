@@ -1,0 +1,90 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+class ProjectItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showInput: false,
+      newName: '',
+    };
+    this.handleNewName = this.handleNewName.bind(this);
+    this.handleRenaming = this.handleRenaming.bind(this);
+    this.handleShowInput = this.handleShowInput.bind(this);
+  }
+
+  handleNewName(e) {
+    this.setState({ newName: e.target.value });
+  }
+
+  handleShowInput(name) {
+    this.setState({
+      showInput: !this.state.showInput,
+      newName: name,
+    });
+  }
+
+  handleRenaming(id, name) {
+    this.props.renameMe(id, name);
+    this.setState({
+      showInput: false,
+    });
+  }
+
+  render() {
+    const { project, onDelete } = this.props;
+    const { newName, showInput } = this.state;
+    const hideTaskName = this.state.showInput ? 'none' : '';
+    return (
+      <li className="projects-list-item">
+        <Link
+          className="project-list-title"
+          style={{ display: `${hideTaskName}` }}
+          to={`/projects/${project._id}`}
+        >
+          {project.name}
+        </Link>
+        {showInput ? (
+          <input type="text" value={newName} onChange={this.handleNewName} />
+        ) : null}
+        <div className="buttons-group">
+          {showInput ? (
+            <a
+              href="#"
+              onClick={() =>
+                this.handleRenaming(project._id, this.state.newName)
+              }
+              className="info-button link"
+            >
+              Ok
+            </a>
+          ) : null}
+          <a
+            href="#"
+            onClick={() => this.handleShowInput(project.name)}
+            className="info-button link"
+          >
+            Edit
+          </a>
+
+          <a
+            href="#"
+            onClick={() => onDelete(project._id)}
+            className="danger-button link"
+          >
+            Delete
+          </a>
+        </div>
+      </li>
+    );
+  }
+}
+
+ProjectItem.propTypes = {
+  project: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  renameMe: PropTypes.func.isRequired,
+};
+
+export default ProjectItem;

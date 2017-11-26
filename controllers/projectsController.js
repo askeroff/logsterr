@@ -9,13 +9,12 @@ exports.add = async (req, res) => {
   res.json({ project });
 };
 
-exports.update = (req, res) => {
-  Project.findById(req.params.id, (err, project) => {
-    project.name = req.body.name; // eslint-disable-line no-param-reassign
-    project.save();
+exports.update = async (req, res) => {
+  await Project.findById(req.params.id, (err, data) => {
+    data.name = req.body.name; // eslint-disable-line no-param-reassign
+    data.save();
+    res.json({ project: data });
   });
-
-  res.redirect('/projects');
 };
 
 exports.getProjects = async (req, res) => {

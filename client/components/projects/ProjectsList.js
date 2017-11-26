@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import { Link } from 'react-router-dom';
-import { deleteProject } from '../../actions/projects';
+import { deleteProject, renameProject } from '../../actions/projects';
+import ProjectItem from './ProjectItem';
 
 class ProjectsList extends React.Component {
   constructor(props) {
@@ -29,27 +29,12 @@ class ProjectsList extends React.Component {
 
   render() {
     const listItems = this.props.projectsList.map(project => (
-      <li className="projects-list-item" key={project._id}>
-        <Link className="project-list-title" to={`/projects/${project._id}`}>
-          {project.name}
-        </Link>
-        <div className="buttons-group">
-          <Link
-            className="info-button link"
-            to={`/projects/${project._id}/edit`}
-          >
-            Edit
-          </Link>
-
-          <a
-            href="#"
-            onClick={() => this.onDelete(project._id)}
-            className="danger-button link"
-          >
-            Delete
-          </a>
-        </div>
-      </li>
+      <ProjectItem
+        onDelete={this.onDelete}
+        key={project._id}
+        project={project}
+        renameMe={this.props.handleRenaming}
+      />
     ));
     return listItems;
   }
@@ -62,6 +47,7 @@ ProjectsList.defaultProps = {
 ProjectsList.propTypes = {
   projectsList: PropTypes.array,
   handleDeleting: PropTypes.func.isRequired,
+  handleRenaming: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -71,6 +57,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleDeleting(projectId) {
     dispatch(deleteProject(projectId));
+  },
+  handleRenaming(id, name) {
+    dispatch(renameProject(id, name));
   },
 });
 

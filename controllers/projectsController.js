@@ -26,6 +26,16 @@ exports.getProjects = async (req, res) => {
 };
 
 exports.deleteProject = (req, res) => {
+  Task.deleteMany(
+    {
+      project: req.body.id,
+    },
+    err => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
   Project.findByIdAndRemove(req.body.id, () => {
     res.json({ deleted: true });
   });

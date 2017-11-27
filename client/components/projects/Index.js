@@ -38,6 +38,9 @@ class Index extends React.Component {
 
   addProject(name) {
     this.props.handleAdding(name);
+    this.setState({
+      showForm: false,
+    });
   }
 
   render() {

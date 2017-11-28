@@ -26,6 +26,7 @@ class TasksList extends React.Component {
   }
 
   render() {
+    if (!this.props.tasks) return null;
     let doneItems = this.props.tasks.filter(task => task.done);
     let undoneItems = this.props.tasks.filter(task => !task.done);
 

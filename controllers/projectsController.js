@@ -42,8 +42,8 @@ exports.deleteProject = (req, res) => {
 };
 
 exports.newTask = async (req, res) => {
-  await new Task(req.body).save();
-  res.redirect(`/projects/${req.body.project}`);
+  const task = await new Task(req.body).save();
+  res.json({ task });
 };
 
 exports.getTasks = async (req, res) => {

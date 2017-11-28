@@ -5,6 +5,7 @@ import {
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
+  NEW_TASK,
   GET_TASKS,
   DELETE_TASK,
   RENAME_TASK,
@@ -99,6 +100,24 @@ export function getTasks(id) {
       .get(`/projects/${id}/getTasks`)
       .then(res => {
         dispatch(getTasksSuccess(res.data));
+      })
+      .catch(err => console.log(err));
+}
+
+export function newTaskSuccess(task) {
+  return {
+    type: NEW_TASK,
+    task,
+  };
+}
+
+export function newTask(task) {
+  const { name, project } = task;
+  return dispatch =>
+    axios
+      .post(`/projects/${task.project}/add`, { name, project })
+      .then(res => {
+        dispatch(newTaskSuccess(res.data.task));
       })
       .catch(err => console.log(err));
 }

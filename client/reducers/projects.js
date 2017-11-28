@@ -5,6 +5,7 @@ import {
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   GET_TASKS,
+  NEW_TASK,
   DELETE_TASK,
   RENAME_TASK,
   TOGGLE_DONE,
@@ -37,6 +38,10 @@ function projects(state = {}, action) {
     }
     case GET_TASKS:
       return Object.assign({}, state, { tasksList: action.response });
+    case NEW_TASK: {
+      const tasksList = [...state.tasksList, action.task];
+      return Object.assign({}, state, { tasksList });
+    }
     case DELETE_TASK: {
       const tasksList = state.tasksList.filter(item => item._id !== action.id);
       return Object.assign({}, state, { tasksList });

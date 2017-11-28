@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getProjects, getTasks } from '../../actions/projects';
+import { getProjects, getTasks, newTask } from '../../actions/projects';
 import Layout from '../layout/Layout';
 import TasksList from '../tasks/TasksList';
+import AddForm from './AddForm';
 
 class Project extends React.Component {
   constructor(props) {
@@ -13,7 +14,12 @@ class Project extends React.Component {
       currentProject: {},
       userLoaded: false,
       projectsLoaded: false,
+      showForm: false,
+      newTaskInput: '',
     };
+    this.showAddForm = this.showAddForm.bind(this);
+    this.handleNewTaskInput = this.handleNewTaskInput.bind(this);
+    this.addTask = this.addTask.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,21 +41,54 @@ class Project extends React.Component {
     }
   }
 
+  showAddForm() {
+    this.setState({
+      showForm: !this.state.showForm,
+    });
+  }
+
+  handleNewTaskInput(e) {
+    this.setState({
+      newTaskInput: e.target.value,
+    });
+  }
+
+  addTask(task) {
+    this.props.handleNewTask({ name: task.name, project: task.project });
+    this.setState({
+      showForm: false,
+    });
+  }
+
   render() {
+    const addLinkText = this.state.showForm ? 'Hide The Form' : 'New Task';
     return (
       <Layout>
         <h1 className="page-title">
           {this.state.currentProject.name || '...'}
         </h1>
-        <Link
+        <a
+          onClick={this.showAddForm}
+          href="#"
           className="submit-button link-button"
-          to={{
-            pathname: `${this.props.location.pathname}/add`,
-            state: { projectName: this.state.currentProject.name },
-          }}
         >
-          New Task
-        </Link>
+          {addLinkText}
+        </a>
+
+        {this.state.showForm ? (
+          <AddForm
+            inputValue={this.state.newTaskInput}
+            handleInput={this.handleNewTaskInput}
+            clickHandler={() =>
+              this.addTask({
+                name: this.state.newTaskInput,
+                project: this.props.match.params.id,
+              })
+            }
+            labelName="Name"
+          />
+        ) : null}
+
         <p>
           You can checkout tasks you already done{' '}
           <Link to={`${this.props.location.pathname}/archive`}>here</Link>
@@ -74,6 +113,7 @@ Project.propTypes = {
   location: PropTypes.object.isRequired,
   handleProjects: PropTypes.func.isRequired,
   handleTasks: PropTypes.func.isRequired,
+  handleNewTask: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -88,6 +128,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleTasks(projectId) {
     dispatch(getTasks(projectId));
+  },
+  handleNewTask(task) {
+    dispatch(newTask(task));
   },
 });
 

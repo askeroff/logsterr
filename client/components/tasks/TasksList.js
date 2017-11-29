@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { deleteTask, renameTask, toggleDone } from '../../actions/projects';
 import Task from './Task';
+import Timer from './Timer';
 
 class TasksList extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class TasksList extends React.Component {
       return <ul>{doneItems}</ul>;
     }
 
-    undoneItems = undoneItems.map(task => (
+    undoneItems = undoneItems.map(task => [
       <Task
         key={task._id}
         id={task._id}
@@ -56,8 +57,9 @@ class TasksList extends React.Component {
         handleDelete={this.handleTaskDelete}
         handleRename={this.props.handleEditing}
         taskDone={this.props.handleDone}
-      />
-    ));
+      />,
+      <Timer key={`timer${task._id}`} />,
+    ]);
 
     return <ul>{undoneItems}</ul>;
   }

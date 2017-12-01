@@ -11,6 +11,7 @@ mongoose.connection.on('error', err => {
 require('./models/User');
 require('./models/Project');
 require('./models/Task');
+require('./models/Timelog');
 
 const app = require('./app');
 

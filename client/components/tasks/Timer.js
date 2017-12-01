@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -35,6 +36,13 @@ class Timer extends React.Component {
   handleStop() {
     this.setState({ started: false });
     clearInterval(this.timer);
+    const data = {
+      seconds: this.state.seconds,
+      name: this.props.taskName,
+      task: this.props.id,
+      done: true,
+    };
+    this.props.handleAddingTimeLog(data);
   }
 
   handleButton() {
@@ -57,5 +65,11 @@ class Timer extends React.Component {
     );
   }
 }
+
+Timer.propTypes = {
+  taskName: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  handleAddingTimeLog: PropTypes.func.isRequired,
+};
 
 export default Timer;

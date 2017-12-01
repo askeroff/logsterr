@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { deleteTask, renameTask, toggleDone } from '../../actions/projects';
+import { addTimelog } from '../../actions/timelog';
 import Task from './Task';
 import Timer from './Timer';
 
@@ -58,7 +59,12 @@ class TasksList extends React.Component {
         handleRename={this.props.handleEditing}
         taskDone={this.props.handleDone}
       />,
-      <Timer key={`timer${task._id}`} />,
+      <Timer
+        key={`timer${task._id}`}
+        id={task._id}
+        taskName={task.name}
+        handleAddingTimeLog={this.props.handleAddingTimeLog}
+      />,
     ]);
 
     return <ul>{undoneItems}</ul>;
@@ -76,6 +82,7 @@ TasksList.propTypes = {
   filter: PropTypes.bool,
   handleEditing: PropTypes.func.isRequired,
   handleDone: PropTypes.func.isRequired,
+  handleAddingTimeLog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -91,6 +98,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleDone(id) {
     dispatch(toggleDone(id));
+  },
+  handleAddingTimeLog(data) {
+    dispatch(addTimelog(data));
   },
 });
 

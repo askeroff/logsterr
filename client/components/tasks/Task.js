@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDate } from '../../helpers';
 
 class Task extends React.Component {
   constructor(props) {
@@ -37,11 +38,9 @@ class Task extends React.Component {
     const doneButtonValue = done ? 'Undone' : 'Done';
     const hideTaskName = this.state.showInput ? 'none' : '';
     const newDate = this.props.updated
-      ? new Date(this.props.updated)
-      : new Date(this.props.created);
+      ? formatDate(this.props.updated)
+      : formatDate(this.props.created);
     const dateString = this.props.updated ? 'Updated:' : 'Created:';
-    const parsedDate = `${newDate.getDate()}/${newDate.getMonth() +
-      1}/${newDate.getFullYear()}`;
 
     return (
       <li className="projects-list-item">
@@ -50,7 +49,7 @@ class Task extends React.Component {
           className={`task-name ${spanClassName}`}
         >
           {name} (<strong>{dateString} </strong>
-          {parsedDate})
+          {newDate})
         </span>
         {showInput ? (
           <input type="text" value={editName} onChange={this.handleNameInput} />

@@ -18,3 +18,4 @@ export const RENAME_TASK = 'RENAME_TASK';
 export const TOGGLE_DONE = 'TOGGLE_DONE';
 
 export const ADD_TIMELOG = 'ADD_TIMELOG';
+export const GET_LOGS = 'GET_LOGS';

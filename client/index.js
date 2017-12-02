@@ -10,6 +10,7 @@ import Home from './components/Home';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Logout from './components/Logout';
+import Timelog from './components/Timelog';
 import NotFound from './components/NotFound';
 import ProjectsRoutes from './components/projects/ProjectsRoutes';
 
@@ -25,6 +26,7 @@ const Root = () => (
         <Route path="/login" component={Login} />
         <Route path="/logmeout" component={Logout} />
         <Route path="/projects" component={ProjectsRoutes} />
+        <Route path="/timelog" component={Timelog} />
         <Route component={NotFound} />
       </Switch>
     </ConnectedRouter>

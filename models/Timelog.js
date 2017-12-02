@@ -20,13 +20,19 @@ const timelogSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  finished: {
-    type: Date,
-    default: Date.now,
+  author: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: 'Project should belong to an author',
   },
   task: {
     type: mongoose.Schema.ObjectId,
     ref: 'Task',
+    required: 'Timelog should have assigned task',
+  },
+  project: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Project',
     required: 'Timelog should have assigned task',
   },
 });

@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import swal from 'sweetalert';
+import { formatTime } from '../../helpers/';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -12,14 +14,6 @@ class Timer extends React.Component {
     this.handleStart = this.handleStart.bind(this);
     this.handleStop = this.handleStop.bind(this);
     this.timer = null;
-  }
-
-  formatTime(seconds) {
-    // https://stackoverflow.com/a/25279340/4208724
-    const date = new Date(null);
-    date.setSeconds(seconds);
-    const result = date.toISOString().substr(11, 8);
-    return result;
   }
 
   handleStart() {
@@ -41,8 +35,10 @@ class Timer extends React.Component {
       name: this.props.taskName,
       task: this.props.id,
       done: true,
+      project: this.props.project,
     };
     this.props.handleAddingTimeLog(data);
+    swal('Good job!', 'Time has been added to your timelog', 'success');
   }
 
   handleButton() {
@@ -54,7 +50,7 @@ class Timer extends React.Component {
   }
   render() {
     const buttonString = this.state.started ? 'stop' : 'start';
-    const time = this.formatTime(this.state.seconds);
+    const time = formatTime(this.state.seconds);
     return (
       <li className="projects-list-item timer-block">
         <input onClick={this.handleButton} type="button" value={buttonString} />
@@ -69,6 +65,7 @@ class Timer extends React.Component {
 Timer.propTypes = {
   taskName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  project: PropTypes.string.isRequired,
   handleAddingTimeLog: PropTypes.func.isRequired,
 };
 

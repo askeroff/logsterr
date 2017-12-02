@@ -63,6 +63,7 @@ class TasksList extends React.Component {
         key={`timer${task._id}`}
         id={task._id}
         taskName={task.name}
+        project={this.props.projectId}
         handleAddingTimeLog={this.props.handleAddingTimeLog}
       />,
     ]);
@@ -79,6 +80,7 @@ TasksList.defaultProps = {
 TasksList.propTypes = {
   tasks: PropTypes.array,
   handleDeleting: PropTypes.func.isRequired,
+  projectId: PropTypes.string.isRequired,
   filter: PropTypes.bool,
   handleEditing: PropTypes.func.isRequired,
   handleDone: PropTypes.func.isRequired,

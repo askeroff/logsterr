@@ -26,6 +26,7 @@ class Header extends React.Component {
           url="/projects"
           linkText="Projects"
         />
+        <Li myClassName="header-menu-item" url="/timelog" linkText="Timelog" />
         <Li myClassName="header-menu-item" url="/logmeout" linkText="Log Out" />
         <li className="header-menu-item">
           <span className="userInfo">

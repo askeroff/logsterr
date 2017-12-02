@@ -93,7 +93,10 @@ class Project extends React.Component {
           You can checkout tasks you already done{' '}
           <Link to={`${this.props.location.pathname}/archive`}>here</Link>
         </p>
-        <TasksList tasks={this.props.tasksList} />
+        <TasksList
+          projectId={this.props.match.params.id}
+          tasks={this.props.tasksList}
+        />
       </Layout>
     );
   }

@@ -79,6 +79,7 @@ app.post(
 );
 
 app.post('/projects/timelog', catchErrors(timelogController.addTime));
+app.get('/projects/getlogs', catchErrors(timelogController.getLogs));
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));

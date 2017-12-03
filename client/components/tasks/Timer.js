@@ -37,7 +37,7 @@ class Timer extends React.Component {
       done: true,
       project: this.props.project,
     };
-    this.props.handleAddingTimeLog(data);
+    this.props.handleAddingTimeLog(data, this.state.seconds);
     swal('Good job!', 'Time has been added to your timelog', 'success');
   }
 

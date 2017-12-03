@@ -43,6 +43,7 @@ class TasksList extends React.Component {
           handleDelete={this.handleTaskDelete}
           handleRename={this.props.handleEditing}
           taskDone={this.props.handleDone}
+          timeSpent={task.timeSpent}
         />
       ));
       return <ul>{doneItems}</ul>;
@@ -54,10 +55,10 @@ class TasksList extends React.Component {
         id={task._id}
         name={task.name}
         done={task.done}
-        created={task.created}
         handleDelete={this.handleTaskDelete}
         handleRename={this.props.handleEditing}
         taskDone={this.props.handleDone}
+        timeSpent={task.timeSpent}
       />,
       <Timer
         key={`timer${task._id}`}
@@ -101,8 +102,8 @@ const mapDispatchToProps = dispatch => ({
   handleDone(id) {
     dispatch(toggleDone(id));
   },
-  handleAddingTimeLog(data) {
-    dispatch(addTimelog(data));
+  handleAddingTimeLog(data, seconds) {
+    dispatch(addTimelog(data, seconds));
   },
 });
 

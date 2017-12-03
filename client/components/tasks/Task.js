@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../helpers';
+import { formatDate, formatTime } from '../../helpers';
 
 class Task extends React.Component {
   constructor(props) {
@@ -34,22 +34,18 @@ class Task extends React.Component {
   render() {
     const { editName, showInput } = this.state;
     const { id, handleDelete, name, taskDone, done } = this.props;
-    const spanClassName = done ? 'strikethrough' : '';
     const doneButtonValue = done ? 'Undone' : 'Done';
-    const hideTaskName = this.state.showInput ? 'none' : '';
-    const newDate = this.props.updated
-      ? formatDate(this.props.updated)
-      : formatDate(this.props.created);
-    const dateString = this.props.updated ? 'Updated:' : 'Created:';
+    const newDate = this.props.updated ? formatDate(this.props.updated) : '';
+    const dateString = this.props.updated ? 'Done:' : '';
 
     return (
       <li className="projects-list-item">
-        <span
-          style={{ display: `${hideTaskName}` }}
-          className={`task-name ${spanClassName}`}
-        >
-          {name} (<strong>{dateString} </strong>
-          {newDate})
+        <span className="task-name">
+          {name} (<strong>{formatTime(this.props.timeSpent)}</strong>)
+        </span>
+        <span>
+          <strong>{dateString} </strong>
+          {newDate}
         </span>
         {showInput ? (
           <input type="text" value={editName} onChange={this.handleNameInput} />
@@ -79,7 +75,6 @@ class Task extends React.Component {
 
 Task.defaultProps = {
   updated: undefined,
-  created: undefined,
 };
 
 Task.propTypes = {
@@ -90,7 +85,7 @@ Task.propTypes = {
   done: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
   updated: PropTypes.string,
-  created: PropTypes.string,
+  timeSpent: PropTypes.number.isRequired,
 };
 
 export default Task;

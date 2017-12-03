@@ -1,19 +1,20 @@
 import axios from 'axios';
 import { ADD_TIMELOG, GET_LOGS } from './actionTypes';
 
-export function addTimelogSuccess(data) {
+export function addTimelogSuccess(data, seconds) {
   return {
     type: ADD_TIMELOG,
     data,
+    seconds,
   };
 }
 
-export function addTimelog(data) {
+export function addTimelog(data, seconds) {
   return dispatch =>
     axios
       .post('/projects/timelog', data)
       .then(res => {
-        dispatch(addTimelogSuccess(res.data));
+        dispatch(addTimelogSuccess(res.data, seconds));
       })
       .catch(err => console.log(err));
 }

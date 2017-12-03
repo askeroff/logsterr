@@ -9,6 +9,7 @@ import {
   DELETE_TASK,
   RENAME_TASK,
   TOGGLE_DONE,
+  ADD_TIMELOG,
 } from '../actions/actionTypes';
 
 function projects(state = {}, action) {
@@ -59,6 +60,15 @@ function projects(state = {}, action) {
       const tasksList = state.tasksList.map(item => {
         if (item._id === action.id) {
           item.done = action.done; // eslint-disable-line no-param-reassign
+        }
+        return item;
+      });
+      return Object.assign({}, state, { tasksList });
+    }
+    case ADD_TIMELOG: {
+      const tasksList = state.tasksList.map(item => {
+        if (item._id === action.data.task._id) {
+          item.timeSpent += action.seconds; // eslint-disable-line no-param-reassign
         }
         return item;
       });

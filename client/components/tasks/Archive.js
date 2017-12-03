@@ -40,8 +40,12 @@ class Archive extends React.Component {
         <h1 className="page-title">
           {this.state.currentProject.name || '...'}
         </h1>
-        <p>Archive of your projects, dude!</p>
-        <TasksList filter tasks={this.props.tasksList} />
+        <p>Archive of your finished tasks!</p>
+        <TasksList
+          filter
+          projectId={this.props.match.params.id}
+          tasks={this.props.tasksList}
+        />
       </Layout>
     );
   }

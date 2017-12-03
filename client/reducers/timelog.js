@@ -1,6 +1,6 @@
 import { ADD_TIMELOG, GET_LOGS } from '../actions/actionTypes';
 
-function timelog(state = [], action) {
+function timelog(state = {}, action) {
   switch (action.type) {
     case ADD_TIMELOG: {
       return state;

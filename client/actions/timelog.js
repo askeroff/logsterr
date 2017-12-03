@@ -26,10 +26,10 @@ export function getLogsSuccess(response) {
   };
 }
 
-export function getLogs() {
+export function getLogs(page) {
   return dispatch =>
     axios
-      .get('/projects/getlogs')
+      .get(`/projects/getlogs/${page}`)
       .then(res => {
         dispatch(getLogsSuccess(res.data));
       })

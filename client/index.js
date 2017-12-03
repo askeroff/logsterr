@@ -26,7 +26,7 @@ const Root = () => (
         <Route path="/login" component={Login} />
         <Route path="/logmeout" component={Logout} />
         <Route path="/projects" component={ProjectsRoutes} />
-        <Route path="/timelog" component={Timelog} />
+        <Route path="/timelog/:page" component={Timelog} />
         <Route component={NotFound} />
       </Switch>
     </ConnectedRouter>

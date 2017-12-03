@@ -15,8 +15,24 @@ exports.addTime = async (req, res) => {
 };
 
 exports.getLogs = async (req, res) => {
-  const timelogs = await Timelog.getProjects(req.user._id).sort({
-    started: 'desc',
-  });
-  res.json(timelogs);
+  const page = req.params.page || 1;
+  const limit = 5;
+  const skip = page * limit - limit;
+
+  const timelogsPromise = Timelog.getProjects(req.user._id)
+    .skip(skip)
+    .limit(limit)
+    .sort({
+      started: 'desc',
+    });
+
+  const countPromise = Timelog.count();
+
+  const [data, count] = await Promise.all([timelogsPromise, countPromise]);
+  const pages = Math.ceil(count / limit);
+  if (!data.length && skip) {
+    res.json({ info: 'This page doesnt exist' });
+  }
+
+  res.json({ data, page, pages, count });
 };

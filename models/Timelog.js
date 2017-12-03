@@ -37,4 +37,18 @@ const timelogSchema = new mongoose.Schema({
   },
 });
 
+timelogSchema.statics.getProjects = function(id) {
+  return this.aggregate([
+    { $match: { author: id } },
+    {
+      $lookup: {
+        from: 'projects',
+        localField: 'project',
+        foreignField: '_id',
+        as: 'projectdata',
+      },
+    },
+  ]);
+};
+
 module.exports = mongoose.model('Timelog', timelogSchema);

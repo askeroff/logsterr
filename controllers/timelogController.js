@@ -9,9 +9,8 @@ exports.addTime = async (req, res) => {
 };
 
 exports.getLogs = async (req, res) => {
-  const timelogs = await Timelog.find({
-    author: req.user._id,
-  }).sort({ started: 'desc' });
-
+  const timelogs = await Timelog.getProjects(req.user._id).sort({
+    started: 'desc',
+  });
   res.json(timelogs);
 };

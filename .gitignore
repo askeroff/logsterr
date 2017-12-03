@@ -2,6 +2,7 @@ node_modules/
 .vscode
 *.log
 variables.env
+variables.env.now
 dist/*.js
 dist/*.js.map
 

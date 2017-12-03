@@ -26,7 +26,9 @@ exports.getLogs = async (req, res) => {
       started: 'desc',
     });
 
-  const countPromise = Timelog.count();
+  const countPromise = Timelog.count({
+    author: req.user._id,
+  });
 
   const [data, count] = await Promise.all([timelogsPromise, countPromise]);
   const pages = Math.ceil(count / limit);

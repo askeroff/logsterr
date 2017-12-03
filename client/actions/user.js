@@ -65,7 +65,7 @@ export function isLoggedIn() {
       .then(res => {
         dispatch(isLoggedInSuccess(res.data.user));
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err, 'action error'));
 }
 
 export function signUpError(error) {

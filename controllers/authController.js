@@ -16,7 +16,7 @@ exports.isLoggedIn = (req, res, next) => {
 };
 
 exports.getClientAUser = (req, res) => {
-  const user = {};
+  const user = { loggedIn: false };
   if (req.user) {
     user._id = req.user._id;
     user.email = req.user.email;

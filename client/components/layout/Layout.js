@@ -4,13 +4,34 @@ import { connect } from 'react-redux';
 import { isLoggedIn } from '../../actions/user';
 import Header from './Header';
 import Footer from './Footer';
+import Spinner from './Spinner';
 
 class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loaded: false,
+    };
+  }
   componentDidMount() {
     this.props.getUserData();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (
+      Object.prototype.hasOwnProperty.call(nextProps.user, 'loggedIn') &&
+      !this.state.loaded
+    ) {
+      this.setState({
+        loaded: true,
+      });
+    }
+  }
+
   render() {
+    if (!this.state.loaded) {
+      return <Spinner />;
+    }
     return (
       <div className="wrapper">
         <Header userEmail={this.props.user.email} />

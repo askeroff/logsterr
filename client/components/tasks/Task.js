@@ -11,6 +11,7 @@ class Task extends React.Component {
     };
     this.handleNameInput = this.handleNameInput.bind(this);
     this.handleShowInput = this.handleShowInput.bind(this);
+    this.handleEnterButton = this.handleEnterButton.bind(this);
   }
 
   handleNameInput(e) {
@@ -31,42 +32,74 @@ class Task extends React.Component {
     });
   }
 
+  handleEnterButton(event) {
+    if (event.charCode === 13) {
+      this.renameLink.click();
+    }
+  }
+
   render() {
     const { editName, showInput } = this.state;
     const { id, handleDelete, name, taskDone, done } = this.props;
     const doneButtonValue = done ? 'Undone' : 'Done';
+    const hideOrNot = showInput ? 'none' : '';
     const newDate = this.props.updated ? formatDate(this.props.updated) : '';
     const dateString = this.props.updated ? 'Done:' : '';
-
     return (
       <li className="projects-list-item">
-        <span className="task-name">
-          {name} (<strong>{formatTime(this.props.timeSpent)}</strong>)
+        <span style={{ display: hideOrNot }} className="task-name">
+          {name}(<strong>{formatTime(this.props.timeSpent)})</strong>
         </span>
-        <span>
-          <strong>{dateString} </strong>
-          {newDate}
-        </span>
-        {showInput ? (
-          <input type="text" value={editName} onChange={this.handleNameInput} />
+        {dateString !== '' ? (
+          <span>
+            <strong>{dateString} </strong>
+            {newDate}
+          </span>
         ) : null}
+
+        {showInput ? (
+          <input
+            type="text"
+            onKeyPress={this.handleEnterButton}
+            value={editName}
+            onChange={this.handleNameInput}
+          />
+        ) : null}
+
         <div className="buttons-group">
           {showInput ? (
-            <input
-              onClick={() => this.handleRenaming(id, this.state.editName)}
-              type="button"
-              value="Ok"
-            />
+            <a
+              href="#"
+              onClick={() => this.handleRenaming(id, editName)}
+              ref={link => {
+                this.renameLink = link;
+              }}
+              className="info-button link"
+            >
+              Ok
+            </a>
           ) : null}
 
           {!showInput ? (
-            <button onClick={() => this.handleShowInput(name)}>Rename</button>
+            <a
+              href="#"
+              onClick={() => this.handleShowInput(name)}
+              className="info-button link"
+            >
+              Edit
+            </a>
           ) : null}
-          <button onClick={() => taskDone(id)}>{doneButtonValue}</button>
+          <a href="#" onClick={() => taskDone(id)} className="info-button link">
+            {doneButtonValue}
+          </a>
 
-          <button onClick={() => handleDelete(id)} className="delete sign">
+          <a
+            href="#"
+            onClick={() => handleDelete(id)}
+            className="danger-button link"
+          >
             Delete
-          </button>
+          </a>
         </div>
       </li>
     );

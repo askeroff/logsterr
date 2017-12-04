@@ -71,7 +71,10 @@ class Index extends React.Component {
           <AddForm
             inputValue={this.state.formInput}
             handleInput={this.handleFormInput}
-            clickHandler={() => this.addProject(this.state.formInput)}
+            clickHandler={e => {
+              e.preventDefault();
+              this.addProject(this.state.formInput);
+            }}
             labelName="Name Of Your New Project"
           />
         ) : null}

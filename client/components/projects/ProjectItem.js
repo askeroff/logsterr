@@ -12,6 +12,7 @@ class ProjectItem extends React.Component {
     this.handleNewName = this.handleNewName.bind(this);
     this.handleRenaming = this.handleRenaming.bind(this);
     this.handleShowInput = this.handleShowInput.bind(this);
+    this.handleEnterButton = this.handleEnterButton.bind(this);
   }
 
   handleNewName(e) {
@@ -32,6 +33,12 @@ class ProjectItem extends React.Component {
     });
   }
 
+  handleEnterButton(event) {
+    if (event.charCode === 13) {
+      this.renameLink.click();
+    }
+  }
+
   render() {
     const { project, onDelete } = this.props;
     const { newName, showInput } = this.state;
@@ -46,7 +53,12 @@ class ProjectItem extends React.Component {
           {project.name}
         </Link>
         {showInput ? (
-          <input type="text" value={newName} onChange={this.handleNewName} />
+          <input
+            type="text"
+            value={newName}
+            onKeyPress={this.handleEnterButton}
+            onChange={this.handleNewName}
+          />
         ) : null}
         <div className="buttons-group">
           {showInput ? (
@@ -55,6 +67,9 @@ class ProjectItem extends React.Component {
               onClick={() =>
                 this.handleRenaming(project._id, this.state.newName)
               }
+              ref={link => {
+                this.renameLink = link;
+              }}
               className="info-button link"
             >
               Ok

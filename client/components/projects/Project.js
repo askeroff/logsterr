@@ -79,12 +79,13 @@ class Project extends React.Component {
           <AddForm
             inputValue={this.state.newTaskInput}
             handleInput={this.handleNewTaskInput}
-            clickHandler={() =>
+            clickHandler={e => {
+              e.preventDefault();
               this.addTask({
                 name: this.state.newTaskInput,
                 project: this.props.match.params.id,
-              })
-            }
+              });
+            }}
             labelName="Name"
           />
         ) : null}

@@ -25,7 +25,6 @@ class Timelog extends React.Component {
       let showDate = false;
       let date;
       logs = this.props.timelogs.data.map(item => {
-        console.log(item);
         const project = item.projectdata[0]
           ? item.projectdata[0].name
           : 'Not found';

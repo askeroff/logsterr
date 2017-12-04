@@ -7,29 +7,12 @@ import Footer from './Footer';
 import Spinner from './Spinner';
 
 class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loaded: false,
-    };
-  }
   componentDidMount() {
     this.props.getUserData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      Object.prototype.hasOwnProperty.call(nextProps.user, 'loggedIn') &&
-      !this.state.loaded
-    ) {
-      this.setState({
-        loaded: true,
-      });
-    }
-  }
-
   render() {
-    if (!this.state.loaded) {
+    if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
       return <Spinner />;
     }
     return (

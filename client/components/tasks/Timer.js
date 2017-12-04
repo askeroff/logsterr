@@ -13,18 +13,20 @@ class Timer extends React.Component {
     this.handleButton = this.handleButton.bind(this);
     this.handleStart = this.handleStart.bind(this);
     this.handleStop = this.handleStop.bind(this);
+    this.incrementSeconds = this.incrementSeconds.bind(this);
     this.timer = null;
+  }
+
+  incrementSeconds() {
+    this.setState({
+      seconds: this.state.seconds + 1,
+    });
   }
 
   handleStart() {
     this.setState({ started: true, seconds: 0 });
-    this.timer = setInterval(
-      () =>
-        this.setState({
-          seconds: this.state.seconds + 1,
-        }),
-      1000
-    );
+    this.incrementSeconds(); // fixes one second delay when first called
+    this.timer = setInterval(this.incrementSeconds, 1000);
   }
 
   handleStop() {
@@ -54,9 +56,7 @@ class Timer extends React.Component {
     return (
       <li className="projects-list-item timer-block">
         <input onClick={this.handleButton} type="button" value={buttonString} />
-        {this.state.seconds > 0 ? (
-          <span className="timer-item">{time}</span>
-        ) : null}
+        {this.state.started ? <span className="timer-item">{time}</span> : null}
       </li>
     );
   }

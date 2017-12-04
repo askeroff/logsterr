@@ -31,8 +31,8 @@ class Project extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.projectsList.length !== 0 && !this.state.projectsLoaded) {
-      this.props.projectsList.forEach(item => {
+    if (this.props.projects.length !== 0 && !this.state.projectsLoaded) {
+      this.props.projects.forEach(item => {
         if (item._id === this.props.match.params.id) {
           this.setState({ currentProject: item, projectsLoaded: true });
         }
@@ -96,7 +96,7 @@ class Project extends React.Component {
         </p>
         <TasksList
           projectId={this.props.match.params.id}
-          tasks={this.props.tasksList}
+          tasks={this.props.tasks}
         />
       </Layout>
     );
@@ -104,15 +104,15 @@ class Project extends React.Component {
 }
 
 Project.defaultProps = {
-  projectsList: [],
-  tasksList: [],
+  projects: [],
+  tasks: [],
   user: {},
 };
 
 Project.propTypes = {
   match: PropTypes.object.isRequired,
-  projectsList: PropTypes.array,
-  tasksList: PropTypes.array,
+  projects: PropTypes.array,
+  tasks: PropTypes.array,
   user: PropTypes.object,
   location: PropTypes.object.isRequired,
   handleProjects: PropTypes.func.isRequired,
@@ -121,9 +121,9 @@ Project.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  projectsList: state.projects.projectsList,
+  projects: state.projects,
   user: state.user,
-  tasksList: state.projects.tasksList,
+  tasks: state.tasks,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -89,7 +89,7 @@ TasksList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  tasksList: state.projects.tasksList,
+  tasks: state.tasks,
 });
 
 const mapDispatchToProps = dispatch => ({

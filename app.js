@@ -13,6 +13,7 @@ const { catchErrors } = require('./helpers/');
 const userController = require('./controllers/userController');
 const authController = require('./controllers/authController');
 const projectsController = require('./controllers/projectsController');
+const tasksController = require('./controllers/tasksController');
 const timelogController = require('./controllers/timelogController');
 
 // passport config
@@ -66,17 +67,11 @@ app.get('/projects/getProjects', catchErrors(projectsController.getProjects));
 app.post('/projects/delete', projectsController.deleteProject);
 app.post('/projects/:id/edit', catchErrors(projectsController.update));
 
-app.get('/projects/:id/getTasks', catchErrors(projectsController.getTasks));
-app.post('/projects/:id/add', catchErrors(projectsController.newTask));
-app.post('/projects/:id/delete', projectsController.deleteTask);
-app.post(
-  '/projects/tasks/:id/edit',
-  catchErrors(projectsController.renameTask)
-);
-app.post(
-  '/projects/tasks/:id/done',
-  catchErrors(projectsController.toggleDone)
-);
+app.get('/projects/:id/getTasks', catchErrors(tasksController.getTasks));
+app.post('/projects/:id/add', catchErrors(tasksController.newTask));
+app.post('/projects/:id/delete', tasksController.deleteTask);
+app.post('/projects/tasks/:id/edit', catchErrors(tasksController.renameTask));
+app.post('/projects/tasks/:id/done', catchErrors(tasksController.toggleDone));
 
 app.post('/projects/timelog', catchErrors(timelogController.addTime));
 app.get('/projects/getlogs/:page', catchErrors(timelogController.getLogs));

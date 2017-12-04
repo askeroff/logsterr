@@ -24,8 +24,8 @@ class Archive extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.projectsList.length !== 0 && !this.state.projectsLoaded) {
-      this.props.projectsList.forEach(item => {
+    if (this.props.projects.length !== 0 && !this.state.projectsLoaded) {
+      this.props.projects.forEach(item => {
         if (item._id === this.props.match.params.id) {
           this.setState({ currentProject: item, projectsLoaded: true });
         }
@@ -44,7 +44,7 @@ class Archive extends React.Component {
         <TasksList
           filter
           projectId={this.props.match.params.id}
-          tasks={this.props.tasksList}
+          tasks={this.props.tasks}
         />
       </Layout>
     );
@@ -52,24 +52,24 @@ class Archive extends React.Component {
 }
 
 Archive.defaultProps = {
-  projectsList: [],
-  tasksList: [],
+  projects: [],
+  tasks: [],
   user: {},
 };
 
 Archive.propTypes = {
   match: PropTypes.object.isRequired,
-  projectsList: PropTypes.array,
-  tasksList: PropTypes.array,
+  projects: PropTypes.array,
+  tasks: PropTypes.array,
   user: PropTypes.object,
   handleProjects: PropTypes.func.isRequired,
   handleTasks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  projectsList: state.projects.projectsList,
+  projects: state.projects,
   user: state.user,
-  tasksList: state.projects.tasksList,
+  tasks: state.tasks,
 });
 
 const mapDispatchToProps = dispatch => ({

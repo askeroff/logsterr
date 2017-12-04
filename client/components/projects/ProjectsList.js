@@ -28,7 +28,7 @@ class ProjectsList extends React.Component {
   }
 
   render() {
-    const listItems = this.props.projectsList.map(project => (
+    const listItems = this.props.projects.map(project => (
       <ProjectItem
         onDelete={this.onDelete}
         key={project._id}
@@ -41,17 +41,17 @@ class ProjectsList extends React.Component {
 }
 
 ProjectsList.defaultProps = {
-  projectsList: [],
+  projects: [],
 };
 
 ProjectsList.propTypes = {
-  projectsList: PropTypes.array,
+  projects: PropTypes.array,
   handleDeleting: PropTypes.func.isRequired,
   handleRenaming: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  projectsList: state.projects.projectsList,
+  projectsList: state.projects,
 });
 
 const mapDispatchToProps = dispatch => ({

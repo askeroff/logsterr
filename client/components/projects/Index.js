@@ -46,12 +46,12 @@ class Index extends React.Component {
   render() {
     let projects;
     const addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
-    if (!this.props.projects.projectsList) {
+    if (!this.props.projects) {
       projects = 'There are no projects or they are loading.';
     } else {
       projects = (
         <ul className="projects-list">
-          <ProjectsList />
+          <ProjectsList projects={this.props.projects} />
         </ul>
       );
     }
@@ -84,16 +84,17 @@ class Index extends React.Component {
     );
   }
 }
+
 Index.defaultProps = {
   user: {},
-  projects: {},
+  projects: [],
 };
 
 Index.propTypes = {
   handleProjects: PropTypes.func.isRequired,
   handleAdding: PropTypes.func.isRequired,
   user: PropTypes.object,
-  projects: PropTypes.object,
+  projects: PropTypes.array,
 };
 
 const mapStateToProps = state => ({

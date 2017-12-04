@@ -40,8 +40,8 @@ export function renameProject(id, name) {
   return dispatch =>
     axios
       .post(`/projects/${id}/edit`, { name })
-      .then(res => {
-        dispatch(renameProjectSuccess(res.data.project));
+      .then(() => {
+        dispatch(renameProjectSuccess({ id, name }));
       })
       .catch(err => console.log(err));
 }

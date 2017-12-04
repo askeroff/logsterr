@@ -20,7 +20,7 @@ function projects(state = {}, action) {
     }
     case RENAME_PROJECT: {
       const projectsList = state.projectsList.map(item => {
-        if (item._id === action.project._id) {
+        if (item._id === action.project.id) {
           item.name = action.project.name; // eslint-disable-line no-param-reassign
         }
         return item;

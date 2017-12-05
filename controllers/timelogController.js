@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Timelog = mongoose.model('Timelog');
+const Project = mongoose.model('Project');
 const Task = mongoose.model('Task');
 
 exports.addTime = async (req, res) => {
@@ -10,8 +11,17 @@ exports.addTime = async (req, res) => {
     task.timeSpent += req.body.seconds; // eslint-disable-line no-param-reassign
     task.save();
   });
-  const [timelog, task] = await Promise.all([timelogPromise, taskPromise]);
-  res.json({ timelog, task });
+  const projectPromise = Project.findById(req.body.project, (err, project) => {
+    project.timeSpent += req.body.seconds; // eslint-disable-line no-param-reassign
+    project.save();
+  });
+
+  const [timelog, task, project] = await Promise.all([
+    timelogPromise,
+    taskPromise,
+    projectPromise,
+  ]);
+  res.json({ timelog, task, project });
 };
 
 exports.getLogs = async (req, res) => {

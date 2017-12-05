@@ -13,6 +13,10 @@ const projectSchema = new mongoose.Schema({
     ref: 'User',
     required: 'Project should belong to an author',
   },
+  timeSpent: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model('Project', projectSchema);

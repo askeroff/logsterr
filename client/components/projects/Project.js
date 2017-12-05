@@ -9,6 +9,7 @@ import NotLoggedIn from '../NotLoggedIn';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
 import AddForm from './AddForm';
+import { formatTime } from '../../helpers';
 
 class Project extends React.Component {
   constructor(props) {
@@ -100,11 +101,15 @@ class Project extends React.Component {
       return <NotFound />;
     }
     const addLinkText = this.state.showForm ? 'Hide The Form' : 'New Task';
+    const projectTime = this.state.currentProject.timeSpent
+      ? formatTime(this.state.currentProject.timeSpent)
+      : '';
     return (
       <Layout>
         <h1 className="page-title">
           {this.state.currentProject.name || '...'}
         </h1>
+        <h3 className="page-title">Time spent: {projectTime}</h3>
         <a
           onClick={this.showAddForm}
           href="#"

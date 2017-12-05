@@ -9,10 +9,10 @@ exports.logout = (req, res) => {
 
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
-    res.json({ authenticated: true });
     next();
+    return;
   }
-  res.json({ authenticated: false });
+  res.json({ authenticated: false, test: req.session });
 };
 
 exports.getClientAUser = (req, res) => {

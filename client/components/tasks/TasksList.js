@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { deleteTask, renameTask, toggleDone } from '../../actions/projects';
 import { addTimelog } from '../../actions/timelog';
+import Spinner from '../layout/Spinner';
 import Task from './Task';
 import Timer from './Timer';
 
@@ -28,7 +29,7 @@ class TasksList extends React.Component {
   }
 
   render() {
-    if (!this.props.tasks) return null;
+    if (!this.props.tasksLoaded) return <Spinner />;
     let doneItems = this.props.tasks.filter(task => task.done);
     let undoneItems = this.props.tasks.filter(task => !task.done);
 
@@ -76,10 +77,12 @@ class TasksList extends React.Component {
 TasksList.defaultProps = {
   tasks: [],
   filter: false,
+  tasksLoaded: false,
 };
 
 TasksList.propTypes = {
   tasks: PropTypes.array,
+  tasksLoaded: PropTypes.bool,
   handleDeleting: PropTypes.func.isRequired,
   projectId: PropTypes.string.isRequired,
   filter: PropTypes.bool,

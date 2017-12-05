@@ -5,6 +5,7 @@ const expressValidator = require('express-validator');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const promisify = require('es6-promisify');
 
@@ -29,6 +30,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(staticAssetsPath));
 app.use(expressValidator());
+
+app.use(cookieParser());
 
 app.use(
   session({
@@ -62,19 +65,60 @@ app.post(
 
 app.post('/login', passport.authenticate('local'), authController.login);
 
-app.post('/projects/add', catchErrors(projectsController.add));
-app.get('/projects/getProjects', catchErrors(projectsController.getProjects));
-app.post('/projects/delete', projectsController.deleteProject);
-app.post('/projects/:id/edit', catchErrors(projectsController.update));
+app.post(
+  '/projects/add',
+  authController.isLoggedIn,
+  catchErrors(projectsController.add)
+);
 
-app.get('/projects/:id/getTasks', catchErrors(tasksController.getTasks));
-app.post('/projects/:id/add', catchErrors(tasksController.newTask));
-app.post('/projects/:id/delete', tasksController.deleteTask);
-app.post('/projects/tasks/:id/edit', catchErrors(tasksController.renameTask));
-app.post('/projects/tasks/:id/done', catchErrors(tasksController.toggleDone));
+app.get(
+  '/projects/getProjects',
+  authController.isLoggedIn,
+  catchErrors(projectsController.getProjects)
+);
+app.post(
+  '/projects/delete',
+  authController.isLoggedIn,
+  projectsController.deleteProject
+);
+app.post(
+  '/projects/:id/edit',
+  authController.isLoggedIn,
+  catchErrors(projectsController.update)
+);
+
+app.get(
+  '/projects/:id/getTasks',
+  authController.isLoggedIn,
+  catchErrors(tasksController.getTasks)
+);
+app.post(
+  '/projects/:id/add',
+  authController.isLoggedIn,
+  catchErrors(tasksController.newTask)
+);
+app.post(
+  '/projects/:id/delete',
+  authController.isLoggedIn,
+  tasksController.deleteTask
+);
+app.post(
+  '/projects/tasks/:id/edit',
+  authController.isLoggedIn,
+  catchErrors(tasksController.renameTask)
+);
+app.post(
+  '/projects/tasks/:id/done',
+  authController.isLoggedIn,
+  catchErrors(tasksController.toggleDone)
+);
 
 app.post('/projects/timelog', catchErrors(timelogController.addTime));
-app.get('/projects/getlogs/:page', catchErrors(timelogController.getLogs));
+app.get(
+  '/projects/getlogs/:page',
+  authController.isLoggedIn,
+  catchErrors(timelogController.getLogs)
+);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));

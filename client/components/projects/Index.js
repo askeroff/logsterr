@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProjects, addProject } from '../../actions/projects';
 import Layout from '../layout/Layout';
+import Spinner from '../layout/Spinner';
+import NotLoggedIn from '../NotLoggedIn';
 import ProjectsList from './ProjectsList';
 import AddForm from './AddForm';
 
@@ -20,7 +22,11 @@ class Index extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.user).length !== 0 && !this.state.userLoaded) {
+    if (
+      nextProps.user &&
+      nextProps.user.loggedIn === true &&
+      !this.state.userLoaded
+    ) {
       this.props.handleProjects(nextProps.user._id);
       this.setState({ userLoaded: true });
     }
@@ -46,8 +52,11 @@ class Index extends React.Component {
   render() {
     let projects;
     const addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
+    if (this.props.user && this.props.user.loggedIn === false) {
+      return <NotLoggedIn />;
+    }
     if (!this.props.projects) {
-      projects = 'There are no projects or they are loading.';
+      projects = <Spinner />;
     } else {
       projects = (
         <ul className="projects-list">

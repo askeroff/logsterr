@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Layout from './layout/Layout';
+import Spinner from './layout/Spinner';
 import Pagination from './layout/Pagination';
 import TimelogItem from './TimelogItem';
+import NotLoggedIn from './NotLoggedIn';
 import { getLogs } from '../actions/timelog';
 import { formatDate } from '../helpers';
 
@@ -21,6 +23,11 @@ class Timelog extends React.Component {
   render() {
     let logs = null;
     let pagination = null;
+
+    if (this.props.timelogs && this.props.timelogs.authenticated === false) {
+      return <NotLoggedIn />;
+    }
+
     if (this.props.timelogs && this.props.timelogs.data) {
       let showDate = false;
       let date;
@@ -58,6 +65,7 @@ class Timelog extends React.Component {
     return (
       <Layout>
         <h1 className="page-title">History of your logged time</h1>
+        {!this.props.timelogs.data ? <Spinner /> : null}
         <ul>{logs}</ul>
         {pagination}
       </Layout>

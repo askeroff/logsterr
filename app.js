@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const promisify = require('es6-promisify');
+const { check } = require('express-validator/check');
+const { sanitize } = require('express-validator/filter');
 
 const User = mongoose.model('User');
 const { catchErrors } = require('./helpers/');
@@ -57,6 +59,25 @@ app.get('/logout', authController.logout);
 
 app.post(
   '/signup',
+  [
+    check('email')
+      .isEmail()
+      .withMessage('Please, support a valid email address')
+      .custom(value =>
+        User.findOne({ email: value }).then(user => {
+          if (user !== null) {
+            throw new Error('This email is already in use');
+          }
+          return true;
+        })
+      ),
+    check('password')
+      .isLength({ min: 5 })
+      .withMessage('Password should be longer than 5 symbols'),
+    sanitize('email')
+      .trim()
+      .normalizeEmail(),
+  ],
   userController.validateSignup,
   catchErrors(userController.signup),
   passport.authenticate('local'),

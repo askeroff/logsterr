@@ -12,7 +12,7 @@ exports.isLoggedIn = (req, res, next) => {
     next();
     return;
   }
-  res.json({ authenticated: false, test: req.session });
+  res.json({ authenticated: false });
 };
 
 exports.getClientAUser = (req, res) => {

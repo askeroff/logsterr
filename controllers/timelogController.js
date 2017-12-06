@@ -26,7 +26,7 @@ exports.addTime = async (req, res) => {
 
 exports.getLogs = async (req, res) => {
   const page = req.params.page || 1;
-  const limit = 5;
+  const limit = 25;
   const skip = page * limit - limit;
 
   const timelogsPromise = Timelog.getProjects(req.user._id)

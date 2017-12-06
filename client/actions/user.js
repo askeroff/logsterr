@@ -91,5 +91,7 @@ export function signUp(user) {
         const loggedUser = { email, _id };
         dispatch(signUpSuccess(loggedUser));
       })
-      .catch(err => dispatch(signUpError(err)));
+      .catch(err => {
+        dispatch(signUpError(err));
+      });
 }

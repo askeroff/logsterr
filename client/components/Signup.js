@@ -40,6 +40,9 @@ class Signup extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.setState({
+      errors: [],
+    });
     this.props.handleSignup({
       email: this.state.email,
       password: this.state.password,

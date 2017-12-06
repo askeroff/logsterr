@@ -87,15 +87,16 @@ class Project extends React.Component {
   }
 
   render() {
+    if (this.props.user && this.props.user.loggedIn === false) {
+      return <NotLoggedIn />;
+    }
+
     if (!this.state.projectsLoaded) {
       return (
         <Layout>
           <Spinner />
         </Layout>
       );
-    }
-    if (this.props.user && this.props.user.loggedIn === false) {
-      return <NotLoggedIn />;
     }
     if (this.state.notFound) {
       return <NotFound />;

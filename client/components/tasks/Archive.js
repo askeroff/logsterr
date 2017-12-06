@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProjects, getTasks } from '../../actions/projects';
 import Layout from '../layout/Layout';
+import Spinner from '../layout/Spinner';
+import NotLoggedIn from '../NotLoggedIn';
+import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
 
 class Archive extends React.Component {
@@ -12,14 +15,19 @@ class Archive extends React.Component {
       currentProject: {},
       userLoaded: false,
       projectsLoaded: false,
+      tasksLoaded: false,
+      notFound: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.user).length !== 0 && !this.state.userLoaded) {
+    if (
+      nextProps.user &&
+      nextProps.user.loggedIn === true &&
+      !this.state.userLoaded
+    ) {
       this.props.handleProjects(nextProps.user._id);
       this.setState({ userLoaded: true });
-      this.props.handleTasks(this.props.match.params.id);
     }
   }
 
@@ -29,12 +37,44 @@ class Archive extends React.Component {
         if (item._id === this.props.match.params.id) {
           this.setState({ currentProject: item, projectsLoaded: true });
         }
-        return 0;
+        return item;
       });
+      this.setState({ projectsLoaded: true });
+    }
+
+    if (
+      this.state.projectsLoaded &&
+      this.state.currentProject.name === undefined &&
+      this.state.notFound === false
+    ) {
+      this.setState({ notFound: true });
+    }
+
+    if (
+      this.state.projectsLoaded &&
+      this.state.currentProject.name !== undefined &&
+      !this.state.tasksLoaded
+    ) {
+      this.props.handleTasks(this.props.match.params.id);
+      this.setState({ tasksLoaded: true });
     }
   }
 
   render() {
+    if (this.props.user && this.props.user.loggedIn === false) {
+      return <NotLoggedIn />;
+    }
+
+    if (!this.state.projectsLoaded) {
+      return (
+        <Layout>
+          <Spinner />
+        </Layout>
+      );
+    }
+    if (this.state.notFound) {
+      return <NotFound />;
+    }
     return (
       <Layout>
         <h1 className="page-title">
@@ -45,6 +85,7 @@ class Archive extends React.Component {
           filter
           projectId={this.props.match.params.id}
           tasks={this.props.tasks}
+          tasksLoaded={this.state.tasksLoaded}
         />
       </Layout>
     );

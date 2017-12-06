@@ -24,13 +24,12 @@ class Timer extends React.Component {
   }
 
   handleStart() {
-    this.setState({ started: true, seconds: 0 });
+    this.setState({ started: true });
     this.incrementSeconds(); // fixes one second delay when first called
     this.timer = setInterval(this.incrementSeconds, 1000);
   }
 
   handleStop() {
-    this.setState({ started: false });
     clearInterval(this.timer);
     const data = {
       seconds: this.state.seconds,
@@ -40,6 +39,7 @@ class Timer extends React.Component {
       project: this.props.project,
     };
     this.props.handleAddingTimeLog(data, this.state.seconds);
+    this.setState({ started: false, seconds: 0 });
     swal('Good job!', 'Time has been added to your timelog', 'success');
   }
 

@@ -42,7 +42,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(logOut());
   },
   clearProjectsList() {
-    dispatch(clearProjects({ projectsList: {} }));
+    dispatch(clearProjects({ projectsList: [] }));
   },
 });
 

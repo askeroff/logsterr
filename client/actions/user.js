@@ -45,8 +45,8 @@ export function logOut() {
   return dispatch =>
     axios
       .get('/logout')
-      .then(res => {
-        dispatch(logOutSuccess(res.data));
+      .then(() => {
+        dispatch(logOutSuccess({ loggedIn: false }));
       })
       .catch(err => console.log(err));
 }

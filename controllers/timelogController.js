@@ -30,11 +30,11 @@ exports.getLogs = async (req, res) => {
   const skip = page * limit - limit;
 
   const timelogsPromise = Timelog.getProjects(req.user._id)
-    .skip(skip)
-    .limit(limit)
     .sort({
       started: 'desc',
-    });
+    })
+    .skip(skip)
+    .limit(limit);
 
   const countPromise = Timelog.count({
     author: req.user._id,

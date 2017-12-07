@@ -40,6 +40,7 @@ const timelogSchema = new mongoose.Schema({
 timelogSchema.statics.getProjects = function(id) {
   return this.aggregate([
     { $match: { author: id } },
+    { $sort: { started: 1 } },
     {
       $lookup: {
         from: 'projects',

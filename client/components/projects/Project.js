@@ -15,7 +15,7 @@ class Project extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentProject: {},
+      projectIndex: undefined,
       userLoaded: false,
       projectsLoaded: false,
       tasksLoaded: false,
@@ -26,6 +26,8 @@ class Project extends React.Component {
     this.showAddForm = this.showAddForm.bind(this);
     this.handleNewTaskInput = this.handleNewTaskInput.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.onUpdateProjects = this.onUpdateProjects.bind(this);
+    this.onUpdateTasks = this.onUpdateTasks.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,26 +42,36 @@ class Project extends React.Component {
   }
 
   componentDidUpdate() {
+    this.onUpdateProjects();
+    this.onUpdateTasks();
+  }
+
+  onUpdateProjects() {
     if (this.props.projects.length !== 0 && !this.state.projectsLoaded) {
-      this.props.projects.forEach(item => {
+      this.props.projects.forEach((item, index) => {
         if (item._id === this.props.match.params.id) {
-          this.setState({ currentProject: item, projectsLoaded: true });
+          this.setState({
+            projectsLoaded: true,
+            projectIndex: index,
+          });
         }
         return item;
       });
       this.setState({ projectsLoaded: true });
     }
+  }
 
+  onUpdateTasks() {
     if (
       this.state.projectsLoaded &&
-      this.state.currentProject.name === undefined &&
+      this.state.projectIndex === undefined &&
       this.state.notFound === false
     ) {
       this.setState({ notFound: true });
     }
     if (
       this.state.projectsLoaded &&
-      this.state.currentProject.name !== undefined &&
+      this.state.projectIndex !== undefined &&
       !this.state.tasksLoaded
     ) {
       this.props.handleTasks(this.props.match.params.id);
@@ -101,15 +113,21 @@ class Project extends React.Component {
     if (this.state.notFound) {
       return <NotFound />;
     }
-    const addLinkText = this.state.showForm ? 'Hide The Form' : 'New Task';
-    const projectTime = this.state.currentProject.timeSpent
-      ? formatTime(this.state.currentProject.timeSpent)
+    const {
+      projectIndex,
+      showForm,
+      newTaskInput,
+      handleNewTaskInput,
+    } = this.state;
+    const addLinkText = showForm ? 'Hide The Form' : 'New Task';
+    const { projects } = this.props;
+    const projectTime = projectIndex
+      ? formatTime(projects[projectIndex].timeSpent)
       : '';
+    const title = projectIndex ? projects[projectIndex].name : '...';
     return (
       <Layout>
-        <h1 className="page-title">
-          {this.state.currentProject.name || '...'}
-        </h1>
+        <h1 className="page-title">{title}</h1>
         <h3 className="page-title">Time spent: {projectTime}</h3>
         <a
           onClick={this.showAddForm}
@@ -121,12 +139,12 @@ class Project extends React.Component {
 
         {this.state.showForm ? (
           <AddForm
-            inputValue={this.state.newTaskInput}
-            handleInput={this.handleNewTaskInput}
+            inputValue={newTaskInput}
+            handleInput={handleNewTaskInput}
             clickHandler={e => {
               e.preventDefault();
               this.addTask({
-                name: this.state.newTaskInput,
+                name: newTaskInput,
                 project: this.props.match.params.id,
               });
             }}

@@ -31,10 +31,11 @@ function projects(state = [], action) {
     }
     case ADD_TIMELOG: {
       const projectList = state.map(item => {
-        if (item._id === action.data.project._id) {
-          item.timeSpent += action.seconds; // eslint-disable-line no-param-reassign
+        const newItem = item;
+        if (newItem._id === action.data.project._id) {
+          newItem.timeSpent += action.seconds; // eslint-disable-line no-param-reassign
         }
-        return item;
+        return newItem;
       });
       return projectList;
     }

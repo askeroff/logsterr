@@ -113,18 +113,14 @@ class Project extends React.Component {
     if (this.state.notFound) {
       return <NotFound />;
     }
-    const {
-      projectIndex,
-      showForm,
-      newTaskInput,
-      handleNewTaskInput,
-    } = this.state;
+    const { projectIndex, showForm, newTaskInput } = this.state;
     const addLinkText = showForm ? 'Hide The Form' : 'New Task';
     const { projects } = this.props;
     const projectTime = projectIndex
       ? formatTime(projects[projectIndex].timeSpent)
       : '';
     const title = projectIndex ? projects[projectIndex].name : '...';
+
     return (
       <Layout>
         <h1 className="page-title">{title}</h1>
@@ -140,7 +136,7 @@ class Project extends React.Component {
         {this.state.showForm ? (
           <AddForm
             inputValue={newTaskInput}
-            handleInput={handleNewTaskInput}
+            handleInput={this.handleNewTaskInput}
             clickHandler={e => {
               e.preventDefault();
               this.addTask({

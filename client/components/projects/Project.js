@@ -119,7 +119,8 @@ class Project extends React.Component {
     const projectTime = projectIndex
       ? formatTime(projects[projectIndex].timeSpent)
       : '';
-    const title = projectIndex ? projects[projectIndex].name : '...';
+    const title =
+      projectIndex !== undefined ? projects[projectIndex].name : '...';
 
     return (
       <Layout>

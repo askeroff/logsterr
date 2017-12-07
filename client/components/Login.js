@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { logIn } from '../actions/user';
 import LoginForm from './layout/LoginForm';
 import Layout from './layout/Layout';
+import Spinner from './layout/Spinner';
 
 class Login extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      spinner: false,
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -27,6 +29,7 @@ class Login extends React.Component {
     }
 
     if (nextProps.error !== '' && nextProps.error !== undefined) {
+      this.setState({ spinner: false });
       this.resultMessage.innerHTML = nextProps.error;
     }
   }
@@ -41,6 +44,8 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.setState({ spinner: true });
+    this.resultMessage.innerHTML = '';
     this.props.handleLogin({
       email: this.state.email,
       password: this.state.password,
@@ -65,6 +70,7 @@ class Login extends React.Component {
             this.resultMessage = resultMessage;
           }}
         />
+        {this.state.spinner ? <Spinner /> : null}
       </Layout>
     );
   }

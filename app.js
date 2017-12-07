@@ -62,7 +62,7 @@ app.post(
   [
     check('email')
       .isEmail()
-      .withMessage('Please, support a valid email address')
+      .withMessage('Please, provide a valid email address')
       .custom(value =>
         User.findOne({ email: value }).then(user => {
           if (user !== null) {

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../actions/user';
 import Layout from './layout/Layout';
 import LoginForm from './layout/LoginForm';
+import Spinner from './layout/Spinner';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Signup extends React.Component {
       email: '',
       password: '',
       errors: [],
+      spinner: false,
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -26,7 +28,7 @@ class Signup extends React.Component {
       this.props.history.push('/');
     }
     if (nextProps.user.errors && nextProps.user.errors.length > 0) {
-      this.setState({ errors: nextProps.user.errors });
+      this.setState({ spinner: false, errors: nextProps.user.errors });
     }
   }
 
@@ -41,6 +43,7 @@ class Signup extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.setState({
+      spinner: true,
       errors: [],
     });
     this.props.handleSignup({
@@ -70,6 +73,7 @@ class Signup extends React.Component {
           handlePasswordChange={this.handlePasswordChange}
         />
         <div>{this.renderErrors()}</div>
+        {this.state.spinner ? <Spinner /> : null}
       </Layout>
     );
   }

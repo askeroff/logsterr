@@ -30,6 +30,7 @@ class TasksList extends React.Component {
 
   render() {
     if (!this.props.tasksLoaded) return <Spinner />;
+    if (this.props.tasks.length === 0) return 'No tasks yet';
     let doneItems = this.props.tasks.filter(task => task.done);
     let undoneItems = this.props.tasks.filter(task => !task.done);
 
@@ -47,7 +48,7 @@ class TasksList extends React.Component {
           timeSpent={task.timeSpent}
         />
       ));
-      return <ul>{doneItems}</ul>;
+      return doneItems.length === 0 ? <Spinner /> : <ul>{doneItems}</ul>;
     }
 
     undoneItems = undoneItems.map(task => [
@@ -70,7 +71,7 @@ class TasksList extends React.Component {
       />,
     ]);
 
-    return <ul>{undoneItems}</ul>;
+    return undoneItems.length === 0 ? <Spinner /> : <ul>{undoneItems}</ul>;
   }
 }
 

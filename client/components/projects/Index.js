@@ -15,6 +15,7 @@ class Index extends React.Component {
       userLoaded: false,
       showForm: false,
       formInput: '',
+      spinner: '',
     };
     this.showAddForm = this.showAddForm.bind(this);
     this.handleFormInput = this.handleFormInput.bind(this);
@@ -22,6 +23,12 @@ class Index extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (
+      this.state.spinner === true &&
+      nextProps.projects.length > this.props.projects.length
+    ) {
+      this.setState({ spinner: false });
+    }
     if (
       nextProps.user &&
       nextProps.user.loggedIn === true &&
@@ -46,6 +53,8 @@ class Index extends React.Component {
     this.props.handleAdding(name);
     this.setState({
       showForm: false,
+      spinner: true,
+      formInput: '',
     });
   }
 
@@ -87,7 +96,7 @@ class Index extends React.Component {
             labelName="Name Of Your New Project"
           />
         ) : null}
-
+        {this.state.spinner ? <Spinner /> : null}
         {projects}
       </Layout>
     );

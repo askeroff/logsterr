@@ -22,6 +22,7 @@ class Project extends React.Component {
       showForm: false,
       newTaskInput: '',
       notFound: false,
+      spinner: false,
     };
     this.showAddForm = this.showAddForm.bind(this);
     this.handleNewTaskInput = this.handleNewTaskInput.bind(this);
@@ -31,6 +32,12 @@ class Project extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (
+      this.state.spinner === true &&
+      nextProps.tasks.length > this.props.tasks.length
+    ) {
+      this.setState({ spinner: false });
+    }
     if (
       nextProps.user &&
       nextProps.user.loggedIn === true &&
@@ -95,6 +102,8 @@ class Project extends React.Component {
     this.props.handleNewTask({ name: task.name, project: task.project });
     this.setState({
       showForm: false,
+      spinner: true,
+      newTaskInput: '',
     });
   }
 
@@ -153,6 +162,7 @@ class Project extends React.Component {
           You can checkout tasks you already done{' '}
           <Link to={`${this.props.location.pathname}/archive`}>here</Link>
         </p>
+        {this.state.spinner ? <Spinner /> : null}
         <TasksList
           projectId={this.props.match.params.id}
           tasks={this.props.tasks}

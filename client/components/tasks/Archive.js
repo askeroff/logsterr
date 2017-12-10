@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getProjects, getTasks } from '../../actions/projects';
+import { getProjects } from '../../actions/projects';
+import { getTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
 import NotLoggedIn from '../NotLoggedIn';
@@ -18,6 +19,8 @@ class Archive extends React.Component {
       tasksLoaded: false,
       notFound: false,
     };
+    this.onUpdateProjects = this.onUpdateProjects.bind(this);
+    this.onUpdateTasks = this.onUpdateTasks.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,6 +35,11 @@ class Archive extends React.Component {
   }
 
   componentDidUpdate() {
+    this.onUpdateProjects();
+    this.onUpdateTasks();
+  }
+
+  onUpdateProjects() {
     if (this.props.projects.length !== 0 && !this.state.projectsLoaded) {
       this.props.projects.forEach(item => {
         if (item._id === this.props.match.params.id) {
@@ -41,7 +49,9 @@ class Archive extends React.Component {
       });
       this.setState({ projectsLoaded: true });
     }
+  }
 
+  onUpdateTasks() {
     if (
       this.state.projectsLoaded &&
       this.state.currentProject.name === undefined &&
@@ -64,7 +74,6 @@ class Archive extends React.Component {
     if (this.props.user && this.props.user.loggedIn === false) {
       return <NotLoggedIn />;
     }
-
     if (!this.state.projectsLoaded) {
       return (
         <Layout>

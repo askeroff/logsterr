@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import { deleteTask, renameTask, toggleDone } from '../../actions/projects';
+import { deleteTask, renameTask, toggleDone } from '../../actions/tasks';
 import { addTimelog } from '../../actions/timelog';
 import Spinner from '../layout/Spinner';
 import Task from './Task';
@@ -29,7 +29,7 @@ class TasksList extends React.Component {
   }
 
   render() {
-    if (!this.props.tasksLoaded) return <Spinner />;
+    if (this.props.tasksLoaded !== true) return <Spinner />;
     if (this.props.tasks.length === 0) return 'No tasks yet';
     let doneItems = this.props.tasks.filter(task => task.done);
     let undoneItems = this.props.tasks.filter(task => !task.done);
@@ -48,7 +48,8 @@ class TasksList extends React.Component {
           timeSpent={task.timeSpent}
         />
       ));
-      return doneItems.length === 0 ? <Spinner /> : <ul>{doneItems}</ul>;
+
+      return doneItems.length === 0 ? 'No tasks yet' : <ul>{doneItems}</ul>;
     }
 
     undoneItems = undoneItems.map(task => [
@@ -71,7 +72,7 @@ class TasksList extends React.Component {
       />,
     ]);
 
-    return undoneItems.length === 0 ? <Spinner /> : <ul>{undoneItems}</ul>;
+    return undoneItems.length === 0 ? 'No tasks yet' : <ul>{undoneItems}</ul>;
   }
 }
 

@@ -125,9 +125,11 @@ class Project extends React.Component {
     const { projectIndex, showForm, newTaskInput } = this.state;
     const addLinkText = showForm ? 'Hide The Form' : 'New Task';
     const { projects } = this.props;
-    const projectTime = projectIndex
-      ? formatTime(projects[projectIndex].timeSpent)
-      : '';
+    const projectTime =
+      projectIndex !== undefined
+        ? formatTime(projects[projectIndex].timeSpent)
+        : '';
+
     const title =
       projectIndex !== undefined ? projects[projectIndex].name : '...';
 

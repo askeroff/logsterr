@@ -42,7 +42,7 @@ class Header extends React.Component {
   }
 
   render() {
-    return <header>{this.guestLinks()}</header>;
+    return <header className="header">{this.guestLinks()}</header>;
   }
 }
 

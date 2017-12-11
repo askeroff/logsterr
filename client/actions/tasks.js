@@ -3,6 +3,7 @@ import {
   NEW_TASK,
   GET_TASKS,
   DELETE_TASK,
+  CLEAR_TASKS,
   RENAME_TASK,
   TOGGLE_DONE,
 } from '../actions/actionTypes';
@@ -75,6 +76,13 @@ export function renameTask(id, name) {
         dispatch(renameTaskSuccess(id, name));
       })
       .catch(err => console.log(err));
+}
+
+export function clearTasks() {
+  return {
+    type: CLEAR_TASKS,
+    response: [],
+  };
 }
 
 export function toggleDoneSuccess(id, done) {

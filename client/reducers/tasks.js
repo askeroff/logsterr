@@ -1,5 +1,6 @@
 import {
   GET_TASKS,
+  CLEAR_TASKS,
   NEW_TASK,
   DELETE_TASK,
   RENAME_TASK,
@@ -10,6 +11,8 @@ import {
 function tasks(state = [], action) {
   switch (action.type) {
     case GET_TASKS:
+      return action.response;
+    case CLEAR_TASKS:
       return action.response;
     case NEW_TASK: {
       return [...state, action.task];

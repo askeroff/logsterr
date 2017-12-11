@@ -24,7 +24,7 @@ function projects(state = [], action) {
     case GET_PROJECTS:
       return action.response.data.projectsList;
     case CLEAR_PROJECTS:
-      return action.response.projectsList;
+      return action.response;
     case DELETE_PROJECT: {
       const projectsList = state.filter(item => item._id !== action.id);
       return projectsList;

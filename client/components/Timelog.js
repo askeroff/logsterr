@@ -6,11 +6,12 @@ import Spinner from './layout/Spinner';
 import Pagination from './layout/Pagination';
 import TimelogItem from './TimelogItem';
 import NotLoggedIn from './NotLoggedIn';
-import { getLogs } from '../actions/timelog';
+import { getLogs, clearLogs } from '../actions/timelog';
 import { formatDate } from '../helpers';
 
 class Timelog extends React.Component {
   componentDidMount() {
+    this.props.clearLogsList();
     this.props.handleGetLogs(this.props.match.params.page);
   }
 
@@ -81,6 +82,7 @@ Timelog.defaultProps = {
 
 Timelog.propTypes = {
   handleGetLogs: PropTypes.func.isRequired,
+  clearLogsList: PropTypes.func.isRequired,
   timelogs: PropTypes.object,
   match: PropTypes.object.isRequired,
 };
@@ -92,6 +94,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleGetLogs(page) {
     dispatch(getLogs(page));
+  },
+  clearLogsList() {
+    dispatch(clearLogs());
   },
 });
 

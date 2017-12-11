@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getProjects, addProject } from '../../actions/projects';
+import { getProjects, addProject, clearProjects } from '../../actions/projects';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
 import NotLoggedIn from '../NotLoggedIn';
@@ -20,6 +20,10 @@ class Index extends React.Component {
     this.showAddForm = this.showAddForm.bind(this);
     this.handleFormInput = this.handleFormInput.bind(this);
     this.addProject = this.addProject.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.clearProjectsList();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,6 +115,7 @@ Index.defaultProps = {
 Index.propTypes = {
   handleProjects: PropTypes.func.isRequired,
   handleAdding: PropTypes.func.isRequired,
+  clearProjectsList: PropTypes.func.isRequired,
   user: PropTypes.object,
   projects: PropTypes.array,
 };
@@ -126,6 +131,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleAdding(name) {
     dispatch(addProject(name));
+  },
+  clearProjectsList() {
+    dispatch(clearProjects());
   },
 });
 

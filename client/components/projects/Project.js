@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getProjects } from '../../actions/projects';
-import { getTasks, newTask } from '../../actions/tasks';
+import { getProjects, clearProjects } from '../../actions/projects';
+import { getTasks, newTask, clearTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
 import NotLoggedIn from '../NotLoggedIn';
@@ -30,6 +30,11 @@ class Project extends React.Component {
     this.addTask = this.addTask.bind(this);
     this.onUpdateProjects = this.onUpdateProjects.bind(this);
     this.onUpdateTasks = this.onUpdateTasks.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.clearProjectsList();
+    this.props.clearTasksList();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -191,6 +196,8 @@ Project.propTypes = {
   handleProjects: PropTypes.func.isRequired,
   handleTasks: PropTypes.func.isRequired,
   handleNewTask: PropTypes.func.isRequired,
+  clearProjectsList: PropTypes.func.isRequired,
+  clearTasksList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -208,6 +215,12 @@ const mapDispatchToProps = dispatch => ({
   },
   handleNewTask(task) {
     dispatch(newTask(task));
+  },
+  clearProjectsList() {
+    dispatch(clearProjects());
+  },
+  clearTasksList() {
+    dispatch(clearTasks());
   },
 });
 

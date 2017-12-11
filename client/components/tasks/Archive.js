@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProjects } from '../../actions/projects';
-import { getTasks } from '../../actions/tasks';
+import { getTasks, clearTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
 import NotLoggedIn from '../NotLoggedIn';
@@ -21,6 +21,10 @@ class Archive extends React.Component {
     };
     this.onUpdateProjects = this.onUpdateProjects.bind(this);
     this.onUpdateTasks = this.onUpdateTasks.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.clearTasksList();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -114,6 +118,7 @@ Archive.propTypes = {
   user: PropTypes.object,
   handleProjects: PropTypes.func.isRequired,
   handleTasks: PropTypes.func.isRequired,
+  clearTasksList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -128,6 +133,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleTasks(projectId) {
     dispatch(getTasks(projectId));
+  },
+  clearTasksList() {
+    dispatch(clearTasks());
   },
 });
 

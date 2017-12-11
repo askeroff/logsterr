@@ -58,10 +58,10 @@ export function getProjects(authorID) {
       .catch(err => console.log(err));
 }
 
-export function clearProjects(response) {
+export function clearProjects() {
   return {
     type: CLEAR_PROJECTS,
-    response,
+    response: [],
   };
 }
 

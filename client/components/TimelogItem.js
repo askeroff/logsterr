@@ -20,15 +20,23 @@ const TimelogItem = props => [
     key={`title-${props.id}`}
   />,
   <li key={`item-${props.id}`} className="projects-list-item">
-    <span>
+    <div>
       <strong>Project:</strong> <em>{props.project} </em>
-    </span>
-    <span>
+    </div>
+    <div>
       <strong>Task:</strong> <em>{props.name}</em>
-    </span>
-    <span>
-      <strong>Time:</strong> <em>{formatTime(props.seconds)}</em>
-    </span>
+    </div>
+    <div>
+      <span className="timelog-item-span">
+        <strong>Time:</strong> <em>{formatTime(props.seconds)}</em>
+      </span>
+      <button
+        onClick={() => props.handleDelete(props.id)}
+        className="danger-button link"
+      >
+        X
+      </button>
+    </div>
   </li>,
 ];
 

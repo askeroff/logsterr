@@ -135,6 +135,8 @@ app.post(
 );
 
 app.post('/projects/timelog', catchErrors(timelogController.addTime));
+app.post('/timelogs/:id/delete', timelogController.deleteLog);
+
 app.get(
   '/projects/getlogs/:page',
   authController.isLoggedIn,

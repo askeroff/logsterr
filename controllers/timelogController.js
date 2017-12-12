@@ -48,3 +48,9 @@ exports.getLogs = async (req, res) => {
 
   res.json({ data, page, pages, count });
 };
+
+exports.deleteLog = (req, res) => {
+  Timelog.findByIdAndRemove(req.body.id, () => {
+    res.json({ deleted: true });
+  });
+};

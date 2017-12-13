@@ -68,38 +68,35 @@ class Task extends React.Component {
 
         <div className="buttons-group">
           {showInput ? (
-            <a
-              href="#"
+            <button
               onClick={() => this.handleRenaming(id, editName)}
               ref={link => {
                 this.renameLink = link;
               }}
-              className="info-button link"
+              className="info-button"
             >
               Ok
-            </a>
+            </button>
           ) : null}
 
           {!showInput ? (
-            <a
-              href="#"
+            <button
               onClick={() => this.handleShowInput(name)}
-              className="info-button link"
+              className="info-button"
             >
               Edit
-            </a>
+            </button>
           ) : null}
-          <a href="#" onClick={() => taskDone(id)} className="info-button link">
+          <button onClick={() => taskDone(id)} className="info-button">
             {doneButtonValue}
-          </a>
+          </button>
 
-          <a
-            href="#"
+          <button
             onClick={() => handleDelete(id)}
-            className="danger-button link"
+            className="info-button danger-button"
           >
             Delete
-          </a>
+          </button>
         </div>
       </li>
     );

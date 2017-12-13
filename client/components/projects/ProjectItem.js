@@ -62,34 +62,31 @@ class ProjectItem extends React.Component {
         ) : null}
         <div className="buttons-group">
           {showInput ? (
-            <a
-              href="#"
+            <button
               onClick={() =>
                 this.handleRenaming(project._id, this.state.newName)
               }
               ref={link => {
                 this.renameLink = link;
               }}
-              className="info-button link"
+              className="info-button"
             >
               Ok
-            </a>
+            </button>
           ) : null}
-          <a
-            href="#"
+          <button
             onClick={() => this.handleShowInput(project.name)}
-            className="info-button link"
+            className="info-button"
           >
             Edit
-          </a>
+          </button>
 
-          <a
-            href="#"
+          <button
             onClick={() => onDelete(project._id)}
-            className="danger-button link"
+            className="info-button danger-button"
           >
             Delete
-          </a>
+          </button>
         </div>
       </li>
     );

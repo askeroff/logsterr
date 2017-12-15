@@ -1,5 +1,8 @@
 html, body
   height 100%
+  margin 0
+  padding 0
+  line-height 1
 
 body
   color #666666
@@ -34,6 +37,7 @@ label
   display block
   padding 5px
   font-weight bold
+  text-align center
 
 input[type="submit"]:hover, input[type="button"]:hover, button:hover
   cursor pointer
@@ -46,6 +50,8 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
   text-align center
   text-transform uppercase
   color #007090
+  margin-left 0
+  margin-right 0
 
 .form
   width 310px
@@ -56,15 +62,19 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
   padding 4px
   height 18px
   display block
-  width 300px
+  width 60%
+  margin 0 auto
+  max-width 280px
   color #383A3F
 
 .submit-button
-  width 300px
+  width 60%
+  max-width 280px
   height 40px
+  display block
   background #006989
   color #ffffff
-  margin 10px 0
+  margin 10px auto
   padding 5px
   border 1px solid #fafafa
   text-align center
@@ -111,40 +121,11 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
   text-decoration line-through
   color #ccc
 
-.loading
-  position absolute
-  left 50%
-  top 50%
-  margin -60px 0 0 -60px
-  background #fff
-  width 100px
-  height 100px
-  border-radius 100%
-  border 10px solid #19bee1
-
-
-.loading:after
-  content ''
-  background trasparent
-  width 140%
-  height 140%
-  position absolute
-  border-radius 100%
-  top -20%
-  left -20%
-  opacity 0.7
-  box-shadow rgba(40, 52, 60, 0.6) -4px -5px 3px -3px
-  animation rotate 2s infinite linear
-
-
-@keyframes rotate
-  0%
-    transform rotateZ(0deg)
-
-  100%
-    transform rotateZ(360deg)
-
-
 
 @import 'header.styl'
 @import 'projects.styl'
+
+@media (max-width: 360px) and (max-device-width: 360px)
+  .content-wrapper
+    margin 0
+    width auto

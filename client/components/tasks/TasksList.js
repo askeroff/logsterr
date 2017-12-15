@@ -49,7 +49,11 @@ class TasksList extends React.Component {
         />
       ));
 
-      return doneItems.length === 0 ? 'No tasks yet' : <ul>{doneItems}</ul>;
+      return doneItems.length === 0 ? (
+        'No tasks yet'
+      ) : (
+        <ul className="projects-list">{doneItems}</ul>
+      );
     }
 
     undoneItems = undoneItems.map(task => [
@@ -72,7 +76,11 @@ class TasksList extends React.Component {
       />,
     ]);
 
-    return undoneItems.length === 0 ? 'No tasks yet' : <ul>{undoneItems}</ul>;
+    return undoneItems.length === 0 ? (
+      'No tasks yet'
+    ) : (
+      <ul className="projects-list">{undoneItems}</ul>
+    );
   }
 }
 

@@ -4,13 +4,15 @@
 
 This is a simple side project to learn more about full-stack JS stack. Supposedly, this will be an app, where you:
 
-  - can signup and log in
-  - create categories of your activities
-  - create new task
-  - assign category to that task
-  - click on timer and time your activity
-  - get weekly/monthly results (how much hours did you spend on what tasks)
+* can signup and log in
+* create categories of your activities
+* create new task
+* assign category to that task
+* click on timer and time your activity
+* get weekly/monthly results (how much hours did you spend on what tasks)
 
+#[Demo](https://timetracker-ovscudkqmf.now.sh/)
+Demo version is hosted on now.sh for demo purposes only. The links might change with different versions of the app. The current working version should be in the most recent version of README file.
 
 ## Tech Stack
 
@@ -24,11 +26,18 @@ Backend runs on Express framework. Logins and signup are handled with passportjs
 
 Pop in your values.
 
-Client side all is handled with React right now.Probably Redux is gonna find its way into this application.
-
-To run this app:
+Client side all is handled with React w/Redux right now.
+To run this app for production:
 
 ```
 $ npm install
+$ npm run build
 $ npm start
+```
+
+To run this app for development:
+
+```
+$ npm install
+$ npm run dev
 ```

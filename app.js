@@ -18,6 +18,7 @@ const authController = require('./controllers/authController');
 const projectsController = require('./controllers/projectsController');
 const tasksController = require('./controllers/tasksController');
 const timelogController = require('./controllers/timelogController');
+const dashboardController = require('./controllers/dashboardController');
 
 // passport config
 passport.use(User.createStrategy());
@@ -141,6 +142,12 @@ app.get(
   '/projects/getlogs/:page',
   authController.isLoggedIn,
   catchErrors(timelogController.getLogs)
+);
+
+app.get(
+  '/dashboard/getdata/lastmonth',
+  authController.isLoggedIn,
+  dashboardController.getLastMonthData
 );
 
 app.get('*', (req, res) => {

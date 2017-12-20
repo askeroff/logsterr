@@ -22,3 +22,5 @@ export const ADD_TIMELOG = 'ADD_TIMELOG';
 export const DELETE_LOG = 'DELETE_LOG';
 export const GET_LOGS = 'GET_LOGS';
 export const CLEAR_LOGS = 'CLEAR_LOGS';
+
+export const GET_DASHBOARD_DATA = 'GET_DASHBOARD_DATA';

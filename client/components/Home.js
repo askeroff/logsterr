@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Layout from './layout/Layout';
-import Dashboard from './dashboard';
+import Dashboard from './dashboard/Index';
 
 class Home extends React.Component {
   constructor(props) {

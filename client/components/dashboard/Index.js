@@ -4,20 +4,38 @@ import { connect } from 'react-redux';
 import { getMonthData } from '../../actions/dashboard';
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dashboard: [],
+    };
+  }
   componentDidMount() {
     this.props.handleMonthData();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ dashboard: nextProps.dashboardData });
+  }
+
   render() {
+    console.log(this.state);
     return <h1> Dashboard Component </h1>;
   }
 }
 
-Dashboard.propTypes = {
-  handleMonthData: PropTypes.func.isRequired,
+Dashboard.defaultProps = {
+  dashboardData: [],
 };
 
-const mapStateToProps = () => ({});
+Dashboard.propTypes = {
+  handleMonthData: PropTypes.func.isRequired,
+  dashboardData: PropTypes.array,
+};
+
+const mapStateToProps = state => ({
+  dashboardData: state.dashboard,
+});
 
 const mapDispatchToProps = dispatch => ({
   handleMonthData() {

@@ -1,25 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { getMonthData } from '../../actions/dashboard';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dashboard: [],
+      weekdata: [],
     };
   }
+
   componentDidMount() {
     this.props.handleMonthData();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ dashboard: nextProps.dashboardData });
+    const weekdata = this.getLastWeekData(nextProps.dashboardData);
+    this.setState({ weekdata });
+  }
+
+  getLastWeekData(arr) {
+    const lastSunday = moment().isoWeekday(0)._d;
+    const lastMonday = moment().isoWeekday(-6)._d;
+
+    const filtered = arr.filter(item => {
+      const date = new Date(item.started);
+      if (moment(date).isBetween(lastMonday, lastSunday, 'day', '[]')) {
+        return item;
+      }
+      return false;
+    });
+    return filtered;
   }
 
   render() {
-    console.log(this.state);
     return <h1> Dashboard Component </h1>;
   }
 }

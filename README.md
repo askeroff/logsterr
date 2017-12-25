@@ -11,7 +11,7 @@ This is a simple side project to learn more about full-stack JS stack. Supposedl
 * click on timer and time your activity
 * get weekly/monthly results (how much hours did you spend on what tasks)
 
-# [Demo](https://timetracker-etgdxwpzyn.now.sh/)
+# [Demo](https://timetracker-gzjzzyefog.now.sh/)
 
 Demo version is hosted on now.sh for demo purposes only. The links might change with different versions of the app. The current working version should be in the most recent version of README file.
 

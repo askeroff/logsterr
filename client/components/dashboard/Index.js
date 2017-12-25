@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
 
   formatWeekData(arr) {
     const newObj = {};
-    const newArr = [];
+
     arr.forEach(item => {
       if (newObj[item.project] === undefined) {
         newObj[item.project] = { time: 0, name: '', id: 0 };
@@ -63,10 +63,8 @@ class Dashboard extends React.Component {
         newObj[item.project].time += item.seconds;
       }
     });
-    for (const prop in newObj) {
-      newArr.push(newObj[prop]);
-    }
-    this.setState({ data: newArr });
+
+    this.setState({ data: Object.values(newObj) });
   }
 
   render() {

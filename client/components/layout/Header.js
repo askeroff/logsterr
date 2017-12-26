@@ -20,7 +20,7 @@ class Header extends React.Component {
     }
     return (
       <ul className="header-menu">
-        <Li myClassName="header-menu-item" url="/" linkText="Home" />
+        <Li myClassName="header-menu-item" url="/" linkText="Dashboard" />
         <Li
           myClassName="header-menu-item"
           url="/projects"

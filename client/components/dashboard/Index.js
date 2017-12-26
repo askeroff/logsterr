@@ -85,7 +85,7 @@ class Dashboard extends React.Component {
         return (
           <p className="dashboard-item-task" key={item.id}>
             <span>
-              <strong>{item.taskName}</strong>
+              <strong>{item.taskName}: </strong>
               <span>{formatTime(item.time)}</span>
             </span>
           </p>

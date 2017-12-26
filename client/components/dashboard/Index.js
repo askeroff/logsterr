@@ -56,15 +56,43 @@ class Dashboard extends React.Component {
 
     arr.forEach(item => {
       if (newObj[item.project] === undefined) {
-        newObj[item.project] = { time: 0, name: '', id: 0 };
+        newObj[item.project] = { time: 0, id: 0 };
+        newObj[item.project][item.task] = { taskName: '', time: 0, id: 0 };
         newObj[item.project].time += item.seconds;
         newObj[item.project].id = item.project;
+        newObj[item.project][item.task].taskName = item.name;
+        newObj[item.project][item.task].id = item.task;
+        newObj[item.project][item.task].time += item.seconds;
       } else {
         newObj[item.project].time += item.seconds;
+        if (newObj[item.project][item.task] === undefined) {
+          newObj[item.project][item.task] = { taskName: '', time: 0, id: 0 };
+          newObj[item.project][item.task].taskName = item.name;
+          newObj[item.project][item.task].id = item.task;
+          newObj[item.project][item.task].time += item.seconds;
+        } else {
+          newObj[item.project][item.task].time += item.seconds;
+        }
       }
     });
 
     this.setState({ data: Object.values(newObj) });
+  }
+
+  renderTasks(arr) {
+    return arr.map(item => {
+      if (item instanceof Object && item.constructor === Object) {
+        return (
+          <p className="dashboard-item-task" key={item.id}>
+            <span>
+              <strong>{item.taskName}</strong>
+              <span>{formatTime(item.time)}</span>
+            </span>
+          </p>
+        );
+      }
+      return null;
+    });
   }
 
   render() {
@@ -72,17 +100,19 @@ class Dashboard extends React.Component {
     const { data } = this.state;
     if (this.props.projects.length !== 0 && data.length !== 0) {
       lastWeekData = data.map(item => (
-        <div key={item.id}>
-          <span>
-            Time spent on <strong>{this.getProjectName(item.id)}</strong>:{' '}
-            {formatTime(item.time)}
-          </span>
+        <div className="dashboard-item" key={item.id}>
+          <h3 className="dashboard-item-title">
+            {this.getProjectName(item.id)}: {formatTime(item.time)}
+          </h3>
+          <div className="dashboard-item-tasks">
+            {this.renderTasks(Object.values(item))}
+          </div>
         </div>
       ));
     }
     return (
       <div>
-        <h2>Last Week</h2>
+        <h2 className="dashboard-title">Last Week</h2>
         {lastWeekData}
       </div>
     );

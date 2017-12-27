@@ -11,10 +11,13 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       weekdata: [],
-      data: [],
+      todaydata: [],
+      formattedData: [],
+      currentlyShows: 'week',
     };
-    this.formatWeekData = this.formatWeekData.bind(this);
+    this.formatData = this.formatData.bind(this);
     this.getProjectName = this.getProjectName.bind(this);
+    this.changeData = this.changeData.bind(this);
   }
 
   componentDidMount() {
@@ -24,8 +27,10 @@ class Dashboard extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const weekdata = this.getLastWeekData(nextProps.dashboardData);
-    this.setState({ weekdata });
-    this.formatWeekData(weekdata);
+    const todaydata = this.getTodayData(nextProps.dashboardData);
+    this.setState({ weekdata, todaydata });
+    const formattedData = this.formatData(weekdata);
+    this.setState({ formattedData });
   }
 
   getLastWeekData(arr) {
@@ -41,6 +46,19 @@ class Dashboard extends React.Component {
     });
     return filtered;
   }
+
+  getTodayData(arr) {
+    const today = new Date();
+    const filtered = arr.filter(item => {
+      const date = new Date(item.started);
+      if (moment(date).isSame(today, 'day')) {
+        return item;
+      }
+      return false;
+    });
+    return filtered;
+  }
+
   getProjectName(id) {
     let result;
     this.props.projects.forEach(item => {
@@ -51,7 +69,7 @@ class Dashboard extends React.Component {
     return result || 'Not Found';
   }
 
-  formatWeekData(arr) {
+  formatData(arr) {
     const newObj = {};
 
     arr.forEach(item => {
@@ -76,7 +94,25 @@ class Dashboard extends React.Component {
       }
     });
 
-    this.setState({ data: Object.values(newObj) });
+    return Object.values(newObj);
+  }
+
+  changeData() {
+    switch (this.state.currentlyShows) {
+      case 'week': {
+        const formattedData = this.formatData(this.state.todaydata);
+        this.setState({ formattedData, currentlyShows: 'day' });
+        break;
+      }
+      case 'day': {
+        const formattedData = this.formatData(this.state.weekdata);
+        this.setState({ formattedData, currentlyShows: 'week' });
+        break;
+      }
+      default:
+        return null;
+    }
+    return 0;
   }
 
   renderTasks(arr) {
@@ -97,9 +133,10 @@ class Dashboard extends React.Component {
 
   render() {
     let lastWeekData = null;
-    const { data } = this.state;
-    if (this.props.projects.length !== 0 && data.length !== 0) {
-      lastWeekData = data.map(item => (
+    const { formattedData, currentlyShows } = this.state;
+    const title = currentlyShows === 'day' ? 'Today' : 'Last Week';
+    if (this.props.projects.length !== 0 && formattedData.length !== 0) {
+      lastWeekData = formattedData.map(item => (
         <div className="dashboard-item" key={item.id}>
           <h3 className="dashboard-item-title">
             {this.getProjectName(item.id)}: {formatTime(item.time)}
@@ -112,7 +149,10 @@ class Dashboard extends React.Component {
     }
     return (
       <div>
-        <h2 className="dashboard-title">Last Week</h2>
+        <h2 className="dashboard-title">
+          {title}
+          <button onClick={this.changeData}>Change Me</button>
+        </h2>
         {lastWeekData}
       </div>
     );

@@ -58,10 +58,15 @@ function formatData(arr) {
 }
 
 exports.getLastMonthData = async (req, res) => {
-  const date = new Date();
-  const setFirstDay = date.setDate(1);
-  const getLastDay = new Date(new Date(2008, 11 + 1, 1) - 1).getDate();
-  const setLastDay = date.setDate(getLastDay);
+  /*
+   We are subtracting here to have a buffer of extra week,
+   because we show data for this month, but also for the last week
+  */
+  const setFirstDay = moment()
+    .startOf('month')
+    .subtract({ days: 7 });
+  const setLastDay = moment().endOf('month');
+
   const data = await Timelog.find({
     author: req.user._id,
     started: {
@@ -69,7 +74,7 @@ exports.getLastMonthData = async (req, res) => {
       $lte: setLastDay,
     },
   });
-
+  console.log(setFirstDay);
   const lastWeek = getLastWeekData(data);
   const today = getTodayData(data);
   const formattedWeek = formatData(lastWeek);

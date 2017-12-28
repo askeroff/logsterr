@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Tasks from './Tasks';
 import { getDashboardData } from '../../actions/dashboard';
 import { getProjects } from '../../actions/projects';
 import { formatTime } from '../../helpers';
@@ -41,7 +42,6 @@ class Dashboard extends React.Component {
 
   changeData() {
     const { dashboardData } = this.props;
-    console.log(this.state.showNext);
     switch (this.state.showNext) {
       case 'day': {
         this.setState({
@@ -63,22 +63,6 @@ class Dashboard extends React.Component {
     return 0;
   }
 
-  renderTasks(arr) {
-    return arr.map(item => {
-      if (item instanceof Object && item.constructor === Object) {
-        return (
-          <p className="dashboard-item-task" key={item.id}>
-            <span>
-              <strong>{item.taskName}: </strong>
-              <span>{formatTime(item.time)}</span>
-            </span>
-          </p>
-        );
-      }
-      return null;
-    });
-  }
-
   render() {
     let showData = null;
     const { dashboard } = this.state;
@@ -90,16 +74,18 @@ class Dashboard extends React.Component {
             {this.getProjectName(item.id)}: {formatTime(item.time)}
           </h3>
           <div className="dashboard-item-tasks">
-            {this.renderTasks(Object.values(item))}
+            <Tasks tasks={Object.values(item)} />
           </div>
         </div>
       ));
     }
     return (
-      <div>
+      <div className="dashboard">
         <h2 className="dashboard-title">
           {title}
-          <button onClick={this.changeData}>Change Me</button>
+          <button className="dashboard-toggle" onClick={this.changeData}>
+            Toggle
+          </button>
         </h2>
         {showData}
       </div>

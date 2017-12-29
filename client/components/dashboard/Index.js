@@ -11,6 +11,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       showNext: 'week',
+      title: 'Last Week',
       dashboard: [],
     };
     this.getProjectName = this.getProjectName.bind(this);
@@ -47,13 +48,23 @@ class Dashboard extends React.Component {
         this.setState({
           dashboard: dashboardData.lastWeek,
           showNext: 'week',
+          title: 'Last Week',
         });
         break;
       }
       case 'week': {
         this.setState({
           dashboard: dashboardData.today,
+          showNext: 'month',
+          title: 'Today',
+        });
+        break;
+      }
+      case 'month': {
+        this.setState({
+          dashboard: dashboardData.month,
           showNext: 'day',
+          title: 'This Month',
         });
         break;
       }
@@ -65,8 +76,7 @@ class Dashboard extends React.Component {
 
   render() {
     let showData = null;
-    const { dashboard } = this.state;
-    const title = this.state.showNext === 'day' ? 'Today' : 'Last Week';
+    const { dashboard, title } = this.state;
     if (this.props.projects.length !== 0 && dashboard.length !== 0) {
       showData = dashboard.map(item => (
         <div className="dashboard-item" key={item.id}>

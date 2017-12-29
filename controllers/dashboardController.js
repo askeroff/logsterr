@@ -29,6 +29,20 @@ function getTodayData(arr) {
   return filtered;
 }
 
+function getThisMonthData(arr) {
+  const firstDay = moment().startOf('month');
+  const lastday = moment().endOf('month');
+
+  const filtered = arr.filter(item => {
+    const date = new Date(item.started);
+    if (moment(date).isBetween(firstDay, lastday, 'day', '[]')) {
+      return item;
+    }
+    return false;
+  });
+  return filtered;
+}
+
 function formatData(arr) {
   const newObj = {};
 
@@ -74,11 +88,16 @@ exports.getLastMonthData = async (req, res) => {
       $lte: setLastDay,
     },
   });
-  console.log(setFirstDay);
   const lastWeek = getLastWeekData(data);
   const today = getTodayData(data);
+  const month = getThisMonthData(data);
   const formattedWeek = formatData(lastWeek);
   const formattedToday = formatData(today);
+  const formattedMonth = formatData(month);
 
-  res.send({ lastWeek: formattedWeek, today: formattedToday });
+  res.send({
+    lastWeek: formattedWeek,
+    today: formattedToday,
+    month: formattedMonth,
+  });
 };

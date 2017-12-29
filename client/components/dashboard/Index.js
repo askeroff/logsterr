@@ -88,7 +88,10 @@ class Dashboard extends React.Component {
           </div>
         </div>
       ));
+    } else {
+      showData = <p>No data yet. Start Tracking </p>;
     }
+
     return (
       <div className="dashboard">
         <h2 className="dashboard-title">

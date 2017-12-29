@@ -68,7 +68,7 @@ class Index extends React.Component {
     if (this.props.user && this.props.user.loggedIn === false) {
       return <NotLoggedIn />;
     }
-    if (!this.props.projects) {
+    if (!this.state.userLoaded) {
       projects = <Spinner />;
     } else {
       projects = (

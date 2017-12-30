@@ -42,16 +42,17 @@ class Task extends React.Component {
     const { editName, showInput } = this.state;
     const { id, handleDelete, name, taskDone, done } = this.props;
     const doneButtonValue = done ? 'Undone' : 'Done';
+    const doneClass = done ? '__done' : '';
     const hideOrNot = showInput ? 'none' : '';
     const newDate = this.props.updated ? formatDate(this.props.updated) : '';
     const dateString = this.props.updated ? 'Done:' : '';
     return (
-      <li className="projects-list-item">
+      <li className={`projects-list-item ${doneClass}`}>
         <span style={{ display: hideOrNot }} className="task-name">
           {name}(<strong>{formatTime(this.props.timeSpent)})</strong>
         </span>
         {dateString !== '' ? (
-          <span>
+          <span className="done-date">
             <strong>{dateString} </strong>
             {newDate}
           </span>

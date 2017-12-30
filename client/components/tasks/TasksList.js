@@ -52,7 +52,7 @@ class TasksList extends React.Component {
       return doneItems.length === 0 ? (
         'No tasks yet'
       ) : (
-        <ul className="projects-list">{doneItems}</ul>
+        <ul className="projects-list __done">{doneItems}</ul>
       );
     }
 

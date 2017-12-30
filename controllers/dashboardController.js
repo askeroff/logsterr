@@ -3,39 +3,10 @@ const moment = require('moment');
 
 const Timelog = mongoose.model('Timelog');
 
-function getLastWeekData(arr) {
-  const lastSunday = moment().isoWeekday(0)._d;
-  const lastMonday = moment().isoWeekday(-6)._d;
-
+function filterData(arr, day1, day2) {
   const filtered = arr.filter(item => {
     const date = new Date(item.started);
-    if (moment(date).isBetween(lastMonday, lastSunday, 'day', '[]')) {
-      return item;
-    }
-    return false;
-  });
-  return filtered;
-}
-
-function getTodayData(arr) {
-  const today = new Date();
-  const filtered = arr.filter(item => {
-    const date = new Date(item.started);
-    if (moment(date).isSame(today, 'day')) {
-      return item;
-    }
-    return false;
-  });
-  return filtered;
-}
-
-function getThisMonthData(arr) {
-  const firstDay = moment().startOf('month');
-  const lastday = moment().endOf('month');
-
-  const filtered = arr.filter(item => {
-    const date = new Date(item.started);
-    if (moment(date).isBetween(firstDay, lastday, 'day', '[]')) {
+    if (moment(date).isBetween(day1, day2, 'day', '[]')) {
       return item;
     }
     return false;
@@ -88,9 +59,15 @@ exports.getLastMonthData = async (req, res) => {
       $lte: setLastDay,
     },
   });
-  const lastWeek = getLastWeekData(data);
-  const today = getTodayData(data);
-  const month = getThisMonthData(data);
+  const lastSunday = moment().isoWeekday(0)._d;
+  const lastMonday = moment().isoWeekday(-6)._d;
+  const firstDay = moment().startOf('month');
+  const todayIs = new Date();
+
+  const lastWeek = filterData(data, lastMonday, lastSunday);
+  const today = filterData(data, todayIs, todayIs);
+  const month = filterData(data, firstDay, setLastDay);
+
   const formattedWeek = formatData(lastWeek);
   const formattedToday = formatData(today);
   const formattedMonth = formatData(month);

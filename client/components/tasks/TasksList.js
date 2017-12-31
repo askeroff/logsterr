@@ -6,7 +6,6 @@ import { deleteTask, renameTask, toggleDone } from '../../actions/tasks';
 import { addTimelog } from '../../actions/timelog';
 import Spinner from '../layout/Spinner';
 import Task from './Task';
-import Timer from './Timer';
 
 class TasksList extends React.Component {
   constructor(props) {
@@ -56,7 +55,7 @@ class TasksList extends React.Component {
       );
     }
 
-    undoneItems = undoneItems.map(task => [
+    undoneItems = undoneItems.map(task => (
       <Task
         key={task._id}
         id={task._id}
@@ -64,17 +63,12 @@ class TasksList extends React.Component {
         done={task.done}
         handleDelete={this.handleTaskDelete}
         handleRename={this.props.handleEditing}
+        handleAddingTimeLog={this.props.handleAddingTimeLog}
+        projectId={this.props.projectId}
         taskDone={this.props.handleDone}
         timeSpent={task.timeSpent}
-      />,
-      <Timer
-        key={`timer${task._id}`}
-        id={task._id}
-        taskName={task.name}
-        project={this.props.projectId}
-        handleAddingTimeLog={this.props.handleAddingTimeLog}
-      />,
-    ]);
+      />
+    ));
 
     return undoneItems.length === 0 ? (
       'No tasks yet'

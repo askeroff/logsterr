@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Timer from './Timer';
 import { formatDate, formatTime } from '../../helpers';
 
 class Task extends React.Component {
@@ -8,10 +9,18 @@ class Task extends React.Component {
     this.state = {
       editName: '',
       showInput: false,
+      showTimer: false,
     };
     this.handleNameInput = this.handleNameInput.bind(this);
     this.handleShowInput = this.handleShowInput.bind(this);
     this.handleEnterButton = this.handleEnterButton.bind(this);
+    this.showTimer = this.showTimer.bind(this);
+  }
+
+  showTimer() {
+    this.setState(state => ({
+      showTimer: !state.showTimer,
+    }));
   }
 
   handleNameInput(e) {
@@ -39,15 +48,32 @@ class Task extends React.Component {
   }
 
   render() {
-    const { editName, showInput } = this.state;
-    const { id, handleDelete, name, taskDone, done } = this.props;
+    const { editName, showInput, showTimer } = this.state;
+    const {
+      id,
+      handleDelete,
+      name,
+      taskDone,
+      done,
+      handleAddingTimeLog,
+      projectId,
+    } = this.props;
+    const TimerComponent = showTimer ? (
+      <Timer
+        key={`timer${id}`}
+        id={id}
+        taskName={name}
+        project={projectId}
+        handleAddingTimeLog={handleAddingTimeLog}
+      />
+    ) : null;
     const doneButtonValue = done ? 'Undone' : 'Done';
-    const doneClass = done ? '__done' : '';
+    const doneClass = done ? 'projects-list-item--done' : 'projects-list-item';
     const hideOrNot = showInput ? 'none' : '';
     const newDate = this.props.updated ? formatDate(this.props.updated) : '';
     const dateString = this.props.updated ? 'Done:' : '';
     return (
-      <li className={`projects-list-item ${doneClass}`}>
+      <li className={`${doneClass}`}>
         <span style={{ display: hideOrNot }} className="task-name">
           {name}(<strong>{formatTime(this.props.timeSpent)})</strong>
         </span>
@@ -68,6 +94,11 @@ class Task extends React.Component {
         ) : null}
 
         <div className="buttons-group">
+          {!done ? (
+            <button onClick={this.showTimer} className="info-button">
+              Timer
+            </button>
+          ) : null}
           {showInput ? (
             <button
               onClick={() => this.handleRenaming(id, editName)}
@@ -99,6 +130,7 @@ class Task extends React.Component {
             Delete
           </button>
         </div>
+        {done ? null : TimerComponent}
       </li>
     );
   }
@@ -117,6 +149,8 @@ Task.propTypes = {
   id: PropTypes.string.isRequired,
   updated: PropTypes.string,
   timeSpent: PropTypes.number.isRequired,
+  handleAddingTimeLog: PropTypes.func.isRequired,
+  projectId: PropTypes.string.isRequired,
 };
 
 export default Task;

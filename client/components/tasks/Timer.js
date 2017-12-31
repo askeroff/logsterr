@@ -54,10 +54,12 @@ class Timer extends React.Component {
     const buttonString = this.state.started ? 'stop' : 'start';
     const time = formatTime(this.state.seconds);
     return (
-      <li className="projects-list-item timer-block">
-        <input onClick={this.handleButton} type="button" value={buttonString} />
+      <div className="timer-block">
+        <button onClick={this.handleButton} className="timer-block__button">
+          {buttonString}
+        </button>
         {this.state.started ? <span className="timer-item">{time}</span> : null}
-      </li>
+      </div>
     );
   }
 }

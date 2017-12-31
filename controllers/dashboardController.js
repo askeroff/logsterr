@@ -1,18 +1,8 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
+const filterData = require('./common/filterData');
 
 const Timelog = mongoose.model('Timelog');
-
-function filterData(arr, day1, day2) {
-  const filtered = arr.filter(item => {
-    const date = new Date(item.started);
-    if (moment(date).isBetween(day1, day2, 'day', '[]')) {
-      return item;
-    }
-    return false;
-  });
-  return filtered;
-}
 
 function formatData(arr) {
   const newObj = {};

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Timer from './Timer';
+import ButtonsGroup from './ButtonsGroup';
 import { formatDate, formatTime } from '../../helpers';
 
 class Task extends React.Component {
@@ -41,23 +42,16 @@ class Task extends React.Component {
     });
   }
 
-  handleEnterButton(event) {
-    if (event.charCode === 13) {
-      this.renameLink.click();
-    }
+  handleEnterButton(id, name) {
+    this.props.handleRename(id, name);
+    this.setState({
+      showInput: false,
+    });
   }
 
   render() {
     const { editName, showInput, showTimer } = this.state;
-    const {
-      id,
-      handleDelete,
-      name,
-      taskDone,
-      done,
-      handleAddingTimeLog,
-      projectId,
-    } = this.props;
+    const { id, name, done, handleAddingTimeLog, projectId } = this.props;
     const TimerComponent = showTimer ? (
       <Timer
         key={`timer${id}`}
@@ -87,49 +81,25 @@ class Task extends React.Component {
         {showInput ? (
           <input
             type="text"
-            onKeyPress={this.handleEnterButton}
+            onKeyPress={e => {
+              if (e.charCode === 13) {
+                this.handleEnterButton(id, editName);
+              }
+            }}
             value={editName}
+            className="name-input"
             onChange={this.handleNameInput}
           />
         ) : null}
 
-        <div className="buttons-group">
-          {!done ? (
-            <button onClick={this.showTimer} className="info-button">
-              Timer
-            </button>
-          ) : null}
-          {showInput ? (
-            <button
-              onClick={() => this.handleRenaming(id, editName)}
-              ref={link => {
-                this.renameLink = link;
-              }}
-              className="info-button"
-            >
-              Ok
-            </button>
-          ) : null}
-
-          {!showInput ? (
-            <button
-              onClick={() => this.handleShowInput(name)}
-              className="info-button"
-            >
-              Edit
-            </button>
-          ) : null}
-          <button onClick={() => taskDone(id)} className="info-button">
-            {doneButtonValue}
-          </button>
-
-          <button
-            onClick={() => handleDelete(id)}
-            className="info-button danger-button"
-          >
-            Delete
-          </button>
-        </div>
+        <ButtonsGroup
+          {...this.props}
+          {...this.state}
+          showTimer={this.showTimer}
+          handleShowInput={this.handleShowInput}
+          handleRenaming={() => this.handleRenaming(id, editName)}
+          doneButtonValue={doneButtonValue}
+        />
         {done ? null : TimerComponent}
       </li>
     );
@@ -138,6 +108,8 @@ class Task extends React.Component {
 
 Task.defaultProps = {
   updated: undefined,
+  projectId: '',
+  handleAddingTimeLog: null,
 };
 
 Task.propTypes = {
@@ -149,8 +121,8 @@ Task.propTypes = {
   id: PropTypes.string.isRequired,
   updated: PropTypes.string,
   timeSpent: PropTypes.number.isRequired,
-  handleAddingTimeLog: PropTypes.func.isRequired,
-  projectId: PropTypes.string.isRequired,
+  handleAddingTimeLog: PropTypes.func,
+  projectId: PropTypes.string,
 };
 
 export default Task;

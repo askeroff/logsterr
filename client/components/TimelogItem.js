@@ -20,13 +20,13 @@ const TimelogItem = props => [
     key={`title-${props.id}`}
   />,
   <li key={`item-${props.id}`} className="projects-list-item">
-    <div>
+    <div className="timelog-project">
       <strong>Project:</strong> <em>{props.project} </em>
     </div>
-    <div>
+    <div className="timelog-name">
       <strong>Task:</strong> <em>{props.name}</em>
     </div>
-    <div>
+    <div className="timelog-delete">
       <span className="timelog-item-span">
         <strong>Time:</strong> <em>{formatTime(props.seconds)}</em>
       </span>

@@ -56,6 +56,7 @@ class ProjectItem extends React.Component {
           <input
             type="text"
             value={newName}
+            className="name-input"
             onKeyPress={this.handleEnterButton}
             onChange={this.handleNewName}
           />

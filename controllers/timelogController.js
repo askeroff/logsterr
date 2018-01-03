@@ -49,7 +49,24 @@ exports.getLogs = async (req, res) => {
   res.json({ data, page, pages, count });
 };
 
-exports.deleteLog = (req, res) => {
+exports.deleteLog = async (req, res) => {
+  const timelogTodelete = await Timelog.findById(req.body.id);
+
+  const taskPromise = Task.findById(timelogTodelete.task, (err, task) => {
+    task.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
+    task.save();
+  });
+
+  const projectPromise = Project.findById(
+    timelogTodelete.project,
+    (err, project) => {
+      project.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
+      project.save();
+    }
+  );
+
+  await Promise.all([taskPromise, projectPromise]);
+
   Timelog.findByIdAndRemove(req.body.id, () => {
     res.json({ deleted: true });
   });

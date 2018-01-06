@@ -55,14 +55,14 @@ class Timer extends React.Component {
   }
 
   handleAddingTime() {
-    console.log('Adding time allegedly');
     this.setState(state => ({
       showForm: !state.showForm,
     }));
   }
 
   render() {
-    const buttonString = this.state.started ? 'stop' : 'start';
+    const timerButtonString = this.state.started ? 'stop' : 'start';
+    const addTimeStrng = this.state.showForm ? 'Cancel' : 'Add Time';
     const time = formatTime(this.state.seconds);
     return (
       <div className="timer">
@@ -71,13 +71,20 @@ class Timer extends React.Component {
             onClick={this.handleTimer}
             className="timer__button timer__button--green"
           >
-            {buttonString}
+            {timerButtonString}
           </button>
           <button onClick={this.handleAddingTime} className="timer__button">
-            Add Time
+            {addTimeStrng}
           </button>
         </div>
-        {this.state.showForm ? <TimeAddForm /> : null}
+        {this.state.showForm ? (
+          <TimeAddForm
+            addTime={this.props.handleAddingTimeLog}
+            name={this.props.taskName}
+            task={this.props.id}
+            project={this.props.project}
+          />
+        ) : null}
 
         {this.state.started ? (
           <div className="timer-item">

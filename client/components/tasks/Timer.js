@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { formatTime } from '../../helpers/';
+import TimeAddForm from './TimeAddForm';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -9,9 +10,11 @@ class Timer extends React.Component {
     this.state = {
       seconds: 0,
       started: false,
+      showForm: false,
     };
-    this.handleButton = this.handleButton.bind(this);
+    this.handleTimer = this.handleTimer.bind(this);
     this.handleStart = this.handleStart.bind(this);
+    this.handleAddingTime = this.handleAddingTime.bind(this);
     this.handleStop = this.handleStop.bind(this);
     this.incrementSeconds = this.incrementSeconds.bind(this);
     this.timer = null;
@@ -43,22 +46,44 @@ class Timer extends React.Component {
     swal('Good job!', 'Time has been added to your timelog', 'success');
   }
 
-  handleButton() {
+  handleTimer() {
     if (!this.state.started) {
       this.handleStart();
     } else {
       this.handleStop();
     }
   }
+
+  handleAddingTime() {
+    console.log('Adding time allegedly');
+    this.setState(state => ({
+      showForm: !state.showForm,
+    }));
+  }
+
   render() {
     const buttonString = this.state.started ? 'stop' : 'start';
     const time = formatTime(this.state.seconds);
     return (
-      <div className="timer-block">
-        <button onClick={this.handleButton} className="timer-block__button">
-          {buttonString}
-        </button>
-        {this.state.started ? <span className="timer-item">{time}</span> : null}
+      <div className="timer">
+        <div>
+          <button
+            onClick={this.handleTimer}
+            className="timer__button timer__button--green"
+          >
+            {buttonString}
+          </button>
+          <button onClick={this.handleAddingTime} className="timer__button">
+            Add Time
+          </button>
+        </div>
+        {this.state.showForm ? <TimeAddForm /> : null}
+
+        {this.state.started ? (
+          <div className="timer-item">
+            <span>{time}</span>
+          </div>
+        ) : null}
       </div>
     );
   }

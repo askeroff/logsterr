@@ -35,7 +35,7 @@
 .projects-list-item--done .task-name
   grid-column 1
 
-.timer-block
+.timer
   background #EAEBED
   margin-top 10px
   color #fff
@@ -45,14 +45,23 @@
   display flex
   justify-content space-between
 
-.timer-block__button
+.timer__button
   border none
   width 90px
   height 3em
   background #006989
   color #ffffff
+  font-weight bold
   text-transform uppercase
 
+.timer__button:hover
+  background #356d7d
+
+.timer__button--green
+  background #3f7922
+
+.timer__button--green:hover
+  background #2c735d
 
 .timer-item
   font-weight bold

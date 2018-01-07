@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { getDashboardData } from '../../actions/dashboard';
 import { getProjects, clearProjects } from '../../actions/projects';
 import { getTasks, newTask, clearTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
@@ -50,6 +51,7 @@ class Project extends React.Component {
       !this.state.userLoaded
     ) {
       this.props.handleProjects(nextProps.user._id);
+      this.props.handleDashboardData();
       this.setState({ userLoaded: true });
     }
   }
@@ -114,6 +116,22 @@ class Project extends React.Component {
   }
 
   render() {
+    const { dashboardData, match } = this.props;
+    const projectId = match.params.id;
+    let motivationString = '';
+    if (dashboardData.lastWeek && dashboardData.lastWeek.length !== 0) {
+      const data = dashboardData.lastWeek.filter(item => item.id === projectId);
+
+      if (data.length !== 0) {
+        motivationString = (
+          <p>
+            Last week you did <b>{formatTime(data[0].time)}</b> on this project.
+            See if you can beat this!
+          </p>
+        );
+      }
+    }
+
     if (this.props.user && this.props.user.loggedIn === false) {
       return <NotLoggedIn />;
     }
@@ -166,10 +184,13 @@ class Project extends React.Component {
           />
         ) : null}
 
-        <p>
-          You can checkout tasks you already done{' '}
-          <Link to={`${this.props.location.pathname}/archive`}>here</Link>
-        </p>
+        <div className="project--desc">
+          <p>
+            You can checkout tasks you already done{' '}
+            <Link to={`${this.props.location.pathname}/archive`}>here</Link>.
+          </p>
+          {motivationString}
+        </div>
         {this.state.spinner ? <Spinner /> : null}
         <TasksList
           projectId={this.props.match.params.id}
@@ -204,6 +225,7 @@ const mapStateToProps = state => ({
   projects: state.projects,
   user: state.user,
   tasks: state.tasks,
+  dashboardData: state.dashboard,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -215,6 +237,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleNewTask(task) {
     dispatch(newTask(task));
+  },
+  handleDashboardData() {
+    dispatch(getDashboardData());
   },
   clearProjectsList() {
     dispatch(clearProjects());

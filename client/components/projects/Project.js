@@ -117,16 +117,37 @@ class Project extends React.Component {
 
   render() {
     const { dashboardData, match } = this.props;
+    console.log(dashboardData);
     const projectId = match.params.id;
     let motivationString = '';
+    let thisWeekString = '';
     if (dashboardData.lastWeek && dashboardData.lastWeek.length !== 0) {
-      const data = dashboardData.lastWeek.filter(item => item.id === projectId);
+      const lastWeek = dashboardData.lastWeek.filter(
+        item => item.id === projectId
+      );
+      const thisWeek = dashboardData.thisWeek.filter(
+        item => item.id === projectId
+      );
+      if (thisWeek.length !== 0) {
+        const diff = lastWeek[0].time - thisWeek[0].time;
+        if (diff < 0) {
+          thisWeekString = (
+            <span>And this week you did even more! Good job!</span>
+          );
+        } else {
+          thisWeekString = (
+            <span>
+              Can you do more than last week? <b>{formatTime(diff)}</b> left
+            </span>
+          );
+        }
+      }
 
-      if (data.length !== 0) {
+      if (lastWeek.length !== 0) {
         motivationString = (
           <p>
-            Last week you did <b>{formatTime(data[0].time)}</b> on this project.
-            See if you can beat this!
+            Last week you did <b>{formatTime(lastWeek[0].time)}</b> on this
+            project. {thisWeekString}
           </p>
         );
       }
@@ -206,15 +227,18 @@ Project.defaultProps = {
   projects: [],
   tasks: [],
   user: {},
+  dashboardData: {},
 };
 
 Project.propTypes = {
   match: PropTypes.object.isRequired,
   projects: PropTypes.array,
+  dashboardData: PropTypes.object,
   tasks: PropTypes.array,
   user: PropTypes.object,
   location: PropTypes.object.isRequired,
   handleProjects: PropTypes.func.isRequired,
+  handleDashboardData: PropTypes.func.isRequired,
   handleTasks: PropTypes.func.isRequired,
   handleNewTask: PropTypes.func.isRequired,
   clearProjectsList: PropTypes.func.isRequired,

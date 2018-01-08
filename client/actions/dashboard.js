@@ -11,7 +11,7 @@ export function getDashboardDataSuccess(response) {
 export function getDashboardData() {
   return dispatch =>
     axios
-      .get('/dashboard/getdata/lastmonth')
+      .get('/dashboard/getdata/all')
       .then(res => {
         dispatch(getDashboardDataSuccess(res.data));
       })

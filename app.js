@@ -145,9 +145,9 @@ app.get(
 );
 
 app.get(
-  '/dashboard/getdata/lastmonth',
+  '/dashboard/getdata/all',
   authController.isLoggedIn,
-  dashboardController.getLastMonthData
+  dashboardController.getAll
 );
 
 app.get('*', (req, res) => {

@@ -117,7 +117,6 @@ class Project extends React.Component {
 
   render() {
     const { dashboardData, match } = this.props;
-    console.log(dashboardData);
     const projectId = match.params.id;
     let motivationString = '';
     let thisWeekString = '';

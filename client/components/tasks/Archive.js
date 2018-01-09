@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProjects } from '../../actions/projects';
 import { getTasks, clearTasks } from '../../actions/tasks';
@@ -75,7 +76,8 @@ class Archive extends React.Component {
   }
 
   render() {
-    if (this.props.user && this.props.user.loggedIn === false) {
+    const { match, user, tasks } = this.props;
+    if (user && user.loggedIn === false) {
       return <NotLoggedIn />;
     }
     if (!this.state.projectsLoaded) {
@@ -93,11 +95,16 @@ class Archive extends React.Component {
         <h1 className="page-title">
           {this.state.currentProject.name || '...'}
         </h1>
-        <p>Archive of your finished tasks!</p>
+        <div className="project--desc">
+          <p>Archive of your finished tasks! </p>
+          <Link to={`/projects/${match.params.id}`}>
+            Go back to the project
+          </Link>.
+        </div>
         <TasksList
           filter
-          projectId={this.props.match.params.id}
-          tasks={this.props.tasks}
+          projectId={match.params.id}
+          tasks={tasks}
           tasksLoaded={this.state.tasksLoaded}
         />
       </Layout>

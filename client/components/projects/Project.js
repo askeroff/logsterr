@@ -11,6 +11,7 @@ import NotLoggedIn from '../NotLoggedIn';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
 import AddForm from './AddForm';
+import MotivationBlock from './MotivationBlock';
 import { formatTime } from '../../helpers';
 
 class Project extends React.Component {
@@ -118,39 +119,6 @@ class Project extends React.Component {
   render() {
     const { dashboardData, match } = this.props;
     const projectId = match.params.id;
-    let motivationString = '';
-    let thisWeekString = '';
-    if (dashboardData.lastWeek && dashboardData.lastWeek.length !== 0) {
-      const lastWeek = dashboardData.lastWeek.filter(
-        item => item.id === projectId
-      );
-      const thisWeek = dashboardData.thisWeek.filter(
-        item => item.id === projectId
-      );
-      if (thisWeek.length !== 0) {
-        const diff = lastWeek[0].time - thisWeek[0].time;
-        if (diff < 0) {
-          thisWeekString = (
-            <span>And this week you did even more! Good job!</span>
-          );
-        } else {
-          thisWeekString = (
-            <span>
-              Can you do more than last week? <b>{formatTime(diff)}</b> left
-            </span>
-          );
-        }
-      }
-
-      if (lastWeek.length !== 0) {
-        motivationString = (
-          <p>
-            Last week you did <b>{formatTime(lastWeek[0].time)}</b> on this
-            project. {thisWeekString}
-          </p>
-        );
-      }
-    }
 
     if (this.props.user && this.props.user.loggedIn === false) {
       return <NotLoggedIn />;
@@ -209,7 +177,10 @@ class Project extends React.Component {
             You can checkout tasks you already done{' '}
             <Link to={`${this.props.location.pathname}/archive`}>here</Link>.
           </p>
-          {motivationString}
+          <MotivationBlock
+            dashboardData={dashboardData}
+            projectId={projectId}
+          />
         </div>
         {this.state.spinner ? <Spinner /> : null}
         <TasksList

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { formatTime } from '../../helpers/';
 import TimeAddForm from './TimeAddForm';
+import timestorage from '../scripts/timestorage';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -28,12 +29,14 @@ class Timer extends React.Component {
 
   handleStart() {
     this.setState({ started: true });
+    timestorage.add(this.props.id);
     this.incrementSeconds(); // fixes one second delay when first called
     this.timer = setInterval(this.incrementSeconds, 1000);
   }
 
   handleStop() {
     clearInterval(this.timer);
+    timestorage.reset();
     const data = {
       seconds: this.state.seconds,
       name: this.props.taskName,

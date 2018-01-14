@@ -5,16 +5,18 @@ const timestorage = {};
   now and when the timer was started if user needs it.
 */
 
-timestorage.add = function addTime(id) {
+timestorage.add = function addTime(id, name, project) {
   const settings = {
     taskId: id,
+    taskName: name,
+    projectId: project,
     time: Date.now(),
   };
   localStorage.setItem('timestorage', JSON.stringify(settings));
 };
 
 timestorage.reset = function addTime() {
-  const settings = {};
+  const settings = null;
   localStorage.setItem('timestorage', JSON.stringify(settings));
 };
 

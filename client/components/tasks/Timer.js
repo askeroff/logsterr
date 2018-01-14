@@ -29,7 +29,7 @@ class Timer extends React.Component {
 
   handleStart() {
     this.setState({ started: true });
-    timestorage.add(this.props.id);
+    timestorage.add(this.props.id, this.props.taskName, this.props.project);
     this.incrementSeconds(); // fixes one second delay when first called
     this.timer = setInterval(this.incrementSeconds, 1000);
   }

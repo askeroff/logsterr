@@ -5,6 +5,7 @@ import { isLoggedIn } from '../../actions/user';
 import Header from './Header';
 import Footer from './Footer';
 import Spinner from './Spinner';
+import ShowLostTime from './ShowLostTime';
 
 class Layout extends React.Component {
   componentDidMount() {
@@ -18,7 +19,12 @@ class Layout extends React.Component {
     return (
       <div className="wrapper">
         <Header userEmail={this.props.user.email} />
-        <div className="content-wrapper">{this.props.children}</div>
+        <div className="content-wrapper">
+          <div className="important-messages">
+            <ShowLostTime />
+          </div>
+          {this.props.children}
+        </div>
         <Footer />
       </div>
     );

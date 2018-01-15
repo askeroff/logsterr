@@ -26,6 +26,7 @@ class Project extends React.Component {
       newTaskInput: '',
       notFound: false,
       spinner: false,
+      seconds: 0,
     };
     this.showAddForm = this.showAddForm.bind(this);
     this.handleNewTaskInput = this.handleNewTaskInput.bind(this);
@@ -54,6 +55,17 @@ class Project extends React.Component {
       this.props.handleProjects(nextProps.user._id);
       this.props.handleDashboardData();
       this.setState({ userLoaded: true });
+    }
+    /*
+      We need this to update time left in motivation block realtime
+      without making API calls, making new actions and reducers stuff.
+      The data is taken after action ADD_TIMELOG, which returns what we need here;
+      Don't know how good this is, but anyhow it works.
+    */
+    if (nextProps.timelog.seconds !== undefined) {
+      this.setState(state => ({
+        seconds: state.seconds + nextProps.timelog.seconds,
+      }));
     }
   }
 
@@ -179,6 +191,7 @@ class Project extends React.Component {
           </p>
           <MotivationBlock
             dashboardData={dashboardData}
+            seconds={this.state.seconds}
             projectId={projectId}
           />
         </div>
@@ -198,11 +211,13 @@ Project.defaultProps = {
   tasks: [],
   user: {},
   dashboardData: {},
+  timelog: { seconds: 0 },
 };
 
 Project.propTypes = {
   match: PropTypes.object.isRequired,
   projects: PropTypes.array,
+  timelog: PropTypes.object,
   dashboardData: PropTypes.object,
   tasks: PropTypes.array,
   user: PropTypes.object,
@@ -220,6 +235,7 @@ const mapStateToProps = state => ({
   user: state.user,
   tasks: state.tasks,
   dashboardData: state.dashboard,
+  timelog: state.timelog,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -5,6 +5,7 @@ import { formatTime } from '../../helpers';
 const MotivationBlock = props => {
   let motivationString = '';
   let thisWeekString = '';
+
   const { dashboardData, projectId } = props;
   if (dashboardData.lastWeek && dashboardData.lastWeek.length !== 0) {
     const lastWeek = dashboardData.lastWeek.filter(
@@ -14,7 +15,7 @@ const MotivationBlock = props => {
       item => item.id === projectId
     );
     if (thisWeek.length !== 0) {
-      const diff = lastWeek[0].time - thisWeek[0].time;
+      const diff = lastWeek[0].time - thisWeek[0].time - props.seconds;
       if (diff < 0) {
         thisWeekString = (
           <span>And this week you did even more! Good job!</span>

@@ -10,28 +10,46 @@ const ButtonsGroup = props => (
     ) : null}
 
     {!props.done ? (
-      <button onClick={props.showTimer} className="info-button">
-        Timer
+      <button
+        title="Show timer"
+        onClick={props.showTimer}
+        className="info-button info-button__small"
+      >
+        <span aria-label="timer" role="img">
+          ⏱️
+        </span>
       </button>
     ) : null}
 
     {!props.showInput ? (
       <button
         onClick={() => props.handleShowInput(props.name)}
-        className="info-button"
+        title="Edit this item"
+        className="info-button info-button__small"
       >
-        Edit
+        <span aria-label="edit" role="img">
+          ✎
+        </span>
       </button>
     ) : null}
-    <button onClick={() => props.taskDone(props.id)} className="info-button">
-      {props.doneButtonValue}
+    <button
+      title={`Mark this item ${props.doneButtonValue}`}
+      onClick={() => props.taskDone(props.id)}
+      className="info-button info-button__small"
+    >
+      <span aria-label="mark done" role="img">
+        ✔
+      </span>
     </button>
 
     <button
       onClick={() => props.handleDelete(props.id)}
-      className="info-button danger-button"
+      className="info-button danger-button info-button__small"
+      title="Delete this item"
     >
-      Delete
+      <span aria-label="delete" role="img">
+        ✕
+      </span>
     </button>
   </div>
 );

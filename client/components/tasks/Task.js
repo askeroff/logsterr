@@ -61,7 +61,7 @@ class Task extends React.Component {
         handleAddingTimeLog={handleAddingTimeLog}
       />
     ) : null;
-    const doneButtonValue = done ? 'Undone' : 'Done';
+    const doneButtonValue = done ? 'undone' : 'done';
     const doneClass = done ? 'projects-list-item--done' : 'projects-list-item';
     const hideOrNot = showInput ? 'none' : '';
     const newDate = this.props.updated ? formatDate(this.props.updated) : '';

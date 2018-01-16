@@ -10,7 +10,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showNext: 'week',
+      showNow: 'lastweek',
       title: 'Last Week',
       dashboard: [],
     };
@@ -43,28 +43,36 @@ class Dashboard extends React.Component {
 
   changeData() {
     const { dashboardData } = this.props;
-    switch (this.state.showNext) {
-      case 'day': {
+    switch (this.state.showNow) {
+      case 'lastweek': {
         this.setState({
-          dashboard: dashboardData.lastWeek,
-          showNext: 'week',
-          title: 'Last Week',
+          dashboard: dashboardData.thisWeek,
+          showNow: 'thisweek',
+          title: 'This Week',
         });
         break;
       }
-      case 'week': {
+      case 'thisweek': {
         this.setState({
           dashboard: dashboardData.today,
-          showNext: 'month',
+          showNow: 'today',
           title: 'Today',
+        });
+        break;
+      }
+      case 'today': {
+        this.setState({
+          dashboard: dashboardData.month,
+          showNow: 'month',
+          title: 'This Month',
         });
         break;
       }
       case 'month': {
         this.setState({
-          dashboard: dashboardData.month,
-          showNext: 'day',
-          title: 'This Month',
+          dashboard: dashboardData.lastWeek,
+          showNow: 'lastweek',
+          title: 'Last Week',
         });
         break;
       }

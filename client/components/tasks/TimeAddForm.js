@@ -32,7 +32,7 @@ class TimeAddForm extends React.Component {
 
   handleSubmit() {
     const { hours, minutes } = this.state;
-    const { task, name, project, addTime } = this.props;
+    const { task, name, project, addTime, formToggle } = this.props;
 
     if (!this.isNumber(hours) || !this.isNumber(minutes)) {
       swal('Invalid', 'Provide only numbers', 'error');
@@ -50,6 +50,7 @@ class TimeAddForm extends React.Component {
       project,
     };
     addTime(data, result);
+    formToggle();
     swal('Wohoo!', 'Time has been added to your timelog', 'success');
     return result;
   }
@@ -89,6 +90,7 @@ TimeAddForm.propTypes = {
   name: PropTypes.string.isRequired,
   project: PropTypes.string.isRequired,
   addTime: PropTypes.func.isRequired,
+  formToggle: PropTypes.func.isRequired,
 };
 
 export default TimeAddForm;

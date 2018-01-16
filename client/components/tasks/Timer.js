@@ -15,7 +15,7 @@ class Timer extends React.Component {
     };
     this.handleTimer = this.handleTimer.bind(this);
     this.handleStart = this.handleStart.bind(this);
-    this.handleAddingTime = this.handleAddingTime.bind(this);
+    this.formToggle = this.formToggle.bind(this);
     this.handleStop = this.handleStop.bind(this);
     this.incrementSeconds = this.incrementSeconds.bind(this);
     this.timer = null;
@@ -57,7 +57,7 @@ class Timer extends React.Component {
     }
   }
 
-  handleAddingTime() {
+  formToggle() {
     this.setState(state => ({
       showForm: !state.showForm,
     }));
@@ -76,7 +76,7 @@ class Timer extends React.Component {
           >
             {timerButtonString}
           </button>
-          <button onClick={this.handleAddingTime} className="timer__button">
+          <button onClick={this.formToggle} className="timer__button">
             {addTimeStrng}
           </button>
         </div>
@@ -85,6 +85,7 @@ class Timer extends React.Component {
             addTime={this.props.handleAddingTimeLog}
             name={this.props.taskName}
             task={this.props.id}
+            formToggle={this.formToggle}
             project={this.props.project}
           />
         ) : null}

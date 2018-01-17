@@ -14,7 +14,7 @@ const MotivationBlock = props => {
     const thisWeek = dashboardData.thisWeek.filter(
       item => item.id === projectId
     );
-    if (thisWeek.length !== 0) {
+    if (thisWeek.length !== 0 && lastWeek.length !== 0) {
       const diff = lastWeek[0].time - thisWeek[0].time - props.seconds;
       if (diff < 0) {
         thisWeekString = (

@@ -69,7 +69,7 @@ class Timer extends React.Component {
     const time = formatTime(this.state.seconds);
     return (
       <div className="timer">
-        <div>
+        <div className="timer--buttons">
           <button
             onClick={this.handleTimer}
             className="timer__button timer__button--green"

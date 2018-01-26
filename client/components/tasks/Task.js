@@ -69,7 +69,10 @@ class Task extends React.Component {
     return (
       <li className={`${doneClass}`}>
         <span style={{ display: hideOrNot }} className="task-name">
-          {name}(<strong>{formatTime(this.props.timeSpent)})</strong>
+          {name}
+          <span className="pretty-time">
+            {formatTime(this.props.timeSpent)}
+          </span>
         </span>
         {dateString !== '' ? (
           <span className="done-date">

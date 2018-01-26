@@ -53,8 +53,11 @@ exports.deleteLog = async (req, res) => {
   const timelogTodelete = await Timelog.findById(req.body.id);
 
   const taskPromise = Task.findById(timelogTodelete.task, (err, task) => {
+    if (!task) {
+      return 1;
+    }
     task.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
-    task.save();
+    return task.save();
   });
 
   const projectPromise = Project.findById(

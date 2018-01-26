@@ -27,6 +27,8 @@ export function formatTime(number) {
     return `${seconds} seconds`;
   } else if (hours === 0 && minutes > 0) {
     return `${minutesString}`;
+  } else if (hours > 0 && minutes === 0) {
+    return `${hoursString}`;
   } else if (hours > 0 && minutes > 0) {
     return `${hoursString} ${minutesString}`;
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { formatTime } from '../../helpers/';
+import { formatForTimer } from '../../helpers/';
 import TimeAddForm from './TimeAddForm';
 import timestorage from '../scripts/timestorage';
 
@@ -66,7 +66,7 @@ class Timer extends React.Component {
   render() {
     const timerButtonString = this.state.started ? 'stop' : 'start';
     const addTimeStrng = this.state.showForm ? 'Cancel' : 'Add Time';
-    const time = formatTime(this.state.seconds);
+    const time = formatForTimer(this.state.seconds);
     return (
       <div className="timer">
         <div className="timer--buttons">

@@ -160,7 +160,9 @@ class Project extends React.Component {
     return (
       <Layout>
         <h1 className="page-title">{title}</h1>
-        <h3 className="page-title">Time spent: {projectTime}</h3>
+        <h3 className="page-title">
+        <span className="pretty-time">Total: {projectTime}</span>
+        </h3>
         <a
           onClick={this.showAddForm}
           href="#"

@@ -1,6 +1,7 @@
 import {
   GET_PROJECTS,
   ADD_PROJECT,
+  ADD_TIME_TO_PROJECT,
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
@@ -11,6 +12,15 @@ function projects(state = [], action) {
   switch (action.type) {
     case ADD_PROJECT: {
       return [...state, action.project];
+    }
+    case ADD_TIME_TO_PROJECT: {
+      const projectsList = state.map(item => {
+        if (item._id === action.id) {
+          item.timeSpent += parseInt(action.time, 10); // eslint-disable-line no-param-reassign
+        }
+        return item;
+      });
+      return projectsList;
     }
     case RENAME_PROJECT: {
       const projectsList = state.map(item => {

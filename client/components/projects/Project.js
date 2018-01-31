@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getDashboardData } from '../../actions/dashboard';
-import { getProjects, clearProjects } from '../../actions/projects';
+import {
+  getProjects,
+  clearProjects,
+  addTimeToProject,
+} from '../../actions/projects';
 import { getTasks, newTask, clearTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
@@ -12,6 +16,7 @@ import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
 import AddForm from './AddForm';
 import MotivationBlock from './MotivationBlock';
+import TimeAddForm from '../tasks/TimeAddForm';
 import { formatTime } from '../../helpers';
 
 class Project extends React.Component {
@@ -23,12 +28,15 @@ class Project extends React.Component {
       projectsLoaded: false,
       tasksLoaded: false,
       showForm: false,
+      timeForm: false,
       newTaskInput: '',
       notFound: false,
       spinner: false,
       seconds: 0,
     };
     this.showAddForm = this.showAddForm.bind(this);
+    this.formToggle = this.formToggle.bind(this);
+    this.showAddTimeForm = this.showAddTimeForm.bind(this);
     this.handleNewTaskInput = this.handleNewTaskInput.bind(this);
     this.addTask = this.addTask.bind(this);
     this.onUpdateProjects = this.onUpdateProjects.bind(this);
@@ -113,6 +121,12 @@ class Project extends React.Component {
     });
   }
 
+  showAddTimeForm() {
+    this.setState({
+      timeForm: !this.state.timeForm,
+    });
+  }
+
   handleNewTaskInput(e) {
     this.setState({
       newTaskInput: e.target.value,
@@ -126,6 +140,12 @@ class Project extends React.Component {
       spinner: true,
       newTaskInput: '',
     });
+  }
+
+  formToggle() {
+    this.setState(state => ({
+      timeForm: !state.timeForm,
+    }));
   }
 
   render() {
@@ -159,45 +179,68 @@ class Project extends React.Component {
 
     return (
       <Layout>
-        <h1 className="page-title">{title}</h1>
-        <h3 className="page-title">
-        <span className="pretty-time">Total: {projectTime}</span>
-        </h3>
-        <a
-          onClick={this.showAddForm}
-          href="#"
-          className="submit-button link-button"
-        >
-          {addLinkText}
-        </a>
+        <div className="project__description">
+          <div className="project__info">
+            <h1 className="page-title">{title}</h1>
+            <h3 className="page-title">
+              <span className="pretty-time">Total: {projectTime}</span>
+            </h3>
+            <div className="project__buttons">
+              <button onClick={this.showAddForm} className="submit-button">
+                {addLinkText}
+              </button>
+              <button
+                onClick={this.showAddTimeForm}
+                className="submit-button"
+                title="Add Time Specifically To The Project"
+              >
+                Add Time
+              </button>
+            </div>
 
-        {this.state.showForm ? (
-          <AddForm
-            inputValue={newTaskInput}
-            handleInput={this.handleNewTaskInput}
-            clickHandler={e => {
-              e.preventDefault();
-              this.addTask({
-                name: newTaskInput,
-                project: this.props.match.params.id,
-              });
-            }}
-            labelName="Name"
-          />
-        ) : null}
+            {this.state.timeForm ? (
+              <TimeAddForm
+                addTime={this.props.handleAddingTimeToProject}
+                name={null}
+                task={null}
+                from="project"
+                formToggle={this.formToggle}
+                project={projectId}
+              />
+            ) : null}
 
-        <div className="project--desc">
-          <p>
-            You can checkout tasks you already done{' '}
-            <Link to={`${this.props.location.pathname}/archive`}>here</Link>.
-          </p>
-          <MotivationBlock
-            dashboardData={dashboardData}
-            seconds={this.state.seconds}
-            projectId={projectId}
-          />
+            {this.state.showForm ? (
+              <AddForm
+                inputValue={newTaskInput}
+                handleInput={this.handleNewTaskInput}
+                clickHandler={e => {
+                  e.preventDefault();
+                  this.addTask({
+                    name: newTaskInput,
+                    project: this.props.match.params.id,
+                  });
+                }}
+                labelName="Name"
+              />
+            ) : null}
+          </div>
+          <div className="project__motivation">
+            <div className="motivation-paragraph">
+              <p>
+                You can checkout tasks you already done{' '}
+                <Link to={`${this.props.location.pathname}/archive`}>here</Link>.
+              </p>
+              <MotivationBlock
+                dashboardData={dashboardData}
+                seconds={this.state.seconds}
+                projectId={projectId}
+              />
+            </div>
+          </div>
         </div>
+
         {this.state.spinner ? <Spinner /> : null}
+
         <TasksList
           projectId={this.props.match.params.id}
           tasks={this.props.tasks}
@@ -225,6 +268,7 @@ Project.propTypes = {
   user: PropTypes.object,
   location: PropTypes.object.isRequired,
   handleProjects: PropTypes.func.isRequired,
+  handleAddingTimeToProject: PropTypes.func.isRequired,
   handleDashboardData: PropTypes.func.isRequired,
   handleTasks: PropTypes.func.isRequired,
   handleNewTask: PropTypes.func.isRequired,
@@ -252,6 +296,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleDashboardData() {
     dispatch(getDashboardData());
+  },
+  handleAddingTimeToProject(id, time) {
+    dispatch(addTimeToProject(id, time));
   },
   clearProjectsList() {
     dispatch(clearProjects());

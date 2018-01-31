@@ -42,22 +42,29 @@ class TimeAddForm extends React.Component {
     const hoursToSeconds = hours * 3600;
     const minutesToSeconds = minutes * 60;
     const result = hoursToSeconds + minutesToSeconds;
-    const data = {
-      seconds: result,
-      done: true,
-      name,
-      task,
-      project,
-    };
-    addTime(data, result);
+    if (this.props.from === 'project') {
+      addTime(project, result);
+    } else {
+      const data = {
+        seconds: result,
+        done: true,
+        name,
+        task,
+        project,
+      };
+      addTime(data, result);
+    }
+
     formToggle();
-    swal('Wohoo!', 'Time has been added to your timelog', 'success');
+    swal('Wohoo!', 'Time has been added!', 'success');
     return result;
   }
 
   render() {
+    const addClass =
+      this.props.from === 'project' ? 'timer--addTimeForm--project' : '';
     return (
-      <div className="timer--addTimeForm">
+      <div className={`timer--addTimeForm ${addClass}`}>
         <label htmlFor="hours">HH</label>
         <input
           onChange={this.handleHoursChange}
@@ -85,9 +92,16 @@ class TimeAddForm extends React.Component {
   }
 }
 
+TimeAddForm.defaultProps = {
+  task: null,
+  name: 'Not defined',
+  from: 'task',
+};
+
 TimeAddForm.propTypes = {
-  task: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  task: PropTypes.string,
+  name: PropTypes.string,
+  from: PropTypes.string,
   project: PropTypes.string.isRequired,
   addTime: PropTypes.func.isRequired,
   formToggle: PropTypes.func.isRequired,

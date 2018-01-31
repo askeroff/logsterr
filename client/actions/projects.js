@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   GET_PROJECTS,
   ADD_PROJECT,
+  ADD_TIME_TO_PROJECT,
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
@@ -37,6 +38,24 @@ export function renameProject(id, name) {
       .post(`/projects/${id}/edit`, { name })
       .then(() => {
         dispatch(renameProjectSuccess({ id, name }));
+      })
+      .catch(err => console.log(err));
+}
+
+export function addTimeToProjectSuccess(id, time) {
+  return {
+    type: ADD_TIME_TO_PROJECT,
+    id,
+    time,
+  };
+}
+
+export function addTimeToProject(id, time) {
+  return dispatch =>
+    axios
+      .post('/projects/addTime', { id, time })
+      .then(() => {
+        dispatch(addTimeToProjectSuccess(id, time));
       })
       .catch(err => console.log(err));
 }

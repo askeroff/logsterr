@@ -17,6 +17,14 @@ exports.update = async (req, res) => {
   });
 };
 
+exports.addTime = async (req, res) => {
+  await Project.findById(req.body.id, (err, data) => {
+    data.timeSpent += req.body.time; // eslint-disable-line no-param-reassign
+    data.save();
+    res.json({ timeAdded: true });
+  });
+};
+
 exports.getProjects = async (req, res) => {
   const projectsList = await Project.find({
     author: req.user._id,

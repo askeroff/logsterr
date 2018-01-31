@@ -1,15 +1,28 @@
-.project--desc
-  border 1px solid #A3BAC2
-  padding 10px
+.project__description
+  display grid
+  grid-gap  20px
+  grid-template-columns 1fr 1fr
+  margin 50px 0px
   color #333
-  margin-bottom 10px
+  padding 10px
+  border-bottom 4px solid #006889
 
-.project--desc a
+.project__motivation
+  background #fffdfd
+  display grid
+  padding-left 10px
+  border-left 4px solid #006889
+
+.motivation-paragraph
+  justify-self center
+  align-self center
+
+.project__motivation a
   color #006989
   text-decoration none
   border-bottom 1px solid #006989
 
-.project--desc a:hover
+.project__motivation a:hover
   color #A3BAC2
 
 .projects-list
@@ -93,6 +106,10 @@
   display flex
   justify-content space-between
 
+.timer--addTimeForm--project
+  justify-content center
+  margin-top 10px
+
 .timer--input
   width 30px
   border 2px solid #006989
@@ -138,3 +155,9 @@
   background #353f51
   color #fafafa
   padding 6px
+
+.project__buttons
+  display grid
+  justify-content center
+  grid-template-columns auto auto
+  grid-gap 10px

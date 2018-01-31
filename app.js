@@ -93,6 +93,12 @@ app.post(
   catchErrors(projectsController.add)
 );
 
+app.post(
+  '/projects/addTime',
+  authController.isLoggedIn,
+  catchErrors(projectsController.addTime)
+);
+
 app.get(
   '/projects/getProjects',
   authController.isLoggedIn,

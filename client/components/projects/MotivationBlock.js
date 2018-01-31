@@ -7,15 +7,15 @@ const MotivationBlock = props => {
   let thisWeekString = '';
 
   const { dashboardData, projectId } = props;
+  console.log(props);
   if (dashboardData.lastWeek && dashboardData.lastWeek.length !== 0) {
-    const lastWeek = dashboardData.lastWeek.filter(
-      item => item.id === projectId
-    );
-    const thisWeek = dashboardData.thisWeek.filter(
-      item => item.id === projectId
-    );
-    if (thisWeek.length !== 0 && lastWeek.length !== 0) {
-      const diff = lastWeek[0].time - thisWeek[0].time - props.seconds;
+    const lastWeek = dashboardData.lastWeek.find(item => item.id === projectId);
+    const thisWeek = dashboardData.thisWeek.find(item => item.id === projectId);
+    if (thisWeek !== undefined && lastWeek !== undefined) {
+      const diff = lastWeek.time - thisWeek.time - props.seconds;
+      console.log('difference', diff);
+      console.log('last week', lastWeek);
+      console.log('this week', thisWeek);
       if (diff < 0) {
         thisWeekString = (
           <span>And this week you did even more! Good job!</span>
@@ -29,11 +29,11 @@ const MotivationBlock = props => {
       }
     }
 
-    if (lastWeek.length !== 0) {
+    if (lastWeek !== undefined) {
       motivationString = (
         <p>
-          Last week you did <b>{formatTime(lastWeek[0].time)}</b> on this
-          project. {thisWeekString}
+          Last week you did <b>{formatTime(lastWeek.time)}</b> on this project.{' '}
+          {thisWeekString}
         </p>
       );
     }
@@ -45,11 +45,13 @@ const MotivationBlock = props => {
 MotivationBlock.defaultProps = {
   projectId: '',
   dashboardData: {},
+  seconds: 0,
 };
 
 MotivationBlock.propTypes = {
   projectId: PropTypes.string,
   dashboardData: PropTypes.object,
+  seconds: PropTypes.number,
 };
 
 export default MotivationBlock;

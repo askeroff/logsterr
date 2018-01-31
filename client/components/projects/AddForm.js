@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import FormInput from '../layout/FormInput';
 
 const AddForm = props => (
-  <form onSubmit={props.clickHandler} className="form">
-    <label htmlFor="project-name">{props.labelName}</label>
+  <form onSubmit={props.clickHandler} className="form form__newtask">
+    <label className="form__title" htmlFor="project-name">
+      {props.labelName}
+    </label>
     <FormInput
       inputValue={props.inputValue}
       handleInput={props.handleInput}

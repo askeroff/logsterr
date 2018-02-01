@@ -5,7 +5,7 @@ const Tasks = props =>
   props.tasks.map(item => {
     if (item instanceof Object && item.constructor === Object) {
       return (
-        <p className="dashboard-item-task" key={item.id}>
+        <p className="dashboard__item-task" key={item.id}>
           <span>
             <strong>{item.taskName}: </strong>
             <span>{formatTime(item.time)}</span>

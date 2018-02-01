@@ -186,12 +186,12 @@ class Project extends React.Component {
               <span className="pretty-time">Total: {projectTime}</span>
             </h3>
             <div className="project__buttons">
-              <button onClick={this.showAddForm} className="submit-button">
+              <button onClick={this.showAddForm} className="button--submit">
                 {addLinkText}
               </button>
               <button
                 onClick={this.showAddTimeForm}
-                className="submit-button"
+                className="button--submit"
                 title="Add Time Specifically To The Project"
               >
                 Add Time

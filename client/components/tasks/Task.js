@@ -62,20 +62,20 @@ class Task extends React.Component {
       />
     ) : null;
     const doneButtonValue = done ? 'undone' : 'done';
-    const doneClass = done ? 'projects-list-item--done' : 'projects-list-item';
+    const doneClass = done ? 'tasks__list-item--done' : 'tasks__list-item';
     const hideOrNot = showInput ? 'none' : '';
     const newDate = this.props.updated ? formatDate(this.props.updated) : '';
     const dateString = this.props.updated ? 'Done:' : '';
     return (
       <li className={`${doneClass}`}>
-        <span style={{ display: hideOrNot }} className="task-name">
-          {name}
+        <p style={{ display: hideOrNot }} className="tasks__list-name">
+          <span>{name}</span>
           <span className="pretty-time">
             {formatTime(this.props.timeSpent)}
           </span>
-        </span>
+        </p>
         {dateString !== '' ? (
-          <span className="done-date">
+          <span className="tasks__list-date">
             <strong>{dateString} </strong>
             {newDate}
           </span>
@@ -90,7 +90,7 @@ class Task extends React.Component {
               }
             }}
             value={editName}
-            className="name-input"
+            className="tasks__list-input"
             onChange={this.handleNameInput}
           />
         ) : null}

@@ -11,29 +11,21 @@ class Header extends React.Component {
   guestLinks() {
     if (!this.props.userEmail) {
       return (
-        <ul className="header-menu">
-          <Li myClassName="header-menu-item" url="/" linkText="Home" />
-          <Li myClassName="header-menu-item" url="/signup" linkText="Sign Up" />
-          <Li myClassName="header-menu-item" url="/login" linkText="Login" />
+        <ul className="nav">
+          <Li myClassName="nav__item" url="/" linkText="Home" />
+          <Li myClassName="nav__item" url="/signup" linkText="Sign Up" />
+          <Li myClassName="nav__item" url="/login" linkText="Login" />
         </ul>
       );
     }
     return (
-      <ul className="header-menu">
-        <Li myClassName="header-menu-item" url="/" linkText="Dashboard" />
-        <Li
-          myClassName="header-menu-item"
-          url="/projects"
-          linkText="Projects"
-        />
-        <Li
-          myClassName="header-menu-item"
-          url="/timelog/1"
-          linkText="Timelog"
-        />
-        <Li myClassName="header-menu-item" url="/logmeout" linkText="Log Out" />
-        <li className="header-menu-item">
-          <span className="userInfo">
+      <ul className="nav">
+        <Li myClassName="nav__item" url="/" linkText="Dashboard" />
+        <Li myClassName="nav__item" url="/projects" linkText="Projects" />
+        <Li myClassName="nav__item" url="/timelog/1" linkText="Timelog" />
+        <Li myClassName="nav__item" url="/logmeout" linkText="Log Out" />
+        <li className="nav__item">
+          <span className="nav__user">
             (You are loged in as {this.props.userEmail})
           </span>
         </li>

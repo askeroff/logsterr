@@ -1,5 +1,10 @@
+:root
+  --main-color #006989
+  --second-color #A3BAC3
+
 html, body
   height 100%
+  min-height 100%
   margin 0
   padding 0
   line-height 1
@@ -8,7 +13,6 @@ body
   color #666666
   font-family Arial, Helvetica, sans-serif
   font-size 16px
-  min-height 100%
 
 button:focus
   outline 0
@@ -19,31 +23,8 @@ button:focus
 
 .wrapper
   display grid
-  grid-template-rows 0fr 1fr
-  height 100%
-
-footer
-  grid-row-start 3
-  grid-row-end 3
-  background #006989
-  border-top 10px solid #a3bac3
-  color #fafafa
-  text-align center
-  margin-top 30px
-
-.footer-link
-  color #fafafa
-  text-decoration none
-  border-bottom 1px solid #eeeeee
-
-label
-  display block
-  padding 5px
-  font-weight bold
-  text-align center
-
-input[type="submit"]:hover, input[type="button"]:hover, button:hover
-  cursor pointer
+  grid-template-rows auto 1fr auto
+  min-height 100%
 
 .content-wrapper
   width 80%
@@ -56,40 +37,23 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
   margin-left 0
   margin-right 0
 
+
+/* HEADER */
+@import 'header.styl'
+
+label
+  display block
+  padding 5px
+  font-weight bold
+  text-align center
+
+input[type="submit"]:hover, input[type="button"]:hover, button:hover
+  cursor pointer
+
 .text-field
   border 1px solid #A3BAC3
   padding 10px
   color #383A3F
-
-.submit-button
-  background #006989
-  color #ffffff
-  padding 10px
-  border 1px solid #187b9a
-  text-align center
-
-.link-button
-  text-decoration none
-  display block
-  height 40px
-  line-height 40px
-  margin 10px auto
-
-.info-button
-  width 60px
-  height 20px
-  border 1px solid #ededed
-  text-align center
-  background #006989
-  color #fff
-  box-sizing content-box
-
-.danger-button
-  background #E53A40
-  color #fff
-
-.info-button__small
-  width 30px
 
 .server-response
   text-align center
@@ -125,9 +89,49 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
   margin 0
   padding 4px 0px
 
-@import 'header.styl'
+.pretty-time
+  background #006889
+  color #ffffff
+  padding 5px
+  margin-left 10px
+
+.pagination
+  margin-top 10px
+  text-align center
+  display flex
+  justify-content space-between
+
+.pagination a
+  background #353f51
+  color #fafafa
+  padding 6px
+
+/* PROJECTS */
 @import 'projects.styl'
+/* TASKS */
+@import 'tasks.styl'
+/* TIMER */
+@import 'timer.styl'
+/* TIMELOGS */
+@import 'timelog.styl'
+/* DASHBOARD */
 @import 'dashboard.styl'
+/* BUTTONS STUFF */
+@import 'buttons.styl'
+
+/* FOOTER */
+
+footer
+  background #006989
+  border-top 10px solid #a3bac3
+  color #fafafa
+  text-align center
+  margin-top 30px
+
+.footer__link
+  color #fafafa
+  text-decoration none
+  border-bottom 1px solid #eeeeee
 
 @media (max-width: 360px) and (max-device-width: 360px)
   .content-wrapper

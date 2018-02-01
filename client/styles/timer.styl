@@ -1,0 +1,63 @@
+.timer
+  background #EAEBED
+  margin-top 10px
+  color #fff
+  height 3em
+  border-bottom none
+  grid-column 1 / -1
+  display flex
+  justify-content space-between
+
+.timer__buttons
+  display: flex
+
+.timer__buttons-item
+  border none
+  width 90px
+  height 3em
+  background var(--main-color)
+  color #ffffff
+  font-weight bold
+  text-transform uppercase
+
+.timer__buttons-item:hover
+  background var(--second-color)
+
+.timer__buttons-item--green
+  background #1f9454
+
+.timer__buttons-item--green:hover
+  background #2c735d
+
+.timer__time
+  font-weight bold
+  padding-right 20px
+  color var(--main-color)
+  font-size 2em
+  align-self center
+
+.timer:last-child
+  padding-right 10px
+
+.timer__addTimeForm
+  align-self center
+  color var(--main-color)
+  display flex
+  justify-content space-between
+
+.timer__addTimeForm-project
+  justify-content center
+  margin-top 10px
+
+.timer__addTimeForm-input
+  width 30px
+  border 2px solid var(--main-color)
+  font-weight bold
+  color var(--main-color)
+  text-align center
+
+.timer__addTimeForm-submit
+  border 2px solid var(--main-color)
+  font-weight bold
+  text-align center
+  color var(--main-color)

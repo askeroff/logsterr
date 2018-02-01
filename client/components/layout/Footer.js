@@ -7,7 +7,7 @@ const Footer = () => (
       <span>
         The source is on{' '}
         <a
-          className="footer-link"
+          className="footer__link"
           href="https://github.com/askeroff/timetracker"
         >
           Github

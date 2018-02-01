@@ -69,14 +69,14 @@ class Timer extends React.Component {
     const time = formatForTimer(this.state.seconds);
     return (
       <div className="timer">
-        <div className="timer--buttons">
+        <div className="timer__buttons">
           <button
             onClick={this.handleTimer}
-            className="timer__button timer__button--green"
+            className="timer__buttons-item timer__buttons-item--green"
           >
             {timerButtonString}
           </button>
-          <button onClick={this.formToggle} className="timer__button">
+          <button onClick={this.formToggle} className="timer__buttons-item">
             {addTimeStrng}
           </button>
         </div>
@@ -91,7 +91,7 @@ class Timer extends React.Component {
         ) : null}
 
         {this.state.started ? (
-          <div className="timer-item">
+          <div className="timer__time">
             <span>{time}</span>
           </div>
         ) : null}

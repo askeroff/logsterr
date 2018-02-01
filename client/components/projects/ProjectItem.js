@@ -44,9 +44,9 @@ class ProjectItem extends React.Component {
     const { newName, showInput } = this.state;
     const hideTaskName = this.state.showInput ? 'none' : '';
     return (
-      <li className="projects-list-item">
+      <li className="projects__item">
         <Link
-          className="project-list-title"
+          className="projects__item-title"
           style={{ display: `${hideTaskName}` }}
           to={`/projects/${project._id}`}
         >
@@ -70,21 +70,21 @@ class ProjectItem extends React.Component {
               ref={link => {
                 this.renameLink = link;
               }}
-              className="info-button"
+              className="button--info"
             >
               Ok
             </button>
           ) : null}
           <button
             onClick={() => this.handleShowInput(project.name)}
-            className="info-button"
+            className="button--info"
           >
             Edit
           </button>
 
           <button
             onClick={() => onDelete(project._id)}
-            className="info-button danger-button"
+            className="button--info button--danger"
           >
             Delete
           </button>

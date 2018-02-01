@@ -1,0 +1,34 @@
+/* SINGLE PROJECT PAGES SHOWING LIST OF TASKS */
+
+.tasks__list, .tasks__list--done
+  @extend .projects__list
+
+.tasks__list--done
+  margin-top 20px
+
+.tasks__list-item, .tasks__list-item--done
+  @extends .projects__item
+
+.tasks__list-item--done .tasks__list-name
+  display grid
+  grid-gap 10px 0
+
+.tasks__list-item--done .pretty-time
+  margin 0
+
+.tasks__list-date
+  justify-self center
+  align-self center
+
+.form__newtask
+  display grid
+  grid-template-columns 1fr 1fr
+
+.form__title
+  grid-column 1/-1
+
+.tasks__list-name, .projects__item-title
+  grid-column 1/3
+
+.tasks__list-item--done .tasks__list-name
+  grid-column 1

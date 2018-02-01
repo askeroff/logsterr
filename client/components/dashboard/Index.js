@@ -87,11 +87,11 @@ class Dashboard extends React.Component {
     const { dashboard, title } = this.state;
     if (this.props.projects.length !== 0 && dashboard.length !== 0) {
       showData = dashboard.map(item => (
-        <div className="dashboard-item" key={item.id}>
-          <h3 className="dashboard-item-title">
+        <div className="dashboard__item" key={item.id}>
+          <h3 className="dashboard__item-title">
             {this.getProjectName(item.id)}: {formatTime(item.time)}
           </h3>
-          <div className="dashboard-item-tasks">
+          <div className="dashboard__item-tasks">
             <Tasks tasks={Object.values(item)} />
           </div>
         </div>
@@ -102,9 +102,9 @@ class Dashboard extends React.Component {
 
     return (
       <div className="dashboard">
-        <h2 className="dashboard-title">
+        <h2 className="dashboard__title">
           {title}
-          <button className="dashboard-toggle" onClick={this.changeData}>
+          <button className="dashboard__toggle" onClick={this.changeData}>
             Toggle
           </button>
         </h2>

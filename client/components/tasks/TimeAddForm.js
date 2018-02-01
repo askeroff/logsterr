@@ -62,15 +62,15 @@ class TimeAddForm extends React.Component {
 
   render() {
     const addClass =
-      this.props.from === 'project' ? 'timer--addTimeForm--project' : '';
+      this.props.from === 'project' ? 'timer__addTimeForm-project' : '';
     return (
-      <div className={`timer--addTimeForm ${addClass}`}>
+      <div className={`timer__addTimeForm ${addClass}`}>
         <label htmlFor="hours">HH</label>
         <input
           onChange={this.handleHoursChange}
           name="hours"
           type="text"
-          className="timer--input"
+          className="timer__addTimeForm-input"
           value={this.state.hours}
         />
         <label htmlFor="minutes">MM</label>
@@ -78,13 +78,13 @@ class TimeAddForm extends React.Component {
           onChange={this.handleMinutesChange}
           name="minutes"
           type="text"
-          className="timer--input"
+          className="timer__addTimeForm-input"
           value={this.state.minutes}
         />
         <input
           type="button"
           onClick={this.handleSubmit}
-          className="timer--button"
+          className="timer__addTimeForm-submit"
           value="Ok"
         />
       </div>

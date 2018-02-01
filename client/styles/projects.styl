@@ -1,3 +1,36 @@
+/* PROJECTS INDEX PAGE */
+.projects
+  display grid
+  grid-gap 20px
+
+.projects__list
+  border-left 4px solid var(--main-color)
+  padding 0
+  margin 0
+
+.projects__item, .projects__item--done
+  list-style none
+  padding 10px 8px
+  border-bottom 1px solid #A3BAC3
+  display grid
+  grid-template-columns 1fr 1fr 1fr
+
+
+.projects__item:last-child
+  border none
+
+.projects__item-title
+  text-decoration none
+  display block
+  color #006989
+  text-transform uppercase
+  font-size 1.5em
+
+.projects__item-title:hover
+  color #01A7C2
+
+/* SINGLE PROJECT PAGE */
+
 .project__description
   display grid
   grid-gap  20px
@@ -24,147 +57,3 @@
 
 .project__motivation a:hover
   color #A3BAC2
-
-.projects-list
-  border-left 4px solid #006989
-  padding 0
-  margin 0
-
-.projects-list-item, .projects-list-item--done
-  list-style none
-  padding 10px 8px
-  border-bottom 1px solid #A3BAC3
-  display grid
-  grid-template-columns 1fr 1fr 1fr
-
-.form__newtask
-  display grid
-  grid-template-columns 1fr 1fr
-
-.form__title
-  grid-column 1/-1
-
-.done-date
-  justify-self center
-
-.buttons-group
-  justify-self end
-
-.projects-list-item:last-child
-  border none
-
-.project-list-title
-  text-decoration none
-  display block
-  color #006989
-  text-transform uppercase
-  font-size 1.5em
-
-.project-list-title:hover
-  color #01A7C2
-
-.task-name, .name-input, .project-list-title
-  grid-column 1/3
-
-.projects-list-item--done .task-name
-  grid-column 1
-
-.timer
-  background #EAEBED
-  margin-top 10px
-  color #fff
-  height 3em
-  border-bottom none
-  grid-column 1 / -1
-  display flex
-  justify-content space-between
-
-.timer:last-child
-  padding-right 10px
-
-.timer__button
-  border none
-  width 90px
-  height 3em
-  background #006989
-  color #ffffff
-  font-weight bold
-  text-transform uppercase
-
-.timer__button:hover
-  background #356d7d
-
-.timer__button--green
-  background #1f9454
-
-.timer__button--green:hover
-  background #2c735d
-
-.timer-item
-  font-weight bold
-  padding-right 20px
-  color #006989
-  font-size 2em
-  align-self center
-
-.timer--addTimeForm
-  align-self center
-  color #006989
-  display flex
-  justify-content space-between
-
-.timer--addTimeForm--project
-  justify-content center
-  margin-top 10px
-
-.timer--input
-  width 30px
-  border 2px solid #006989
-  font-weight bold
-  color #006989
-  text-align center
-
-.timer--button
-  border 2px solid #006989
-  font-weight bold
-  text-align center
-  color #006989
-
-.timelog-title
-  margin-bottom 10px
-  margin-top: 10px
-  background #eee
-  padding 5px
-  text-align center
-
-.timelog-delete
-  justify-self end
-
-.timelog-name
-  justify-self center
-
-.timer--buttons
-  display: flex
-
-.pretty-time
-  background #1f9454
-  color #ffffff
-  padding 5px
-  margin-left 10px
-
-.pagination
-  margin-top 10px
-  text-align center
-  display flex
-  justify-content space-between
-
-.pagination a
-  background #353f51
-  color #fafafa
-  padding 6px
-
-.project__buttons
-  display grid
-  justify-content center
-  grid-template-columns auto auto
-  grid-gap 10px

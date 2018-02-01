@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const ButtonsGroup = props => (
   <div className="buttons-group">
     {props.showInput ? (
-      <button onClick={props.handleRenaming} className="info-button">
+      <button onClick={props.handleRenaming} className="button--info">
         Ok
       </button>
     ) : null}
@@ -13,7 +13,7 @@ const ButtonsGroup = props => (
       <button
         title="Show timer"
         onClick={props.showTimer}
-        className="info-button info-button__small"
+        className="button--info button--small"
       >
         <span aria-label="timer" role="img">
           ⏱️
@@ -25,7 +25,7 @@ const ButtonsGroup = props => (
       <button
         onClick={() => props.handleShowInput(props.name)}
         title="Edit this item"
-        className="info-button info-button__small"
+        className="button--info button--small"
       >
         <span aria-label="edit" role="img">
           ✎
@@ -35,7 +35,7 @@ const ButtonsGroup = props => (
     <button
       title={`Mark this item ${props.doneButtonValue}`}
       onClick={() => props.taskDone(props.id)}
-      className="info-button info-button__small"
+      className="button--info button--small"
     >
       <span aria-label="mark done" role="img">
         ✔
@@ -44,7 +44,7 @@ const ButtonsGroup = props => (
 
     <button
       onClick={() => props.handleDelete(props.id)}
-      className="info-button danger-button info-button__small"
+      className="button--info button--danger button--small"
       title="Delete this item"
     >
       <span aria-label="delete" role="img">

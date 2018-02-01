@@ -72,36 +72,34 @@ class Index extends React.Component {
       projects = <Spinner />;
     } else {
       projects = (
-        <ul className="projects-list">
+        <ul className="projects__list">
           <ProjectsList projects={this.props.projects} />
         </ul>
       );
     }
     return (
       <Layout>
-        <h1 className="page-title">Projects</h1>
+        <div className="projects">
+          <h1 className="page-title">Projects</h1>
 
-        <a
-          onClick={this.showAddForm}
-          href="#"
-          className="submit-button link-button"
-        >
-          {addLinkText}
-        </a>
+          <button onClick={this.showAddForm} className="button--submit">
+            {addLinkText}
+          </button>
 
-        {this.state.showForm ? (
-          <AddForm
-            inputValue={this.state.formInput}
-            handleInput={this.handleFormInput}
-            clickHandler={e => {
-              e.preventDefault();
-              this.addProject(this.state.formInput);
-            }}
-            labelName="Name Of Your New Project"
-          />
-        ) : null}
-        {this.state.spinner ? <Spinner /> : null}
-        {projects}
+          {this.state.showForm ? (
+            <AddForm
+              inputValue={this.state.formInput}
+              handleInput={this.handleFormInput}
+              clickHandler={e => {
+                e.preventDefault();
+                this.addProject(this.state.formInput);
+              }}
+              labelName="Name Of Your New Project"
+            />
+          ) : null}
+          {this.state.spinner ? <Spinner /> : null}
+          {projects}
+        </div>
       </Layout>
     );
   }

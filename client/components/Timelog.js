@@ -88,7 +88,7 @@ class Timelog extends React.Component {
       <Layout>
         <h1 className="page-title">History of your logged time</h1>
         {!this.props.timelogs.data ? <Spinner /> : null}
-        <ul>{logs}</ul>
+        <ul className="timelogs">{logs}</ul>
         {pagination}
       </Layout>
     );

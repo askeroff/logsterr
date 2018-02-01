@@ -12,7 +12,7 @@ const AddForm = props => (
       handleInput={props.handleInput}
       inputName="name"
     />
-    <input type="submit" value="Add" className="submit-button" />
+    <input type="submit" value="Add" className="button--submit" />
   </form>
 );
 

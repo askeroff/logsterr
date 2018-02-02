@@ -57,7 +57,7 @@ class Login extends React.Component {
       <Layout>
         <h1 className="page-title">Login Page</h1>
         <LoginForm
-          myClassName="form signup"
+          myClassName="form__login"
           handleSubmit={this.handleSubmit}
           emailValue={this.state.email}
           passwordValue={this.state.password}

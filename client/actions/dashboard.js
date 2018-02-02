@@ -1,9 +1,16 @@
 import axios from 'axios';
-import { GET_DASHBOARD_DATA } from '../actions/actionTypes';
+import { GET_DASHBOARD_DATA, ADD_MESSAGE } from '../actions/actionTypes';
 
 export function getDashboardDataSuccess(response) {
   return {
     type: GET_DASHBOARD_DATA,
+    response,
+  };
+}
+
+export function getDashboardDataError(response) {
+  return {
+    type: ADD_MESSAGE,
     response,
   };
 }
@@ -13,7 +20,18 @@ export function getDashboardData() {
     axios
       .get('/dashboard/getdata/all')
       .then(res => {
-        dispatch(getDashboardDataSuccess(res.data));
+        if (res.data.dataSent) {
+          dispatch(getDashboardDataSuccess(res.data));
+        } else {
+          dispatch(
+            getDashboardDataError({
+              message:
+                'Something went wrong fetching dashboard data. Reload the page and try again',
+              name: 'dashboard-data-error',
+              type: 'error',
+            })
+          );
+        }
       })
       .catch(err => console.log(err));
 }

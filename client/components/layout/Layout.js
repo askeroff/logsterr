@@ -6,6 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Spinner from './Spinner';
 import ShowLostTime from './ShowLostTime';
+import ShowMessages from './ShowMessages';
 
 class Layout extends React.Component {
   componentDidMount() {
@@ -22,6 +23,7 @@ class Layout extends React.Component {
         <div className="content-wrapper">
           <div className="important-messages">
             <ShowLostTime />
+            <ShowMessages />
           </div>
           {this.props.children}
         </div>

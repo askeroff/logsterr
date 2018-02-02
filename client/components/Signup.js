@@ -65,7 +65,7 @@ class Signup extends React.Component {
       <Layout>
         <h1 className="page-title">Signup Page</h1>
         <LoginForm
-          myClassName="form signup"
+          myClassName="form__signup"
           handleSubmit={this.handleSubmit}
           emailValue={this.state.email}
           passwordValue={this.state.password}

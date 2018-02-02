@@ -6,6 +6,7 @@ import projects from './projects';
 import tasks from './tasks';
 import timelog from './timelog';
 import dashboard from './dashboard';
+import messages from './messages';
 
 const rootReducer = combineReducers({
   user,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   tasks,
   timelog,
   dashboard,
+  messages,
   router: routerReducer,
 });
 

@@ -12,7 +12,7 @@ exports.getAll = async (req, res) => {
   */
   const setFirstDay = moment()
     .startOf('month')
-    .subtract({ days: 7 });
+    .subtract({ days: 14 });
   const setLastDay = moment().endOf('month');
 
   const data = await Timelog.find({
@@ -44,5 +44,6 @@ exports.getAll = async (req, res) => {
     thisWeek: formattedThisWeek,
     today: formattedToday,
     month: formattedMonth,
+    dataSent: true,
   });
 };

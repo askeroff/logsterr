@@ -21,7 +21,7 @@ const LoginForm = props => (
       inputValue={props.passwordValue}
       handleInput={props.handlePasswordChange}
     />
-    <input type="submit" value="Submit" className="submit-button" />
+    <input type="submit" value="Submit" className="button--submit" />
   </form>
 );
 

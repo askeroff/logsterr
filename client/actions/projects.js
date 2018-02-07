@@ -6,7 +6,7 @@ import {
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
-  ADD_MESSAGE
+  ADD_MESSAGE,
 } from '../actions/actionTypes';
 
 export function addProjectSuccess(project) {
@@ -19,11 +19,16 @@ export function addProjectSuccess(project) {
 export function projectError(response) {
   return {
     type: ADD_MESSAGE,
-    response
+    response,
   };
 }
 
 export function addProject(name) {
+  const error = {
+    message: 'Something went wrong. Try adding the project later.',
+    name: 'project-add-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post('/projects/add', { name })
@@ -31,20 +36,10 @@ export function addProject(name) {
         if (res.data.project) {
           dispatch(addProjectSuccess(res.data.project));
         } else {
-          dispatch(projectError({
-            message:
-              'Something went wrong. Try adding the project later.',
-            name: 'project-add-error',
-            type: 'error',
-          }));
+          dispatch(projectError(error));
         }
       })
-      .catch(() => dispatch(projectError({
-        message:
-          'Something went wrong. Try adding the project later.',
-        name: 'project-add-error',
-        type: 'error',
-      })));
+      .catch(() => dispatch(projectError(error)));
 }
 
 export function renameProjectSuccess(project) {
@@ -55,6 +50,11 @@ export function renameProjectSuccess(project) {
 }
 
 export function renameProject(id, name) {
+  const error = {
+    message: 'Something went wrong. Try renaming the project later.',
+    name: 'project-rename-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post(`/projects/${id}/edit`, { name })
@@ -62,20 +62,10 @@ export function renameProject(id, name) {
         if (res.data.project) {
           dispatch(renameProjectSuccess({ id, name }));
         } else {
-          dispatch(projectError({
-            message:
-              'Something went wrong. Try renaming the project later.',
-            name: 'project-rename-error',
-            type: 'error',
-          }));
+          dispatch(projectError(error));
         }
       })
-      .catch(() => dispatch(projectError({
-        message:
-          'Something went wrong. Try renaming the project later.',
-        name: 'project-rename-error',
-        type: 'error',
-      })));
+      .catch(() => dispatch(projectError(error)));
 }
 
 export function addTimeToProjectSuccess(id, time) {
@@ -87,6 +77,11 @@ export function addTimeToProjectSuccess(id, time) {
 }
 
 export function addTimeToProject(id, time) {
+  const error = {
+    message: 'Something went wrong. Try adding time to this project later.',
+    name: 'project-timeAdd-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post('/projects/addTime', { id, time })
@@ -94,20 +89,10 @@ export function addTimeToProject(id, time) {
         if (res.data.timeAdded) {
           dispatch(addTimeToProjectSuccess(id, time));
         } else {
-          dispatch(projectError({
-            message:
-              'Something went wrong. Try adding time to this project later.',
-            name: 'project-timeAdd-error',
-            type: 'error',
-          }));
+          dispatch(projectError(error));
         }
       })
-      .catch(() => dispatch(projectError({
-        message:
-          'Something went wrong. Try adding time to this project later.',
-        name: 'project-timeAdd-error',
-        type: 'error',
-      })));
+      .catch(() => dispatch(projectError(error)));
 }
 
 export function getProjectsSuccess(response) {
@@ -118,6 +103,12 @@ export function getProjectsSuccess(response) {
 }
 
 export function getProjects(authorID) {
+  const error = {
+    message:
+      'Something went wrong. Could not fetch the projects. Try reloading the page.',
+    name: 'project-getList-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .get('/projects/getProjects', authorID)
@@ -125,20 +116,10 @@ export function getProjects(authorID) {
         if (res.data.projectsList) {
           dispatch(getProjectsSuccess(res));
         } else {
-          dispatch(projectError({
-            message:
-              'Something went wrong. Could not fetch the projects. Try reloading the page.',
-            name: 'project-getList-error',
-            type: 'error',
-          }));
+          dispatch(projectError(error));
         }
       })
-      .catch(() => dispatch(projectError({
-        message:
-          'Something went wrong. Could not fetch the projects. Try reloading the page.',
-        name: 'project-getList-error',
-        type: 'error',
-      })));
+      .catch(() => dispatch(projectError(error)));
 }
 
 export function clearProjects() {
@@ -156,6 +137,11 @@ export function deleteProjectSuccess(id) {
 }
 
 export function deleteProject(id) {
+  const error = {
+    message: 'Something went wrong. Could not delete the project. Try later',
+    name: 'project-delete-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post('/projects/delete', { id })
@@ -163,18 +149,8 @@ export function deleteProject(id) {
         if (res.data.deleted) {
           dispatch(deleteProjectSuccess(id));
         } else {
-          dispatch(projectError({
-            message:
-              'Something went wrong. Could not delete the project. Try later',
-            name: 'project-delete-error',
-            type: 'error',
-          }));
+          dispatch(projectError(error));
         }
       })
-      .catch(() => dispatch(projectError({
-        message:
-          'Something went wrong. Could not delete the project. Try later',
-        name: 'project-delete-error',
-        type: 'error',
-      })));
+      .catch(() => dispatch(projectError(error)));
 }

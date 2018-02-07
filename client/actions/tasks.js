@@ -6,6 +6,7 @@ import {
   CLEAR_TASKS,
   RENAME_TASK,
   TOGGLE_DONE,
+  ADD_MESSAGE,
 } from '../actions/actionTypes';
 
 export function getTasksSuccess(response) {
@@ -15,14 +16,30 @@ export function getTasksSuccess(response) {
   };
 }
 
+export function taskError(response) {
+  return {
+    type: ADD_MESSAGE,
+    response,
+  };
+}
+
 export function getTasks(id) {
+  const error = {
+    message: 'Something went wrong. Could not load the tasks. Try reloading.',
+    name: 'tasks-get-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .get(`/projects/${id}/getTasks`)
       .then(res => {
-        dispatch(getTasksSuccess(res.data));
+        if (res.data.tasksList) {
+          dispatch(getTasksSuccess(res.data.tasksList));
+        } else {
+          dispatch(taskError(error));
+        }
       })
-      .catch(err => console.log(err));
+      .catch(() => dispatch(taskError(error)));
 }
 
 export function newTaskSuccess(task) {
@@ -34,13 +51,23 @@ export function newTaskSuccess(task) {
 
 export function newTask(task) {
   const { name, project } = task;
+  const error = {
+    message:
+      'Something went wrong. Could not create the task. Try again or reload the page',
+    name: 'tasks-new-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post(`/projects/${task.project}/add`, { name, project })
       .then(res => {
-        dispatch(newTaskSuccess(res.data.task));
+        if (res.data.task) {
+          dispatch(newTaskSuccess(res.data.task));
+        } else {
+          dispatch(taskError(error));
+        }
       })
-      .catch(err => console.log(err));
+      .catch(() => dispatch(taskError(error)));
 }
 
 export function deleteTaskSuccess(id) {
@@ -51,13 +78,23 @@ export function deleteTaskSuccess(id) {
 }
 
 export function deleteTask(id) {
+  const error = {
+    message:
+      'Something went wrong. Could not delete the task. Try again or reload the page',
+    name: 'tasks-delete-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post(`/projects/${id}/delete`, { id })
       .then(() => {
-        dispatch(deleteTaskSuccess(id));
+        if (res.data.deleted) {
+          dispatch(deleteTaskSuccess(id));
+        } else {
+          dispatch(taskError(error));
+        }
       })
-      .catch(err => console.log(err));
+      .catch(() => dispatch(taskError(error)));
 }
 
 export function renameTaskSuccess(id, name) {
@@ -69,13 +106,23 @@ export function renameTaskSuccess(id, name) {
 }
 
 export function renameTask(id, name) {
+  const error = {
+    message:
+      'Something went wrong. Could not rename the task. Try again or reload the page',
+    name: 'tasks-rename-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post(`/projects/tasks/${id}/edit`, { id, name })
-      .then(() => {
-        dispatch(renameTaskSuccess(id, name));
+      .then(res => {
+        if (res.data.renamed) {
+          dispatch(renameTaskSuccess(id, name));
+        } else {
+          dispatch(taskError(error));
+        }
       })
-      .catch(err => console.log(err));
+      .catch(() => dispatch(taskError(error)));
 }
 
 export function clearTasks() {
@@ -94,11 +141,21 @@ export function toggleDoneSuccess(id, done) {
 }
 
 export function toggleDone(id) {
+  const error = {
+    message:
+      'Something went wrong. Could not toggle the task. Try again or reload the page',
+    name: 'tasks-toggle-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post(`/projects/tasks/${id}/done`, { id })
       .then(res => {
-        dispatch(toggleDoneSuccess(id, res.data.done));
+        if (res.data.done !== undefined) {
+          dispatch(toggleDoneSuccess(id, res.data.done));
+        } else {
+          dispatch(taskError(error));
+        }
       })
-      .catch(err => console.log(err));
+      .catch(() => dispatch(taskError(error)));
 }

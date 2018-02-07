@@ -11,7 +11,7 @@ exports.getTasks = async (req, res) => {
   const tasksList = await Task.find({
     project: req.params.id,
   });
-  res.json(tasksList);
+  res.json({ tasksList });
 };
 
 exports.deleteTask = (req, res) => {

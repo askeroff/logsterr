@@ -26,7 +26,7 @@ class ShowLostTime extends React.Component {
       const diff = formatTime(now.diff(then, 'seconds'));
 
       return (
-        <div style={{ display: this.state.show }} className="warning-message">
+        <div style={{ display: this.state.show }} className="message message--info">
           <span>
             You started tracking time for{' '}
             <Link to={`/projects/${getStorageData.projectId}`}>
@@ -41,7 +41,7 @@ class ShowLostTime extends React.Component {
           </p>
           <input
             type="button"
-            className="info-button"
+            className="button--info"
             value="Dismiss!"
             onClick={this.close}
           />

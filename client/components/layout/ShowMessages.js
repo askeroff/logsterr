@@ -22,6 +22,7 @@ class ShowMessages extends React.Component {
         id={item.name}
         close={() => this.close(item.name)}
         message={item.message}
+        type={item.type}
       />
     ));
     return messages;

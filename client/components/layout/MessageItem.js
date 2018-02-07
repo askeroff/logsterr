@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const MessageItem = props => (
-  <div className="warning-message">
+  <div className={`message message--${props.type}`}>
     <p>{props.message}</p>
     <input
       type="button"
@@ -15,6 +15,7 @@ const MessageItem = props => (
 
 MessageItem.propTypes = {
   close: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
 };
 

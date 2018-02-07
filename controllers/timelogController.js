@@ -21,7 +21,7 @@ exports.addTime = async (req, res) => {
     taskPromise,
     projectPromise,
   ]);
-  res.json({ timelog, task, project });
+  res.json({ timelog, task, project, success: true });
 };
 
 exports.getLogs = async (req, res) => {
@@ -46,7 +46,7 @@ exports.getLogs = async (req, res) => {
     res.json({ info: 'This page doesnt exist' });
   }
 
-  res.json({ data, page, pages, count });
+  res.json({ data, page, pages, count, sent: true });
 };
 
 exports.deleteLog = async (req, res) => {

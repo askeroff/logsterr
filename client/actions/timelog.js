@@ -1,5 +1,18 @@
 import axios from 'axios';
-import { ADD_TIMELOG, GET_LOGS, CLEAR_LOGS, DELETE_LOG } from './actionTypes';
+import {
+  ADD_TIMELOG,
+  GET_LOGS,
+  CLEAR_LOGS,
+  DELETE_LOG,
+  ADD_MESSAGE,
+} from './actionTypes';
+
+export function timelogError(response) {
+  return {
+    type: ADD_MESSAGE,
+    response,
+  };
+}
 
 export function addTimelogSuccess(data, seconds) {
   return {
@@ -10,13 +23,23 @@ export function addTimelogSuccess(data, seconds) {
 }
 
 export function addTimelog(data, seconds) {
+  const error = {
+    message:
+      'Something went wrong. Could not add this timelog. Try adding this time manually',
+    name: 'timelog-add-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post('/projects/timelog', data)
       .then(res => {
-        dispatch(addTimelogSuccess(res.data, seconds));
+        if (res.data.success === true) {
+          dispatch(addTimelogSuccess(res.data, seconds));
+        } else {
+          dispatch(timelogError(error));
+        }
       })
-      .catch(err => console.log(err));
+      .catch(() => dispatch(timelogError(error)));
 }
 
 export function deleteLogSuccess(id) {
@@ -27,13 +50,23 @@ export function deleteLogSuccess(id) {
 }
 
 export function deleteLog(id) {
+  const error = {
+    message:
+      'Something went wrong. Could not delete this timelog. Try reloading',
+    name: 'timelog-delete-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .post(`/timelogs/${id}/delete`, { id })
-      .then(() => {
-        dispatch(deleteLogSuccess(id));
+      .then(res => {
+        if (res.data.deleted === true) {
+          dispatch(deleteLogSuccess(id));
+        } else {
+          dispatch(timelogError(error));
+        }
       })
-      .catch(err => console.log(err));
+      .catch(() => dispatch(timelogError(error)));
 }
 
 export function getLogsSuccess(response) {
@@ -44,13 +77,22 @@ export function getLogsSuccess(response) {
 }
 
 export function getLogs(page) {
+  const error = {
+    message: 'Something went wrong. Could not fetch the data. Try reloading',
+    name: 'timelog-getlogs-error',
+    type: 'error',
+  };
   return dispatch =>
     axios
       .get(`/projects/getlogs/${page}`)
       .then(res => {
-        dispatch(getLogsSuccess(res.data));
+        if (res.data.sent) {
+          dispatch(getLogsSuccess(res.data));
+        } else {
+          dispatch(timelogError(error));
+        }
       })
-      .catch(err => console.log(err));
+      .catch(() => dispatch(timelogError(error)));
 }
 
 export function clearLogs() {

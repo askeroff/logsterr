@@ -87,7 +87,7 @@ export function deleteTask(id) {
   return dispatch =>
     axios
       .post(`/projects/${id}/delete`, { id })
-      .then(() => {
+      .then(res => {
         if (res.data.deleted) {
           dispatch(deleteTaskSuccess(id));
         } else {

@@ -10,7 +10,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showNow: 'lastweek',
+      defaultShow: 'lastweek',
       title: 'Last Week',
       dashboard: [],
     };
@@ -41,38 +41,35 @@ class Dashboard extends React.Component {
     return result || 'Not Found';
   }
 
-  changeData() {
+  changeData(event) {
     const { dashboardData } = this.props;
-    switch (this.state.showNow) {
+    this.setState({ defaultShow: event.target.value });
+    switch (event.target.value) {
       case 'lastweek': {
         this.setState({
-          dashboard: dashboardData.thisWeek,
-          showNow: 'thisweek',
-          title: 'This Week',
-        });
-        break;
-      }
-      case 'thisweek': {
-        this.setState({
-          dashboard: dashboardData.today,
-          showNow: 'today',
-          title: 'Today',
+          dashboard: dashboardData.lastWeek,
+          title: 'Last Week',
         });
         break;
       }
       case 'today': {
         this.setState({
-          dashboard: dashboardData.month,
-          showNow: 'month',
-          title: 'This Month',
+          dashboard: dashboardData.today,
+          title: 'Today',
         });
         break;
       }
       case 'month': {
         this.setState({
-          dashboard: dashboardData.lastWeek,
-          showNow: 'lastweek',
-          title: 'Last Week',
+          dashboard: dashboardData.month,
+          title: 'This Month',
+        });
+        break;
+      }
+      case 'thisweek': {
+        this.setState({
+          dashboard: dashboardData.thisWeek,
+          title: 'This Week',
         });
         break;
       }
@@ -84,7 +81,7 @@ class Dashboard extends React.Component {
 
   render() {
     let showData = null;
-    const { dashboard, title } = this.state;
+    const { dashboard } = this.state;
     if (this.props.projects.length !== 0 && dashboard.length !== 0) {
       showData = dashboard.map(item => (
         <div className="dashboard__item" key={item.id}>
@@ -103,10 +100,17 @@ class Dashboard extends React.Component {
     return (
       <div className="dashboard">
         <h2 className="dashboard__title">
-          {title}
-          <button className="dashboard__toggle" onClick={this.changeData}>
-            Toggle
-          </button>
+          Data For
+          <select
+            className="dashboard__select"
+            onChange={this.changeData}
+            value={this.state.defaultShow}
+          >
+            <option value="lastweek">Last Week</option>
+            <option value="thisweek">This Week</option>
+            <option value="today">Today</option>
+            <option value="month">This Month</option>
+          </select>
         </h2>
         {showData}
       </div>

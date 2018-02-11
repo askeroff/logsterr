@@ -13,9 +13,6 @@ const MotivationBlock = props => {
     const thisWeek = dashboardData.thisWeek.find(item => item.id === projectId);
     if (thisWeek !== undefined && lastWeek !== undefined) {
       const diff = lastWeek.time - thisWeek.time - props.seconds;
-      console.log('difference', diff);
-      console.log('last week', lastWeek);
-      console.log('this week', thisWeek);
       if (diff < 0) {
         thisWeekString = (
           <span>And this week you did even more! Good job!</span>

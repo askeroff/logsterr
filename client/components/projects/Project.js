@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getDashboardData } from '../../actions/dashboard';
+import { clearLogs } from '../../actions/timelog';
 import {
   getProjects,
   clearProjects,
@@ -80,6 +81,10 @@ class Project extends React.Component {
   componentDidUpdate() {
     this.onUpdateProjects();
     this.onUpdateTasks();
+  }
+
+  componentWillUnmount() {
+    this.props.clearSecondsLog();
   }
 
   onUpdateProjects() {
@@ -274,6 +279,7 @@ Project.propTypes = {
   handleNewTask: PropTypes.func.isRequired,
   clearProjectsList: PropTypes.func.isRequired,
   clearTasksList: PropTypes.func.isRequired,
+  clearSecondsLog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -305,6 +311,13 @@ const mapDispatchToProps = dispatch => ({
   },
   clearTasksList() {
     dispatch(clearTasks());
+  },
+  clearSecondsLog() {
+    dispatch(clearLogs());
+    /*
+      I need to clear up the seconds in the reducer, when component unmounts.
+      Otherwise it computes data wrong for the other components;
+    */
   },
 });
 

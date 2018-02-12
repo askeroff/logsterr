@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { formatTime } from '../../helpers';
 
 const MotivationBlock = props => {
-  let motivationString = '';
   let thisWeekString = '';
 
   const { dashboardData, projectId } = props;
-  console.log(props);
   if (dashboardData.lastWeek && dashboardData.lastWeek.length !== 0) {
     const lastWeek = dashboardData.lastWeek.find(item => item.id === projectId);
     const thisWeek = dashboardData.thisWeek.find(item => item.id === projectId);
@@ -15,28 +13,91 @@ const MotivationBlock = props => {
       const diff = lastWeek.time - thisWeek.time - props.seconds;
       if (diff < 0) {
         thisWeekString = (
-          <span>And this week you did even more! Good job!</span>
+          <p>
+            <span>
+              Last week you did <b>{formatTime(lastWeek.time)}</b> on this
+              project.{' '}
+            </span>
+            <span>And this week you did even more! </span>
+            <span>
+              Exactly,
+              <b>{formatTime(Math.abs(diff))}</b> more.
+            </span>
+          </p>
         );
       } else {
         thisWeekString = (
-          <span>
-            Can you do more than last week? <b>{formatTime(diff)}</b> left
-          </span>
+          <p>
+            <span>
+              Last week you did <b>{formatTime(lastWeek.time)}</b> on this
+              project.{' '}
+            </span>
+            <span>Focus and do no less this week! </span>
+            <span>
+              <b>{formatTime(diff)}</b> left to do.
+            </span>
+          </p>
         );
       }
     }
 
-    if (lastWeek !== undefined) {
-      motivationString = (
+    if (thisWeek === undefined && lastWeek !== undefined) {
+      const diff = lastWeek.time - props.seconds;
+      const newData =
+        diff > 0 ? (
+          <span>
+            <b>{formatTime(Math.abs(diff))}</b> left to do.
+          </span>
+        ) : (
+          <span>
+            <b> And you did {formatTime(Math.abs(diff))}</b> more than last
+            week!
+          </span>
+        );
+      thisWeekString = (
         <p>
-          Last week you did <b>{formatTime(lastWeek.time)}</b> on this project.{' '}
-          {thisWeekString}
+          <span>
+            Last week you did <b>{formatTime(lastWeek.time)}</b> on this
+            project.{' '}
+          </span>
+          <span>Focus and do no less this week! </span>
+          {newData}
+        </p>
+      );
+    }
+    if (thisWeek !== undefined && lastWeek === undefined) {
+      const diff = thisWeek.time + props.seconds;
+      thisWeekString = (
+        <p>
+          <span>
+            This week you worked <b>{formatTime(Math.abs(diff))}</b> on this
+            project. Keep on!
+          </span>
+        </p>
+      );
+    }
+    if (thisWeek === undefined && lastWeek === undefined) {
+      const newData =
+        props.seconds !== 0 ? (
+          <span>
+            Here is new data: <b>{formatTime(props.seconds)}</b> this week on
+            this project!
+          </span>
+        ) : (
+          ''
+        );
+      thisWeekString = (
+        <p>
+          <span>
+            Seems you haven`t worken on this project for a while. Care to start
+            now?{' '}
+          </span>
+          {newData}
         </p>
       );
     }
   }
-
-  return motivationString;
+  return thisWeekString;
 };
 
 MotivationBlock.defaultProps = {

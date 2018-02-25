@@ -1,28 +1,18 @@
 {
-  "presets": ["react", "es2015"],
-  "env": {
-    "development": {
-      "plugins": [
-        ["transform-object-rest-spread"],
-        ["transform-react-display-name"],
-        [
-          "react-transform",
-          {
-            "transforms": [
-              {
-                "transform": "react-transform-catch-errors",
-                "imports": ["react", "redbox-react"]
-              }
-            ]
-          }
-        ]
-      ]
-    },
-    "production": {
-      "plugins": [
-        ["transform-object-rest-spread"],
-        ["transform-react-display-name"]
-      ]
-    }
-  }
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": "last 2 versions"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-react-display-name",
+    "transform-object-rest-spread"
+  ]
 }

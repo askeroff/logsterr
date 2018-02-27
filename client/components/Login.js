@@ -1,23 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logIn } from '../actions/user';
+import { logIn, forgot } from '../actions/user';
 import LoginForm from './layout/LoginForm';
+import ForgotForm from './layout/ForgotForm';
 import Layout from './layout/Layout';
 import Spinner from './layout/Spinner';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      spinner: false,
-    };
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  state = {
+    email: '',
+    forgotEmail: '',
+    password: '',
+    spinner: false,
+  };
 
   componentDidMount() {
     this.props.user.error = '';
@@ -34,15 +30,19 @@ class Login extends React.Component {
     }
   }
 
-  handleEmailChange(event) {
+  handleEmailChange = event => {
     this.setState({ email: event.target.value });
-  }
+  };
 
-  handlePasswordChange(event) {
+  handleForgotEmailChange = event => {
+    this.setState({ forgotEmail: event.target.value });
+  };
+
+  handlePasswordChange = event => {
     this.setState({ password: event.target.value });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.setState({ spinner: true });
     this.resultMessage.innerHTML = '';
@@ -50,7 +50,12 @@ class Login extends React.Component {
       email: this.state.email,
       password: this.state.password,
     });
-  }
+  };
+
+  handleForgotSubmit = event => {
+    event.preventDefault();
+    this.props.handleForgot(this.state.forgotEmail);
+  };
 
   render() {
     return (
@@ -71,6 +76,13 @@ class Login extends React.Component {
           }}
         />
         {this.state.spinner ? <Spinner /> : null}
+        <h2 className="page-title">Did you forget your password?</h2>
+        <ForgotForm
+          myClassName="form__login"
+          emailValue={this.state.forgotEmail}
+          handleEmailChange={this.handleForgotEmailChange}
+          handleSubmit={this.handleForgotSubmit}
+        />
       </Layout>
     );
   }
@@ -82,6 +94,7 @@ Login.defaultProps = {
 
 Login.propTypes = {
   handleLogin: PropTypes.func.isRequired,
+  handleForgot: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   error: PropTypes.string,
@@ -95,6 +108,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleLogin(user) {
     dispatch(logIn(user));
+  },
+  handleForgot(email) {
+    dispatch(forgot(email));
   },
 });
 

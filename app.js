@@ -58,6 +58,12 @@ app.get('/auth', authController.getClientAUser);
 
 app.get('/logout', authController.logout);
 
+app.get('/account/reset/:token', catchErrors(userController.getReset));
+
+app.post('/account/reset/:token', catchErrors(userController.postReset));
+
+app.post('/forgot', catchErrors(userController.forgot));
+
 app.post(
   '/signup',
   [

@@ -12,6 +12,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import Timelog from './components/Timelog';
 import NotFound from './components/NotFound';
+import Reset from './components/Reset';
 import ProjectsRoutes from './components/projects/ProjectsRoutes';
 
 import 'normalize.css'; // eslint-disable-line import/first
@@ -24,6 +25,7 @@ const Root = () => (
         <Route exact path="/" component={Home} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
+        <Route path="/reset/:token" component={Reset} />
         <Route path="/logmeout" component={Logout} />
         <Route path="/projects" component={ProjectsRoutes} />
         <Route path="/timelog/:page" component={Timelog} />

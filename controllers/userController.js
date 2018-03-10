@@ -33,7 +33,8 @@ exports.forgot = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   const message = 'Reset has been sent to you.';
   if (!user) {
-    res.json({ message: 'No Such Account' });
+    res.json({ message: 'No Such Account', success: false });
+    return;
   }
 
   user.resetPasswordToken = crypto.randomBytes(20).toString('hex');

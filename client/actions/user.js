@@ -107,9 +107,10 @@ export function signUp(user) {
       });
 }
 
-export function forgotSuccess() {
+export function forgotSuccess(response) {
   return {
     type: FORGOT,
+    response
   };
 }
 
@@ -118,16 +119,34 @@ export function forgot(email) {
     axios
       .post('/forgot', { email })
       .then(res => {
-        dispatch(
-          userMessage({
-            message: res.data.message || 'Sorry, try again',
-            name: 'user-forgot-message',
-            type: 'info',
-          })
-        );
-        dispatch(forgotSuccess());
+        if (res.data.success === false) {
+          dispatch(
+            userMessage({
+              message: res.data.message,
+              name: `user-forgot-message-${Date.now()}`,
+              type: 'error',
+            })
+          );
+        } else {
+          dispatch(
+            userMessage({
+              message: res.data.message,
+              name: `user-forgot-message-${Date.now()}`,
+              type: 'info',
+            })
+          );
+        }
+        dispatch(forgotSuccess(true));
       })
       .catch(err => {
+        dispatch(
+          userMessage({
+            message: 'Sorry, something went wrong on our side. Try later or contact support.',
+            name: `user-forgot-message-${Date.now()}`,
+            type: 'error',
+          })
+        );
+        dispatch(forgotSuccess(true));
         console.log(err);
       });
 }

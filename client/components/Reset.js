@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import { getReset, postReset } from '../actions/user';
 import Layout from './layout/Layout';
 import ResetForm from './layout/ResetForm';
+import Spinner from './layout/Spinner';
 
 class Reset extends React.Component {
   state = {
     message: 'Checking your token for validity...',
     resetPassword: '',
     resetMessage: '',
+    spinner: false
   };
 
   componentDidMount() {
@@ -20,9 +22,11 @@ class Reset extends React.Component {
     if (nextProps.getReset === true) {
       this.setState({
         message: '',
+        spinner: false,
       });
     } else if (nextProps.getReset === false) {
       this.setState({
+        spinner: false,
         message: 'Your token is invalid. It might be expired',
       });
     }
@@ -44,6 +48,7 @@ class Reset extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    this.setState({ spinner: true });
     this.props.handlePostReset(
       this.props.match.params.token,
       this.state.resetPassword
@@ -62,9 +67,10 @@ class Reset extends React.Component {
             handleSubmit={this.handleSubmit}
           />
         ) : (
-          this.state.message
-        )}
+            this.state.message
+          )}
         <span>{this.state.resetMessage}</span>
+        {this.state.spinner ? <Spinner /> : null}
       </Layout>
     );
   }

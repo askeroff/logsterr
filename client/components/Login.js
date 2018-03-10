@@ -13,6 +13,7 @@ class Login extends React.Component {
     forgotEmail: '',
     password: '',
     spinner: false,
+    forgotSpinner: false
   };
 
   componentDidMount() {
@@ -20,6 +21,9 @@ class Login extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.user.forgotResponse !== undefined) {
+      this.setState({ forgotSpinner: false });
+    }
     if (nextProps.user.email !== undefined) {
       this.props.history.push('/');
     }
@@ -55,6 +59,7 @@ class Login extends React.Component {
   handleForgotSubmit = event => {
     event.preventDefault();
     this.props.handleForgot(this.state.forgotEmail);
+    this.setState({ forgotSpinner: true });
   };
 
   render() {
@@ -83,6 +88,7 @@ class Login extends React.Component {
           handleEmailChange={this.handleForgotEmailChange}
           handleSubmit={this.handleForgotSubmit}
         />
+        {this.state.forgotSpinner ? <Spinner /> : null}
       </Layout>
     );
   }

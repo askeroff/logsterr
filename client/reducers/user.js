@@ -7,6 +7,7 @@ import {
   SIGN_UP_ERROR,
   GET_RESET,
   POST_RESET,
+  FORGOT
 } from '../actions/actionTypes';
 
 function user(state = {}, action) {
@@ -25,6 +26,8 @@ function user(state = {}, action) {
       return Object.assign({}, state, {
         errors: action.error.response.data.errors,
       });
+    case FORGOT:
+      return Object.assign({}, state, { forgotResponse: action.response });
     case GET_RESET:
       return Object.assign({}, state, {
         getReset: action.data.getReset,

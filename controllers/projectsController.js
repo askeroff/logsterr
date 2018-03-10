@@ -27,7 +27,7 @@ exports.addTime = async (req, res) => {
 
 exports.getProjects = async (req, res) => {
   const projectsList = await Project.find({
-    author: req.user._id,
+    author: req.user._id
   });
 
   res.send({ projectsList });
@@ -36,7 +36,7 @@ exports.getProjects = async (req, res) => {
 exports.deleteProject = (req, res) => {
   Task.deleteMany(
     {
-      project: req.body.id,
+      project: req.body.id
     },
     err => {
       if (err) {

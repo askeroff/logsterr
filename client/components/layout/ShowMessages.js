@@ -10,21 +10,21 @@ class ShowMessages extends React.Component {
     this.state = {
       show: 'block',
     };
-    this.close = this.close.bind(this);
   }
-  close(name) {
+
+  close = (name) => {
     this.props.handleRemoveMessage(name);
   }
+
   render() {
-    const messages = this.props.messages.map(item => (
-      <MessageItem
-        key={item.name}
-        id={item.name}
-        close={() => this.close(item.name)}
-        message={item.message}
-        type={item.type}
-      />
-    ));
+    const messages = this.props.messages.map(item => (<MessageItem
+      key={item.name}
+      id={item.name}
+      close={() => this.close(item.name)}
+      message={item.message}
+      type={item.type}
+    />)
+    );
     return messages;
   }
 }

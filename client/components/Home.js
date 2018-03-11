@@ -16,8 +16,9 @@ class Home extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.loggedIn === true) {
       this.setState({ loggedIn: true });
-    } else if (nextProps.user.loggedIn === false) {
-      this.props.history.push('/login');
+    } else if (nextProps.user.loggedIn === false
+      && Object.prototype.hasOwnProperty.call(nextProps.history, 'push')) {
+      nextProps.history.push('/login');
     }
   }
 
@@ -37,9 +38,13 @@ class Home extends React.Component {
   }
 }
 
+Home.defaultProps = {
+  history: {},
+};
+
 Home.propTypes = {
   user: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

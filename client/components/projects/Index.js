@@ -9,18 +9,12 @@ import ProjectsList from './ProjectsList';
 import AddForm from './AddForm';
 
 class Index extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userLoaded: false,
-      showForm: false,
-      formInput: '',
-      spinner: '',
-    };
-    this.showAddForm = this.showAddForm.bind(this);
-    this.handleFormInput = this.handleFormInput.bind(this);
-    this.addProject = this.addProject.bind(this);
-  }
+  state = {
+    userLoaded: false,
+    showForm: false,
+    formInput: '',
+    spinner: '',
+  };
 
   componentDidMount() {
     this.props.clearProjectsList();
@@ -43,17 +37,17 @@ class Index extends React.Component {
     }
   }
 
-  showAddForm() {
+  showAddForm = () => {
     this.setState({
       showForm: !this.state.showForm,
     });
   }
 
-  handleFormInput(event) {
+  handleFormInput = (event) => {
     this.setState({ formInput: event.target.value });
   }
 
-  addProject(name) {
+  addProject = (name) => {
     this.props.handleAdding(name);
     this.setState({
       showForm: false,

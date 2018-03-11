@@ -21,28 +21,18 @@ import TimeAddForm from '../tasks/TimeAddForm';
 import { formatTime } from '../../helpers';
 
 class Project extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projectIndex: undefined,
-      userLoaded: false,
-      projectsLoaded: false,
-      tasksLoaded: false,
-      showForm: false,
-      timeForm: false,
-      newTaskInput: '',
-      notFound: false,
-      spinner: false,
-      seconds: 0,
-    };
-    this.showAddForm = this.showAddForm.bind(this);
-    this.formToggle = this.formToggle.bind(this);
-    this.showAddTimeForm = this.showAddTimeForm.bind(this);
-    this.handleNewTaskInput = this.handleNewTaskInput.bind(this);
-    this.addTask = this.addTask.bind(this);
-    this.onUpdateProjects = this.onUpdateProjects.bind(this);
-    this.onUpdateTasks = this.onUpdateTasks.bind(this);
-  }
+  state = {
+    projectIndex: undefined,
+    userLoaded: false,
+    projectsLoaded: false,
+    tasksLoaded: false,
+    showForm: false,
+    timeForm: false,
+    newTaskInput: '',
+    notFound: false,
+    spinner: false,
+    seconds: 0,
+  };
 
   componentDidMount() {
     this.props.clearProjectsList();
@@ -87,7 +77,7 @@ class Project extends React.Component {
     this.props.clearSecondsLog();
   }
 
-  onUpdateProjects() {
+  onUpdateProjects = () => {
     if (this.props.projects.length !== 0 && !this.state.projectsLoaded) {
       this.props.projects.forEach((item, index) => {
         if (item._id === this.props.match.params.id) {
@@ -102,7 +92,7 @@ class Project extends React.Component {
     }
   }
 
-  onUpdateTasks() {
+  onUpdateTasks = () => {
     if (
       this.state.projectsLoaded &&
       this.state.projectIndex === undefined &&
@@ -120,25 +110,25 @@ class Project extends React.Component {
     }
   }
 
-  showAddForm() {
+  showAddForm = () => {
     this.setState({
       showForm: !this.state.showForm,
     });
   }
 
-  showAddTimeForm() {
+  showAddTimeForm = () => {
     this.setState({
       timeForm: !this.state.timeForm,
     });
   }
 
-  handleNewTaskInput(e) {
+  handleNewTaskInput = (e) => {
     this.setState({
       newTaskInput: e.target.value,
     });
   }
 
-  addTask(task) {
+  addTask = (task) => {
     this.props.handleNewTask({ name: task.name, project: task.project });
     this.setState({
       showForm: false,
@@ -147,7 +137,7 @@ class Project extends React.Component {
     });
   }
 
-  formToggle() {
+  formToggle = () => {
     this.setState(state => ({
       timeForm: !state.timeForm,
     }));
@@ -249,7 +239,6 @@ class Project extends React.Component {
         <TasksList
           projectId={this.props.match.params.id}
           tasks={this.props.tasks}
-          tasksLoaded={this.state.tasksLoaded}
         />
       </Layout>
     );

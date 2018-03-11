@@ -8,12 +8,17 @@ import Spinner from '../layout/Spinner';
 import Task from './Task';
 
 class TasksList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleTaskDelete = this.handleTaskDelete.bind(this);
+  state = {
+    spinner: true
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.tasks.length !== this.props.tasks.length) {
+      this.setState({ spinner: false });
+    }
   }
 
-  handleTaskDelete(id) {
+  handleTaskDelete = (id) => {
     swal({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this task',
@@ -25,14 +30,14 @@ class TasksList extends React.Component {
         this.props.handleDeleting(id);
       }
     });
+    this.setState({ spinner: true });
   }
 
   render() {
-    if (this.props.tasksLoaded !== true) return <Spinner />;
     if (this.props.tasks.length === 0) return 'No tasks yet';
     let doneItems = this.props.tasks.filter(task => task.done);
     let undoneItems = this.props.tasks.filter(task => !task.done);
-
+    let result = null;
     if (this.props.filter) {
       doneItems = doneItems.map(task => (
         <Task
@@ -48,11 +53,7 @@ class TasksList extends React.Component {
         />
       ));
 
-      return doneItems.length === 0 ? (
-        'No tasks yet'
-      ) : (
-        <ul className="tasks__list--done">{doneItems}</ul>
-      );
+      result = <ul className="tasks__list--done">{doneItems}</ul>;
     }
 
     undoneItems = undoneItems.map(task => (
@@ -70,23 +71,19 @@ class TasksList extends React.Component {
       />
     ));
 
-    return undoneItems.length === 0 ? (
-      'No tasks yet'
-    ) : (
-      <ul className="tasks__list">{undoneItems}</ul>
-    );
+    result = <ul className="tasks__list">{undoneItems}</ul>;
+    return (<div> {result} {this.state.spinner && (<Spinner />)} </div >);
   }
+
 }
 
 TasksList.defaultProps = {
   tasks: [],
   filter: false,
-  tasksLoaded: false,
 };
 
 TasksList.propTypes = {
   tasks: PropTypes.array,
-  tasksLoaded: PropTypes.bool,
   handleDeleting: PropTypes.func.isRequired,
   projectId: PropTypes.string.isRequired,
   filter: PropTypes.bool,

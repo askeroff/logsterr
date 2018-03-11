@@ -11,9 +11,9 @@ This is a simple side project to learn more about full-stack JS stack. Supposedl
 * click on timer and time your activity
 * get weekly/monthly results (how much hours did you spend on what tasks)
 
-# [Demo](https://timetracker-gzjzzyefog.now.sh/)
+## Demo
 
-Demo version is hosted on now.sh for demo purposes only. The links might change with different versions of the app. The current working version should be in the most recent version of README file.
+Demo version is hosted on now.sh for demo purposes only. The links might change with different versions of the app. The current working version should be in the most recent version of README file. You can see the current demo at the top, in the project's description. Usually, it's the last release hosted.
 
 ## Tech Stack
 
@@ -24,8 +24,13 @@ Backend runs on Express framework. Logins and signup are handled with passportjs
     PORT=
     SECRET=
     KEY=
+    MAIL_USER=
+    MAIL_PASS=
+    MAIL_HOST=
+    MAIL_PORT=
+    MAIL_FROM=
 
-Pop in your values.
+Pop in your values. All MAIL_ prefixed variables are for SMTP transport for nodemailer, user with "Reset password" feature. I use mailjet service for this.
 
 Client side all is handled with React w/Redux right now.
 To run this app for production:

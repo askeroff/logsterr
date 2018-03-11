@@ -13,7 +13,7 @@ This is a simple side project to learn more about full-stack JS stack. Supposedl
 
 ## Demo
 
-Demo version is hosted on now.sh for demo purposes only. The links might change with different versions of the app. The current working version should be in the most recent version of README file. You can see the current demo at the top, in the project's description. Usually, it's the last release hosted.
+Demo version is hosted on now.sh for demo purposes only. You can see the current demo at the top, in the project's description. Usually, it's the last release hosted.
 
 ## Tech Stack
 

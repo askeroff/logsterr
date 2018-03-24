@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { deleteProject, renameProject } from '../../actions/projects';
 import ProjectItem from './ProjectItem';
+import Spinner from '../layout/Spinner';
 
 class ProjectsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onDelete = this.onDelete.bind(this);
-  }
+  state = { spinner: true }
 
-  onDelete(id) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps) {
+      this.setState({ spinner: false });
+    }
+  }
+  onDelete = (id) => {
     swal({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this project',
@@ -36,7 +39,7 @@ class ProjectsList extends React.Component {
         renameMe={this.props.handleRenaming}
       />
     ));
-    return listItems;
+    return this.state.spinner ? <Spinner /> : listItems;
   }
 }
 

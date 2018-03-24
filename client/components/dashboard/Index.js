@@ -2,21 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tasks from './Tasks';
+import Spinner from '../layout/Spinner';
 import { getDashboardData } from '../../actions/dashboard';
 import { getProjects } from '../../actions/projects';
 import { formatTime } from '../../helpers';
 
 class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      defaultShow: 'lastweek',
-      title: 'Last Week',
-      dashboard: [],
-    };
-    this.getProjectName = this.getProjectName.bind(this);
-    this.changeData = this.changeData.bind(this);
-  }
+
+  state = {
+    defaultShow: 'lastweek',
+    title: 'Last Week',
+    dashboard: [],
+    spinner: true
+  };
+
 
   componentDidMount() {
     this.props.handleDashboardData();
@@ -27,11 +26,11 @@ class Dashboard extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dashboardData.lastWeek) {
-      this.setState({ dashboard: nextProps.dashboardData.lastWeek });
+      this.setState({ dashboard: nextProps.dashboardData.lastWeek, spinner: false });
     }
   }
 
-  getProjectName(id) {
+  getProjectName = (id) => {
     let result;
     this.props.projects.forEach(item => {
       if (item._id === id) {
@@ -41,7 +40,7 @@ class Dashboard extends React.Component {
     return result || 'Not Found';
   }
 
-  changeData(event) {
+  changeData = (event) => {
     const { dashboardData } = this.props;
     this.setState({ defaultShow: event.target.value });
     switch (event.target.value) {
@@ -82,6 +81,9 @@ class Dashboard extends React.Component {
   render() {
     let showData = null;
     const { dashboard } = this.state;
+    if (this.state.spinner) {
+      return <Spinner />;
+    }
     if (this.props.projects.length !== 0 && dashboard.length !== 0) {
       showData = dashboard.map(item => (
         <div className="dashboard__item" key={item.id}>

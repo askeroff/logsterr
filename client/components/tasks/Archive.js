@@ -105,7 +105,6 @@ class Archive extends React.Component {
           filter
           projectId={match.params.id}
           tasks={tasks}
-          tasksLoaded={this.state.tasksLoaded}
         />
       </Layout>
     );

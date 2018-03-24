@@ -55,12 +55,7 @@ class Project extends React.Component {
       this.props.handleDashboardData();
       this.setState({ userLoaded: true });
     }
-    /*
-      We need this to update time left in motivation block realtime
-      without making API calls, making new actions and reducers stuff.
-      The data is taken after action ADD_TIMELOG, which returns what we need here;
-      Don't know how good this is, but anyhow it works.
-    */
+
     if (nextProps.timelog.seconds !== undefined) {
       this.setState(state => ({
         seconds: state.seconds + nextProps.timelog.seconds,

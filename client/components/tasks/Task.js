@@ -2,50 +2,53 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Timer from './Timer';
 import ButtonsGroup from './ButtonsGroup';
+import Spinner from '../layout/Spinner';
 import { formatDate, formatTime } from '../../helpers';
 
 class Task extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      editName: '',
-      showInput: false,
-      showTimer: false,
-    };
-    this.handleNameInput = this.handleNameInput.bind(this);
-    this.handleShowInput = this.handleShowInput.bind(this);
-    this.handleEnterButton = this.handleEnterButton.bind(this);
-    this.showTimer = this.showTimer.bind(this);
+  state = {
+    editName: '',
+    showInput: false,
+    showTimer: false,
+    spinner: false,
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps) {
+      this.setState({ spinner: false });
+    }
   }
 
-  showTimer() {
+  showTimer = () => {
     this.setState(state => ({
       showTimer: !state.showTimer,
     }));
   }
 
-  handleNameInput(e) {
+  handleNameInput = (e) => {
     this.setState({ editName: e.target.value });
   }
 
-  handleShowInput(name) {
+  handleShowInput = (name) => {
     this.setState({
       showInput: !this.state.showInput,
       editName: name,
     });
   }
 
-  handleRenaming(id, name) {
+  handleRenaming = (id, name) => {
     this.props.handleRename(id, name);
     this.setState({
       showInput: false,
+      spinner: true
     });
   }
 
-  handleEnterButton(id, name) {
+  handleEnterButton = (id, name) => {
     this.props.handleRename(id, name);
     this.setState({
       showInput: false,
+      spinner: true
     });
   }
 
@@ -66,6 +69,11 @@ class Task extends React.Component {
     const hideOrNot = showInput ? 'none' : '';
     const newDate = this.props.updated ? formatDate(this.props.updated) : '';
     const dateString = this.props.updated ? 'Done:' : '';
+
+    if (this.state.spinner) {
+      return <Spinner />;
+    }
+
     return (
       <li className={`${doneClass}`}>
         <p style={{ display: hideOrNot }} className="tasks__list-name">

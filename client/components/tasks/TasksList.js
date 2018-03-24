@@ -13,7 +13,7 @@ class TasksList extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.tasks.length !== this.props.tasks.length) {
+    if (nextProps) {
       this.setState({ spinner: false });
     }
   }
@@ -30,33 +30,15 @@ class TasksList extends React.Component {
         this.props.handleDeleting(id);
       }
     });
-    this.setState({ spinner: true });
   }
 
-  render() {
-    if (this.props.tasks.length === 0) return 'No tasks yet';
-    let doneItems = this.props.tasks.filter(task => task.done);
-    let undoneItems = this.props.tasks.filter(task => !task.done);
-    let result = null;
-    if (this.props.filter) {
-      doneItems = doneItems.map(task => (
-        <Task
-          key={task._id}
-          id={task._id}
-          name={task.name}
-          done={task.done}
-          updated={task.updated}
-          handleDelete={this.handleTaskDelete}
-          handleRename={this.props.handleEditing}
-          taskDone={this.props.handleDone}
-          timeSpent={task.timeSpent}
-        />
-      ));
-
-      result = <ul className="tasks__list--done">{doneItems}</ul>;
+  mapItems(items) {
+    console.log(this.state);
+    if (items.length === 0) {
+      return <li>No tasks yet</li>;
     }
 
-    undoneItems = undoneItems.map(task => (
+    return items.map(task => (
       <Task
         key={task._id}
         id={task._id}
@@ -70,9 +52,20 @@ class TasksList extends React.Component {
         timeSpent={task.timeSpent}
       />
     ));
+  }
 
-    result = <ul className="tasks__list">{undoneItems}</ul>;
-    return (<div> {result} {this.state.spinner && (<Spinner />)} </div >);
+  render() {
+    const doneItems = this.props.tasks.filter(task => task.done);
+    const undoneItems = this.props.tasks.filter(task => !task.done);
+    let result = null;
+
+    result = <ul className="tasks__list">{this.mapItems(undoneItems)}</ul>;
+
+    if (this.props.filter) {
+      result = <ul className="tasks__list--done">{this.mapItems(doneItems)}</ul>;
+    }
+
+    return this.state.spinner ? (<Spinner />) : result;
   }
 
 }

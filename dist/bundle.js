@@ -4854,6 +4854,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _halogenium = __webpack_require__(317);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Spinner = function Spinner() {
+  return _react2.default.createElement(
+    'div',
+    { style: { textAlign: 'center' } },
+    _react2.default.createElement(_halogenium.PulseLoader, { color: '#4DAF7C' })
+  );
+};
+
+exports.default = Spinner;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4908,7 +4937,7 @@ module.exports = invariant;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4952,7 +4981,7 @@ var ADD_MESSAGE = exports.ADD_MESSAGE = 'ADD_MESSAGE';
 var REMOVE_MESSAGE = exports.REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5262,7 +5291,7 @@ module.exports = {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5294,7 +5323,7 @@ var _Footer = __webpack_require__(316);
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -5378,35 +5407,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Layout);
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _halogenium = __webpack_require__(317);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Spinner = function Spinner() {
-  return _react2.default.createElement(
-    'div',
-    { style: { textAlign: 'center' } },
-    _react2.default.createElement(_halogenium.PulseLoader, { color: '#4DAF7C' })
-  );
-};
-
-exports.default = Spinner;
 
 /***/ }),
 /* 13 */
@@ -5554,7 +5554,7 @@ var _axios = __webpack_require__(19);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5873,7 +5873,7 @@ var _axios = __webpack_require__(19);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6205,7 +6205,7 @@ module.exports = emptyFunction;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -6547,7 +6547,7 @@ var _axios = __webpack_require__(19);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6723,7 +6723,7 @@ var _axios = __webpack_require__(19);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6835,7 +6835,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
@@ -7338,7 +7338,7 @@ exports.default = createTransitionManager;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -7601,7 +7601,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 var normalizeHeaderName = __webpack_require__(299);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -7709,7 +7709,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
@@ -8250,7 +8250,7 @@ var storeShape = __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.shape({
 /* harmony export (immutable) */ __webpack_exports__["a"] = connectAdvanced;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_hoist_non_react_statics__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -9097,7 +9097,7 @@ var _warning = __webpack_require__(3);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(8);
+var _invariant = __webpack_require__(9);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -9585,7 +9585,7 @@ var isExtraneousPopstateEvent = exports.isExtraneousPopstateEvent = function isE
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -9773,7 +9773,7 @@ MemoryRouter.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9866,7 +9866,7 @@ Prompt.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history__ = __webpack_require__(276);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10036,7 +10036,7 @@ var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -10223,7 +10223,7 @@ StaticRouter.childContextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__matchPath__ = __webpack_require__(24);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10459,7 +10459,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = __webpack_require__(7);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
@@ -10467,7 +10467,7 @@ var _Index = __webpack_require__(345);
 
 var _Index2 = _interopRequireDefault(_Index);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -10498,8 +10498,8 @@ var Home = function (_React$Component) {
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.user.loggedIn === true) {
         this.setState({ loggedIn: true });
-      } else if (nextProps.user.loggedIn === false) {
-        this.props.history.push('/login');
+      } else if (nextProps.user.loggedIn === false && Object.prototype.hasOwnProperty.call(nextProps.history, 'push')) {
+        nextProps.history.push('/login');
       }
     }
   }, {
@@ -10524,9 +10524,13 @@ var Home = function (_React$Component) {
   return Home;
 }(_react2.default.Component);
 
+Home.defaultProps = {
+  history: {}
+};
+
 Home.propTypes = {
   user: _propTypes2.default.object.isRequired,
-  history: _propTypes2.default.object.isRequired
+  history: _propTypes2.default.object
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -10752,7 +10756,7 @@ process.umask = function() { return 0; };
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 var settle = __webpack_require__(300);
 var buildURL = __webpack_require__(302);
 var parseHeaders = __webpack_require__(303);
@@ -22900,7 +22904,7 @@ var _axios = __webpack_require__(19);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23161,7 +23165,7 @@ var _tasks = __webpack_require__(27);
 
 var _timelog = __webpack_require__(28);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -23205,53 +23209,31 @@ var TasksList = function (_React$Component) {
           _this.props.handleDeleting(id);
         }
       });
-      _this.setState({ spinner: true });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(TasksList, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.tasks.length !== this.props.tasks.length) {
+      if (nextProps) {
         this.setState({ spinner: false });
       }
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'mapItems',
+    value: function mapItems(items) {
       var _this2 = this;
 
-      if (this.props.tasks.length === 0) return 'No tasks yet';
-      var doneItems = this.props.tasks.filter(function (task) {
-        return task.done;
-      });
-      var undoneItems = this.props.tasks.filter(function (task) {
-        return !task.done;
-      });
-      var result = null;
-      if (this.props.filter) {
-        doneItems = doneItems.map(function (task) {
-          return _react2.default.createElement(_Task2.default, {
-            key: task._id,
-            id: task._id,
-            name: task.name,
-            done: task.done,
-            updated: task.updated,
-            handleDelete: _this2.handleTaskDelete,
-            handleRename: _this2.props.handleEditing,
-            taskDone: _this2.props.handleDone,
-            timeSpent: task.timeSpent
-          });
-        });
-
-        result = _react2.default.createElement(
-          'ul',
-          { className: 'tasks__list--done' },
-          doneItems
+      console.log(this.state);
+      if (items.length === 0) {
+        return _react2.default.createElement(
+          'li',
+          null,
+          'No tasks yet'
         );
       }
 
-      undoneItems = undoneItems.map(function (task) {
+      return items.map(function (task) {
         return _react2.default.createElement(_Task2.default, {
           key: task._id,
           id: task._id,
@@ -23265,21 +23247,33 @@ var TasksList = function (_React$Component) {
           timeSpent: task.timeSpent
         });
       });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var doneItems = this.props.tasks.filter(function (task) {
+        return task.done;
+      });
+      var undoneItems = this.props.tasks.filter(function (task) {
+        return !task.done;
+      });
+      var result = null;
 
       result = _react2.default.createElement(
         'ul',
         { className: 'tasks__list' },
-        undoneItems
+        this.mapItems(undoneItems)
       );
-      return _react2.default.createElement(
-        'div',
-        null,
-        ' ',
-        result,
-        ' ',
-        this.state.spinner && _react2.default.createElement(_Spinner2.default, null),
-        ' '
-      );
+
+      if (this.props.filter) {
+        result = _react2.default.createElement(
+          'ul',
+          { className: 'tasks__list--done' },
+          this.mapItems(doneItems)
+        );
+      }
+
+      return this.state.spinner ? _react2.default.createElement(_Spinner2.default, null) : result;
     }
   }]);
 
@@ -45777,7 +45771,7 @@ var _warning = __webpack_require__(3);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(8);
+var _invariant = __webpack_require__(9);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -46857,7 +46851,7 @@ module.exports = Array.isArray || function (arr) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(17);
@@ -47161,7 +47155,7 @@ var createBrowserHistory = function createBrowserHistory() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(17);
@@ -47974,7 +47968,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function user() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -48024,7 +48018,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -48097,7 +48091,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -48168,7 +48162,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function timelog() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -48211,7 +48205,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function dashboard() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -48238,7 +48232,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -48270,7 +48264,7 @@ exports.default = messages;
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 var bind = __webpack_require__(80);
 var Axios = __webpack_require__(298);
 var defaults = __webpack_require__(42);
@@ -48357,7 +48351,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(42);
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 var InterceptorManager = __webpack_require__(307);
 var dispatchRequest = __webpack_require__(308);
 var isAbsoluteURL = __webpack_require__(310);
@@ -48449,7 +48443,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -48529,7 +48523,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -48604,7 +48598,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 
 /**
  * Parse headers into an object
@@ -48648,7 +48642,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -48766,7 +48760,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -48826,7 +48820,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -48885,7 +48879,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 var transformData = __webpack_require__(309);
 var isCancel = __webpack_require__(84);
 var defaults = __webpack_require__(42);
@@ -48971,7 +48965,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var utils = __webpack_require__(11);
 
 /**
  * Transform the data for a request or a response
@@ -53631,7 +53625,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.addMessage = addMessage;
 exports.removeMessage = removeMessage;
 
-var _actionTypes = __webpack_require__(9);
+var _actionTypes = __webpack_require__(10);
 
 function addMessage(message) {
   return {
@@ -53674,6 +53668,10 @@ var _Tasks = __webpack_require__(346);
 
 var _Tasks2 = _interopRequireDefault(_Tasks);
 
+var _Spinner = __webpack_require__(8);
+
+var _Spinner2 = _interopRequireDefault(_Spinner);
+
 var _dashboard = __webpack_require__(210);
 
 var _projects = __webpack_require__(15);
@@ -53691,19 +53689,72 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Dashboard = function (_React$Component) {
   _inherits(Dashboard, _React$Component);
 
-  function Dashboard(props) {
+  function Dashboard() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, Dashboard);
 
-    var _this = _possibleConstructorReturn(this, (Dashboard.__proto__ || Object.getPrototypeOf(Dashboard)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.state = {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Dashboard.__proto__ || Object.getPrototypeOf(Dashboard)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       defaultShow: 'lastweek',
       title: 'Last Week',
-      dashboard: []
-    };
-    _this.getProjectName = _this.getProjectName.bind(_this);
-    _this.changeData = _this.changeData.bind(_this);
-    return _this;
+      dashboard: [],
+      spinner: true
+    }, _this.getProjectName = function (id) {
+      var result = void 0;
+      _this.props.projects.forEach(function (item) {
+        if (item._id === id) {
+          result = item.name;
+        }
+      });
+      return result || 'Not Found';
+    }, _this.changeData = function (event) {
+      var dashboardData = _this.props.dashboardData;
+
+      _this.setState({ defaultShow: event.target.value });
+      switch (event.target.value) {
+        case 'lastweek':
+          {
+            _this.setState({
+              dashboard: dashboardData.lastWeek,
+              title: 'Last Week'
+            });
+            break;
+          }
+        case 'today':
+          {
+            _this.setState({
+              dashboard: dashboardData.today,
+              title: 'Today'
+            });
+            break;
+          }
+        case 'month':
+          {
+            _this.setState({
+              dashboard: dashboardData.month,
+              title: 'This Month'
+            });
+            break;
+          }
+        case 'thisweek':
+          {
+            _this.setState({
+              dashboard: dashboardData.thisWeek,
+              title: 'This Week'
+            });
+            break;
+          }
+        default:
+          return null;
+      }
+      return 0;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Dashboard, [{
@@ -53718,63 +53769,8 @@ var Dashboard = function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.dashboardData.lastWeek) {
-        this.setState({ dashboard: nextProps.dashboardData.lastWeek });
+        this.setState({ dashboard: nextProps.dashboardData.lastWeek, spinner: false });
       }
-    }
-  }, {
-    key: 'getProjectName',
-    value: function getProjectName(id) {
-      var result = void 0;
-      this.props.projects.forEach(function (item) {
-        if (item._id === id) {
-          result = item.name;
-        }
-      });
-      return result || 'Not Found';
-    }
-  }, {
-    key: 'changeData',
-    value: function changeData(event) {
-      var dashboardData = this.props.dashboardData;
-
-      this.setState({ defaultShow: event.target.value });
-      switch (event.target.value) {
-        case 'lastweek':
-          {
-            this.setState({
-              dashboard: dashboardData.lastWeek,
-              title: 'Last Week'
-            });
-            break;
-          }
-        case 'today':
-          {
-            this.setState({
-              dashboard: dashboardData.today,
-              title: 'Today'
-            });
-            break;
-          }
-        case 'month':
-          {
-            this.setState({
-              dashboard: dashboardData.month,
-              title: 'This Month'
-            });
-            break;
-          }
-        case 'thisweek':
-          {
-            this.setState({
-              dashboard: dashboardData.thisWeek,
-              title: 'This Week'
-            });
-            break;
-          }
-        default:
-          return null;
-      }
-      return 0;
     }
   }, {
     key: 'render',
@@ -53784,6 +53780,9 @@ var Dashboard = function (_React$Component) {
       var showData = null;
       var dashboard = this.state.dashboard;
 
+      if (this.state.spinner) {
+        return _react2.default.createElement(_Spinner2.default, null);
+      }
       if (this.props.projects.length !== 0 && dashboard.length !== 0) {
         showData = dashboard.map(function (item) {
           return _react2.default.createElement(
@@ -53963,7 +53962,7 @@ var _reactRedux = __webpack_require__(7);
 
 var _user = __webpack_require__(18);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
@@ -53971,7 +53970,7 @@ var _LoginForm = __webpack_require__(211);
 
 var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -54137,11 +54136,11 @@ var _ForgotForm = __webpack_require__(349);
 
 var _ForgotForm2 = _interopRequireDefault(_ForgotForm);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -54499,11 +54498,11 @@ var _sweetalert = __webpack_require__(20);
 
 var _sweetalert2 = _interopRequireDefault(_sweetalert);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -55101,7 +55100,7 @@ var _reactRedux = __webpack_require__(7);
 
 var _user = __webpack_require__(18);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
@@ -55109,7 +55108,7 @@ var _ResetForm = __webpack_require__(356);
 
 var _ResetForm2 = _interopRequireDefault(_ResetForm);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -55386,11 +55385,11 @@ var _reactRedux = __webpack_require__(7);
 
 var _projects = __webpack_require__(15);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -55588,6 +55587,10 @@ var _ProjectItem = __webpack_require__(360);
 
 var _ProjectItem2 = _interopRequireDefault(_ProjectItem);
 
+var _Spinner = __webpack_require__(8);
+
+var _Spinner2 = _interopRequireDefault(_Spinner);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -55599,20 +55602,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ProjectsList = function (_React$Component) {
   _inherits(ProjectsList, _React$Component);
 
-  function ProjectsList(props) {
+  function ProjectsList() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, ProjectsList);
 
-    var _this = _possibleConstructorReturn(this, (ProjectsList.__proto__ || Object.getPrototypeOf(ProjectsList)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.onDelete = _this.onDelete.bind(_this);
-    return _this;
-  }
-
-  _createClass(ProjectsList, [{
-    key: 'onDelete',
-    value: function onDelete(id) {
-      var _this2 = this;
-
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProjectsList.__proto__ || Object.getPrototypeOf(ProjectsList)).call.apply(_ref, [this].concat(args))), _this), _this.state = { spinner: true }, _this.onDelete = function (id) {
       (0, _sweetalert2.default)({
         title: 'Are you sure?',
         text: 'Once deleted, you will not be able to recover this project',
@@ -55621,26 +55622,35 @@ var ProjectsList = function (_React$Component) {
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          _this2.props.handleDeleting(id);
+          _this.props.handleDeleting(id);
         } else {
           (0, _sweetalert2.default)('Your project is safe!');
         }
       });
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(ProjectsList, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps) {
+        this.setState({ spinner: false });
+      }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var listItems = this.props.projects.map(function (project) {
         return _react2.default.createElement(_ProjectItem2.default, {
-          onDelete: _this3.onDelete,
+          onDelete: _this2.onDelete,
           key: project._id,
           project: project,
-          renameMe: _this3.props.handleRenaming
+          renameMe: _this2.props.handleRenaming
         });
       });
-      return listItems;
+      return this.state.spinner ? _react2.default.createElement(_Spinner2.default, null) : listItems;
     }
   }]);
 
@@ -55871,11 +55881,11 @@ var _projects = __webpack_require__(15);
 
 var _tasks = __webpack_require__(27);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -56004,12 +56014,7 @@ var Project = function (_React$Component) {
         this.props.handleDashboardData();
         this.setState({ userLoaded: true });
       }
-      /*
-        We need this to update time left in motivation block realtime
-        without making API calls, making new actions and reducers stuff.
-        The data is taken after action ADD_TIMELOG, which returns what we need here;
-        Don't know how good this is, but anyhow it works.
-      */
+
       if (nextProps.timelog.seconds !== undefined) {
         this.setState(function (state) {
           return {
@@ -56269,6 +56274,10 @@ var _ButtonsGroup = __webpack_require__(364);
 
 var _ButtonsGroup2 = _interopRequireDefault(_ButtonsGroup);
 
+var _Spinner = __webpack_require__(8);
+
+var _Spinner2 = _interopRequireDefault(_Spinner);
+
 var _helpers = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -56282,60 +56291,56 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Task = function (_React$Component) {
   _inherits(Task, _React$Component);
 
-  function Task(props) {
+  function Task() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, Task);
 
-    var _this = _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.state = {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Task.__proto__ || Object.getPrototypeOf(Task)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       editName: '',
       showInput: false,
-      showTimer: false
-    };
-    _this.handleNameInput = _this.handleNameInput.bind(_this);
-    _this.handleShowInput = _this.handleShowInput.bind(_this);
-    _this.handleEnterButton = _this.handleEnterButton.bind(_this);
-    _this.showTimer = _this.showTimer.bind(_this);
-    return _this;
-  }
-
-  _createClass(Task, [{
-    key: 'showTimer',
-    value: function showTimer() {
-      this.setState(function (state) {
+      showTimer: false,
+      spinner: false
+    }, _this.showTimer = function () {
+      _this.setState(function (state) {
         return {
           showTimer: !state.showTimer
         };
       });
-    }
-  }, {
-    key: 'handleNameInput',
-    value: function handleNameInput(e) {
-      this.setState({ editName: e.target.value });
-    }
-  }, {
-    key: 'handleShowInput',
-    value: function handleShowInput(name) {
-      this.setState({
-        showInput: !this.state.showInput,
+    }, _this.handleNameInput = function (e) {
+      _this.setState({ editName: e.target.value });
+    }, _this.handleShowInput = function (name) {
+      _this.setState({
+        showInput: !_this.state.showInput,
         editName: name
       });
-    }
-  }, {
-    key: 'handleRenaming',
-    value: function handleRenaming(id, name) {
-      this.props.handleRename(id, name);
-      this.setState({
-        showInput: false
+    }, _this.handleRenaming = function (id, name) {
+      _this.props.handleRename(id, name);
+      _this.setState({
+        showInput: false,
+        spinner: true
       });
-    }
-  }, {
-    key: 'handleEnterButton',
-    value: function handleEnterButton(id, name) {
-      this.props.handleRename(id, name);
-      this.setState({
-        showInput: false
+    }, _this.handleEnterButton = function (id, name) {
+      _this.props.handleRename(id, name);
+      _this.setState({
+        showInput: false,
+        spinner: true
       });
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Task, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps) {
+        this.setState({ spinner: false });
+      }
     }
   }, {
     key: 'render',
@@ -56365,6 +56370,11 @@ var Task = function (_React$Component) {
       var hideOrNot = showInput ? 'none' : '';
       var newDate = this.props.updated ? (0, _helpers.formatDate)(this.props.updated) : '';
       var dateString = this.props.updated ? 'Done:' : '';
+
+      if (this.state.spinner) {
+        return _react2.default.createElement(_Spinner2.default, null);
+      }
+
       return _react2.default.createElement(
         'li',
         { className: '' + doneClass },
@@ -56959,11 +56969,11 @@ var _projects = __webpack_require__(15);
 
 var _tasks = __webpack_require__(27);
 
-var _Layout = __webpack_require__(11);
+var _Layout = __webpack_require__(12);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
-var _Spinner = __webpack_require__(12);
+var _Spinner = __webpack_require__(8);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
@@ -57100,8 +57110,7 @@ var Archive = function (_React$Component) {
         _react2.default.createElement(_TasksList2.default, {
           filter: true,
           projectId: match.params.id,
-          tasks: tasks,
-          tasksLoaded: this.state.tasksLoaded
+          tasks: tasks
         })
       );
     }
@@ -57330,7 +57339,7 @@ exports = module.exports = __webpack_require__(216)(undefined);
 
 
 // module
-exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: #007090;\n  margin-left: 0;\n  margin-right: 0;\n}\n/* HEADER */\n.header {\n  background: var(--main-color);\n  border-bottom: 10px solid var(--second-color);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 5px;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: #006889;\n  color: #fff;\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  border-left: 4px solid var(--main-color);\n  padding: 0;\n  margin: 0;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done,\n.timelogs__item {\n  list-style: none;\n  padding: 10px 8px;\n  border-bottom: 1px solid #a3bac3;\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.projects__item:last-child {\n  border: none;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: #006989;\n  text-transform: uppercase;\n  font-size: 1.5em;\n}\n.projects__item-title:hover {\n  color: #01a7c2;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title {\n  grid-column: 1/3;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n/* TIMER */\n.timer {\n  background: #eaebed;\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--main-color);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--second-color);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n}\n.timelogs__title {\n  margin-bottom: 10px;\n  margin-top: 10px;\n  background: #eee;\n  padding: 5px;\n  text-align: center;\n  list-style: none;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n.timelogs__item-time {\n  justify-self: end;\n}\n.timelogs__item-task {\n  justify-self: center;\n}\n/* DASHBOARD */\n.dashboard__title {\n  text-align: center;\n  text-transform: uppercase;\n  color: #fff;\n  background: #006989;\n  margin: 10px 0;\n  padding: 10px 0;\n}\n.dashboard__item {\n  border-bottom: 1px solid #006989;\n}\n.dashboard__item-title {\n  color: #006989;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  border-left: 4px dotted #a3bac3;\n  padding: 5px;\n}\n.dashboard__select {\n  margin-left: 10px;\n  border: none;\n  background: #006889;\n  color: #fff;\n  outline: 0;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--main-color);\n  color: #fff;\n  padding: 10px;\n  border: 1px solid #187b9a;\n  text-align: center;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: #006989;\n  color: #fff;\n  box-sizing: content-box;\n}\n.button--danger {\n  background: #e53a40;\n  color: #fff;\n}\n.button--small {\n  width: 30px;\n}\n/* FOOTER */\nfooter {\n  background: #006989;\n  border-top: 10px solid var(--second-color);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 360px) and (max-device-width: 360px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n}\n", ""]);
+exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: #007090;\n  margin-left: 0;\n  margin-right: 0;\n}\n/* HEADER */\n.header {\n  background: var(--main-color);\n  border-bottom: 10px solid var(--second-color);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 5px;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: #006889;\n  color: #fff;\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  border-left: 4px solid var(--main-color);\n  padding: 0;\n  margin: 0;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done,\n.timelogs__item {\n  list-style: none;\n  padding: 10px 8px;\n  border-bottom: 1px solid #a3bac3;\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.projects__item:last-child {\n  border: none;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: #006989;\n  text-transform: uppercase;\n  font-size: 1.5em;\n}\n.projects__item-title:hover {\n  color: #01a7c2;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title {\n  grid-column: 1/3;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: #eaebed;\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--main-color);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--second-color);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n}\n.timelogs__title {\n  margin-bottom: 10px;\n  margin-top: 10px;\n  background: #eee;\n  padding: 5px;\n  text-align: center;\n  list-style: none;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n.timelogs__item-time {\n  justify-self: end;\n}\n.timelogs__item-task {\n  justify-self: center;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timelogs__item {\n    grid-template-columns: 1fr;\n  }\n  .timelogs__item-task {\n    justify-self: unset;\n  }\n  .timelogs__item-time {\n    justify-self: unset;\n  }\n}\n/* DASHBOARD */\n.dashboard__title {\n  text-align: center;\n  text-transform: uppercase;\n  color: #fff;\n  background: #006989;\n  margin: 10px 0;\n  padding: 10px 0;\n}\n.dashboard__item {\n  border-bottom: 1px solid #006989;\n}\n.dashboard__item-title {\n  color: #006989;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  border-left: 4px dotted #a3bac3;\n  padding: 5px;\n}\n.dashboard__select {\n  margin-left: 10px;\n  border: none;\n  background: #006889;\n  color: #fff;\n  outline: 0;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--main-color);\n  color: #fff;\n  padding: 10px;\n  border: 1px solid #187b9a;\n  text-align: center;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: #006989;\n  color: #fff;\n  box-sizing: content-box;\n}\n.button--danger {\n  background: #e53a40;\n  color: #fff;\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* FOOTER */\nfooter {\n  background: #006989;\n  border-top: 10px solid var(--second-color);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 360px) and (max-device-width: 360px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .page-title .pretty-time {\n    font-size: small;\n    background: #fff;\n    color: #007090;\n  }\n}\n", ""]);
 
 // exports
 

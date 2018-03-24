@@ -1,4 +1,5 @@
 const express = require('express');
+const compression = require('compression');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const expressValidator = require('express-validator');
@@ -27,6 +28,8 @@ passport.deserializeUser(User.deserializeUser());
 
 const app = express();
 const staticAssetsPath = path.resolve(__dirname, 'dist');
+
+app.use(compression());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -23,3 +23,13 @@
 
 .timelogs__item-task
   justify-self center
+
+@media (max-width: 960px) and (max-device-width: 960px)
+  .timelogs__item
+    grid-template-columns 1fr
+
+  .timelogs__item-task
+    justify-self unset
+
+  .timelogs__item-time
+    justify-self unset

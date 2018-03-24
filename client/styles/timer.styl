@@ -61,3 +61,29 @@
   font-weight bold
   text-align center
   color var(--main-color)
+
+
+@media (max-width: 960px) and (max-device-width: 960px)
+  .timer
+    display grid
+    height auto
+    justify-content unset
+
+  .timer:last-child
+    padding-right 0
+
+  .timer__buttons
+    display grid
+    grid-template-columns 1fr 1fr
+
+  .timer__buttons-item
+    width auto
+
+  .timer__time
+    text-align center
+    padding-right 0
+    margin 10px 0px
+
+  .timer__addTimeForm
+    justify-content center
+    margin 10px 0px

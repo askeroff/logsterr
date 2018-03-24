@@ -10,7 +10,7 @@
   @extends .projects__item
 
 .tasks__list-item--done
-  grid-template-columns: 1fr 1fr
+  grid-template-columns 1fr 1fr
 
 .tasks__list-item--done .tasks__list-name
   display grid
@@ -35,3 +35,17 @@
 
 .tasks__list-item--done .tasks__list-name
   grid-column 1
+
+
+@media (max-width: 960px) and (max-device-width: 960px)
+  .tasks__list-item, .tasks__list-item--done
+    grid-template-columns 1fr
+
+  .tasks__list-name
+    display grid
+    grid-template-columns 1fr
+
+  .pretty-time
+    margin-left 0
+    margin-top 10px
+

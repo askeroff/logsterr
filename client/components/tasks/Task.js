@@ -4,6 +4,7 @@ import Timer from './Timer';
 import ButtonsGroup from './ButtonsGroup';
 import Spinner from '../layout/Spinner';
 import { formatDate, formatTime } from '../../helpers';
+import ProjectsSelect from '../projects/ProjectsSelect';
 
 class Task extends React.Component {
   state = {
@@ -11,6 +12,7 @@ class Task extends React.Component {
     showInput: false,
     showTimer: false,
     spinner: false,
+    categoryID: '',
   };
 
   componentWillReceiveProps(nextProps) {
@@ -36,8 +38,8 @@ class Task extends React.Component {
     });
   }
 
-  handleRenaming = (id, name) => {
-    this.props.handleRename(id, name);
+  handleRenaming = (id, name, categoryID) => {
+    this.props.handleRename(id, name, categoryID);
     this.setState({
       showInput: false,
       spinner: true
@@ -52,8 +54,14 @@ class Task extends React.Component {
     });
   }
 
+  changeSelect = (e) => {
+    this.setState({
+      categoryID: e.target.value
+    });
+  }
+
   render() {
-    const { editName, showInput, showTimer } = this.state;
+    const { editName, showInput, showTimer, categoryID } = this.state;
     const { id, name, done, handleAddingTimeLog, projectId } = this.props;
     const TimerComponent = showTimer ? (
       <Timer
@@ -90,17 +98,23 @@ class Task extends React.Component {
         ) : null}
 
         {showInput ? (
-          <input
-            type="text"
-            onKeyPress={e => {
-              if (e.charCode === 13) {
-                this.handleEnterButton(id, editName);
-              }
-            }}
-            value={editName}
-            className="tasks__list-input"
-            onChange={this.handleNameInput}
-          />
+          <div className="tasks__list-input">
+            <input
+              type="text"
+              onKeyPress={e => {
+                if (e.charCode === 13) {
+                  this.handleEnterButton(id, editName, categoryID);
+                }
+              }}
+              value={editName}
+              onChange={this.handleNameInput}
+            />
+            <ProjectsSelect
+              parentID={this.state.categoryID}
+              projects={this.props.projects}
+              changeSelect={this.changeSelect}
+            />
+          </div>
         ) : null}
 
         <ButtonsGroup
@@ -108,7 +122,7 @@ class Task extends React.Component {
           {...this.state}
           showTimer={this.showTimer}
           handleShowInput={this.handleShowInput}
-          handleRenaming={() => this.handleRenaming(id, editName)}
+          handleRenaming={() => this.handleRenaming(id, editName, categoryID)}
           doneButtonValue={doneButtonValue}
         />
         {done ? null : TimerComponent}
@@ -132,6 +146,7 @@ Task.propTypes = {
   id: PropTypes.string.isRequired,
   updated: PropTypes.string,
   timeSpent: PropTypes.number.isRequired,
+  projects: PropTypes.array.isRequired,
   handleAddingTimeLog: PropTypes.func,
   projectId: PropTypes.string,
 };

@@ -97,15 +97,16 @@ export function deleteTask(id) {
       .catch(() => dispatch(taskError(error)));
 }
 
-export function renameTaskSuccess(id, name) {
+export function renameTaskSuccess(id, name, project) {
   return {
     type: RENAME_TASK,
     id,
     name,
+    project
   };
 }
 
-export function renameTask(id, name) {
+export function renameTask(id, name, categoryID) {
   const error = {
     message:
       'Something went wrong. Could not rename the task. Try again or reload the page',
@@ -114,10 +115,11 @@ export function renameTask(id, name) {
   };
   return dispatch =>
     axios
-      .post(`/projects/tasks/${id}/edit`, { id, name })
+      .post(`/projects/tasks/${id}/edit`, { id, name, project: categoryID })
       .then(res => {
+        console.log(res.data);
         if (res.data.renamed) {
-          dispatch(renameTaskSuccess(id, name));
+          dispatch(renameTaskSuccess(id, name, categoryID));
         } else {
           dispatch(taskError(error));
         }

@@ -98,7 +98,7 @@ ProjectItem.propTypes = {
   project: PropTypes.object.isRequired,
   onDelete: PropTypes.func.isRequired,
   renameMe: PropTypes.func.isRequired,
-  padding: PropTypes.string.isRequired,
+  padding: PropTypes.number.isRequired,
 };
 
 export default ProjectItem;

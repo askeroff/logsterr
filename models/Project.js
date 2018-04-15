@@ -18,7 +18,8 @@ const projectSchema = new mongoose.Schema({
     default: 0,
   },
   parent_id: {
-    type: mongoose.Schema.ObjectId,
+    type: String,
+    default: ''
   }
 });
 

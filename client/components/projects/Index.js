@@ -11,6 +11,7 @@ import AddForm from './AddForm';
 class Index extends React.Component {
   state = {
     userLoaded: false,
+    parentID: '',
     showForm: false,
     formInput: '',
     spinner: '',
@@ -47,12 +48,18 @@ class Index extends React.Component {
     this.setState({ formInput: event.target.value });
   }
 
-  addProject = (name) => {
-    this.props.handleAdding(name);
+  addProject = (name, id) => {
+    this.props.handleAdding(name, id);
     this.setState({
       showForm: false,
       spinner: true,
       formInput: '',
+    });
+  }
+
+  selectParent = (event) => {
+    this.setState({
+      parentID: event.target.value
     });
   }
 
@@ -86,8 +93,13 @@ class Index extends React.Component {
               handleInput={this.handleFormInput}
               clickHandler={e => {
                 e.preventDefault();
-                this.addProject(this.state.formInput);
+                this.addProject(this.state.formInput, this.state.parentID);
               }}
+              changeSelect={(e) => {
+                this.selectParent(e);
+              }}
+              parentID={this.state.parentID}
+              projects={this.props.projects}
               labelName="Name Of Your New Project"
             />
           ) : null}
@@ -121,8 +133,8 @@ const mapDispatchToProps = dispatch => ({
   handleProjects(authorID) {
     dispatch(getProjects(authorID));
   },
-  handleAdding(name) {
-    dispatch(addProject(name));
+  handleAdding(name, id) {
+    dispatch(addProject(name, id));
   },
   clearProjectsList() {
     dispatch(clearProjects());

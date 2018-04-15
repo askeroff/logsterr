@@ -23,7 +23,7 @@ export function projectError(response) {
   };
 }
 
-export function addProject(name) {
+export function addProject(name, id) {
   const error = {
     message: 'Something went wrong. Try adding the project later.',
     name: 'project-add-error',
@@ -31,7 +31,7 @@ export function addProject(name) {
   };
   return dispatch =>
     axios
-      .post('/projects/add', { name })
+      .post('/projects/add', { name, parent_id: id })
       .then(res => {
         if (res.data.project) {
           dispatch(addProjectSuccess(res.data.project));

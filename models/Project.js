@@ -17,6 +17,9 @@ const projectSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  parent_id: {
+    type: mongoose.Schema.ObjectId,
+  }
 });
 
 module.exports = mongoose.model('Project', projectSchema);

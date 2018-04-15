@@ -44,7 +44,7 @@ class ProjectItem extends React.Component {
     const { newName, showInput } = this.state;
     const hideTaskName = this.state.showInput ? 'none' : '';
     return (
-      <li className="projects__item">
+      <li style={{ paddingLeft: `${this.props.padding}px` }} className="projects__item">
         <Link
           className="projects__item-title"
           style={{ display: `${hideTaskName}` }}
@@ -98,6 +98,7 @@ ProjectItem.propTypes = {
   project: PropTypes.object.isRequired,
   onDelete: PropTypes.func.isRequired,
   renameMe: PropTypes.func.isRequired,
+  padding: PropTypes.string.isRequired,
 };
 
 export default ProjectItem;

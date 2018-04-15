@@ -29,16 +29,27 @@ class ProjectsList extends React.Component {
       }
     });
   }
+  projects = [];
+
+  printProjects = (parentID = '', padding = 8) => {
+    this.props.projects.forEach(project => {
+      if (project.parent_id === parentID) {
+        this.projects.push(<ProjectItem
+          onDelete={this.onDelete}
+          padding={padding}
+          key={project._id}
+          project={project}
+          renameMe={this.props.handleRenaming}
+        />);
+        this.printProjects(project._id, padding + 8);
+      }
+    });
+    return this.projects;
+  }
 
   render() {
-    const listItems = this.props.projects.map(project => (
-      <ProjectItem
-        onDelete={this.onDelete}
-        key={project._id}
-        project={project}
-        renameMe={this.props.handleRenaming}
-      />
-    ));
+    this.projects = [];
+    const listItems = this.printProjects();
     return this.state.spinner ? <Spinner /> : listItems;
   }
 }

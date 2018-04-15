@@ -23,9 +23,10 @@ exports.deleteTask = (req, res) => {
 exports.renameTask = async (req, res) => {
   await Task.findById(req.body.id, (err, task) => {
     task.name = req.body.name; // eslint-disable-line no-param-reassign
+    task.project = req.body.project; // eslint-disable-line no-param-reassign
     task.save();
   });
-  res.json({ renamed: true });
+  res.json({ renamed: true, body: req.body });
 };
 
 exports.toggleDone = async (req, res) => {

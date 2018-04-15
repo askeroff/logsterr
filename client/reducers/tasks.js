@@ -21,13 +21,22 @@ function tasks(state = [], action) {
       return state.filter(item => item._id !== action.id);
     }
     case RENAME_TASK: {
+      let sameProject = false;
       const tasksList = state.map(item => {
         if (item._id === action.id) {
           item.name = action.name; // eslint-disable-line no-param-reassign
+          if (item.project !== action.project) {
+            item.project = action.project; // eslint-disable-line no-param-reassign
+          } else {
+            sameProject = true;
+          }
         }
         return item;
       });
-      return tasksList;
+      if (sameProject) {
+        return tasksList;
+      }
+      return tasksList.filter(item => item.project !== action.project);
     }
     case TOGGLE_DONE: {
       const tasksList = state.map(item => {

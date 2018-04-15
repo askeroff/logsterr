@@ -33,7 +33,6 @@ class TasksList extends React.Component {
   }
 
   mapItems(items) {
-    console.log(this.state);
     if (items.length === 0) {
       return <li>No tasks yet</li>;
     }
@@ -44,6 +43,7 @@ class TasksList extends React.Component {
         id={task._id}
         name={task.name}
         done={task.done}
+        projects={this.props.projects}
         handleDelete={this.handleTaskDelete}
         handleRename={this.props.handleEditing}
         handleAddingTimeLog={this.props.handleAddingTimeLog}
@@ -79,6 +79,7 @@ TasksList.propTypes = {
   tasks: PropTypes.array,
   handleDeleting: PropTypes.func.isRequired,
   projectId: PropTypes.string.isRequired,
+  projects: PropTypes.array.isRequired,
   filter: PropTypes.bool,
   handleEditing: PropTypes.func.isRequired,
   handleDone: PropTypes.func.isRequired,
@@ -87,14 +88,15 @@ TasksList.propTypes = {
 
 const mapStateToProps = state => ({
   tasks: state.tasks,
+  projects: state.projects,
 });
 
 const mapDispatchToProps = dispatch => ({
   handleDeleting(id) {
     dispatch(deleteTask(id));
   },
-  handleEditing(id, name) {
-    dispatch(renameTask(id, name));
+  handleEditing(id, name, categoryID) {
+    dispatch(renameTask(id, name, categoryID));
   },
   handleDone(id) {
     dispatch(toggleDone(id));

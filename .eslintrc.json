@@ -1,6 +1,7 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": ["plugin:flowtype/recommended", "airbnb"],
+  "plugins": ["flowtype"],
   "rules": {
     "no-console": "off",
     "jsx-a11y/href-no-hash": "off",

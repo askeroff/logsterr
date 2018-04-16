@@ -5,11 +5,11 @@ import swal from 'sweetalert';
 import { deleteTask, renameTask, toggleDone } from '../../actions/tasks';
 import { addTimelog } from '../../actions/timelog';
 import Spinner from '../layout/Spinner';
-import Task from './Task';
+import Task from './task/Task';
 
 class TasksList extends React.Component {
   state = {
-    spinner: true
+    spinner: true,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -18,7 +18,7 @@ class TasksList extends React.Component {
     }
   }
 
-  handleTaskDelete = (id) => {
+  handleTaskDelete = id => {
     swal({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this task',
@@ -30,7 +30,7 @@ class TasksList extends React.Component {
         this.props.handleDeleting(id);
       }
     });
-  }
+  };
 
   mapItems(items) {
     if (items.length === 0) {
@@ -62,12 +62,13 @@ class TasksList extends React.Component {
     result = <ul className="tasks__list">{this.mapItems(undoneItems)}</ul>;
 
     if (this.props.filter) {
-      result = <ul className="tasks__list--done">{this.mapItems(doneItems)}</ul>;
+      result = (
+        <ul className="tasks__list--done">{this.mapItems(doneItems)}</ul>
+      );
     }
 
-    return this.state.spinner ? (<Spinner />) : result;
+    return this.state.spinner ? <Spinner /> : result;
   }
-
 }
 
 TasksList.defaultProps = {

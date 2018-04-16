@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Timer from './Timer';
-import ButtonsGroup from './ButtonsGroup';
-import Spinner from '../layout/Spinner';
-import { formatDate, formatTime } from '../../helpers';
-import ProjectsSelect from '../projects/ProjectsSelect';
+import Timer from '../Timer';
+import ButtonsGroup from '../ButtonsGroup';
+import Spinner from '../../layout/Spinner';
+import { formatDate, formatTime } from '../../../helpers';
+import Input from './Input';
 
 class Task extends React.Component {
   state = {
@@ -14,6 +14,10 @@ class Task extends React.Component {
     spinner: false,
     categoryID: '',
   };
+
+  componentWillMount() {
+    this.setState({ categoryID: this.props.projectId });
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
@@ -25,58 +29,88 @@ class Task extends React.Component {
     this.setState(state => ({
       showTimer: !state.showTimer,
     }));
-  }
+  };
 
-  handleNameInput = (e) => {
+  handleNameInput = e => {
     this.setState({ editName: e.target.value });
-  }
+  };
 
-  handleShowInput = (name) => {
+  handleShowInput = name => {
     this.setState({
       showInput: !this.state.showInput,
       editName: name,
     });
-  }
+  };
 
   handleRenaming = (id, name, categoryID) => {
     this.props.handleRename(id, name, categoryID);
     this.setState({
       showInput: false,
-      spinner: true
+      spinner: true,
     });
-  }
+  };
 
   handleEnterButton = (id, name) => {
     this.props.handleRename(id, name);
     this.setState({
       showInput: false,
-      spinner: true
+      spinner: true,
     });
-  }
+  };
 
-  changeSelect = (e) => {
+  changeSelect = e => {
     this.setState({
-      categoryID: e.target.value
+      categoryID: e.target.value,
     });
-  }
+  };
+
+  shouldShowTimer = () => {
+    const { id, name, projectId, handleAddingTimeLog } = this.props;
+    const myProps = Object.assign(
+      {},
+      { id, name, projectId, handleAddingTimeLog }
+    );
+    if (this.state.showTimer) {
+      return <Timer key={`timer${id}`} {...myProps} />;
+    }
+    return null;
+  };
+
+  shouldShowInput = () => {
+    const { editName, categoryID } = this.state;
+    const inputProps = Object.assign({}, this.props, {
+      editName,
+      categoryID,
+      changeSelect: this.changeSelect,
+      handleNameInput: this.handleNameInput,
+    });
+    if (this.state.showInput) {
+      return <Input {...inputProps} />;
+    }
+    return null;
+  };
+
+  showDateString = () => {
+    const newDate = this.props.updated ? formatDate(this.props.updated) : '';
+    const dateString = this.props.updated ? 'Done:' : '';
+    if (dateString !== '') {
+      return (
+        <span className="tasks__list-date">
+          <strong>{dateString} </strong>
+          {newDate}
+        </span>
+      );
+    }
+    return null;
+  };
 
   render() {
-    const { editName, showInput, showTimer, categoryID } = this.state;
-    const { id, name, done, handleAddingTimeLog, projectId } = this.props;
-    const TimerComponent = showTimer ? (
-      <Timer
-        key={`timer${id}`}
-        id={id}
-        taskName={name}
-        project={projectId}
-        handleAddingTimeLog={handleAddingTimeLog}
-      />
-    ) : null;
+    const { editName, showInput, categoryID } = this.state;
+    const { id, name, done } = this.props;
+
     const doneButtonValue = done ? 'undone' : 'done';
     const doneClass = done ? 'tasks__list-item--done' : 'tasks__list-item';
     const hideOrNot = showInput ? 'none' : '';
-    const newDate = this.props.updated ? formatDate(this.props.updated) : '';
-    const dateString = this.props.updated ? 'Done:' : '';
 
     if (this.state.spinner) {
       return <Spinner />;
@@ -90,32 +124,8 @@ class Task extends React.Component {
             {formatTime(this.props.timeSpent)}
           </span>
         </p>
-        {dateString !== '' ? (
-          <span className="tasks__list-date">
-            <strong>{dateString} </strong>
-            {newDate}
-          </span>
-        ) : null}
-
-        {showInput ? (
-          <div className="tasks__list-input">
-            <input
-              type="text"
-              onKeyPress={e => {
-                if (e.charCode === 13) {
-                  this.handleEnterButton(id, editName, categoryID);
-                }
-              }}
-              value={editName}
-              onChange={this.handleNameInput}
-            />
-            <ProjectsSelect
-              parentID={this.state.categoryID}
-              projects={this.props.projects}
-              changeSelect={this.changeSelect}
-            />
-          </div>
-        ) : null}
+        {this.showDateString()}
+        {this.shouldShowInput()}
 
         <ButtonsGroup
           {...this.props}
@@ -125,7 +135,7 @@ class Task extends React.Component {
           handleRenaming={() => this.handleRenaming(id, editName, categoryID)}
           doneButtonValue={doneButtonValue}
         />
-        {done ? null : TimerComponent}
+        {this.shouldShowTimer()}
       </li>
     );
   }

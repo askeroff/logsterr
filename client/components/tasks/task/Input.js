@@ -1,8 +1,18 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProjectsSelect from '../../projects/ProjectsSelect';
 
-const Input = props => (
+type Props = {
+  id: string,
+  editName: string,
+  categoryID: string,
+  projects: string,
+  handleNameInput: () => void,
+  changeSelect: () => void,
+};
+
+const Input = (props: Props) => (
   <div className="tasks__list-input">
     <input
       type="text"
@@ -22,14 +32,5 @@ const Input = props => (
     />
   </div>
 );
-
-Input.propTypes = {
-  id: PropTypes.string.isRequired,
-  editName: PropTypes.string.isRequired,
-  categoryID: PropTypes.string.isRequired,
-  projects: PropTypes.array.isRequired,
-  handleNameInput: PropTypes.func.isRequired,
-  changeSelect: PropTypes.func.isRequired,
-};
 
 export default Input;

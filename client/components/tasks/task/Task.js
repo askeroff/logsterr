@@ -68,7 +68,7 @@ class Task extends React.Component {
     const { id, name, projectId, handleAddingTimeLog } = this.props;
     const myProps = Object.assign(
       {},
-      { id, name, projectId, handleAddingTimeLog }
+      { id, taskName: name, project: projectId, handleAddingTimeLog }
     );
     if (this.state.showTimer) {
       return <Timer key={`timer${id}`} {...myProps} />;

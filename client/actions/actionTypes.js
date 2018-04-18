@@ -14,6 +14,7 @@ export const ADD_TIME_TO_PROJECT = 'ADD_TIME_TO_PROJECT';
 export const RENAME_PROJECT = 'RENAME_PROJECT';
 export const CLEAR_PROJECTS = 'CLEAR_PROJECTS';
 export const DELETE_PROJECT = 'DELETE_PROJECT';
+export const SUBTRACT_TASK_TIME = 'SUBTRACT_TASK_TIME';
 
 export const GET_TASKS = 'GET_TASKS';
 export const NEW_TASK = 'NEW_TASK';

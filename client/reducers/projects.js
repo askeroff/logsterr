@@ -6,6 +6,7 @@ import {
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   ADD_TIMELOG,
+  SUBTRACT_TASK_TIME,
 } from '../actions/actionTypes';
 
 function projects(state = [], action) {
@@ -17,6 +18,15 @@ function projects(state = [], action) {
       const projectsList = state.map(item => {
         if (item._id === action.id) {
           item.timeSpent += parseInt(action.time, 10); // eslint-disable-line no-param-reassign
+        }
+        return item;
+      });
+      return projectsList;
+    }
+    case SUBTRACT_TASK_TIME: {
+      const projectsList = state.map(item => {
+        if (item._id === action.id && action.deleteTime === true) {
+          item.timeSpent -= action.timeSpent; // eslint-disable-line no-param-reassign
         }
         return item;
       });

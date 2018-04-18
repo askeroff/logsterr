@@ -8,11 +8,14 @@ const AddForm = props => (
     <label className="form__title" htmlFor="project-name">
       {props.labelName}
     </label>
-    <ProjectsSelect
-      parentID={props.parentID}
-      changeSelect={props.changeSelect}
-      projects={props.projects}
-    />
+    {props.projects.length > 0 ? (
+      <ProjectsSelect
+        parentID={props.parentID}
+        changeSelect={props.changeSelect}
+        projects={props.projects}
+      />
+    ) : null}
+
     <FormInput
       inputValue={props.inputValue}
       handleInput={props.handleInput}
@@ -24,13 +27,14 @@ const AddForm = props => (
 
 AddForm.defaultProps = {
   clickHandler: () => 0,
-  parentID: ''
+  parentID: '',
+  projects: [],
 };
 
 AddForm.propTypes = {
   inputValue: PropTypes.string.isRequired,
   handleInput: PropTypes.func.isRequired,
-  projects: PropTypes.array.isRequired,
+  projects: PropTypes.array,
   clickHandler: PropTypes.func,
   labelName: PropTypes.string.isRequired,
   parentID: PropTypes.any,

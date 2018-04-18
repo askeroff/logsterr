@@ -4,6 +4,7 @@
   "plugins": ["flowtype"],
   "rules": {
     "no-console": "off",
+    "react/prop-types": "off",
     "jsx-a11y/href-no-hash": "off",
     "react/jsx-filename-extension": "off",
     "linebreak-style": ["error", "windows"],
@@ -14,6 +15,11 @@
     "comma-dangle": "off",
     "no-underscore-dangle": "off",
     "no-mixed-operators": "off"
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
   },
   "env": {
     "es6": true,

@@ -1,3 +1,4 @@
+// @flow
 import axios from 'axios';
 import {
   NEW_TASK,
@@ -7,7 +8,9 @@ import {
   RENAME_TASK,
   TOGGLE_DONE,
   ADD_MESSAGE,
+  SUBTRACT_TASK_TIME,
 } from '../actions/actionTypes';
+import { IRenameTask } from './actions.types';
 
 export function getTasksSuccess(response) {
   return {
@@ -97,16 +100,27 @@ export function deleteTask(id) {
       .catch(() => dispatch(taskError(error)));
 }
 
-export function renameTaskSuccess(id, name, project) {
+export function renameTaskSuccess(params: IRenameTask) {
   return {
     type: RENAME_TASK,
-    id,
-    name,
-    project
+    ...params,
   };
 }
 
-export function renameTask(id, name, categoryID) {
+export function subtractTaskTime(
+  id: string,
+  deleteTime: boolean,
+  timeSpent: number
+) {
+  return {
+    type: SUBTRACT_TASK_TIME,
+    id,
+    deleteTime,
+    timeSpent,
+  };
+}
+
+export function renameTask(params: IRenameTask) {
   const error = {
     message:
       'Something went wrong. Could not rename the task. Try again or reload the page',
@@ -115,11 +129,17 @@ export function renameTask(id, name, categoryID) {
   };
   return dispatch =>
     axios
-      .post(`/projects/tasks/${id}/edit`, { id, name, project: categoryID })
+      .post(`/projects/tasks/${params.id}/edit`, { ...params })
       .then(res => {
-        console.log(res.data);
         if (res.data.renamed) {
-          dispatch(renameTaskSuccess(id, name, categoryID));
+          dispatch(renameTaskSuccess(params));
+          dispatch(
+            subtractTaskTime(
+              params.currentProject,
+              params.deleteTime,
+              params.timeSpent
+            )
+          );
         } else {
           dispatch(taskError(error));
         }

@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -96,8 +98,14 @@ const mapDispatchToProps = dispatch => ({
   handleDeleting(id) {
     dispatch(deleteTask(id));
   },
-  handleEditing(id, name, categoryID) {
-    dispatch(renameTask(id, name, categoryID));
+  handleEditing(params: {
+    id: string,
+    name: string,
+    project: string,
+    moveTime?: boolean,
+    deleteTime?: boolean,
+  }) {
+    dispatch(renameTask(params));
   },
   handleDone(id) {
     dispatch(toggleDone(id));

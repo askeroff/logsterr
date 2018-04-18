@@ -1,12 +1,35 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+import swal from 'sweetalert';
 import Timer from '../Timer';
 import ButtonsGroup from '../ButtonsGroup';
 import Spinner from '../../layout/Spinner';
 import { formatDate, formatTime } from '../../../helpers';
 import Input from './Input';
+import TimeAddOptionsNode from './TimeAddOptions';
+import { IRenameTask } from '../../../actions/actions.types';
 
-class Task extends React.Component {
+type Props = {
+  name: string,
+  handleDelete: (id: string) => void,
+  handleRename: (params: IRenameTask) => void,
+  taskDone: (id: string) => void,
+  done: boolean,
+  id: string,
+  updated: string,
+  projectId: string,
+  timeSpent: number,
+  projects: any[],
+  handleAddingTimeLog: (data: any, seconds: number) => void,
+};
+
+class Task extends React.Component<Props> {
+  static defaultProps = {
+    updated: undefined,
+    projectId: '',
+    handleAddingTimeLog: null,
+  };
+
   state = {
     editName: '',
     showInput: false,
@@ -42,15 +65,50 @@ class Task extends React.Component {
     });
   };
 
-  handleRenaming = (id, name, categoryID) => {
-    this.props.handleRename(id, name, categoryID);
-    this.setState({
-      showInput: false,
-      spinner: true,
-    });
+  handleRenaming = (params: {
+    id: string,
+    name: string,
+    currentProject: string,
+    newProject: string,
+    moveTime?: boolean,
+    deleteTime?: boolean,
+  }) => {
+    const { id, editName, categoryID } = params;
+    if (this.props.projectId !== params.categoryID) {
+      swal({
+        text: "You changing project's task. Read the options",
+        content: TimeAddOptionsNode,
+        buttons: {
+          confirm: {
+            value: { value: [true, false] },
+          },
+        },
+      }).then(value => {
+        this.props.handleRename({
+          id,
+          name: editName,
+          currentProject: this.props.projectId,
+          timeSpent: this.props.timeSpent,
+          newProject: categoryID,
+          moveTime: value.value[0],
+          deleteTime: value.value[1],
+        });
+        this.setState({
+          showInput: false,
+          spinner: true,
+        });
+      });
+    } else {
+      this.props.handleRename({ id, name: editName, newProject: categoryID });
+      this.setState({
+        showInput: false,
+        spinner: true,
+      });
+    }
   };
 
   handleEnterButton = (id, name) => {
+    // TODO: fix rename calling
     this.props.handleRename(id, name);
     this.setState({
       showInput: false,
@@ -132,7 +190,13 @@ class Task extends React.Component {
           {...this.state}
           showTimer={this.showTimer}
           handleShowInput={this.handleShowInput}
-          handleRenaming={() => this.handleRenaming(id, editName, categoryID)}
+          handleRenaming={() =>
+            this.handleRenaming({
+              id,
+              editName,
+              categoryID,
+            })
+          }
           doneButtonValue={doneButtonValue}
         />
         {this.shouldShowTimer()}
@@ -140,25 +204,5 @@ class Task extends React.Component {
     );
   }
 }
-
-Task.defaultProps = {
-  updated: undefined,
-  projectId: '',
-  handleAddingTimeLog: null,
-};
-
-Task.propTypes = {
-  name: PropTypes.string.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  handleRename: PropTypes.func.isRequired,
-  taskDone: PropTypes.func.isRequired,
-  done: PropTypes.bool.isRequired,
-  id: PropTypes.string.isRequired,
-  updated: PropTypes.string,
-  timeSpent: PropTypes.number.isRequired,
-  projects: PropTypes.array.isRequired,
-  handleAddingTimeLog: PropTypes.func,
-  projectId: PropTypes.string,
-};
 
 export default Task;

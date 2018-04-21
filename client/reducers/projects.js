@@ -51,7 +51,7 @@ function projects(state = [], action) {
     }
     case ADD_TIMELOG: {
       const projectList = state.map(item => {
-        const newItem = item;
+        const newItem = Object.assign({}, item);
         if (newItem._id === action.data.project._id) {
           newItem.timeSpent += action.seconds;
         }

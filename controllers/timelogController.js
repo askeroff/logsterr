@@ -66,7 +66,7 @@ exports.deleteLog = async (req, res) => {
   const taskPromise = Task.findById(timelogTodelete.task, (err, task) => {
     if (task && task.timeSpent) {
       task.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
-      return task.save();
+      task.save();
     }
   });
 

@@ -64,18 +64,19 @@ exports.deleteLog = async (req, res) => {
   const timelogTodelete = await Timelog.findById(req.body.id);
 
   const taskPromise = Task.findById(timelogTodelete.task, (err, task) => {
-    if (!task) {
-      return 1;
+    if (task && task.timeSpent) {
+      task.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
+      return task.save();
     }
-    task.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
-    return task.save();
   });
 
   const projectPromise = Project.findById(
     timelogTodelete.project,
     (err, project) => {
-      project.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
-      project.save();
+      if (project && project.timeSpent) {
+        project.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
+        project.save();
+      }
     }
   );
 

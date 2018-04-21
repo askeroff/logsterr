@@ -4,6 +4,19 @@ const Timelog = mongoose.model('Timelog');
 const Project = mongoose.model('Project');
 const Task = mongoose.model('Task');
 
+const projectsPromises = [];
+
+function addTimeToParentProjects(id, timeSpent) {
+  const promise = Project.findById(id, (err, project) => {
+    project.timeSpent += timeSpent; // eslint-disable-line no-param-reassign
+    project.save();
+    if (project.parent_id !== '') {
+      addTimeToParentProjects(project.parent_id, timeSpent);
+    }
+  });
+  projectsPromises.push(promise);
+}
+
 exports.addTime = async (req, res) => {
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
   const timelogPromise = new Timelog(req.body).save();
@@ -11,15 +24,13 @@ exports.addTime = async (req, res) => {
     task.timeSpent += req.body.seconds; // eslint-disable-line no-param-reassign
     task.save();
   });
-  const projectPromise = Project.findById(req.body.project, (err, project) => {
-    project.timeSpent += req.body.seconds; // eslint-disable-line no-param-reassign
-    project.save();
-  });
+
+  addTimeToParentProjects(req.body.project, req.body.seconds);
 
   const [timelog, task, project] = await Promise.all([
     timelogPromise,
     taskPromise,
-    projectPromise,
+    ...projectsPromises,
   ]);
   res.json({ timelog, task, project, success: true });
 };

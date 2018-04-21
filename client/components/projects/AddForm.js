@@ -29,6 +29,7 @@ AddForm.defaultProps = {
   clickHandler: () => 0,
   parentID: '',
   projects: [],
+  changeSelect: () => 0,
 };
 
 AddForm.propTypes = {
@@ -38,7 +39,7 @@ AddForm.propTypes = {
   clickHandler: PropTypes.func,
   labelName: PropTypes.string.isRequired,
   parentID: PropTypes.any,
-  changeSelect: PropTypes.func.isRequired,
+  changeSelect: PropTypes.func,
 };
 
 export default AddForm;

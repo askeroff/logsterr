@@ -53,7 +53,7 @@ function projects(state = [], action) {
       const projectList = state.map(item => {
         const newItem = item;
         if (newItem._id === action.data.project._id) {
-          newItem.timeSpent += action.seconds; // eslint-disable-line no-param-reassign
+          newItem.timeSpent += action.seconds;
         }
         return newItem;
       });

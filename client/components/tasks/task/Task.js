@@ -7,9 +7,10 @@ import Spinner from '../../layout/Spinner';
 import { formatDate, formatTime } from '../../../helpers';
 import Input from './Input';
 import TimeAddOptionsNode from './TimeAddOptions';
-import { IRenameTask } from '../../../actions/actions.types';
+import { IRenameTask, ITimeLogData } from '../../../actions/actions.types';
+import { IProject } from '../../../types';
 
-type Props = {
+type TaskProps = {
   name: string,
   handleDelete: (id: string) => void,
   handleRename: (params: IRenameTask) => void,
@@ -19,13 +20,13 @@ type Props = {
   updated: string,
   projectId: string,
   timeSpent: number,
-  projects: any[],
+  projects: IProject[],
   optionsValues: boolean[],
   handleChangeOptions: (arr: boolean[]) => void,
-  handleAddingTimeLog: (data: any, seconds: number) => void,
+  handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void,
 };
 
-class Task extends React.Component<Props> {
+class Task extends React.Component<TaskProps> {
   static defaultProps = {
     updated: undefined,
     projectId: '',
@@ -68,14 +69,7 @@ class Task extends React.Component<Props> {
     });
   };
 
-  handleRenaming = (params: {
-    id: string,
-    name: string,
-    currentProject: string,
-    newProject: string,
-    moveTime?: boolean,
-    deleteTime?: boolean,
-  }) => {
+  handleRenaming = (params: IRenameTask) => {
     const { id, editName, categoryID } = params;
     if (this.props.projectId !== params.categoryID) {
       const { optionsValues } = this.props;

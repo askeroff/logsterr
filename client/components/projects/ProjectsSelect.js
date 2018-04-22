@@ -30,7 +30,7 @@ class ProjectsSelect extends React.Component {
         name="parent_id"
         onChange={this.props.changeSelect}
         value={this.props.parentID}
-        className="project-select"
+        className={this.props.myClass}
       >
         <option disabled={disabled} value={''}>
           None
@@ -44,6 +44,7 @@ class ProjectsSelect extends React.Component {
 ProjectsSelect.defaultProps = {
   parentID: '',
   disableDefault: false,
+  myClass: 'project-select',
 };
 
 ProjectsSelect.propTypes = {
@@ -51,6 +52,7 @@ ProjectsSelect.propTypes = {
   parentID: PropTypes.any,
   disableDefault: PropTypes.bool,
   changeSelect: PropTypes.func.isRequired,
+  myClass: PropTypes.string,
 };
 
 export default ProjectsSelect;

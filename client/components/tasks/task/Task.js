@@ -20,6 +20,8 @@ type Props = {
   projectId: string,
   timeSpent: number,
   projects: any[],
+  optionsValues: boolean[],
+  handleChangeOptions: (arr: boolean[]) => void,
   handleAddingTimeLog: (data: any, seconds: number) => void,
 };
 
@@ -36,6 +38,7 @@ class Task extends React.Component<Props> {
     showTimer: false,
     spinner: false,
     categoryID: '',
+    optionValues: [true, false],
   };
 
   componentWillMount() {
@@ -75,12 +78,13 @@ class Task extends React.Component<Props> {
   }) => {
     const { id, editName, categoryID } = params;
     if (this.props.projectId !== params.categoryID) {
+      const { optionsValues } = this.props;
       swal({
         text: "You changing project's task. Read the options",
         content: TimeAddOptionsNode,
         buttons: {
           confirm: {
-            value: { value: [true, false] },
+            value: { options: [...optionsValues] },
           },
         },
       }).then(value => {
@@ -97,6 +101,7 @@ class Task extends React.Component<Props> {
           showInput: false,
           spinner: true,
         });
+        this.props.handleChangeOptions(value.options);
       });
     } else {
       this.props.handleRename({ id, name: editName, newProject: categoryID });

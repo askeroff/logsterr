@@ -1,15 +1,32 @@
 // @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { deleteTask, renameTask, toggleDone } from '../../actions/tasks';
 import { addTimelog } from '../../actions/timelog';
 import Spinner from '../layout/Spinner';
 import Task from './task/Task';
+import { ITask, IProject } from '../../types';
+import { IRenameTask } from '../../actions/actions.types';
 
-class TasksList extends React.Component {
+type TasksListProps = {
+  tasks: ITask[],
+  handleDeleting: (id: string) => void,
+  projectId: string,
+  projects: IProject[],
+  filter: boolean,
+  handleEditing: (params: IRenameTask) => void,
+  handleDone: (id: string) => void,
+  handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void,
+};
+
+class TasksList extends React.Component<TasksListProps> {
+  static defaultProps = {
+    tasks: [],
+    filter: false,
+  };
+
   state = {
     spinner: true,
     optionsValues: [true, false],
@@ -82,22 +99,6 @@ class TasksList extends React.Component {
   }
 }
 
-TasksList.defaultProps = {
-  tasks: [],
-  filter: false,
-};
-
-TasksList.propTypes = {
-  tasks: PropTypes.array,
-  handleDeleting: PropTypes.func.isRequired,
-  projectId: PropTypes.string.isRequired,
-  projects: PropTypes.array.isRequired,
-  filter: PropTypes.bool,
-  handleEditing: PropTypes.func.isRequired,
-  handleDone: PropTypes.func.isRequired,
-  handleAddingTimeLog: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   tasks: state.tasks,
   projects: state.projects,
@@ -107,13 +108,7 @@ const mapDispatchToProps = dispatch => ({
   handleDeleting(id) {
     dispatch(deleteTask(id));
   },
-  handleEditing(params: {
-    id: string,
-    name: string,
-    project: string,
-    moveTime?: boolean,
-    deleteTime?: boolean,
-  }) {
+  handleEditing(params: IRenameTask) {
     dispatch(renameTask(params));
   },
   handleDone(id) {

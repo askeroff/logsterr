@@ -19,6 +19,11 @@
 .projects__item:last-child
   border none
 
+
+.projects__item .name-input
+  grid-column 1/3
+  max-width 380px
+
 .projects__item-title
   text-decoration none
   display block
@@ -28,6 +33,22 @@
 
 .projects__item-title:hover
   color #01A7C2
+
+.projects__item-title:hover .pretty-time
+  opacity 1
+
+.projects__item-title .pretty-time
+  color #03525a
+  font-size 0.5em
+  font-weight bold
+  margin-left 20px
+  background none
+  opacity 0
+  transition opacity 1s
+
+.form__newproject
+  display grid
+  grid-template-columns 1fr 1fr 1fr
 
 /* SINGLE PROJECT PAGE */
 

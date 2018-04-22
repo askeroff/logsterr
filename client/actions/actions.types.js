@@ -17,3 +17,11 @@ export interface ISomethingElse {
   moveTime?: boolean;
   deleteTime?: boolean;
 }
+
+export interface ITimeLogData {
+  seconds: numbers;
+  name: string;
+  task: string;
+  done: boolean;
+  project: string;
+}

@@ -14,7 +14,7 @@ class TimeAddOptions extends React.Component {
       moveTime: e.currentTarget.checked,
     });
     swal.setActionValue({
-      confirm: { value: [e.currentTarget.checked, this.state.deleteTime] },
+      confirm: { options: [e.currentTarget.checked, this.state.deleteTime] },
     });
   };
 
@@ -23,7 +23,7 @@ class TimeAddOptions extends React.Component {
       deleteTime: e.currentTarget.checked,
     });
     swal.setActionValue({
-      confirm: { value: [this.state.moveTime, e.currentTarget.checked] },
+      confirm: { options: [this.state.moveTime, e.currentTarget.checked] },
     });
   };
 

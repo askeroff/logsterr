@@ -85,7 +85,7 @@ class Project extends React.Component {
       });
       this.setState({ projectsLoaded: true });
     }
-  }
+  };
 
   onUpdateTasks = () => {
     if (
@@ -103,40 +103,40 @@ class Project extends React.Component {
       this.props.handleTasks(this.props.match.params.id);
       this.setState({ tasksLoaded: true });
     }
-  }
+  };
 
   showAddForm = () => {
     this.setState({
       showForm: !this.state.showForm,
     });
-  }
+  };
 
   showAddTimeForm = () => {
     this.setState({
       timeForm: !this.state.timeForm,
     });
-  }
+  };
 
-  handleNewTaskInput = (e) => {
+  handleNewTaskInput = e => {
     this.setState({
       newTaskInput: e.target.value,
     });
-  }
+  };
 
-  addTask = (task) => {
+  addTask = task => {
     this.props.handleNewTask({ name: task.name, project: task.project });
     this.setState({
       showForm: false,
       spinner: true,
       newTaskInput: '',
     });
-  }
+  };
 
   formToggle = () => {
     this.setState(state => ({
       timeForm: !state.timeForm,
     }));
-  }
+  };
 
   render() {
     const { dashboardData, match } = this.props;
@@ -202,6 +202,7 @@ class Project extends React.Component {
             {this.state.showForm ? (
               <AddForm
                 inputValue={newTaskInput}
+                className="form form__newtask"
                 handleInput={this.handleNewTaskInput}
                 clickHandler={e => {
                   e.preventDefault();

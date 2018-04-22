@@ -12,6 +12,7 @@ import Task from './task/Task';
 class TasksList extends React.Component {
   state = {
     spinner: true,
+    optionsValues: [true, false],
   };
 
   componentWillReceiveProps(nextProps) {
@@ -19,6 +20,12 @@ class TasksList extends React.Component {
       this.setState({ spinner: false });
     }
   }
+
+  handleChangeOptions = arr => {
+    this.setState({
+      optionsValues: [...arr],
+    });
+  };
 
   handleTaskDelete = id => {
     swal({
@@ -45,6 +52,8 @@ class TasksList extends React.Component {
         id={task._id}
         name={task.name}
         done={task.done}
+        optionsValues={this.state.optionsValues}
+        handleChangeOptions={this.handleChangeOptions}
         projects={this.props.projects}
         handleDelete={this.handleTaskDelete}
         handleRename={this.props.handleEditing}

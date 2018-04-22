@@ -42,11 +42,11 @@ class Index extends React.Component {
     this.setState({
       showForm: !this.state.showForm,
     });
-  }
+  };
 
-  handleFormInput = (event) => {
+  handleFormInput = event => {
     this.setState({ formInput: event.target.value });
-  }
+  };
 
   addProject = (name, id) => {
     this.props.handleAdding(name, id);
@@ -55,13 +55,13 @@ class Index extends React.Component {
       spinner: true,
       formInput: '',
     });
-  }
+  };
 
-  selectParent = (event) => {
+  selectParent = event => {
     this.setState({
-      parentID: event.target.value
+      parentID: event.target.value,
     });
-  }
+  };
 
   render() {
     let projects;
@@ -91,11 +91,12 @@ class Index extends React.Component {
             <AddForm
               inputValue={this.state.formInput}
               handleInput={this.handleFormInput}
+              className="form form__newproject"
               clickHandler={e => {
                 e.preventDefault();
                 this.addProject(this.state.formInput, this.state.parentID);
               }}
-              changeSelect={(e) => {
+              changeSelect={e => {
                 this.selectParent(e);
               }}
               parentID={this.state.parentID}

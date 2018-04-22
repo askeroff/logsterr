@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { formatTime } from '../../helpers';
 
 class ProjectItem extends React.Component {
   constructor(props) {
@@ -43,14 +44,19 @@ class ProjectItem extends React.Component {
     const { project, onDelete } = this.props;
     const { newName, showInput } = this.state;
     const hideTaskName = this.state.showInput ? 'none' : '';
+    console.log(project);
     return (
-      <li style={{ paddingLeft: `${this.props.padding}px` }} className="projects__item">
+      <li
+        style={{ paddingLeft: `${this.props.padding}px` }}
+        className="projects__item"
+      >
         <Link
           className="projects__item-title"
           style={{ display: `${hideTaskName}` }}
           to={`/projects/${project._id}`}
         >
-          {project.name}
+          <span>{project.name}</span>
+          <span className="pretty-time">{formatTime(project.timeSpent)}</span>
         </Link>
         {showInput ? (
           <input

@@ -4,13 +4,14 @@ import FormInput from '../layout/FormInput';
 import ProjectsSelect from './ProjectsSelect';
 
 const AddForm = props => (
-  <form onSubmit={props.clickHandler} className="form form__newtask">
+  <form onSubmit={props.clickHandler} className={props.className}>
     <label className="form__title" htmlFor="project-name">
       {props.labelName}
     </label>
     {props.projects.length > 0 ? (
       <ProjectsSelect
         parentID={props.parentID}
+        myClass={''}
         changeSelect={props.changeSelect}
         projects={props.projects}
       />
@@ -30,6 +31,7 @@ AddForm.defaultProps = {
   parentID: '',
   projects: [],
   changeSelect: () => 0,
+  className: 'form',
 };
 
 AddForm.propTypes = {
@@ -40,6 +42,7 @@ AddForm.propTypes = {
   labelName: PropTypes.string.isRequired,
   parentID: PropTypes.any,
   changeSelect: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default AddForm;

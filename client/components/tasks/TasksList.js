@@ -8,7 +8,7 @@ import { addTimelog } from '../../actions/timelog';
 import Spinner from '../layout/Spinner';
 import Task from './task/Task';
 import { ITask, IProject } from '../../types';
-import { IRenameTask } from '../../actions/actions.types';
+import { IRenameTask, ITimeLogData } from '../../actions/actions.types';
 
 type TasksListProps = {
   tasks: ITask[],
@@ -21,7 +21,12 @@ type TasksListProps = {
   handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void,
 };
 
-class TasksList extends React.Component<TasksListProps> {
+type TasksListState = {
+  spinner: boolean,
+  optionsValues: boolean[]
+}
+
+class TasksList extends React.Component<TasksListProps, TasksListState> {
   static defaultProps = {
     tasks: [],
     filter: false,

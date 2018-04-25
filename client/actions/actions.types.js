@@ -4,8 +4,8 @@ export interface IRenameTask {
   id: string;
   name: string;
   newProject: string;
-  currentProject: string;
-  timeSpent: number;
+  currentProject?: string;
+  timeSpent?: number;
   moveTime?: boolean;
   deleteTime?: boolean;
 }
@@ -19,7 +19,7 @@ export interface ISomethingElse {
 }
 
 export interface ITimeLogData {
-  seconds: numbers;
+  seconds: number;
   name: string;
   task: string;
   done: boolean;

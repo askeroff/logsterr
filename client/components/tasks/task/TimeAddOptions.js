@@ -3,13 +3,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import swal from 'sweetalert';
 
-class TimeAddOptions extends React.Component {
+type State = {
+  moveTime: boolean,
+  deleteTime: boolean
+};
+
+class TimeAddOptions extends React.Component<{}, State> {
   state = {
     moveTime: true,
     deleteTime: false,
   };
 
-  changeMoveTime = (e: React.FormEvent<HTMLInputElement>) => {
+  changeMoveTime = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
       moveTime: e.currentTarget.checked,
     });
@@ -18,7 +23,7 @@ class TimeAddOptions extends React.Component {
     });
   };
 
-  changeDeleteTime = (e: React.FormEvent<HTMLInputElement>) => {
+  changeDeleteTime = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
       deleteTime: e.currentTarget.checked,
     });
@@ -27,7 +32,7 @@ class TimeAddOptions extends React.Component {
     });
   };
 
-  render(): JSX.Element {
+  render() {
     return (
       <div>
         <label>

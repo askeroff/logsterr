@@ -1,15 +1,16 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import ProjectsSelect from '../../projects/ProjectsSelect';
+import { IProject } from '../../../types';
 
 type Props = {
   id: string,
   editName: string,
   categoryID: string,
-  projects: string,
-  handleNameInput: () => void,
-  changeSelect: () => void,
+  projects: IProject[],
+  handleNameInput: (e: SyntheticEvent<HTMLInputElement>) => void,
+  handleEnterButton: (id: string, name: string, categoryID: string) => void,
+  changeSelect: (e: SyntheticEvent<HTMLSelectElement>) => void,
 };
 
 const Input = (props: Props) => (
@@ -18,7 +19,7 @@ const Input = (props: Props) => (
       type="text"
       onKeyPress={e => {
         if (e.charCode === 13) {
-          this.handleEnterButton(props.id, props.editName, props.categoryID);
+          props.handleEnterButton(props.id, props.editName, props.categoryID);
         }
       }}
       value={props.editName}

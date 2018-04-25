@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import swal from 'sweetalert';
 import Timer from '../Timer';
 import ButtonsGroup from '../ButtonsGroup';
@@ -17,36 +17,39 @@ type TaskProps = {
   taskDone: (id: string) => void,
   done: boolean,
   id: string,
-  updated: string,
+  updated?: string,
   projectId: string,
   timeSpent: number,
   projects: IProject[],
   optionsValues: boolean[],
   handleChangeOptions: (arr: boolean[]) => void,
-  handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void,
+  handleAddingTimeLog?: (data: ITimeLogData, seconds: number) => void,
 };
 
-class Task extends React.Component<TaskProps> {
-  static defaultProps = {
-    updated: undefined,
-    projectId: '',
-    handleAddingTimeLog: null,
-  };
+type TaskState = {
+  editName: string,
+  showInput: boolean,
+  showTimer: boolean,
+  spinner: boolean,
+  categoryID: string,
+  optionValues: boolean[],
+}
 
-  state = {
+class Task extends React.Component<TaskProps, TaskState> {
+  state: TaskState = {
     editName: '',
     showInput: false,
     showTimer: false,
     spinner: false,
     categoryID: '',
-    optionValues: [true, false],
-  };
+    optionValues: [true, false]
+  }
 
   componentWillMount() {
     this.setState({ categoryID: this.props.projectId });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: any) {
     if (nextProps) {
       this.setState({ spinner: false });
     }
@@ -58,11 +61,11 @@ class Task extends React.Component<TaskProps> {
     }));
   };
 
-  handleNameInput = e => {
-    this.setState({ editName: e.target.value });
+  handleNameInput = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ editName: e.currentTarget.value });
   };
 
-  handleShowInput = name => {
+  handleShowInput = (name: string) => {
     this.setState({
       showInput: !this.state.showInput,
       editName: name,
@@ -70,8 +73,8 @@ class Task extends React.Component<TaskProps> {
   };
 
   handleRenaming = (params: IRenameTask) => {
-    const { id, editName, categoryID } = params;
-    if (this.props.projectId !== params.categoryID) {
+    const { id, name, newProject } = params;
+    if (this.props.projectId !== params.newProject) {
       const { optionsValues } = this.props;
       swal({
         text: "You changing project's task. Read the options",
@@ -84,12 +87,12 @@ class Task extends React.Component<TaskProps> {
       }).then(value => {
         this.props.handleRename({
           id,
-          name: editName,
+          name,
           currentProject: this.props.projectId,
           timeSpent: this.props.timeSpent,
-          newProject: categoryID,
-          moveTime: value.value[0],
-          deleteTime: value.value[1],
+          newProject,
+          moveTime: value.options[0],
+          deleteTime: value.options[1],
         });
         this.setState({
           showInput: false,
@@ -98,7 +101,7 @@ class Task extends React.Component<TaskProps> {
         this.props.handleChangeOptions(value.options);
       });
     } else {
-      this.props.handleRename({ id, name: editName, newProject: categoryID });
+      this.props.handleRename({ id, name, newProject });
       this.setState({
         showInput: false,
         spinner: true,
@@ -106,18 +109,17 @@ class Task extends React.Component<TaskProps> {
     }
   };
 
-  handleEnterButton = (id, name) => {
-    // TODO: fix rename calling
-    this.props.handleRename(id, name);
+  handleEnterButton = (id: string, name: string) => {
+    this.props.handleRename({ id, name, newProject: this.state.categoryID });
     this.setState({
       showInput: false,
       spinner: true,
     });
   };
 
-  changeSelect = e => {
+  changeSelect = (e: SyntheticEvent<HTMLSelectElement>) => {
     this.setState({
-      categoryID: e.target.value,
+      categoryID: e.currentTarget.value,
     });
   };
 
@@ -133,13 +135,14 @@ class Task extends React.Component<TaskProps> {
     return null;
   };
 
-  shouldShowInput = () => {
+  shouldShowInput = (): ?React$Element<any> => {
     const { editName, categoryID } = this.state;
     const inputProps = Object.assign({}, this.props, {
       editName,
       categoryID,
       changeSelect: this.changeSelect,
       handleNameInput: this.handleNameInput,
+      handleEnterButton: this.handleEnterButton
     });
     if (this.state.showInput) {
       return <Input {...inputProps} />;
@@ -192,8 +195,8 @@ class Task extends React.Component<TaskProps> {
           handleRenaming={() =>
             this.handleRenaming({
               id,
-              editName,
-              categoryID,
+              name: editName,
+              newProject: categoryID,
             })
           }
           doneButtonValue={doneButtonValue}

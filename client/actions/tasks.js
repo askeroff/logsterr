@@ -12,27 +12,27 @@ import {
 } from '../actions/actionTypes';
 import { IRenameTask } from './actions.types';
 
-export function getTasksSuccess(response) {
+export function getTasksSuccess(response: any) {
   return {
     type: GET_TASKS,
     response,
   };
 }
 
-export function taskError(response) {
+export function taskError(response: {message: string; name: string; type: string}) {
   return {
     type: ADD_MESSAGE,
     response,
   };
 }
 
-export function getTasks(id) {
+export function getTasks(id: string) {
   const error = {
     message: 'Something went wrong. Could not load the tasks. Try reloading.',
     name: 'tasks-get-error',
     type: 'error',
   };
-  return dispatch =>
+  return (dispatch: any) =>
     axios
       .get(`/projects/${id}/getTasks`)
       .then(res => {
@@ -45,14 +45,14 @@ export function getTasks(id) {
       .catch(() => dispatch(taskError(error)));
 }
 
-export function newTaskSuccess(task) {
+export function newTaskSuccess(task: any) {
   return {
     type: NEW_TASK,
     task,
   };
 }
 
-export function newTask(task) {
+export function newTask(task: any) {
   const { name, project } = task;
   const error = {
     message:
@@ -60,7 +60,7 @@ export function newTask(task) {
     name: 'tasks-new-error',
     type: 'error',
   };
-  return dispatch =>
+  return (dispatch: any) =>
     axios
       .post(`/projects/${task.project}/add`, { name, project })
       .then(res => {
@@ -73,21 +73,21 @@ export function newTask(task) {
       .catch(() => dispatch(taskError(error)));
 }
 
-export function deleteTaskSuccess(id) {
+export function deleteTaskSuccess(id: string) {
   return {
     type: DELETE_TASK,
     id,
   };
 }
 
-export function deleteTask(id) {
+export function deleteTask(id: string) {
   const error = {
     message:
       'Something went wrong. Could not delete the task. Try again or reload the page',
     name: 'tasks-delete-error',
     type: 'error',
   };
-  return dispatch =>
+  return (dispatch: any) =>
     axios
       .post(`/projects/${id}/delete`, { id })
       .then(res => {
@@ -127,7 +127,7 @@ export function renameTask(params: IRenameTask) {
     name: 'tasks-rename-error',
     type: 'error',
   };
-  return dispatch =>
+  return (dispatch: any) =>
     axios
       .post(`/projects/tasks/${params.id}/edit`, { ...params })
       .then(res => {
@@ -135,9 +135,9 @@ export function renameTask(params: IRenameTask) {
           dispatch(renameTaskSuccess(params));
           dispatch(
             subtractTaskTime(
-              params.currentProject,
-              params.deleteTime,
-              params.timeSpent
+              params.currentProject || '',
+              params.deleteTime || false,
+              params.timeSpent || 0
             )
           );
         } else {
@@ -154,7 +154,7 @@ export function clearTasks() {
   };
 }
 
-export function toggleDoneSuccess(id, done) {
+export function toggleDoneSuccess(id: string, done: boolean) {
   return {
     type: TOGGLE_DONE,
     id,
@@ -162,14 +162,14 @@ export function toggleDoneSuccess(id, done) {
   };
 }
 
-export function toggleDone(id) {
+export function toggleDone(id: string) {
   const error = {
     message:
       'Something went wrong. Could not toggle the task. Try again or reload the page',
     name: 'tasks-toggle-error',
     type: 'error',
   };
-  return dispatch =>
+  return (dispatch: any) =>
     axios
       .post(`/projects/tasks/${id}/done`, { id })
       .then(res => {

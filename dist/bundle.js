@@ -4905,6 +4905,7 @@ var RENAME_TASK = exports.RENAME_TASK = 'RENAME_TASK';
 var TOGGLE_DONE = exports.TOGGLE_DONE = 'TOGGLE_DONE';
 
 var ADD_TIMELOG = exports.ADD_TIMELOG = 'ADD_TIMELOG';
+var PROJECT_ADD_TIMELOG = exports.PROJECT_ADD_TIMELOG = 'PROJECT_ADD_TIMELOG';
 var DELETE_LOG = exports.DELETE_LOG = 'DELETE_LOG';
 var GET_LOGS = exports.GET_LOGS = 'GET_LOGS';
 var CLEAR_LOGS = exports.CLEAR_LOGS = 'CLEAR_LOGS';
@@ -6717,6 +6718,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.timelogError = timelogError;
 exports.addTimelogSuccess = addTimelogSuccess;
+exports.addTimeProjectSuccess = addTimeProjectSuccess;
 exports.addTimelog = addTimelog;
 exports.deleteLogSuccess = deleteLogSuccess;
 exports.deleteLog = deleteLog;
@@ -6746,6 +6748,13 @@ function addTimelogSuccess(data, seconds) {
     seconds: seconds
   };
 }
+function addTimeProjectSuccess(data, seconds) {
+  return {
+    type: _actionTypes.PROJECT_ADD_TIMELOG,
+    data: data,
+    seconds: seconds
+  };
+}
 
 function addTimelog(data, seconds) {
   var error = {
@@ -6757,6 +6766,7 @@ function addTimelog(data, seconds) {
     return _axios2.default.post('/projects/timelog', data).then(function (res) {
       if (res.data.success === true) {
         dispatch(addTimelogSuccess(res.data, seconds));
+        dispatch(addTimeProjectSuccess(res.data, seconds));
       } else {
         dispatch(timelogError(error));
       }
@@ -46417,7 +46427,7 @@ function projects() {
         });
         return _projectsList3;
       }
-    case _actionTypes.ADD_TIMELOG:
+    case _actionTypes.PROJECT_ADD_TIMELOG:
       {
         var projectList = state.map(function (item) {
           var newItem = Object.assign({}, item);

@@ -5,7 +5,7 @@ import {
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
-  ADD_TIMELOG,
+  PROJECT_ADD_TIMELOG,
   SUBTRACT_TASK_TIME,
 } from '../actions/actionTypes';
 
@@ -49,7 +49,7 @@ function projects(state = [], action) {
       const projectsList = state.filter(item => item._id !== action.id);
       return projectsList;
     }
-    case ADD_TIMELOG: {
+    case PROJECT_ADD_TIMELOG: {
       const projectList = state.map(item => {
         const newItem = Object.assign({}, item);
         if (newItem._id === action.data.project._id) {

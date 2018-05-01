@@ -44,7 +44,6 @@ class ProjectItem extends React.Component {
     const { project, onDelete } = this.props;
     const { newName, showInput } = this.state;
     const hideTaskName = this.state.showInput ? 'none' : '';
-    console.log(project);
     return (
       <li
         style={{ paddingLeft: `${this.props.padding}px` }}

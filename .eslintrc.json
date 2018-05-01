@@ -4,6 +4,7 @@
   "plugins": ["flowtype"],
   "rules": {
     "no-console": "off",
+    "no-debugger": "off",
     "react/prop-types": "off",
     "jsx-a11y/href-no-hash": "off",
     "react/jsx-filename-extension": "off",

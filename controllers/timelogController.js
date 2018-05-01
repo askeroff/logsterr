@@ -27,12 +27,17 @@ exports.addTime = async (req, res) => {
 
   addTimeToParentProjects(req.body.project, req.body.seconds);
 
-  const [timelog, task, project] = await Promise.all([
+  const [timelog, task] = await Promise.all([
     timelogPromise,
     taskPromise,
     ...projectsPromises,
   ]);
-  res.json({ timelog, task, project, success: true });
+  res.json({
+    timelog,
+    task,
+    project: { _id: req.body.project },
+    success: true,
+  });
 };
 
 exports.getLogs = async (req, res) => {

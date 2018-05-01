@@ -57,6 +57,7 @@ class Project extends React.Component {
     }
 
     if (nextProps.timelog.seconds !== undefined) {
+      console.log('nextProps happened');
       this.setState(state => ({
         seconds: state.seconds + nextProps.timelog.seconds,
       }));

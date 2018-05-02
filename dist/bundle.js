@@ -46546,11 +46546,6 @@ function timelog() {
 
   switch (action.type) {
     case _actionTypes.ADD_TIMELOG:
-      /*
-      I return this weird object because I don't really use state after this action,
-      and the only place I need it is in Project component and only seconds added
-      to remove them real-time in MotivationBlock component
-      */
       return { seconds: action.seconds };
     case _actionTypes.GET_LOGS:
       return action.response;
@@ -53596,7 +53591,6 @@ var ProjectItem = function (_React$Component) {
           showInput = _state.showInput;
 
       var hideTaskName = this.state.showInput ? 'none' : '';
-      console.log(project);
       return _react2.default.createElement(
         'li',
         {
@@ -53780,14 +53774,15 @@ var Project = function (_React$Component) {
       newTaskInput: '',
       notFound: false,
       spinner: false,
-      seconds: 0
+      initialTime: 0
     }, _this.onUpdateProjects = function () {
       if (_this.props.projects.length !== 0 && !_this.state.projectsLoaded) {
         _this.props.projects.forEach(function (item, index) {
           if (item._id === _this.props.match.params.id) {
             _this.setState({
               projectsLoaded: true,
-              projectIndex: index
+              projectIndex: index,
+              initialTime: item.timeSpent
             });
           }
           return item;
@@ -53847,14 +53842,6 @@ var Project = function (_React$Component) {
         this.props.handleDashboardData();
         this.setState({ userLoaded: true });
       }
-
-      if (nextProps.timelog.seconds !== undefined) {
-        this.setState(function (state) {
-          return {
-            seconds: state.seconds + nextProps.timelog.seconds
-          };
-        });
-      }
     }
   }, {
     key: 'componentDidUpdate',
@@ -53900,7 +53887,7 @@ var Project = function (_React$Component) {
       var addLinkText = showForm ? 'Hide The Form' : 'New Task';
       var projects = this.props.projects;
 
-      var projectTime = projectIndex !== undefined ? (0, _helpers.formatTime)(projects[projectIndex].timeSpent) : '';
+      var projectTime = projectIndex !== undefined ? projects[projectIndex].timeSpent : 0;
 
       var title = projectIndex !== undefined ? projects[projectIndex].name : '...';
 
@@ -53925,7 +53912,7 @@ var Project = function (_React$Component) {
                 'span',
                 { className: 'pretty-time' },
                 'Total: ',
-                projectTime
+                (0, _helpers.formatTime)(projectTime)
               )
             ),
             _react2.default.createElement(
@@ -53988,8 +53975,9 @@ var Project = function (_React$Component) {
               ),
               _react2.default.createElement(_MotivationBlock2.default, {
                 dashboardData: dashboardData,
-                seconds: this.state.seconds,
-                projectId: projectId
+                projectId: projectId,
+                initialTime: this.state.initialTime,
+                time: projectTime
               })
             )
           )
@@ -54010,14 +53998,12 @@ Project.defaultProps = {
   projects: [],
   tasks: [],
   user: {},
-  dashboardData: {},
-  timelog: { seconds: 0 }
+  dashboardData: {}
 };
 
 Project.propTypes = {
   match: _propTypes2.default.object.isRequired,
   projects: _propTypes2.default.array,
-  timelog: _propTypes2.default.object,
   dashboardData: _propTypes2.default.object,
   tasks: _propTypes2.default.array,
   user: _propTypes2.default.object,
@@ -54792,17 +54778,16 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 var _helpers = __webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MotivationBlock = function MotivationBlock(props) {
   var thisWeekString = '';
+  var time = props.time,
+      initialTime = props.initialTime;
 
+  var difference = Number(time) - Number(initialTime);
   var dashboardData = props.dashboardData,
       projectId = props.projectId;
 
@@ -54814,7 +54799,7 @@ var MotivationBlock = function MotivationBlock(props) {
       return item.id === projectId;
     });
     if (thisWeek !== undefined && lastWeek !== undefined) {
-      var diff = lastWeek.time - thisWeek.time - props.seconds;
+      var diff = lastWeek.time - thisWeek.time - difference;
       if (diff < 0) {
         thisWeekString = _react2.default.createElement(
           'p',
@@ -54884,7 +54869,7 @@ var MotivationBlock = function MotivationBlock(props) {
     }
 
     if (thisWeek === undefined && lastWeek !== undefined) {
-      var _diff = lastWeek.time - props.seconds;
+      var _diff = lastWeek.time - difference;
       var newData = _diff > 0 ? _react2.default.createElement(
         'span',
         null,
@@ -54929,7 +54914,7 @@ var MotivationBlock = function MotivationBlock(props) {
       );
     }
     if (thisWeek !== undefined && lastWeek === undefined) {
-      var _diff2 = thisWeek.time + props.seconds;
+      var _diff2 = thisWeek.time + difference;
       thisWeekString = _react2.default.createElement(
         'p',
         null,
@@ -54947,14 +54932,14 @@ var MotivationBlock = function MotivationBlock(props) {
       );
     }
     if (thisWeek === undefined && lastWeek === undefined) {
-      var _newData = props.seconds !== 0 ? _react2.default.createElement(
+      var _newData = difference !== 0 ? _react2.default.createElement(
         'span',
         null,
         'Here is new data: ',
         _react2.default.createElement(
           'b',
           null,
-          (0, _helpers.formatTime)(props.seconds)
+          (0, _helpers.formatTime)(difference)
         ),
         ' this week on this project!'
       ) : '';
@@ -54975,15 +54960,8 @@ var MotivationBlock = function MotivationBlock(props) {
 };
 
 MotivationBlock.defaultProps = {
-  projectId: '',
-  dashboardData: {},
-  seconds: 0
-};
-
-MotivationBlock.propTypes = {
-  projectId: _propTypes2.default.string,
-  dashboardData: _propTypes2.default.object,
-  seconds: _propTypes2.default.number
+  initialTime: 0,
+  time: 0
 };
 
 exports.default = MotivationBlock;

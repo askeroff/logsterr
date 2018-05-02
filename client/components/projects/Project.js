@@ -31,7 +31,7 @@ class Project extends React.Component {
     newTaskInput: '',
     notFound: false,
     spinner: false,
-    seconds: 0,
+    initialTime: 0,
   };
 
   componentDidMount() {
@@ -55,13 +55,6 @@ class Project extends React.Component {
       this.props.handleDashboardData();
       this.setState({ userLoaded: true });
     }
-
-    if (nextProps.timelog.seconds !== undefined) {
-      console.log('nextProps happened');
-      this.setState(state => ({
-        seconds: state.seconds + nextProps.timelog.seconds,
-      }));
-    }
   }
 
   componentDidUpdate() {
@@ -80,6 +73,7 @@ class Project extends React.Component {
           this.setState({
             projectsLoaded: true,
             projectIndex: index,
+            initialTime: item.timeSpent,
           });
         }
         return item;
@@ -161,9 +155,7 @@ class Project extends React.Component {
     const addLinkText = showForm ? 'Hide The Form' : 'New Task';
     const { projects } = this.props;
     const projectTime =
-      projectIndex !== undefined
-        ? formatTime(projects[projectIndex].timeSpent)
-        : '';
+      projectIndex !== undefined ? projects[projectIndex].timeSpent : 0;
 
     const title =
       projectIndex !== undefined ? projects[projectIndex].name : '...';
@@ -174,7 +166,9 @@ class Project extends React.Component {
           <div className="project__info">
             <h1 className="page-title">{title}</h1>
             <h3 className="page-title">
-              <span className="pretty-time">Total: {projectTime}</span>
+              <span className="pretty-time">
+                Total: {formatTime(projectTime)}
+              </span>
             </h3>
             <div className="project__buttons">
               <button onClick={this.showAddForm} className="button--submit">
@@ -224,8 +218,9 @@ class Project extends React.Component {
               </p>
               <MotivationBlock
                 dashboardData={dashboardData}
-                seconds={this.state.seconds}
                 projectId={projectId}
+                initialTime={this.state.initialTime}
+                time={projectTime}
               />
             </div>
           </div>
@@ -247,13 +242,11 @@ Project.defaultProps = {
   tasks: [],
   user: {},
   dashboardData: {},
-  timelog: { seconds: 0 },
 };
 
 Project.propTypes = {
   match: PropTypes.object.isRequired,
   projects: PropTypes.array,
-  timelog: PropTypes.object,
   dashboardData: PropTypes.object,
   tasks: PropTypes.array,
   user: PropTypes.object,

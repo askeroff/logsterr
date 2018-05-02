@@ -1,16 +1,24 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { formatTime } from '../../helpers';
 
-const MotivationBlock = props => {
-  let thisWeekString = '';
+type Props = {
+  initialTime: number,
+  time: number,
+  projectId: string,
+  dashboardData: any,
+};
 
+const MotivationBlock = (props: Props) => {
+  let thisWeekString = '';
+  const { time, initialTime } = props;
+  const difference = Number(time) - Number(initialTime);
   const { dashboardData, projectId } = props;
   if (dashboardData.lastWeek && dashboardData.lastWeek.length !== 0) {
     const lastWeek = dashboardData.lastWeek.find(item => item.id === projectId);
     const thisWeek = dashboardData.thisWeek.find(item => item.id === projectId);
     if (thisWeek !== undefined && lastWeek !== undefined) {
-      const diff = lastWeek.time - thisWeek.time - props.seconds;
+      const diff = lastWeek.time - thisWeek.time - difference;
       if (diff < 0) {
         thisWeekString = (
           <p>
@@ -42,7 +50,7 @@ const MotivationBlock = props => {
     }
 
     if (thisWeek === undefined && lastWeek !== undefined) {
-      const diff = lastWeek.time - props.seconds;
+      const diff = lastWeek.time - difference;
       const newData =
         diff > 0 ? (
           <span>
@@ -66,7 +74,7 @@ const MotivationBlock = props => {
       );
     }
     if (thisWeek !== undefined && lastWeek === undefined) {
-      const diff = thisWeek.time + props.seconds;
+      const diff = thisWeek.time + difference;
       thisWeekString = (
         <p>
           <span>
@@ -78,10 +86,10 @@ const MotivationBlock = props => {
     }
     if (thisWeek === undefined && lastWeek === undefined) {
       const newData =
-        props.seconds !== 0 ? (
+        difference !== 0 ? (
           <span>
-            Here is new data: <b>{formatTime(props.seconds)}</b> this week on
-            this project!
+            Here is new data: <b>{formatTime(difference)}</b> this week on this
+            project!
           </span>
         ) : (
           ''
@@ -101,15 +109,8 @@ const MotivationBlock = props => {
 };
 
 MotivationBlock.defaultProps = {
-  projectId: '',
-  dashboardData: {},
-  seconds: 0,
-};
-
-MotivationBlock.propTypes = {
-  projectId: PropTypes.string,
-  dashboardData: PropTypes.object,
-  seconds: PropTypes.number,
+  initialTime: 0,
+  time: 0,
 };
 
 export default MotivationBlock;

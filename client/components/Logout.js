@@ -5,24 +5,27 @@ import { logOut } from '../actions/user';
 import { clearProjects } from '../actions/projects';
 import { clearTasks } from '../actions/tasks';
 import { clearLogs } from '../actions/timelog';
-import Home from './Home';
+import Spinner from './layout/Spinner';
 
 class Logout extends React.Component {
   componentDidMount() {
-    this.props.logMeOut();
     this.props.clearProjectsList();
     this.props.clearLogsList();
     this.props.clearTasksList();
+    this.props.logMeOut();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.loggedIn === false) {
-      this.props.history.push('/');
+    if (
+      nextProps.user.loggedIn === false &&
+      this.props.match.path === '/logmeout'
+    ) {
+      this.props.history.push('/login');
     }
   }
 
   render() {
-    return <Home />;
+    return <Spinner />;
   }
 }
 

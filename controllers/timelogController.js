@@ -18,6 +18,11 @@ function addTimeToParentProjects(id, timeSpent) {
 }
 
 exports.addTime = async (req, res) => {
+  if (req.body.seconds < 60) {
+    res.status(500).send('Will not add time less than one minute');
+    return null;
+  }
+
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
   const timelogPromise = new Timelog(req.body).save();
   const taskPromise = Task.findById(req.body.task, (err, task) => {
@@ -38,6 +43,7 @@ exports.addTime = async (req, res) => {
     project: { _id: req.body.project },
     success: true,
   });
+  return true;
 };
 
 exports.getLogs = async (req, res) => {

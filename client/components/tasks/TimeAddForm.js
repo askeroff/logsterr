@@ -42,6 +42,12 @@ class TimeAddForm extends React.Component {
     const hoursToSeconds = hours * 3600;
     const minutesToSeconds = minutes * 60;
     const result = hoursToSeconds + minutesToSeconds;
+
+    if (result < 60) {
+      swal('Invalid', 'Added time should be greater than one minute', 'error');
+      return null;
+    }
+
     if (this.props.from === 'project') {
       addTime(project, result);
     } else {

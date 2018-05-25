@@ -1,9 +1,21 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import FormInput from '../layout/FormInput';
 import ProjectsSelect from './ProjectsSelect';
+import { IProject } from '../../types';
 
-const AddForm = props => (
+type AddFormProps = {
+  inputValue: string,
+  handleInput: (e: SyntheticEvent<HTMLInputElement>) => void,
+  projects: IProject[],
+  clickHandler: (e: SyntheticEvent<HTMLFormElement>) => void,
+  labelName: string,
+  parentID: string,
+  changeSelect: (e: SyntheticEvent<HTMLSelectElement>) => void,
+  className: string,
+};
+
+const AddForm = (props: AddFormProps) => (
   <form onSubmit={props.clickHandler} className={props.className}>
     <label className="form__title" htmlFor="project-name">
       {props.labelName}
@@ -27,22 +39,11 @@ const AddForm = props => (
 );
 
 AddForm.defaultProps = {
-  clickHandler: () => 0,
+  clickHandler: () => {},
+  changeSelect: () => {},
   parentID: '',
   projects: [],
-  changeSelect: () => 0,
   className: 'form',
-};
-
-AddForm.propTypes = {
-  inputValue: PropTypes.string.isRequired,
-  handleInput: PropTypes.func.isRequired,
-  projects: PropTypes.array,
-  clickHandler: PropTypes.func,
-  labelName: PropTypes.string.isRequired,
-  parentID: PropTypes.any,
-  changeSelect: PropTypes.func,
-  className: PropTypes.string,
 };
 
 export default AddForm;

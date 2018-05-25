@@ -5,7 +5,6 @@ import {
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
-  PROJECT_ADD_TIMELOG,
   SUBTRACT_TASK_TIME,
 } from '../actions/actionTypes';
 
@@ -15,13 +14,14 @@ function projects(state = [], action) {
       return [...state, action.project];
     }
     case ADD_TIME_TO_PROJECT: {
-      const projectsList = state.map(item => {
-        if (item._id === action.id) {
-          item.timeSpent += parseInt(action.time, 10); // eslint-disable-line no-param-reassign
+      const projectList = state.map(item => {
+        const newItem = Object.assign({}, item);
+        if (newItem._id === action.id) {
+          newItem.timeSpent += action.time;
         }
-        return item;
+        return newItem;
       });
-      return projectsList;
+      return projectList;
     }
     case SUBTRACT_TASK_TIME: {
       const projectsList = state.map(item => {
@@ -48,16 +48,6 @@ function projects(state = [], action) {
     case DELETE_PROJECT: {
       const projectsList = state.filter(item => item._id !== action.id);
       return projectsList;
-    }
-    case PROJECT_ADD_TIMELOG: {
-      const projectList = state.map(item => {
-        const newItem = Object.assign({}, item);
-        if (newItem._id === action.data.project._id) {
-          newItem.timeSpent += action.seconds;
-        }
-        return newItem;
-      });
-      return projectList;
     }
     default:
       return state;

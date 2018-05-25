@@ -5,7 +5,7 @@ import {
   CLEAR_LOGS,
   DELETE_LOG,
   ADD_MESSAGE,
-  PROJECT_ADD_TIMELOG,
+  ADD_TIME_TO_PROJECT,
 } from './actionTypes';
 
 export function timelogError(response) {
@@ -24,9 +24,9 @@ export function addTimelogSuccess(data, seconds) {
 }
 export function addTimeProjectSuccess(data, seconds) {
   return {
-    type: PROJECT_ADD_TIMELOG,
-    data,
-    seconds,
+    type: ADD_TIME_TO_PROJECT,
+    id: data.project._id,
+    time: seconds,
   };
 }
 

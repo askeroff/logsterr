@@ -24,7 +24,6 @@ export const RENAME_TASK = 'RENAME_TASK';
 export const TOGGLE_DONE = 'TOGGLE_DONE';
 
 export const ADD_TIMELOG = 'ADD_TIMELOG';
-export const PROJECT_ADD_TIMELOG = 'PROJECT_ADD_TIMELOG';
 export const DELETE_LOG = 'DELETE_LOG';
 export const GET_LOGS = 'GET_LOGS';
 export const CLEAR_LOGS = 'CLEAR_LOGS';

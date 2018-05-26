@@ -19,3 +19,10 @@ export interface IProject {
   parent_id: string;
   timeSpent: number;
 }
+
+export interface IUser {
+  loggedIn: boolean;
+  _id: string;
+  email: string;
+  error: string;
+}

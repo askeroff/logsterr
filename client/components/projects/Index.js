@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProjects, addProject, clearProjects } from '../../actions/projects';
 import Layout from '../layout/Layout';
@@ -7,14 +7,36 @@ import Spinner from '../layout/Spinner';
 import NotLoggedIn from '../NotLoggedIn';
 import ProjectsList from './ProjectsList';
 import AddForm from './AddForm';
+import { IUser, IProject } from '../../types';
 
-class Index extends React.Component {
+type State = {
+  userLoaded: boolean,
+  parentID: string,
+  showForm: boolean,
+  formInput: string,
+  spinner: boolean,
+};
+
+type IndexProps = {
+  handleProjects: (authorID: string) => void,
+  handleAdding: (name: string, id: string) => void,
+  clearProjectsList: () => void,
+  user: IUser,
+  projects: IProject[],
+};
+
+class Index extends React.Component<IndexProps, State> {
+  static defaultProps = {
+    user: {},
+    projects: [],
+  };
+
   state = {
     userLoaded: false,
     parentID: '',
     showForm: false,
     formInput: '',
-    spinner: '',
+    spinner: false,
   };
 
   componentDidMount() {
@@ -44,8 +66,8 @@ class Index extends React.Component {
     });
   };
 
-  handleFormInput = event => {
-    this.setState({ formInput: event.target.value });
+  handleFormInput = (event: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ formInput: event.currentTarget.value });
   };
 
   addProject = (name, id) => {
@@ -57,9 +79,9 @@ class Index extends React.Component {
     });
   };
 
-  selectParent = event => {
+  selectParent = (event: SyntheticEvent<HTMLSelectElement>) => {
     this.setState({
-      parentID: event.target.value,
+      parentID: event.currentTarget.value,
     });
   };
 
@@ -115,14 +137,6 @@ class Index extends React.Component {
 Index.defaultProps = {
   user: {},
   projects: [],
-};
-
-Index.propTypes = {
-  handleProjects: PropTypes.func.isRequired,
-  handleAdding: PropTypes.func.isRequired,
-  clearProjectsList: PropTypes.func.isRequired,
-  user: PropTypes.object,
-  projects: PropTypes.array,
 };
 
 const mapStateToProps = state => ({

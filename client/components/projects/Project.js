@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getDashboardData } from '../../actions/dashboard';
@@ -19,8 +19,45 @@ import AddForm from './AddForm';
 import MotivationBlock from './MotivationBlock';
 import TimeAddForm from '../tasks/TimeAddForm';
 import { formatTime } from '../../helpers';
+import { ITask, IProject, IUser } from '../../types';
 
-class Project extends React.Component {
+type ProjectProps = {
+  match: { params: { id: string } },
+  projects: IProject[],
+  dashboardData: {},
+  tasks: ITask[],
+  user: IUser,
+  location: { pathname: string },
+  handleProjects: (userID: string) => void,
+  handleAddingTimeToProject: (projectID: string, time: number) => void,
+  handleDashboardData: () => void,
+  handleTasks: (projectID: string) => void,
+  handleNewTask: (data: { name: string, project: string }) => void,
+  clearProjectsList: () => void,
+  clearTasksList: () => void,
+  clearSecondsLog: () => void,
+};
+
+type State = {
+  projectIndex?: number,
+  userLoaded: boolean,
+  projectsLoaded: boolean,
+  tasksLoaded: boolean,
+  showForm: boolean,
+  timeForm: boolean,
+  notFound: boolean,
+  spinner: boolean,
+  newTaskInput: string,
+  initialTime: number,
+};
+
+class Project extends React.Component<ProjectProps, State> {
+  static defaultProps = {
+    projects: [],
+    tasks: [],
+    user: {},
+    dashboardData: {},
+  };
   state = {
     projectIndex: undefined,
     userLoaded: false,
@@ -112,9 +149,9 @@ class Project extends React.Component {
     });
   };
 
-  handleNewTaskInput = e => {
+  handleNewTaskInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      newTaskInput: e.target.value,
+      newTaskInput: e.currentTarget.value,
     });
   };
 
@@ -236,30 +273,6 @@ class Project extends React.Component {
     );
   }
 }
-
-Project.defaultProps = {
-  projects: [],
-  tasks: [],
-  user: {},
-  dashboardData: {},
-};
-
-Project.propTypes = {
-  match: PropTypes.object.isRequired,
-  projects: PropTypes.array,
-  dashboardData: PropTypes.object,
-  tasks: PropTypes.array,
-  user: PropTypes.object,
-  location: PropTypes.object.isRequired,
-  handleProjects: PropTypes.func.isRequired,
-  handleAddingTimeToProject: PropTypes.func.isRequired,
-  handleDashboardData: PropTypes.func.isRequired,
-  handleTasks: PropTypes.func.isRequired,
-  handleNewTask: PropTypes.func.isRequired,
-  clearProjectsList: PropTypes.func.isRequired,
-  clearTasksList: PropTypes.func.isRequired,
-  clearSecondsLog: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   projects: state.projects,

@@ -1,44 +1,55 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { formatTime } from '../../helpers';
+import { IProject } from '../../types';
 
-class ProjectItem extends React.Component {
-  constructor(props) {
+type Props = {
+  project: IProject,
+  onDelete: (projectId: string) => void,
+  renameMe: (id: string, name: string) => void,
+  padding: number,
+};
+
+type State = {
+  showInput: boolean,
+  newName: string,
+};
+
+class ProjectItem extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       showInput: false,
       newName: '',
     };
-    this.handleNewName = this.handleNewName.bind(this);
-    this.handleRenaming = this.handleRenaming.bind(this);
-    this.handleShowInput = this.handleShowInput.bind(this);
-    this.handleEnterButton = this.handleEnterButton.bind(this);
   }
 
-  handleNewName(e) {
-    this.setState({ newName: e.target.value });
-  }
+  renameLink: any;
 
-  handleShowInput(name) {
+  handleNewName = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ newName: e.currentTarget.value });
+  };
+
+  handleShowInput = (name: string) => {
     this.setState({
       showInput: !this.state.showInput,
       newName: name,
     });
-  }
+  };
 
-  handleRenaming(id, name) {
+  handleRenaming = (id: string, name: string) => {
     this.props.renameMe(id, name);
     this.setState({
       showInput: false,
     });
-  }
+  };
 
-  handleEnterButton(event) {
+  handleEnterButton = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (event.charCode === 13) {
       this.renameLink.click();
     }
-  }
+  };
 
   render() {
     const { project, onDelete } = this.props;
@@ -98,12 +109,5 @@ class ProjectItem extends React.Component {
     );
   }
 }
-
-ProjectItem.propTypes = {
-  project: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  renameMe: PropTypes.func.isRequired,
-  padding: PropTypes.number.isRequired,
-};
 
 export default ProjectItem;

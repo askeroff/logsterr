@@ -1,8 +1,23 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+import { IProject } from '../../types';
 
-class ProjectsSelect extends React.Component {
-  getListOfProjects = (parentID = '', level = 1) => {
+type Props = {
+  projects: IProject[],
+  parentID: string,
+  disableDefault: boolean,
+  changeSelect: (e: SyntheticEvent<HTMLSelectElement>) => void,
+  myClass: string,
+};
+
+class ProjectsSelect extends React.Component<Props> {
+  static defaultProps = {
+    parentID: '',
+    disableDefault: false,
+    myClass: 'project-select',
+  };
+
+  getListOfProjects = (parentID: string = '', level: number = 1) => {
     this.props.projects.forEach(project => {
       if (parentID === project.parent_id) {
         this.projects.push(
@@ -40,19 +55,5 @@ class ProjectsSelect extends React.Component {
     );
   }
 }
-
-ProjectsSelect.defaultProps = {
-  parentID: '',
-  disableDefault: false,
-  myClass: 'project-select',
-};
-
-ProjectsSelect.propTypes = {
-  projects: PropTypes.array.isRequired,
-  parentID: PropTypes.any,
-  disableDefault: PropTypes.bool,
-  changeSelect: PropTypes.func.isRequired,
-  myClass: PropTypes.string,
-};
 
 export default ProjectsSelect;

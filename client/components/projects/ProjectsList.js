@@ -1,20 +1,34 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { deleteProject, renameProject } from '../../actions/projects';
 import ProjectItem from './ProjectItem';
 import Spinner from '../layout/Spinner';
+import { IProject } from '../../types';
 
-class ProjectsList extends React.Component {
-  state = { spinner: true }
+type Props = {
+  projects: IProject[],
+  handleDeleting: (projectID: string) => void,
+  handleRenaming: (id: string, name: string) => void,
+};
+
+type State = {
+  spinner: boolean,
+};
+
+class ProjectsList extends React.Component<Props, State> {
+  static defaultProps = {
+    projects: [],
+  };
+  state = { spinner: true };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
       this.setState({ spinner: false });
     }
   }
-  onDelete = (id) => {
+  onDelete = id => {
     swal({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this project',
@@ -28,24 +42,26 @@ class ProjectsList extends React.Component {
         swal('Your project is safe!');
       }
     });
-  }
+  };
   projects = [];
 
   printProjects = (parentID = '', padding = 8) => {
     this.props.projects.forEach(project => {
       if (project.parent_id === parentID) {
-        this.projects.push(<ProjectItem
-          onDelete={this.onDelete}
-          padding={padding}
-          key={project._id}
-          project={project}
-          renameMe={this.props.handleRenaming}
-        />);
+        this.projects.push(
+          <ProjectItem
+            onDelete={this.onDelete}
+            padding={padding}
+            key={project._id}
+            project={project}
+            renameMe={this.props.handleRenaming}
+          />
+        );
         this.printProjects(project._id, padding + 8);
       }
     });
     return this.projects;
-  }
+  };
 
   render() {
     this.projects = [];
@@ -53,16 +69,6 @@ class ProjectsList extends React.Component {
     return this.state.spinner ? <Spinner /> : listItems;
   }
 }
-
-ProjectsList.defaultProps = {
-  projects: [],
-};
-
-ProjectsList.propTypes = {
-  projects: PropTypes.array,
-  handleDeleting: PropTypes.func.isRequired,
-  handleRenaming: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   projectsList: state.projects,

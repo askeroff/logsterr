@@ -26,3 +26,12 @@ export interface IUser {
   email: string;
   error: string;
 }
+
+export interface IMatch {
+  isExact: boolean;
+  params: {
+    id: string,
+  };
+  path: string;
+  url: string;
+}

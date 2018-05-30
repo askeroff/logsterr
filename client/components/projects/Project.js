@@ -19,10 +19,10 @@ import AddForm from './AddForm';
 import MotivationBlock from './MotivationBlock';
 import TimeAddForm from '../tasks/TimeAddForm';
 import { formatTime } from '../../helpers';
-import { ITask, IProject, IUser } from '../../types';
+import { ITask, IProject, IUser, IMatch } from '../../types';
 
 type ProjectProps = {
-  match: { params: { id: string } },
+  match: IMatch,
   projects: IProject[],
   dashboardData: {},
   tasks: ITask[],

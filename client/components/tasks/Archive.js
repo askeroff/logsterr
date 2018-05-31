@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProjects } from '../../actions/projects';
@@ -9,19 +9,42 @@ import Spinner from '../layout/Spinner';
 import NotLoggedIn from '../NotLoggedIn';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
+import { IMatch, IProject, ITask, IUser } from '../../types';
 
-class Archive extends React.Component {
+type Props = {
+  match: IMatch,
+  projects: IProject[],
+  tasks: ITask[],
+  user: IUser,
+  handleProjects: (userID: string) => void,
+  handleTasks: (projectID: string) => void,
+  clearTasksList: () => void,
+};
+
+type State = {
+  currentProject?: IProject,
+  userLoaded: boolean,
+  projectsLoaded: boolean,
+  tasksLoaded: boolean,
+  notFound: boolean,
+};
+
+class Archive extends React.Component<Props, State> {
+  static defaultProps = {
+    projects: [],
+    tasks: [],
+    user: {},
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      currentProject: {},
+      currentProject: undefined,
       userLoaded: false,
       projectsLoaded: false,
       tasksLoaded: false,
       notFound: false,
     };
-    this.onUpdateProjects = this.onUpdateProjects.bind(this);
-    this.onUpdateTasks = this.onUpdateTasks.bind(this);
   }
 
   componentDidMount() {
@@ -44,7 +67,7 @@ class Archive extends React.Component {
     this.onUpdateTasks();
   }
 
-  onUpdateProjects() {
+  onUpdateProjects = () => {
     if (this.props.projects.length !== 0 && !this.state.projectsLoaded) {
       this.props.projects.forEach(item => {
         if (item._id === this.props.match.params.id) {
@@ -54,29 +77,32 @@ class Archive extends React.Component {
       });
       this.setState({ projectsLoaded: true });
     }
-  }
+  };
 
-  onUpdateTasks() {
+  onUpdateTasks = () => {
+    const { projectsLoaded, currentProject } = this.state;
     if (
-      this.state.projectsLoaded &&
-      this.state.currentProject.name === undefined &&
+      projectsLoaded &&
+      currentProject === undefined &&
       this.state.notFound === false
     ) {
       this.setState({ notFound: true });
     }
 
     if (
-      this.state.projectsLoaded &&
-      this.state.currentProject.name !== undefined &&
+      projectsLoaded &&
+      currentProject !== undefined &&
       !this.state.tasksLoaded
     ) {
       this.props.handleTasks(this.props.match.params.id);
       this.setState({ tasksLoaded: true });
     }
-  }
+  };
 
   render() {
     const { match, user, tasks } = this.props;
+    const { currentProject } = this.state;
+    const name = (currentProject && currentProject.name) || '...';
     if (user && user.loggedIn === false) {
       return <NotLoggedIn />;
     }
@@ -92,40 +118,18 @@ class Archive extends React.Component {
     }
     return (
       <Layout>
-        <h1 className="page-title">
-          {this.state.currentProject.name || '...'}
-        </h1>
+        <h1 className="page-title">{name}</h1>
         <div className="project--desc">
           <p>Archive of your finished tasks! </p>
           <Link to={`/projects/${match.params.id}`}>
             Go back to the project
           </Link>.
         </div>
-        <TasksList
-          filter
-          projectId={match.params.id}
-          tasks={tasks}
-        />
+        <TasksList filter projectId={match.params.id} tasks={tasks} />
       </Layout>
     );
   }
 }
-
-Archive.defaultProps = {
-  projects: [],
-  tasks: [],
-  user: {},
-};
-
-Archive.propTypes = {
-  match: PropTypes.object.isRequired,
-  projects: PropTypes.array,
-  tasks: PropTypes.array,
-  user: PropTypes.object,
-  handleProjects: PropTypes.func.isRequired,
-  handleTasks: PropTypes.func.isRequired,
-  clearTasksList: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   projects: state.projects,

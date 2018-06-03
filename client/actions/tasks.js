@@ -8,21 +8,25 @@ import {
   RENAME_TASK,
   TOGGLE_DONE,
   ADD_MESSAGE,
-  SUBTRACT_TASK_TIME,
+  SUBTRACT_TASK_TIME
 } from '../actions/actionTypes';
-import { IRenameTask } from './actions.types';
+import { IRenameTask } from '../types';
 
 export function getTasksSuccess(response: any) {
   return {
     type: GET_TASKS,
-    response,
+    response
   };
 }
 
-export function taskError(response: {message: string; name: string; type: string}) {
+export function taskError(response: {
+  message: string,
+  name: string,
+  type: string
+}) {
   return {
     type: ADD_MESSAGE,
-    response,
+    response
   };
 }
 
@@ -30,7 +34,7 @@ export function getTasks(id: string) {
   const error = {
     message: 'Something went wrong. Could not load the tasks. Try reloading.',
     name: 'tasks-get-error',
-    type: 'error',
+    type: 'error'
   };
   return (dispatch: any) =>
     axios
@@ -48,7 +52,7 @@ export function getTasks(id: string) {
 export function newTaskSuccess(task: any) {
   return {
     type: NEW_TASK,
-    task,
+    task
   };
 }
 
@@ -58,7 +62,7 @@ export function newTask(task: any) {
     message:
       'Something went wrong. Could not create the task. Try again or reload the page',
     name: 'tasks-new-error',
-    type: 'error',
+    type: 'error'
   };
   return (dispatch: any) =>
     axios
@@ -76,7 +80,7 @@ export function newTask(task: any) {
 export function deleteTaskSuccess(id: string) {
   return {
     type: DELETE_TASK,
-    id,
+    id
   };
 }
 
@@ -85,7 +89,7 @@ export function deleteTask(id: string) {
     message:
       'Something went wrong. Could not delete the task. Try again or reload the page',
     name: 'tasks-delete-error',
-    type: 'error',
+    type: 'error'
   };
   return (dispatch: any) =>
     axios
@@ -103,7 +107,7 @@ export function deleteTask(id: string) {
 export function renameTaskSuccess(params: IRenameTask) {
   return {
     type: RENAME_TASK,
-    ...params,
+    ...params
   };
 }
 
@@ -116,7 +120,7 @@ export function subtractTaskTime(
     type: SUBTRACT_TASK_TIME,
     id,
     deleteTime,
-    timeSpent,
+    timeSpent
   };
 }
 
@@ -125,7 +129,7 @@ export function renameTask(params: IRenameTask) {
     message:
       'Something went wrong. Could not rename the task. Try again or reload the page',
     name: 'tasks-rename-error',
-    type: 'error',
+    type: 'error'
   };
   return (dispatch: any) =>
     axios
@@ -150,7 +154,7 @@ export function renameTask(params: IRenameTask) {
 export function clearTasks() {
   return {
     type: CLEAR_TASKS,
-    response: [],
+    response: []
   };
 }
 
@@ -158,7 +162,7 @@ export function toggleDoneSuccess(id: string, done: boolean) {
   return {
     type: TOGGLE_DONE,
     id,
-    done,
+    done
   };
 }
 
@@ -167,7 +171,7 @@ export function toggleDone(id: string) {
     message:
       'Something went wrong. Could not toggle the task. Try again or reload the page',
     name: 'tasks-toggle-error',
-    type: 'error',
+    type: 'error'
   };
   return (dispatch: any) =>
     axios

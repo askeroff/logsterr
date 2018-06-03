@@ -18,7 +18,7 @@ type Props = {
   user: IUser,
   handleProjects: (userID: string) => void,
   handleTasks: (projectID: string) => void,
-  clearTasksList: () => void,
+  clearTasksList: () => void
 };
 
 type State = {
@@ -26,14 +26,14 @@ type State = {
   userLoaded: boolean,
   projectsLoaded: boolean,
   tasksLoaded: boolean,
-  notFound: boolean,
+  notFound: boolean
 };
 
 class Archive extends React.Component<Props, State> {
   static defaultProps = {
     projects: [],
     tasks: [],
-    user: {},
+    user: {}
   };
 
   constructor(props) {
@@ -43,7 +43,7 @@ class Archive extends React.Component<Props, State> {
       userLoaded: false,
       projectsLoaded: false,
       tasksLoaded: false,
-      notFound: false,
+      notFound: false
     };
   }
 
@@ -134,7 +134,7 @@ class Archive extends React.Component<Props, State> {
 const mapStateToProps = state => ({
   projects: state.projects,
   user: state.user,
-  tasks: state.tasks,
+  tasks: state.tasks
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -146,7 +146,7 @@ const mapDispatchToProps = dispatch => ({
   },
   clearTasksList() {
     dispatch(clearTasks());
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Archive);

@@ -1,7 +1,20 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const ButtonsGroup = props => (
+type Props = {
+  done: boolean,
+  doneButtonValue: string,
+  id: string,
+  name: string,
+  showInput: boolean,
+  showTimer: () => void,
+  handleRenaming: () => void,
+  handleShowInput: (name: string) => void,
+  handleDelete: (id: string) => void,
+  taskDone: (id: string) => void
+};
+
+const ButtonsGroup = (props: Props) => (
   <div className="buttons-group">
     {props.showInput ? (
       <button onClick={props.handleRenaming} className="button--info">
@@ -53,18 +66,4 @@ const ButtonsGroup = props => (
     </button>
   </div>
 );
-
-ButtonsGroup.propTypes = {
-  done: PropTypes.bool.isRequired,
-  doneButtonValue: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  showInput: PropTypes.bool.isRequired,
-  showTimer: PropTypes.func.isRequired,
-  handleRenaming: PropTypes.func.isRequired,
-  handleShowInput: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  taskDone: PropTypes.func.isRequired,
-};
-
 export default ButtonsGroup;

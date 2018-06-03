@@ -11,7 +11,7 @@ class Timer extends React.Component {
     this.state = {
       seconds: 0,
       started: false,
-      showForm: false,
+      showForm: false
     };
     this.handleTimer = this.handleTimer.bind(this);
     this.handleStart = this.handleStart.bind(this);
@@ -23,7 +23,7 @@ class Timer extends React.Component {
 
   incrementSeconds() {
     this.setState({
-      seconds: this.state.seconds + 1,
+      seconds: this.state.seconds + 1
     });
   }
 
@@ -42,7 +42,7 @@ class Timer extends React.Component {
       name: this.props.taskName,
       task: this.props.id,
       done: true,
-      project: this.props.project,
+      project: this.props.project
     };
     this.props.handleAddingTimeLog(data, this.state.seconds);
     this.setState({ started: false, seconds: 0 });
@@ -59,7 +59,7 @@ class Timer extends React.Component {
 
   formToggle() {
     this.setState(state => ({
-      showForm: !state.showForm,
+      showForm: !state.showForm
     }));
   }
 
@@ -82,7 +82,7 @@ class Timer extends React.Component {
         </div>
         {this.state.showForm ? (
           <TimeAddForm
-            addTime={this.props.handleAddingTimeLog}
+            addTaskTime={this.props.handleAddingTimeLog}
             name={this.props.taskName}
             task={this.props.id}
             formToggle={this.formToggle}
@@ -104,7 +104,7 @@ Timer.propTypes = {
   taskName: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   project: PropTypes.string.isRequired,
-  handleAddingTimeLog: PropTypes.func.isRequired,
+  handleAddingTimeLog: PropTypes.func.isRequired
 };
 
 export default Timer;

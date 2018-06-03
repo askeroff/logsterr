@@ -7,8 +7,7 @@ import { deleteTask, renameTask, toggleDone } from '../../actions/tasks';
 import { addTimelog } from '../../actions/timelog';
 import Spinner from '../layout/Spinner';
 import Task from './task/Task';
-import { ITask, IProject } from '../../types';
-import { IRenameTask, ITimeLogData } from '../../actions/actions.types';
+import { ITask, IProject, IRenameTask, ITimeLogData } from '../../types';
 
 type TasksListProps = {
   tasks: ITask[],
@@ -18,23 +17,23 @@ type TasksListProps = {
   filter: boolean,
   handleEditing: (params: IRenameTask) => void,
   handleDone: (id: string) => void,
-  handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void,
+  handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void
 };
 
 type TasksListState = {
   spinner: boolean,
   optionsValues: boolean[]
-}
+};
 
 class TasksList extends React.Component<TasksListProps, TasksListState> {
   static defaultProps = {
     tasks: [],
-    filter: false,
+    filter: false
   };
 
   state = {
     spinner: true,
-    optionsValues: [true, false],
+    optionsValues: [true, false]
   };
 
   componentWillReceiveProps(nextProps) {
@@ -45,7 +44,7 @@ class TasksList extends React.Component<TasksListProps, TasksListState> {
 
   handleChangeOptions = arr => {
     this.setState({
-      optionsValues: [...arr],
+      optionsValues: [...arr]
     });
   };
 
@@ -55,7 +54,7 @@ class TasksList extends React.Component<TasksListProps, TasksListState> {
       text: 'Once deleted, you will not be able to recover this task',
       icon: 'warning',
       buttons: true,
-      dangerMode: true,
+      dangerMode: true
     }).then(willDelete => {
       if (willDelete) {
         this.props.handleDeleting(id);
@@ -106,7 +105,7 @@ class TasksList extends React.Component<TasksListProps, TasksListState> {
 
 const mapStateToProps = state => ({
   tasks: state.tasks,
-  projects: state.projects,
+  projects: state.projects
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -121,7 +120,7 @@ const mapDispatchToProps = dispatch => ({
   },
   handleAddingTimeLog(data, seconds) {
     dispatch(addTimelog(data, seconds));
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TasksList);

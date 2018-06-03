@@ -7,7 +7,7 @@ import { clearLogs } from '../../actions/timelog';
 import {
   getProjects,
   clearProjects,
-  addTimeToProject,
+  addTimeToProject
 } from '../../actions/projects';
 import { getTasks, newTask, clearTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
@@ -35,7 +35,7 @@ type ProjectProps = {
   handleNewTask: (data: { name: string, project: string }) => void,
   clearProjectsList: () => void,
   clearTasksList: () => void,
-  clearSecondsLog: () => void,
+  clearSecondsLog: () => void
 };
 
 type State = {
@@ -48,7 +48,7 @@ type State = {
   notFound: boolean,
   spinner: boolean,
   newTaskInput: string,
-  initialTime: number,
+  initialTime: number
 };
 
 class Project extends React.Component<ProjectProps, State> {
@@ -56,7 +56,7 @@ class Project extends React.Component<ProjectProps, State> {
     projects: [],
     tasks: [],
     user: {},
-    dashboardData: {},
+    dashboardData: {}
   };
   state = {
     projectIndex: undefined,
@@ -68,7 +68,7 @@ class Project extends React.Component<ProjectProps, State> {
     newTaskInput: '',
     notFound: false,
     spinner: false,
-    initialTime: 0,
+    initialTime: 0
   };
 
   componentDidMount() {
@@ -110,7 +110,7 @@ class Project extends React.Component<ProjectProps, State> {
           this.setState({
             projectsLoaded: true,
             projectIndex: index,
-            initialTime: item.timeSpent,
+            initialTime: item.timeSpent
           });
         }
         return item;
@@ -139,19 +139,19 @@ class Project extends React.Component<ProjectProps, State> {
 
   showAddForm = () => {
     this.setState({
-      showForm: !this.state.showForm,
+      showForm: !this.state.showForm
     });
   };
 
   showAddTimeForm = () => {
     this.setState({
-      timeForm: !this.state.timeForm,
+      timeForm: !this.state.timeForm
     });
   };
 
   handleNewTaskInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      newTaskInput: e.currentTarget.value,
+      newTaskInput: e.currentTarget.value
     });
   };
 
@@ -160,13 +160,13 @@ class Project extends React.Component<ProjectProps, State> {
     this.setState({
       showForm: false,
       spinner: true,
-      newTaskInput: '',
+      newTaskInput: ''
     });
   };
 
   formToggle = () => {
     this.setState(state => ({
-      timeForm: !state.timeForm,
+      timeForm: !state.timeForm
     }));
   };
 
@@ -222,9 +222,7 @@ class Project extends React.Component<ProjectProps, State> {
 
             {this.state.timeForm ? (
               <TimeAddForm
-                addTime={this.props.handleAddingTimeToProject}
-                name={null}
-                task={null}
+                addProjectTime={this.props.handleAddingTimeToProject}
                 from="project"
                 formToggle={this.formToggle}
                 project={projectId}
@@ -240,7 +238,7 @@ class Project extends React.Component<ProjectProps, State> {
                   e.preventDefault();
                   this.addTask({
                     name: newTaskInput,
-                    project: this.props.match.params.id,
+                    project: this.props.match.params.id
                   });
                 }}
                 labelName="Name"
@@ -279,7 +277,7 @@ const mapStateToProps = state => ({
   user: state.user,
   tasks: state.tasks,
   dashboardData: state.dashboard,
-  timelog: state.timelog,
+  timelog: state.timelog
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -310,7 +308,7 @@ const mapDispatchToProps = dispatch => ({
       I need to clear up the seconds in the reducer, when component unmounts.
       Otherwise it computes data wrong for the other components;
     */
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

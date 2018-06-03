@@ -7,8 +7,7 @@ import Spinner from '../../layout/Spinner';
 import { formatDate, formatTime } from '../../../helpers';
 import Input from './Input';
 import TimeAddOptionsNode from './TimeAddOptions';
-import { IRenameTask, ITimeLogData } from '../../../actions/actions.types';
-import { IProject } from '../../../types';
+import { IProject, IRenameTask, ITimeLogData } from '../../../types';
 
 type TaskProps = {
   name: string,
@@ -23,7 +22,7 @@ type TaskProps = {
   projects: IProject[],
   optionsValues: boolean[],
   handleChangeOptions: (arr: boolean[]) => void,
-  handleAddingTimeLog?: (data: ITimeLogData, seconds: number) => void,
+  handleAddingTimeLog?: (data: ITimeLogData, seconds: number) => void
 };
 
 type TaskState = {
@@ -32,8 +31,8 @@ type TaskState = {
   showTimer: boolean,
   spinner: boolean,
   categoryID: string,
-  optionValues: boolean[],
-}
+  optionValues: boolean[]
+};
 
 class Task extends React.Component<TaskProps, TaskState> {
   state: TaskState = {
@@ -43,7 +42,7 @@ class Task extends React.Component<TaskProps, TaskState> {
     spinner: false,
     categoryID: '',
     optionValues: [true, false]
-  }
+  };
 
   componentWillMount() {
     this.setState({ categoryID: this.props.projectId });
@@ -55,9 +54,9 @@ class Task extends React.Component<TaskProps, TaskState> {
     }
   }
 
-  showTimer = () => {
+  handleShowTimer = () => {
     this.setState(state => ({
-      showTimer: !state.showTimer,
+      showTimer: !state.showTimer
     }));
   };
 
@@ -68,7 +67,7 @@ class Task extends React.Component<TaskProps, TaskState> {
   handleShowInput = (name: string) => {
     this.setState({
       showInput: !this.state.showInput,
-      editName: name,
+      editName: name
     });
   };
 
@@ -81,9 +80,9 @@ class Task extends React.Component<TaskProps, TaskState> {
         content: TimeAddOptionsNode,
         buttons: {
           confirm: {
-            value: { options: [...optionsValues] },
-          },
-        },
+            value: { options: [...optionsValues] }
+          }
+        }
       }).then(value => {
         this.props.handleRename({
           id,
@@ -92,11 +91,11 @@ class Task extends React.Component<TaskProps, TaskState> {
           timeSpent: this.props.timeSpent,
           newProject,
           moveTime: value.options[0],
-          deleteTime: value.options[1],
+          deleteTime: value.options[1]
         });
         this.setState({
           showInput: false,
-          spinner: true,
+          spinner: true
         });
         this.props.handleChangeOptions(value.options);
       });
@@ -104,7 +103,7 @@ class Task extends React.Component<TaskProps, TaskState> {
       this.props.handleRename({ id, name, newProject });
       this.setState({
         showInput: false,
-        spinner: true,
+        spinner: true
       });
     }
   };
@@ -113,13 +112,13 @@ class Task extends React.Component<TaskProps, TaskState> {
     this.props.handleRename({ id, name, newProject: this.state.categoryID });
     this.setState({
       showInput: false,
-      spinner: true,
+      spinner: true
     });
   };
 
   changeSelect = (e: SyntheticEvent<HTMLSelectElement>) => {
     this.setState({
-      categoryID: e.currentTarget.value,
+      categoryID: e.currentTarget.value
     });
   };
 
@@ -188,18 +187,22 @@ class Task extends React.Component<TaskProps, TaskState> {
         {this.shouldShowInput()}
 
         <ButtonsGroup
-          {...this.props}
-          {...this.state}
-          showTimer={this.showTimer}
+          done={done}
+          id={id}
+          handleDelete={this.props.handleDelete}
+          name={name}
+          showInput={showInput}
+          showTimer={this.handleShowTimer}
           handleShowInput={this.handleShowInput}
           handleRenaming={() =>
             this.handleRenaming({
               id,
               name: editName,
-              newProject: categoryID,
+              newProject: categoryID
             })
           }
           doneButtonValue={doneButtonValue}
+          taskDone={this.props.taskDone}
         />
         {this.shouldShowTimer()}
       </li>

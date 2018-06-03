@@ -1,46 +1,69 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import swal from 'sweetalert';
+import { ITimeLogData } from '../../types';
 
-class TimeAddForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      minutes: '00',
-      hours: '00',
-    };
-    this.handleMinutesChange = this.handleMinutesChange.bind(this);
-    this.handleHoursChange = this.handleHoursChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+type Props = {
+  task: string,
+  name: string,
+  from: string,
+  project: string,
+  addProjectTime?: (projectID: string, seconds: number) => void,
+  addTaskTime?: (data: ITimeLogData, seconds: number) => void,
+  formToggle: () => void
+};
 
-  handleMinutesChange(e) {
+type State = {
+  minutes: string,
+  hours: string
+};
+
+class TimeAddForm extends React.Component<Props, State> {
+  static defaultProps = {
+    name: 'Not defined',
+    from: 'task',
+    task: ''
+  };
+
+  state = {
+    minutes: '00',
+    hours: '00'
+  };
+
+  handleMinutesChange = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      minutes: e.target.value,
+      minutes: e.currentTarget.value
     });
-  }
+  };
 
-  handleHoursChange(e) {
+  handleHoursChange = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      hours: e.target.value,
+      hours: e.currentTarget.value
     });
-  }
+  };
 
-  isNumber(n) {
+  isNumber(n: number) {
     return !isNaN(n);
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     const { hours, minutes } = this.state;
-    const { task, name, project, addTime, formToggle } = this.props;
+    const {
+      task,
+      name,
+      project,
+      addTaskTime,
+      addProjectTime,
+      formToggle
+    } = this.props;
 
-    if (!this.isNumber(hours) || !this.isNumber(minutes)) {
+    if (!this.isNumber(+hours) || !this.isNumber(+minutes)) {
       swal('Invalid', 'Provide only numbers', 'error');
       return null;
     }
 
-    const hoursToSeconds = hours * 3600;
-    const minutesToSeconds = minutes * 60;
+    const hoursToSeconds = Number(hours) * 3600;
+    const minutesToSeconds = Number(minutes) * 60;
     const result = hoursToSeconds + minutesToSeconds;
 
     if (result < 60) {
@@ -48,23 +71,23 @@ class TimeAddForm extends React.Component {
       return null;
     }
 
-    if (this.props.from === 'project') {
-      addTime(project, result);
-    } else {
+    if (typeof addProjectTime === 'function') {
+      addProjectTime(project, result);
+    } else if (typeof addTaskTime === 'function') {
       const data = {
         seconds: result,
         done: true,
         name,
         task,
-        project,
+        project
       };
-      addTime(data, result);
+      addTaskTime(data, result);
     }
 
     formToggle();
     swal('Wohoo!', 'Time has been added!', 'success');
     return result;
-  }
+  };
 
   render() {
     const addClass =
@@ -97,20 +120,5 @@ class TimeAddForm extends React.Component {
     );
   }
 }
-
-TimeAddForm.defaultProps = {
-  task: null,
-  name: 'Not defined',
-  from: 'task',
-};
-
-TimeAddForm.propTypes = {
-  task: PropTypes.string,
-  name: PropTypes.string,
-  from: PropTypes.string,
-  project: PropTypes.string.isRequired,
-  addTime: PropTypes.func.isRequired,
-  formToggle: PropTypes.func.isRequired,
-};
 
 export default TimeAddForm;

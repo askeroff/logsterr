@@ -1,13 +1,33 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logIn, forgot } from '../actions/user';
 import LoginForm from './layout/LoginForm';
 import ForgotForm from './layout/ForgotForm';
 import Layout from './layout/Layout';
 import Spinner from './layout/Spinner';
+import { IUser } from '../types';
 
-class Login extends React.Component {
+type Props = {
+  user: IUser,
+  history: any,
+  error: string,
+  handleLogin: ({ email: string, password: string }) => void,
+  handleForgot: (email: string) => void
+};
+
+type State = {
+  email: string,
+  forgotEmail: string,
+  password: string,
+  spinner: boolean,
+  forgotSpinner: boolean
+};
+
+class Login extends React.Component<Props, State> {
+  static defaultProps = {
+    error: ''
+  };
   state = {
     email: '',
     forgotEmail: '',
@@ -20,7 +40,7 @@ class Login extends React.Component {
     this.props.user.error = '';
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: any) {
     if (nextProps.user.forgotResponse !== undefined) {
       this.setState({ forgotSpinner: false });
     }
@@ -30,33 +50,39 @@ class Login extends React.Component {
 
     if (nextProps.error !== '' && nextProps.error !== undefined) {
       this.setState({ spinner: false });
-      this.resultMessage.innerHTML = nextProps.error;
+      if (this.resultMessage !== null) {
+        this.resultMessage.innerHTML = nextProps.error;
+      }
     }
   }
 
-  handleEmailChange = event => {
-    this.setState({ email: event.target.value });
+  resultMessage: HTMLDivElement | null;
+
+  handleEmailChange = (event: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ email: event.currentTarget.value });
   };
 
-  handleForgotEmailChange = event => {
-    this.setState({ forgotEmail: event.target.value });
+  handleForgotEmailChange = (event: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ forgotEmail: event.currentTarget.value });
   };
 
-  handlePasswordChange = event => {
-    this.setState({ password: event.target.value });
+  handlePasswordChange = (event: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ password: event.currentTarget.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.setState({ spinner: true });
-    this.resultMessage.innerHTML = '';
+    if (this.resultMessage !== null) {
+      this.resultMessage.innerHTML = '';
+    }
     this.props.handleLogin({
       email: this.state.email,
-      password: this.state.password,
+      password: this.state.password
     });
   };
 
-  handleForgotSubmit = event => {
+  handleForgotSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.props.handleForgot(this.state.forgotEmail);
     this.setState({ forgotSpinner: true });
@@ -94,21 +120,9 @@ class Login extends React.Component {
   }
 }
 
-Login.defaultProps = {
-  error: '',
-};
-
-Login.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
-  handleForgot: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  error: PropTypes.string,
-};
-
 const mapStateToProps = state => ({
   user: state.user,
-  error: state.user.error,
+  error: state.user.error
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -117,7 +131,7 @@ const mapDispatchToProps = dispatch => ({
   },
   handleForgot(email) {
     dispatch(forgot(email));
-  },
+  }
 });
 
 export const UnwrappedLogin = Login;

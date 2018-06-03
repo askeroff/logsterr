@@ -46,14 +46,6 @@ export interface IRenameTask {
   deleteTime?: boolean;
 }
 
-export interface ISomethingElse {
-  id: string;
-  name: string;
-  project: string;
-  moveTime?: boolean;
-  deleteTime?: boolean;
-}
-
 export interface ITimeLogData {
   seconds: number;
   name: string;

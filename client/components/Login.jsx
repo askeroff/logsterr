@@ -135,4 +135,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export const UnwrappedLogin = Login;
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

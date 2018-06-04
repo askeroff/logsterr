@@ -1,21 +1,38 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tasks from './Tasks';
 import Spinner from '../layout/Spinner';
 import { getDashboardData } from '../../actions/dashboard';
 import { getProjects } from '../../actions/projects';
 import { formatTime } from '../../helpers';
+import { IProject, IUser } from '../../types';
 
-class Dashboard extends React.Component {
+type Props = {
+  handleDashboardData: () => void,
+  handleProjects: (userid: string) => void,
+  dashboardData: any,
+  projects: IProject[],
+  user: IUser
+};
+type State = {
+  defaultShow: 'lastweek' | 'today' | 'month' | 'thisweek',
+  title: string,
+  dashboard: [],
+  spinner: boolean
+};
 
+class Dashboard extends React.Component<Props, State> {
+  static defaultProps = {
+    dashboardData: {},
+    projects: []
+  };
   state = {
     defaultShow: 'lastweek',
     title: 'Last Week',
     dashboard: [],
     spinner: true
   };
-
 
   componentDidMount() {
     this.props.handleDashboardData();
@@ -26,11 +43,14 @@ class Dashboard extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dashboardData.lastWeek) {
-      this.setState({ dashboard: nextProps.dashboardData.lastWeek, spinner: false });
+      this.setState({
+        dashboard: nextProps.dashboardData.lastWeek,
+        spinner: false
+      });
     }
   }
 
-  getProjectName = (id) => {
+  getProjectName = id => {
     let result;
     this.props.projects.forEach(item => {
       if (item._id === id) {
@@ -38,37 +58,37 @@ class Dashboard extends React.Component {
       }
     });
     return result || 'Not Found';
-  }
+  };
 
-  changeData = (event) => {
+  changeData = event => {
     const { dashboardData } = this.props;
     this.setState({ defaultShow: event.target.value });
     switch (event.target.value) {
       case 'lastweek': {
         this.setState({
           dashboard: dashboardData.lastWeek,
-          title: 'Last Week',
+          title: 'Last Week'
         });
         break;
       }
       case 'today': {
         this.setState({
           dashboard: dashboardData.today,
-          title: 'Today',
+          title: 'Today'
         });
         break;
       }
       case 'month': {
         this.setState({
           dashboard: dashboardData.month,
-          title: 'This Month',
+          title: 'This Month'
         });
         break;
       }
       case 'thisweek': {
         this.setState({
           dashboard: dashboardData.thisWeek,
-          title: 'This Week',
+          title: 'This Week'
         });
         break;
       }
@@ -76,7 +96,7 @@ class Dashboard extends React.Component {
         return null;
     }
     return 0;
-  }
+  };
 
   render() {
     let showData = null;
@@ -120,23 +140,10 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.defaultProps = {
-  dashboardData: {},
-  projects: [],
-};
-
-Dashboard.propTypes = {
-  handleDashboardData: PropTypes.func.isRequired,
-  handleProjects: PropTypes.func.isRequired,
-  dashboardData: PropTypes.object,
-  projects: PropTypes.array,
-  user: PropTypes.object.isRequired,
-};
-
 const mapStateToProps = state => ({
   dashboardData: state.dashboard,
   projects: state.projects,
-  user: state.user,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -145,7 +152,10 @@ const mapDispatchToProps = dispatch => ({
   },
   handleProjects(authorID) {
     dispatch(getProjects(authorID));
-  },
+  }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

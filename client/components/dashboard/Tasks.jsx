@@ -1,7 +1,12 @@
+// @flow
 import React from 'react';
 import { formatTime } from '../../helpers';
 
-const Tasks = props =>
+type Props = {
+  tasks: any[]
+};
+
+const Tasks = (props: Props): any =>
   props.tasks.map(item => {
     if (item instanceof Object && item.constructor === Object) {
       return (

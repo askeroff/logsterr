@@ -1,8 +1,15 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import FormInput from './FormInput';
 
-const ForgotForm = props => (
+type Props = {
+  myClassName: string,
+  emailValue: string,
+  handleEmailChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+  handleSubmit: (event: SyntheticEvent<HTMLFormElement>) => void
+};
+
+const ForgotForm = (props: Props) => (
   <form onSubmit={props.handleSubmit} className={props.myClassName}>
     <label htmlFor="email">E-mail:</label>
     <FormInput
@@ -20,16 +27,8 @@ ForgotForm.defaultProps = {
   myClassName: '',
   emailValue: '',
   handleEmailChange: null,
-  passwordValue: '',
   handlePasswordChange: null,
-  handleSubmit: null,
-};
-
-ForgotForm.propTypes = {
-  myClassName: PropTypes.string,
-  emailValue: PropTypes.string,
-  handleEmailChange: PropTypes.func,
-  handleSubmit: PropTypes.func,
+  handleSubmit: null
 };
 
 export default ForgotForm;

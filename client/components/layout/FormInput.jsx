@@ -1,7 +1,15 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const FormInput = props => (
+type Props = {
+  inputType: string,
+  inputName: string,
+  inputId: string,
+  inputValue: string,
+  handleInput: (e: SyntheticEvent<HTMLInputElement>) => void
+};
+
+const FormInput = (props: Props) => (
   <input
     type={props.inputType}
     name={props.inputName}
@@ -17,15 +25,7 @@ FormInput.defaultProps = {
   inputName: '',
   inputId: '',
   inputValue: '',
-  handleInput: null,
-};
-
-FormInput.propTypes = {
-  inputType: PropTypes.string,
-  inputName: PropTypes.string,
-  inputId: PropTypes.string,
-  inputValue: PropTypes.string,
-  handleInput: PropTypes.func,
+  handleInput: null
 };
 
 export default FormInput;

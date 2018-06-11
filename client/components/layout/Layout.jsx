@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isLoggedIn } from '../../actions/user';
 import Header from './Header';
@@ -7,8 +7,15 @@ import Footer from './Footer';
 import Spinner from './Spinner';
 import ShowLostTime from './ShowLostTime';
 import ShowMessages from './ShowMessages';
+import { IUser } from '../../types';
 
-class Layout extends React.Component {
+type Props = {
+  children: any[],
+  user: IUser,
+  getUserData: () => void
+};
+
+class Layout extends React.Component<Props> {
   componentDidMount() {
     this.props.getUserData();
   }
@@ -33,20 +40,17 @@ class Layout extends React.Component {
   }
 }
 
-Layout.propTypes = {
-  children: PropTypes.any.isRequired,
-  user: PropTypes.object.isRequired,
-  getUserData: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
-  user: state.user,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
   getUserData() {
     dispatch(isLoggedIn());
-  },
+  }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Layout);

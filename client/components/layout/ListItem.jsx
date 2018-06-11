@@ -1,8 +1,15 @@
+// @flow
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-const Li = props => (
+type Props = {
+  myClassName: string,
+  url: string,
+  linkText: string,
+  trigger?: () => void
+};
+
+const Li = (props: Props) => (
   <li className={props.myClassName}>
     <Link onClick={props.trigger} to={props.url}>
       {props.linkText}
@@ -14,14 +21,7 @@ Li.defaultProps = {
   myClassName: '',
   url: '/',
   linkText: 'default text',
-  trigger: null,
-};
-
-Li.propTypes = {
-  myClassName: PropTypes.string,
-  url: PropTypes.string,
-  linkText: PropTypes.string,
-  trigger: PropTypes.func,
+  trigger: () => {}
 };
 
 export default Li;

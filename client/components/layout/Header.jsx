@@ -1,14 +1,13 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import Li from './ListItem';
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.guestLinks = this.guestLinks.bind(this);
-  }
+type Props = {
+  userEmail: string
+};
 
-  guestLinks() {
+class Header extends React.Component<Props> {
+  guestLinks = () => {
     if (!this.props.userEmail) {
       return (
         <ul className="nav">
@@ -31,19 +30,11 @@ class Header extends React.Component {
         </li>
       </ul>
     );
-  }
+  };
 
   render() {
     return <header className="header">{this.guestLinks()}</header>;
   }
 }
-
-Header.defaultProps = {
-  userEmail: null,
-};
-
-Header.propTypes = {
-  userEmail: PropTypes.string,
-};
 
 export default Header;

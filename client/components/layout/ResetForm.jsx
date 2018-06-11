@@ -20,14 +20,14 @@ ResetForm.defaultProps = {
   myClassName: '',
   passwordValue: '',
   handlePasswordChange: null,
-  handleSubmit: null,
+  handleSubmit: null
 };
 
 ResetForm.propTypes = {
   myClassName: PropTypes.string,
   passwordValue: PropTypes.string,
   handlePasswordChange: PropTypes.func,
-  handleSubmit: PropTypes.func,
+  handleSubmit: PropTypes.func
 };
 
 export default ResetForm;

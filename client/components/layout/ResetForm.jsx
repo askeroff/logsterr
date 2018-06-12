@@ -1,8 +1,15 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import FormInput from './FormInput';
 
-const ResetForm = props => (
+type Props = {
+  myClassName: string,
+  passwordValue: string,
+  handlePasswordChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+  handleSubmit: (event: SyntheticEvent<HTMLFormElement>) => void
+};
+
+const ResetForm = (props: Props) => (
   <form onSubmit={props.handleSubmit} className={props.myClassName}>
     <label htmlFor="password">Your New Password:</label>
     <FormInput
@@ -21,13 +28,6 @@ ResetForm.defaultProps = {
   passwordValue: '',
   handlePasswordChange: null,
   handleSubmit: null
-};
-
-ResetForm.propTypes = {
-  myClassName: PropTypes.string,
-  passwordValue: PropTypes.string,
-  handlePasswordChange: PropTypes.func,
-  handleSubmit: PropTypes.func
 };
 
 export default ResetForm;

@@ -1,8 +1,14 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Pagination = props => {
+type Props = {
+  page: number,
+  pages: number,
+  count: number
+};
+
+const Pagination = (props: Props) => {
   let prevLink = null;
   let nextLink = null;
   const { page, pages, count } = props;
@@ -21,12 +27,6 @@ const Pagination = props => {
       <span>{nextLink}</span>
     </div>
   );
-};
-
-Pagination.propTypes = {
-  page: PropTypes.number.isRequired,
-  pages: PropTypes.number.isRequired,
-  count: PropTypes.number.isRequired,
 };
 
 export default Pagination;

@@ -1,7 +1,13 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const MessageItem = props => (
+type Props = {
+  close: (name: string) => void,
+  type: string,
+  message: string
+};
+
+const MessageItem = (props: Props) => (
   <div className={`message message--${props.type}`}>
     <p>{props.message}</p>
     <input
@@ -12,11 +18,5 @@ const MessageItem = props => (
     />
   </div>
 );
-
-MessageItem.propTypes = {
-  close: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
-};
 
 export default MessageItem;

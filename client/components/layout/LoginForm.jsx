@@ -1,8 +1,17 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import FormInput from './FormInput';
 
-const LoginForm = props => (
+type Props = {
+  myClassName: string,
+  emailValue: string,
+  passwordValue: string,
+  handleEmailChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+  handlePasswordChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+  handleSubmit: (event: SyntheticEvent<HTMLFormElement>) => void
+};
+
+const LoginForm = (props: Props) => (
   <form onSubmit={props.handleSubmit} className={props.myClassName}>
     <label htmlFor="email">E-mail:</label>
     <FormInput
@@ -28,19 +37,10 @@ const LoginForm = props => (
 LoginForm.defaultProps = {
   myClassName: '',
   emailValue: '',
-  handleEmailChange: null,
   passwordValue: '',
+  handleEmailChange: null,
   handlePasswordChange: null,
-  handleSubmit: null,
-};
-
-LoginForm.propTypes = {
-  myClassName: PropTypes.string,
-  emailValue: PropTypes.string,
-  handleEmailChange: PropTypes.func,
-  passwordValue: PropTypes.string,
-  handlePasswordChange: PropTypes.func,
-  handleSubmit: PropTypes.func,
+  handleSubmit: null
 };
 
 export default LoginForm;

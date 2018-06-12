@@ -1,23 +1,25 @@
+// @flow
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import timestorage from '../scripts/timestorage';
 import { formatTime } from '../../helpers';
 
-class ShowLostTime extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: 'block',
-    };
-    this.close = this.close.bind(this);
-  }
-  close() {
+type State = {
+  show: string
+};
+
+class ShowLostTime extends React.Component<{}, State> {
+  state = {
+    show: 'block'
+  };
+
+  close = () => {
     timestorage.reset();
     this.setState({
-      show: 'none',
+      show: 'none'
     });
-  }
+  };
   render() {
     const getStorageData = timestorage.get();
     if (getStorageData !== null && getStorageData !== undefined) {
@@ -26,7 +28,10 @@ class ShowLostTime extends React.Component {
       const diff = formatTime(now.diff(then, 'seconds'));
 
       return (
-        <div style={{ display: this.state.show }} className="message message--info">
+        <div
+          style={{ display: this.state.show }}
+          className="message message--info"
+        >
           <span>
             You started tracking time for{' '}
             <Link to={`/projects/${getStorageData.projectId}`}>

@@ -1,52 +1,60 @@
+// @flow
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import MessageItem from './MessageItem';
 import { removeMessage } from '../../actions/messages';
 
-class ShowMessages extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: 'block',
-    };
-  }
+interface IMessage {
+  message: string;
+  name: string;
+  type: string;
+}
 
-  close = (name) => {
+type State = { show: string };
+type Props = {
+  messages: IMessage[],
+  handleRemoveMessage: (name: string) => void
+};
+
+class ShowMessages extends React.Component<Props, State> {
+  static defaultProps = {
+    messages: [],
+    handleRemoveMessage: null
+  };
+
+  state = {
+    show: 'block'
+  };
+
+  close = name => {
     this.props.handleRemoveMessage(name);
-  }
+  };
 
   render() {
-    const messages = this.props.messages.map(item => (<MessageItem
-      key={item.name}
-      id={item.name}
-      close={() => this.close(item.name)}
-      message={item.message}
-      type={item.type}
-    />)
-    );
+    const messages = this.props.messages.map(item => (
+      <MessageItem
+        key={item.name}
+        id={item.name}
+        close={() => this.close(item.name)}
+        message={item.message}
+        type={item.type}
+      />
+    ));
     return messages;
   }
 }
 
-ShowMessages.defaultProps = {
-  messages: [],
-  handleRemoveMessage: () => 0,
-};
-
-ShowMessages.propTypes = {
-  messages: PropTypes.array,
-  handleRemoveMessage: PropTypes.func,
-};
-
 const mapStateToProps = state => ({
-  messages: state.messages,
+  messages: state.messages
 });
 
 const mapDispatchToProps = dispatch => ({
   handleRemoveMessage(name) {
     dispatch(removeMessage(name));
-  },
+  }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowMessages);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ShowMessages);

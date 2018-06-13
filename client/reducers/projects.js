@@ -5,10 +5,10 @@ import {
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
-  SUBTRACT_TASK_TIME,
+  SUBTRACT_TASK_TIME
 } from '../actions/actionTypes';
 
-function projects(state = [], action) {
+export function projects(state = [], action) {
   switch (action.type) {
     case ADD_PROJECT: {
       return [...state, action.project];

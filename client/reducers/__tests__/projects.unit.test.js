@@ -1,5 +1,12 @@
 import { projects } from '../projects';
-import { GET_PROJECTS } from '../../actions/actionTypes';
+import {
+  GET_PROJECTS,
+  ADD_PROJECT,
+  DELETE_PROJECT,
+  RENAME_PROJECT,
+  SUBTRACT_TASK_TIME,
+  ADD_TIME_TO_PROJECT
+} from '../../actions/actionTypes';
 
 const projectsList = [
   {
@@ -74,5 +81,66 @@ describe('Projects Reducer', () => {
     response.data.projectsList = projectsList;
     const result = projects([], { type: GET_PROJECTS, response });
     expect(result).toEqual(projectsList);
+  });
+
+  test('Add a project', () => {
+    const action = {
+      type: ADD_PROJECT,
+      project: {
+        __v: 0,
+        name: 'Test',
+        author: '59bc1b5c5ee11d1964a214ec',
+        _id: '5b22d8416196e41cd4264d96',
+        parent_id: '',
+        timeSpent: 0
+      }
+    };
+    const result = projects(projectsList, action);
+    expect(result).toEqual([...projectsList, action.project]);
+  });
+
+  test('Delete a project', () => {
+    const action = {
+      type: DELETE_PROJECT,
+      id: '5ad79de1e1d0a410c4f2834e'
+    };
+    const result = projects(projectsList, action);
+    expect(result.length).toBe(projectsList.length - 1);
+  });
+
+  test('Rename a project', () => {
+    const action = {
+      type: RENAME_PROJECT,
+      project: {
+        id: '5a2694c6ee7544097c707d1c',
+        name: 'Renamed French'
+      }
+    };
+    const result = projects(projectsList, action);
+    const find = result.find(item => item._id === action.project.id);
+    expect(find.name).toBe('Renamed French');
+  });
+
+  test('Add Time To A Project', () => {
+    const action = {
+      type: ADD_TIME_TO_PROJECT,
+      id: '5a281df108567500ade59253',
+      time: 3600
+    };
+    const result = projects(projectsList, action);
+    const find = result.find(item => item._id === action.id);
+    expect(find.timeSpent).toBe(278480);
+  });
+
+  test('Subtract task time', () => {
+    const action = {
+      type: SUBTRACT_TASK_TIME,
+      id: '5a281df108567500ade59253',
+      timeSpent: 3600,
+      deleteTime: true
+    };
+    const result = projects(projectsList, action);
+    const find = result.find(item => item._id === action.id);
+    expect(find.timeSpent).toBe(271280);
   });
 });

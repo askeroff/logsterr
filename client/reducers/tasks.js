@@ -3,12 +3,12 @@ import {
   CLEAR_TASKS,
   NEW_TASK,
   DELETE_TASK,
-  RENAME_TASK,
+  EDIT_TASK,
   TOGGLE_DONE,
-  ADD_TIMELOG,
+  ADD_TIMELOG
 } from '../actions/actionTypes';
 
-function tasks(state = [], action) {
+export function tasks(state = [], action) {
   switch (action.type) {
     case GET_TASKS:
       return action.response;
@@ -20,7 +20,7 @@ function tasks(state = [], action) {
     case DELETE_TASK: {
       return state.filter(item => item._id !== action.id);
     }
-    case RENAME_TASK: {
+    case EDIT_TASK: {
       let sameProject = false;
       const tasksList = state.map(item => {
         if (item._id === action.id) {

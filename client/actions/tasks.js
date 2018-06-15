@@ -5,7 +5,7 @@ import {
   GET_TASKS,
   DELETE_TASK,
   CLEAR_TASKS,
-  RENAME_TASK,
+  EDIT_TASK,
   TOGGLE_DONE,
   ADD_MESSAGE,
   SUBTRACT_TASK_TIME
@@ -106,7 +106,7 @@ export function deleteTask(id: string) {
 
 export function renameTaskSuccess(params: IRenameTask) {
   return {
-    type: RENAME_TASK,
+    type: EDIT_TASK,
     ...params
   };
 }

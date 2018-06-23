@@ -7,7 +7,7 @@ const Task = mongoose.model('Task');
 const projectsPromises = [];
 
 function addTimeToParentProjects(id, timeSpent) {
-  const promise = Project.findById(id, (err, project) => {
+  const promise = Project.findById(id, async (err, project) => {
     project.timeSpent += timeSpent; // eslint-disable-line no-param-reassign
     project.save();
     if (project.parent_id !== '') {
@@ -35,13 +35,13 @@ exports.addTime = async (req, res) => {
   const [timelog, task] = await Promise.all([
     timelogPromise,
     taskPromise,
-    ...projectsPromises,
+    ...projectsPromises
   ]);
   res.json({
     timelog,
     task,
     project: { _id: req.body.project },
-    success: true,
+    success: true
   });
   return true;
 };
@@ -53,13 +53,13 @@ exports.getLogs = async (req, res) => {
 
   const timelogsPromise = Timelog.getProjects(req.user._id)
     .sort({
-      started: 'desc',
+      started: 'desc'
     })
     .skip(skip)
     .limit(limit);
 
   const countPromise = Timelog.count({
-    author: req.user._id,
+    author: req.user._id
   });
 
   const [data, count] = await Promise.all([timelogsPromise, countPromise]);

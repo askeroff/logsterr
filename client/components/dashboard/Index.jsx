@@ -1,6 +1,10 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import { DateRangePicker } from 'react-dates';
+import moment from 'moment';
 import Tasks from './Tasks';
 import Spinner from '../layout/Spinner';
 import { getDashboardData } from '../../actions/dashboard';
@@ -19,7 +23,12 @@ type State = {
   defaultShow: 'lastweek' | 'today' | 'month' | 'thisweek',
   title: string,
   dashboard: [],
-  spinner: boolean
+  spinner: boolean,
+  startDate: any,
+  endDate: any,
+  // onDatesChange: (startDate: any, endDate: any) => void,
+  focusedInput: any
+  // onFocusChange: (focusedInput: any) => void
 };
 
 class Dashboard extends React.Component<Props, State> {
@@ -28,10 +37,13 @@ class Dashboard extends React.Component<Props, State> {
     projects: []
   };
   state = {
-    defaultShow: 'lastweek',
-    title: 'Last Week',
+    defaultShow: 'today',
+    title: 'Today',
     dashboard: [],
-    spinner: true
+    spinner: true,
+    startDate: moment(new Date()),
+    endDate: moment(new Date()),
+    focusedInput: null
   };
 
   componentDidMount() {
@@ -50,6 +62,11 @@ class Dashboard extends React.Component<Props, State> {
     }
   }
 
+  onDatesChange = ({ startDate, endDate }) => {
+    console.log('do something');
+    return this.setState({ startDate, endDate });
+  };
+
   getProjectName = id => {
     let result;
     this.props.projects.forEach(item => {
@@ -61,35 +78,39 @@ class Dashboard extends React.Component<Props, State> {
   };
 
   changeData = event => {
-    const { dashboardData } = this.props;
+    // const { dashboardData } = this.props;
     this.setState({ defaultShow: event.target.value });
     switch (event.target.value) {
       case 'lastweek': {
-        this.setState({
-          dashboard: dashboardData.lastWeek,
-          title: 'Last Week'
+        const lastSunday = moment().isoWeekday(0)._d;
+        const lastMonday = moment().isoWeekday(-6)._d;
+        this.onDatesChange({
+          startDate: moment(lastSunday),
+          endDate: moment(lastMonday)
         });
         break;
       }
       case 'today': {
-        this.setState({
-          dashboard: dashboardData.today,
-          title: 'Today'
-        });
+        const today = moment(new Date());
+        this.onDatesChange({ startDate: today, endDate: today });
         break;
       }
       case 'month': {
-        this.setState({
-          dashboard: dashboardData.month,
-          title: 'This Month'
+        this.onDatesChange({
+          startDate: moment().startOf('month'),
+          endDate: moment().endOf('month')
         });
         break;
       }
       case 'thisweek': {
-        this.setState({
-          dashboard: dashboardData.thisWeek,
-          title: 'This Week'
+        const thisMonday = moment().isoWeekday(1)._d;
+        const thisSunday = moment().isoWeekday(7)._d;
+
+        this.onDatesChange({
+          startDate: moment(thisMonday),
+          endDate: moment(thisSunday)
         });
+
         break;
       }
       default:
@@ -121,8 +142,7 @@ class Dashboard extends React.Component<Props, State> {
 
     return (
       <div className="dashboard">
-        <h2 className="dashboard__title">
-          Data For
+        <div className="dashboard__header">
           <select
             className="dashboard__select"
             onChange={this.changeData}
@@ -133,7 +153,20 @@ class Dashboard extends React.Component<Props, State> {
             <option value="today">Today</option>
             <option value="month">This Month</option>
           </select>
-        </h2>
+
+          <DateRangePicker
+            startDate={this.state.startDate}
+            displayFormat="DD/MM/YYYY"
+            startDateId="your_unique_start_date_id"
+            endDate={this.state.endDate}
+            endDateId="your_unique_end_date_id"
+            onDatesChange={this.onDatesChange}
+            firstDayOfWeek={1}
+            isOutsideRange={() => false}
+            focusedInput={this.state.focusedInput}
+            onFocusChange={focusedInput => this.setState({ focusedInput })}
+          />
+        </div>
         {showData}
       </div>
     );

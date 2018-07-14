@@ -13,7 +13,7 @@ import { formatTime } from '../../helpers';
 import { IProject, IUser } from '../../types';
 
 type Props = {
-  handleDashboardData: () => void,
+  handleDashboardData: (start: string, end: string) => void,
   handleProjects: (userid: string) => void,
   dashboardData: any,
   projects: IProject[],
@@ -26,9 +26,7 @@ type State = {
   spinner: boolean,
   startDate: any,
   endDate: any,
-  // onDatesChange: (startDate: any, endDate: any) => void,
   focusedInput: any
-  // onFocusChange: (focusedInput: any) => void
 };
 
 class Dashboard extends React.Component<Props, State> {
@@ -47,23 +45,30 @@ class Dashboard extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.handleDashboardData();
+    const { startDate, endDate } = this.state;
+    this.props.handleDashboardData(
+      startDate.format('YYYY-MM-DD'),
+      endDate.format('YYYY-MM-DD')
+    );
     if (this.props.user.loggedIn) {
       this.props.handleProjects(this.props.user._id);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dashboardData.lastWeek) {
+    if (nextProps.dashboardData.data) {
       this.setState({
-        dashboard: nextProps.dashboardData.lastWeek,
+        dashboard: nextProps.dashboardData.data,
         spinner: false
       });
     }
   }
 
   onDatesChange = ({ startDate, endDate }) => {
-    console.log('do something');
+    this.props.handleDashboardData(
+      startDate.format('YYYY-MM-DD'),
+      endDate.format('YYYY-MM-DD')
+    );
     return this.setState({ startDate, endDate });
   };
 
@@ -78,15 +83,14 @@ class Dashboard extends React.Component<Props, State> {
   };
 
   changeData = event => {
-    // const { dashboardData } = this.props;
     this.setState({ defaultShow: event.target.value });
     switch (event.target.value) {
       case 'lastweek': {
         const lastSunday = moment().isoWeekday(0)._d;
         const lastMonday = moment().isoWeekday(-6)._d;
         this.onDatesChange({
-          startDate: moment(lastSunday),
-          endDate: moment(lastMonday)
+          startDate: moment(lastMonday),
+          endDate: moment(lastSunday)
         });
         break;
       }
@@ -180,8 +184,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleDashboardData() {
-    dispatch(getDashboardData());
+  handleDashboardData(start, end) {
+    dispatch(getDashboardData(start, end));
   },
   handleProjects(authorID) {
     dispatch(getProjects(authorID));

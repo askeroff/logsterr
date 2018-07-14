@@ -19,8 +19,8 @@ exports.getAll = async (req, res) => {
     author: req.user._id,
     started: {
       $gte: setFirstDay,
-      $lte: setLastDay,
-    },
+      $lte: setLastDay
+    }
   });
   const lastSunday = moment().isoWeekday(0)._d;
   const lastMonday = moment().isoWeekday(-6)._d;
@@ -44,6 +44,24 @@ exports.getAll = async (req, res) => {
     thisWeek: formattedThisWeek,
     today: formattedToday,
     month: formattedMonth,
-    dataSent: true,
+    dataSent: true
+  });
+};
+
+exports.getData = async (req, res) => {
+  const { start, end } = req.query;
+  const startDate = `${start} 00:00:00`;
+  const endDate = `${end} 23:59:59`;
+  const data = await Timelog.find({
+    author: req.user._id,
+    started: {
+      $gte: startDate,
+      $lte: endDate
+    }
+  });
+  const formatted = formatData(data);
+  res.send({
+    data: formatted,
+    dataSent: true
   });
 };

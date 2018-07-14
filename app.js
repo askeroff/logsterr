@@ -45,7 +45,7 @@ app.use(
     key: process.env.KEY,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
 
@@ -86,7 +86,7 @@ app.post(
       .withMessage('Password should be longer than 5 symbols'),
     sanitize('email')
       .trim()
-      .normalizeEmail(),
+      .normalizeEmail()
   ],
   userController.validateSignup,
   catchErrors(userController.signup),
@@ -163,6 +163,12 @@ app.get(
   '/dashboard/getdata/all',
   authController.isLoggedIn,
   dashboardController.getAll
+);
+
+app.get(
+  '/dashboard/getdata',
+  authController.isLoggedIn,
+  dashboardController.getData
 );
 
 app.get('*', (req, res) => {

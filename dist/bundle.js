@@ -6514,16 +6514,16 @@ function renameProjectSuccess(project) {
   };
 }
 
-function renameProject(id, name) {
+function renameProject(id, name, parentID) {
   var error = {
     message: 'Something went wrong. Try renaming the project later.',
     name: 'project-rename-error',
     type: 'error'
   };
   return function (dispatch) {
-    return _axios2.default.post('/projects/' + id + '/edit', { name: name }).then(function (res) {
+    return _axios2.default.post('/projects/' + id + '/edit', { name: name, parentID: parentID }).then(function (res) {
       if (res.data.project) {
-        dispatch(renameProjectSuccess({ id: id, name: name }));
+        dispatch(renameProjectSuccess({ id: id, name: name, parentID: parentID }));
       } else {
         dispatch(projectError(error));
       }
@@ -35829,10 +35829,15 @@ var ProjectsSelect = function (_React$Component) {
       var level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
       _this.props.projects.forEach(function (project) {
+        var disabled = false;
+        if (_this.props.disableItself && _this.props.itselfID === project._id) {
+          disabled = true;
+        }
         if (parentID === project.parent_id) {
           _this.projects.push(_react2.default.createElement('option', {
             key: 'select_project-' + project._id,
             value: project._id,
+            disabled: disabled,
             dangerouslySetInnerHTML: {
               __html: '&nbsp'.repeat(level) + project.name
             }
@@ -59688,6 +59693,7 @@ function projects() {
         var _projectsList = state.map(function (item) {
           if (item._id === action.project.id) {
             item.name = action.project.name; // eslint-disable-line no-param-reassign
+            item.parent_Id = action.project.parentID; // eslint-disable-line no-param-reassign
           }
           return item;
         });
@@ -74716,6 +74722,7 @@ var ProjectsList = function (_React$Component) {
           _this.projects.push(_react2.default.createElement(_ProjectItem2.default, {
             onDelete: _this.onDelete,
             padding: padding,
+            projectsList: _this.props.projects,
             key: project._id,
             project: project,
             renameMe: _this.props.handleRenaming
@@ -74762,8 +74769,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     handleDeleting: function handleDeleting(projectId) {
       dispatch((0, _projects.deleteProject)(projectId));
     },
-    handleRenaming: function handleRenaming(id, name) {
-      dispatch((0, _projects.renameProject)(id, name));
+    handleRenaming: function handleRenaming(id, name, parentID) {
+      dispatch((0, _projects.renameProject)(id, name, parentID));
     }
   };
 };
@@ -74791,6 +74798,10 @@ var _reactRouterDom = __webpack_require__(24);
 
 var _helpers = __webpack_require__(21);
 
+var _ProjectsSelect = __webpack_require__(325);
+
+var _ProjectsSelect2 = _interopRequireDefault(_ProjectsSelect);
+
 var _types = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -74804,43 +74815,73 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ProjectItem = function (_React$Component) {
   _inherits(ProjectItem, _React$Component);
 
-  function ProjectItem(props) {
+  function ProjectItem() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, ProjectItem);
 
-    var _this = _possibleConstructorReturn(this, (ProjectItem.__proto__ || Object.getPrototypeOf(ProjectItem)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.handleNewName = function (e) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProjectItem.__proto__ || Object.getPrototypeOf(ProjectItem)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      showInput: false,
+      newName: '',
+      parentID: ''
+    }, _this.handleNewName = function (e) {
       _this.setState({ newName: e.currentTarget.value });
-    };
-
-    _this.handleShowInput = function (name) {
+    }, _this.handleShowInput = function (name) {
       _this.setState({
         showInput: !_this.state.showInput,
         newName: name
       });
-    };
+    }, _this.handleRenaming = function (id, name, parentID) {
+      _this.props.renameMe(id, name, parentID);
 
-    _this.handleRenaming = function (id, name) {
-      _this.props.renameMe(id, name);
       _this.setState({
         showInput: false
       });
-    };
-
-    _this.handleEnterButton = function (event) {
+    }, _this.handleEnterButton = function (event) {
       if (event.charCode === 13) {
         _this.renameLink.click();
       }
-    };
-
-    _this.state = {
-      showInput: false,
-      newName: ''
-    };
-    return _this;
+    }, _this.changeSelect = function (e) {
+      _this.setState({
+        parentID: e.currentTarget.value
+      });
+    }, _this.shouldShowInput = function () {
+      if (_this.state.showInput) {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement('input', {
+            type: 'text',
+            value: _this.state.newName,
+            className: 'name-input',
+            onKeyPress: _this.handleEnterButton,
+            onChange: _this.handleNewName
+          }),
+          _react2.default.createElement(_ProjectsSelect2.default, {
+            disableItself: true,
+            itselfID: _this.props.project._id,
+            parentID: _this.state.parentID,
+            projects: _this.props.projectsList,
+            changeSelect: _this.changeSelect
+          })
+        );
+      }
+      return null;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(ProjectItem, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.setState({ parentID: this.props.project.parent_id });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -74848,16 +74889,15 @@ var ProjectItem = function (_React$Component) {
       var _props = this.props,
           project = _props.project,
           onDelete = _props.onDelete;
-      var _state = this.state,
-          newName = _state.newName,
-          showInput = _state.showInput;
+      var showInput = this.state.showInput;
 
       var hideTaskName = this.state.showInput ? 'none' : '';
+      var editClassName = this.state.showInput ? 'projects__item--edit' : '';
       return _react2.default.createElement(
         'li',
         {
           style: { paddingLeft: this.props.padding + 'px' },
-          className: 'projects__item'
+          className: ('projects__item ' + editClassName).trim()
         },
         _react2.default.createElement(
           _reactRouterDom.Link,
@@ -74877,13 +74917,7 @@ var ProjectItem = function (_React$Component) {
             (0, _helpers.formatTime)(project.timeSpent)
           )
         ),
-        showInput ? _react2.default.createElement('input', {
-          type: 'text',
-          value: newName,
-          className: 'name-input',
-          onKeyPress: this.handleEnterButton,
-          onChange: this.handleNewName
-        }) : null,
+        this.shouldShowInput(),
         _react2.default.createElement(
           'div',
           { className: 'buttons-group' },
@@ -74891,7 +74925,7 @@ var ProjectItem = function (_React$Component) {
             'button',
             {
               onClick: function onClick() {
-                return _this2.handleRenaming(project._id, _this2.state.newName);
+                return _this2.handleRenaming(project._id, _this2.state.newName, _this2.state.parentID);
               },
               ref: function ref(link) {
                 _this2.renameLink = link;
@@ -76476,7 +76510,7 @@ exports = module.exports = __webpack_require__(77)(false);
 
 
 // module
-exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: #007090;\n  margin-left: 0;\n  margin-right: 0;\n}\n/* HEADER */\n.header {\n  background: var(--main-color);\n  border-bottom: 10px solid var(--second-color);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 5px;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: #006889;\n  color: #fff;\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  border-left: 4px solid var(--main-color);\n  padding: 0;\n  margin: 0;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done,\n.timelogs__item {\n  list-style: none;\n  padding: 10px 8px;\n  border-bottom: 1px solid #a3bac3;\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.projects__item:last-child {\n  border: none;\n}\n.projects__item .name-input {\n  grid-column: 1/3;\n  max-width: 380px;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: #006989;\n  text-transform: uppercase;\n  font-size: 1.5em;\n}\n.projects__item-title:hover {\n  color: #01a7c2;\n}\n.projects__item-title:hover .pretty-time {\n  opacity: 1;\n}\n.projects__item-title .pretty-time {\n  color: #03525a;\n  font-size: 0.5em;\n  font-weight: bold;\n  margin-left: 20px;\n  background: none;\n  opacity: 0;\n  transition: opacity 1s;\n}\n.form__newproject {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title,\n.tasks__list-input {\n  grid-column: 1/3;\n}\n.tasks__list-input input,\n.project-select {\n  height: 20px;\n  box-sizing: content-box;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name,\n  .tasks__list-input {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: #eaebed;\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--main-color);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--second-color);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n}\n.timelogs__title {\n  margin-bottom: 10px;\n  margin-top: 10px;\n  background: #eee;\n  padding: 5px;\n  text-align: center;\n  list-style: none;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n.timelogs__item-time {\n  justify-self: end;\n}\n.timelogs__item-task {\n  justify-self: center;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timelogs__item {\n    grid-template-columns: 1fr;\n  }\n  .timelogs__item-task {\n    justify-self: unset;\n  }\n  .timelogs__item-time {\n    justify-self: unset;\n  }\n}\n/* DASHBOARD */\n.dashboard__item {\n  border-bottom: 1px solid #006989;\n}\n.dashboard__item-title {\n  color: #006989;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  border-left: 4px dotted #a3bac3;\n  padding: 5px;\n}\n.dashboard__select {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n}\n.dashboard__title {\n  text-transform: uppercase;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: flex-start;\n  margin: 30px 0px;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--main-color);\n  color: #fff;\n  padding: 10px;\n  border: 1px solid #187b9a;\n  text-align: center;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: #006989;\n  color: #fff;\n  box-sizing: content-box;\n}\n.button--danger {\n  background: #e53a40;\n  color: #fff;\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* FOOTER */\nfooter {\n  background: #006989;\n  border-top: 10px solid var(--second-color);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 360px) and (max-device-width: 360px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .page-title .pretty-time {\n    font-size: small;\n    background: #fff;\n    color: #007090;\n  }\n}\n", ""]);
+exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: #007090;\n  margin-left: 0;\n  margin-right: 0;\n}\n/* HEADER */\n.header {\n  background: var(--main-color);\n  border-bottom: 10px solid var(--second-color);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 5px;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: #006889;\n  color: #fff;\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  border-left: 4px solid var(--main-color);\n  padding: 0;\n  margin: 0;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done,\n.timelogs__item {\n  list-style: none;\n  padding: 10px 8px;\n  border-bottom: 1px solid #a3bac3;\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.projects__item--edit {\n  grid-template-columns: 1fr 1fr;\n}\n.projects__item--edit input,\n.projects__item--edit select {\n  height: 30px;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.projects__item:last-child {\n  border: none;\n}\n.projects__item .name-input {\n  grid-column: 1/3;\n  max-width: 380px;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: #006989;\n  text-transform: uppercase;\n  font-size: 1.5em;\n}\n.projects__item-title:hover {\n  color: #01a7c2;\n}\n.projects__item-title:hover .pretty-time {\n  opacity: 1;\n}\n.projects__item-title .pretty-time {\n  color: #03525a;\n  font-size: 0.5em;\n  font-weight: bold;\n  margin-left: 20px;\n  background: none;\n  opacity: 0;\n  transition: opacity 1s;\n}\n.form__newproject {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title,\n.tasks__list-input {\n  grid-column: 1/3;\n}\n.tasks__list-input input,\n.project-select {\n  height: 20px;\n  box-sizing: content-box;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name,\n  .tasks__list-input {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: #eaebed;\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--main-color);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--second-color);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n}\n.timelogs__title {\n  margin-bottom: 10px;\n  margin-top: 10px;\n  background: #eee;\n  padding: 5px;\n  text-align: center;\n  list-style: none;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n.timelogs__item-time {\n  justify-self: end;\n}\n.timelogs__item-task {\n  justify-self: center;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timelogs__item {\n    grid-template-columns: 1fr;\n  }\n  .timelogs__item-task {\n    justify-self: unset;\n  }\n  .timelogs__item-time {\n    justify-self: unset;\n  }\n}\n/* DASHBOARD */\n.dashboard__item {\n  border-bottom: 1px solid #006989;\n}\n.dashboard__item-title {\n  color: #006989;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  border-left: 4px dotted #a3bac3;\n  padding: 5px;\n}\n.dashboard__select {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n}\n.dashboard__title {\n  text-transform: uppercase;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: flex-start;\n  margin: 30px 0px;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--main-color);\n  color: #fff;\n  padding: 10px;\n  border: 1px solid #187b9a;\n  text-align: center;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: #006989;\n  color: #fff;\n  box-sizing: content-box;\n}\n.button--danger {\n  background: #e53a40;\n  color: #fff;\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* FOOTER */\nfooter {\n  background: #006989;\n  border-top: 10px solid var(--second-color);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 360px) and (max-device-width: 360px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .page-title .pretty-time {\n    font-size: small;\n    background: #fff;\n    color: #007090;\n  }\n}\n", ""]);
 
 // exports
 

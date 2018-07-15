@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getDashboardData } from '../../actions/dashboard';
+import { getMotivationData } from '../../actions/dashboard';
 import { clearLogs } from '../../actions/timelog';
 import {
   getProjects,
@@ -291,7 +291,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(newTask(task));
   },
   handleDashboardData() {
-    dispatch(getDashboardData());
+    dispatch(getMotivationData());
   },
   handleAddingTimeToProject(id, time) {
     dispatch(addTimeToProject(id, time));
@@ -311,4 +311,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Project);

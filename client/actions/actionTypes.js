@@ -29,6 +29,7 @@ export const GET_LOGS = 'GET_LOGS';
 export const CLEAR_LOGS = 'CLEAR_LOGS';
 
 export const GET_DASHBOARD_DATA = 'GET_DASHBOARD_DATA';
+export const GET_MOTIVATION_DATA = 'GET_MOTIVATION_DATA';
 
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';

@@ -160,9 +160,9 @@ app.get(
 );
 
 app.get(
-  '/dashboard/getdata/all',
+  '/dashboard/getmotivation',
   authController.isLoggedIn,
-  dashboardController.getAll
+  dashboardController.getMotivationData
 );
 
 app.get(

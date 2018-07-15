@@ -5,7 +5,7 @@ const formatData = require('./common/formatData');
 
 const Timelog = mongoose.model('Timelog');
 
-exports.getAll = async (req, res) => {
+exports.getMotivationData = async (req, res) => {
   /*
    We are subtracting here to have a buffer of extra week,
    because we show data for this month, but also for the last week
@@ -26,24 +26,17 @@ exports.getAll = async (req, res) => {
   const lastMonday = moment().isoWeekday(-6)._d;
   const thisMonday = moment().isoWeekday(1)._d;
   const thisSunday = moment().isoWeekday(7)._d;
-  const firstDay = moment().startOf('month');
-  const todayIs = new Date();
 
   const lastWeek = filterData(data, lastMonday, lastSunday);
   const thisWeek = filterData(data, thisMonday, thisSunday);
-  const today = filterData(data, todayIs, todayIs);
-  const month = filterData(data, firstDay, setLastDay);
 
   const formattedLastWeek = formatData(lastWeek);
   const formattedThisWeek = formatData(thisWeek);
-  const formattedToday = formatData(today);
-  const formattedMonth = formatData(month);
 
   res.send({
     lastWeek: formattedLastWeek,
     thisWeek: formattedThisWeek,
-    today: formattedToday,
-    month: formattedMonth,
+
     dataSent: true
   });
 };

@@ -5598,6 +5598,7 @@ var GET_LOGS = exports.GET_LOGS = 'GET_LOGS';
 var CLEAR_LOGS = exports.CLEAR_LOGS = 'CLEAR_LOGS';
 
 var GET_DASHBOARD_DATA = exports.GET_DASHBOARD_DATA = 'GET_DASHBOARD_DATA';
+var GET_MOTIVATION_DATA = exports.GET_MOTIVATION_DATA = 'GET_MOTIVATION_DATA';
 
 var ADD_MESSAGE = exports.ADD_MESSAGE = 'ADD_MESSAGE';
 var REMOVE_MESSAGE = exports.REMOVE_MESSAGE = 'REMOVE_MESSAGE';
@@ -35511,6 +35512,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.getDashboardDataSuccess = getDashboardDataSuccess;
 exports.getDashboardDataError = getDashboardDataError;
 exports.getDashboardData = getDashboardData;
+exports.getMotivationSuccess = getMotivationSuccess;
+exports.getMotivationError = getMotivationError;
+exports.getMotivationData = getMotivationData;
 
 var _axios = __webpack_require__(40);
 
@@ -35537,7 +35541,6 @@ function getDashboardDataError(response) {
 function getDashboardData(start, end) {
   return function (dispatch) {
     return _axios2.default.get('/dashboard/getdata?start=' + start + '&end=' + end).then(function (res) {
-      console.log(res.data);
       if (res.data.dataSent) {
         dispatch(getDashboardDataSuccess(res.data));
       } else {
@@ -35553,26 +35556,37 @@ function getDashboardData(start, end) {
   };
 }
 
-// export function getDashboardData() {
-//   return dispatch =>
-//     axios
-//       .get('/dashboard/getdata/all')
-//       .then(res => {
-//         if (res.data.dataSent) {
-//           dispatch(getDashboardDataSuccess(res.data));
-//         } else {
-//           dispatch(
-//             getDashboardDataError({
-//               message:
-//                 'Something went wrong fetching dashboard data. Reload the page and try again',
-//               name: 'dashboard-data-error',
-//               type: 'error',
-//             })
-//           );
-//         }
-//       })
-//       .catch(err => console.log(err));
-// }
+function getMotivationSuccess(response) {
+  return {
+    type: _actionTypes.GET_MOTIVATION_DATA,
+    response: response
+  };
+}
+
+function getMotivationError(response) {
+  return {
+    type: _actionTypes.ADD_MESSAGE,
+    response: response
+  };
+}
+
+function getMotivationData() {
+  return function (dispatch) {
+    return _axios2.default.get('/dashboard/getmotivation').then(function (res) {
+      if (res.data.dataSent) {
+        dispatch(getMotivationSuccess(res.data));
+      } else {
+        dispatch(getDashboardDataError({
+          message: 'Something went wrong fetching dashboard data. Reload the page and try again',
+          name: 'dashboard-data-error',
+          type: 'error'
+        }));
+      }
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
 
 /***/ }),
 /* 322 */
@@ -59839,6 +59853,8 @@ function dashboard() {
   switch (action.type) {
     case _actionTypes.GET_DASHBOARD_DATA:
       return Object.assign({}, state, action.response);
+    case _actionTypes.GET_MOTIVATION_DATA:
+      return Object.assign({}, state, action.response);
     default:
       return state;
   }
@@ -75259,7 +75275,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       dispatch((0, _tasks.newTask)(task));
     },
     handleDashboardData: function handleDashboardData() {
-      dispatch((0, _dashboard.getDashboardData)());
+      dispatch((0, _dashboard.getMotivationData)());
     },
     handleAddingTimeToProject: function handleAddingTimeToProject(id, time) {
       dispatch((0, _projects.addTimeToProject)(id, time));

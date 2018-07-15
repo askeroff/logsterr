@@ -5,27 +5,34 @@ import { IProject } from '../../types';
 type Props = {
   projects: IProject[],
   parentID: string,
+  disableItself?: boolean,
+  itselfID?: string,
   disableDefault: boolean,
   changeSelect: (e: SyntheticEvent<HTMLSelectElement>) => void,
-  myClass: string,
+  myClass: string
 };
 
 class ProjectsSelect extends React.Component<Props> {
   static defaultProps = {
     parentID: '',
     disableDefault: false,
-    myClass: 'project-select',
+    myClass: 'project-select'
   };
 
   getListOfProjects = (parentID: string = '', level: number = 1) => {
     this.props.projects.forEach(project => {
+      let disabled = false;
+      if (this.props.disableItself && this.props.itselfID === project._id) {
+        disabled = true;
+      }
       if (parentID === project.parent_id) {
         this.projects.push(
           <option
             key={`select_project-${project._id}`}
             value={project._id}
+            disabled={disabled}
             dangerouslySetInnerHTML={{
-              __html: '&nbsp'.repeat(level) + project.name,
+              __html: '&nbsp'.repeat(level) + project.name
             }}
           />
         );

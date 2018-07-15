@@ -10,16 +10,16 @@ import { IProject } from '../../types';
 type Props = {
   projects: IProject[],
   handleDeleting: (projectID: string) => void,
-  handleRenaming: (id: string, name: string) => void,
+  handleRenaming: (id: string, name: string, parentID: string) => void
 };
 
 type State = {
-  spinner: boolean,
+  spinner: boolean
 };
 
 class ProjectsList extends React.Component<Props, State> {
   static defaultProps = {
-    projects: [],
+    projects: []
   };
   state = { spinner: true };
 
@@ -34,7 +34,7 @@ class ProjectsList extends React.Component<Props, State> {
       text: 'Once deleted, you will not be able to recover this project',
       icon: 'warning',
       buttons: true,
-      dangerMode: true,
+      dangerMode: true
     }).then(willDelete => {
       if (willDelete) {
         this.props.handleDeleting(id);
@@ -52,6 +52,7 @@ class ProjectsList extends React.Component<Props, State> {
           <ProjectItem
             onDelete={this.onDelete}
             padding={padding}
+            projectsList={this.props.projects}
             key={project._id}
             project={project}
             renameMe={this.props.handleRenaming}
@@ -71,16 +72,19 @@ class ProjectsList extends React.Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  projectsList: state.projects,
+  projectsList: state.projects
 });
 
 const mapDispatchToProps = dispatch => ({
   handleDeleting(projectId) {
     dispatch(deleteProject(projectId));
   },
-  handleRenaming(id, name) {
-    dispatch(renameProject(id, name));
-  },
+  handleRenaming(id, name, parentID) {
+    dispatch(renameProject(id, name, parentID));
+  }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectsList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProjectsList);

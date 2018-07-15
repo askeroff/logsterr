@@ -12,6 +12,10 @@ exports.add = async (req, res) => {
 exports.update = async (req, res) => {
   await Project.findById(req.params.id, (err, data) => {
     data.name = req.body.name; // eslint-disable-line no-param-reassign
+    data.parent_id = req.body.parentID; // eslint-disable-line no-param-reassign
+    if (data.parent_id === req.body.parentID) {
+      data.parent_id = ''; // eslint-disable-line no-param-reassign
+    }
     data.save();
     res.json({ project: data });
   });
@@ -28,7 +32,7 @@ exports.addTime = async (req, res) => {
 exports.getProjects = async (req, res) => {
   const projectsList = await Project.find({
     author: req.user._id
-  });
+  }).sort({ name: 1 });
 
   res.send({ projectsList });
 };

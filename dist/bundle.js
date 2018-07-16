@@ -59693,7 +59693,7 @@ function projects() {
         var _projectsList = state.map(function (item) {
           if (item._id === action.project.id) {
             item.name = action.project.name; // eslint-disable-line no-param-reassign
-            item.parent_Id = action.project.parentID; // eslint-disable-line no-param-reassign
+            item.parent_id = action.project.parentID; // eslint-disable-line no-param-reassign
           }
           return item;
         });

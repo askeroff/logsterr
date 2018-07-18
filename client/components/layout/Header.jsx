@@ -33,7 +33,11 @@ class Header extends React.Component<Props> {
   };
 
   render() {
-    return <header className="header">{this.guestLinks()}</header>;
+    return (
+      <header className="header">
+        <div className="content-wrapper">{this.guestLinks()}</div>
+      </header>
+    );
   }
 }
 

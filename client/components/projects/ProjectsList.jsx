@@ -45,7 +45,7 @@ class ProjectsList extends React.Component<Props, State> {
   };
   projects = [];
 
-  printProjects = (parentID = '', padding = 8) => {
+  printProjects = (parentID = '', padding = 0) => {
     this.props.projects.forEach(project => {
       if (project.parent_id === parentID) {
         this.projects.push(
@@ -58,7 +58,7 @@ class ProjectsList extends React.Component<Props, State> {
             renameMe={this.props.handleRenaming}
           />
         );
-        this.printProjects(project._id, padding + 8);
+        this.printProjects(project._id, padding + 16);
       }
     });
     return this.projects;

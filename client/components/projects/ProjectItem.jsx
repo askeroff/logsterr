@@ -66,7 +66,7 @@ class ProjectItem extends React.Component<Props, State> {
   shouldShowInput = () => {
     if (this.state.showInput) {
       return (
-        <div>
+        <div style={{ display: 'flex' }}>
           <input
             type="text"
             value={this.state.newName}
@@ -94,7 +94,7 @@ class ProjectItem extends React.Component<Props, State> {
     const editClassName = this.state.showInput ? 'projects__item--edit' : '';
     return (
       <li
-        style={{ paddingLeft: `${this.props.padding}px` }}
+        style={{ marginLeft: `${this.props.padding}px` }}
         className={`projects__item ${editClassName}`.trim()}
       >
         <Link
@@ -128,14 +128,18 @@ class ProjectItem extends React.Component<Props, State> {
             onClick={() => this.handleShowInput(project.name)}
             className="button--info"
           >
-            Edit
+            <span aria-label="edit" role="img">
+              ✎
+            </span>
           </button>
 
           <button
             onClick={() => onDelete(project._id)}
             className="button--info button--danger"
           >
-            Delete
+            <span aria-label="delete" role="img">
+              ✕
+            </span>
           </button>
         </div>
       </li>

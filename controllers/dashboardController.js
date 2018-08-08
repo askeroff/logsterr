@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 const filterData = require('./common/filterData');
 const formatData = require('./common/formatData');
+// const prepareStatsData = require('./common/prepareStatsData');
 
 const Timelog = mongoose.model('Timelog');
+// const Project = mongoose.model('Project');
 
 exports.getMotivationData = async (req, res) => {
   /*
@@ -52,9 +54,11 @@ exports.getData = async (req, res) => {
       $lte: endDate
     }
   });
+
   const formatted = formatData(data);
   res.send({
     data: formatted,
-    dataSent: true
+    dataSent: true,
+    myData: data
   });
 };

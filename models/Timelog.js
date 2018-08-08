@@ -6,38 +6,38 @@ const timelogSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
-    required: 'Timelog should have the name of the task',
+    required: 'Timelog should have the name of the task'
   },
   done: {
     type: Boolean,
-    default: false,
+    default: false
   },
   seconds: {
     type: Number,
-    default: 0,
+    default: 0
   },
   started: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   author: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
-    required: 'Project should belong to an author',
+    required: 'Project should belong to an author'
   },
   task: {
     type: mongoose.Schema.ObjectId,
     ref: 'Task',
-    required: 'Timelog should have assigned task',
+    required: 'Timelog should have assigned task'
   },
   project: {
     type: mongoose.Schema.ObjectId,
     ref: 'Project',
-    required: 'Timelog should have assigned task',
-  },
+    required: 'Timelog should have assigned task'
+  }
 });
 
-timelogSchema.statics.getProjects = function(id) {
+timelogSchema.statics.getProjects = function getProjects(id) {
   return this.aggregate([
     { $match: { author: id } },
     { $sort: { started: 1 } },
@@ -46,9 +46,9 @@ timelogSchema.statics.getProjects = function(id) {
         from: 'projects',
         localField: 'project',
         foreignField: '_id',
-        as: 'projectdata',
-      },
-    },
+        as: 'projectdata'
+      }
+    }
   ]);
 };
 

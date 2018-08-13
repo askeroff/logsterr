@@ -13,6 +13,10 @@ const projectSchema = new mongoose.Schema({
     ref: 'User',
     required: 'Project should belong to an author'
   },
+  done: {
+    type: Boolean,
+    default: false
+  },
   timeSpent: {
     type: Number,
     default: 0

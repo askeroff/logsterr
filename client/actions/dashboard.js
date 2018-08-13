@@ -25,6 +25,7 @@ export function getDashboardData(start, end) {
       .get(`/dashboard/getdata?start=${start}&end=${end}`)
       .then(res => {
         if (res.data.dataSent) {
+          console.log(res.data.myData);
           dispatch(getDashboardDataSuccess(res.data));
         } else {
           dispatch(

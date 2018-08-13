@@ -6,6 +6,7 @@ function formatData(arr) {
   const newObj = {};
 
   arr.forEach(item => {
+    // console.log(item);
     if (newObj[item.project] === undefined) {
       newObj[item.project] = { time: 0, id: 0 };
       newObj[item.project][item.task] = { taskName: '', time: 0, id: 0 };

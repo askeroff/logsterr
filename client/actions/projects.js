@@ -6,7 +6,8 @@ import {
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
-  ADD_MESSAGE
+  ADD_MESSAGE,
+  TOGGLE_PROJECT_DONE
 } from '../actions/actionTypes';
 
 export function addProjectSuccess(project) {
@@ -148,6 +149,34 @@ export function deleteProject(id) {
       .then(res => {
         if (res.data.deleted) {
           dispatch(deleteProjectSuccess(id));
+        } else {
+          dispatch(projectError(error));
+        }
+      })
+      .catch(() => dispatch(projectError(error)));
+}
+
+export function toggleDoneSuccess(id, done) {
+  return {
+    type: TOGGLE_PROJECT_DONE,
+    id,
+    done
+  };
+}
+
+export function toggleDone(id) {
+  const error = {
+    message:
+      'Something went wrong. Could not toggle the project. Try again or reload the page',
+    name: 'projects-toggle-error',
+    type: 'error'
+  };
+  return dispatch =>
+    axios
+      .post(`/projects/${id}/done`, { id })
+      .then(res => {
+        if (res.data.done !== undefined) {
+          dispatch(toggleDoneSuccess(id, res.data.done));
         } else {
           dispatch(projectError(error));
         }

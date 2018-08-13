@@ -51,3 +51,12 @@ exports.deleteProject = (req, res) => {
     res.json({ deleted: true });
   });
 };
+
+exports.toggleDone = async (req, res) => {
+  await Project.findById(req.body.id, (err, project) => {
+    project.done = !project.done; // eslint-disable-line no-param-reassign
+    project.updated = new Date(); // eslint-disable-line no-param-reassign
+    project.save();
+    res.json({ done: project.done });
+  });
+};

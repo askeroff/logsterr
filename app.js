@@ -159,6 +159,12 @@ app.get(
   catchErrors(timelogController.getLogs)
 );
 
+app.post(
+  '/projects/:id/done',
+  authController.isLoggedIn,
+  catchErrors(projectsController.toggleDone)
+);
+
 app.get(
   '/dashboard/getmotivation',
   authController.isLoggedIn,

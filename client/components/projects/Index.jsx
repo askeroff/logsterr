@@ -15,6 +15,7 @@ type State = {
   showForm: boolean,
   formInput: string,
   spinner: boolean,
+  showArchived: boolean
 };
 
 type IndexProps = {
@@ -22,13 +23,13 @@ type IndexProps = {
   handleAdding: (name: string, id: string) => void,
   clearProjectsList: () => void,
   user: IUser,
-  projects: IProject[],
+  projects: IProject[]
 };
 
 class Index extends React.Component<IndexProps, State> {
   static defaultProps = {
     user: {},
-    projects: [],
+    projects: []
   };
 
   state = {
@@ -37,6 +38,7 @@ class Index extends React.Component<IndexProps, State> {
     showForm: false,
     formInput: '',
     spinner: false,
+    showArchived: false
   };
 
   componentDidMount() {
@@ -62,7 +64,13 @@ class Index extends React.Component<IndexProps, State> {
 
   showAddForm = () => {
     this.setState({
-      showForm: !this.state.showForm,
+      showForm: !this.state.showForm
+    });
+  };
+
+  toggleArchived = () => {
+    this.setState({
+      showArchived: !this.state.showArchived
     });
   };
 
@@ -75,19 +83,22 @@ class Index extends React.Component<IndexProps, State> {
     this.setState({
       showForm: false,
       spinner: true,
-      formInput: '',
+      formInput: ''
     });
   };
 
   selectParent = (event: SyntheticEvent<HTMLSelectElement>) => {
     this.setState({
-      parentID: event.currentTarget.value,
+      parentID: event.currentTarget.value
     });
   };
 
   render() {
     let projects;
     const addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
+    const archivedText = this.state.showArchived
+      ? 'Hide Archived Projects'
+      : 'Show Archived Projects';
     if (this.props.user && this.props.user.loggedIn === false) {
       return <NotLoggedIn />;
     }
@@ -96,7 +107,10 @@ class Index extends React.Component<IndexProps, State> {
     } else {
       projects = (
         <ul className="projects__list">
-          <ProjectsList projects={this.props.projects} />
+          <ProjectsList
+            showArchived={this.state.showArchived}
+            projects={this.props.projects}
+          />
         </ul>
       );
     }
@@ -104,11 +118,14 @@ class Index extends React.Component<IndexProps, State> {
       <Layout>
         <div className="projects">
           <h1 className="page-title">Projects</h1>
-
-          <button onClick={this.showAddForm} className="button--submit">
-            {addLinkText}
-          </button>
-
+          <div className="projects--topbuttons">
+            <button onClick={this.showAddForm} className="button--submit">
+              {addLinkText}
+            </button>
+            <button onClick={this.toggleArchived} className="button--submit">
+              {archivedText}
+            </button>
+          </div>
           {this.state.showForm ? (
             <AddForm
               inputValue={this.state.formInput}
@@ -136,12 +153,12 @@ class Index extends React.Component<IndexProps, State> {
 
 Index.defaultProps = {
   user: {},
-  projects: [],
+  projects: []
 };
 
 const mapStateToProps = state => ({
   projects: state.projects,
-  user: state.user,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -153,7 +170,10 @@ const mapDispatchToProps = dispatch => ({
   },
   clearProjectsList() {
     dispatch(clearProjects());
-  },
+  }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Index);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Index);

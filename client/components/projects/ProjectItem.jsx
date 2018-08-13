@@ -126,7 +126,7 @@ class ProjectItem extends React.Component<Props, State> {
           ) : null}
           <button
             onClick={() => this.handleShowInput(project.name)}
-            className="button--info"
+            className="button--info button--small"
           >
             <span aria-label="edit" role="img">
               ✎
@@ -134,8 +134,18 @@ class ProjectItem extends React.Component<Props, State> {
           </button>
 
           <button
+            title={'Mark this project done'}
+            onClick={() => this.props.toggleDone(project._id)}
+            className="button--info button--small"
+          >
+            <span aria-label="mark done" role="img">
+              ✔
+            </span>
+          </button>
+
+          <button
             onClick={() => onDelete(project._id)}
-            className="button--info button--danger"
+            className="button--info button--danger button--small"
           >
             <span aria-label="delete" role="img">
               ✕

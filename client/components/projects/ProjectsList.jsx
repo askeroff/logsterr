@@ -2,13 +2,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import { deleteProject, renameProject } from '../../actions/projects';
+import {
+  deleteProject,
+  renameProject,
+  toggleDone
+} from '../../actions/projects';
 import ProjectItem from './ProjectItem';
 import Spinner from '../layout/Spinner';
 import { IProject } from '../../types';
 
 type Props = {
   projects: IProject[],
+  showArchived: boolean,
   handleDeleting: (projectID: string) => void,
   handleRenaming: (id: string, name: string, parentID: string) => void
 };
@@ -46,18 +51,23 @@ class ProjectsList extends React.Component<Props, State> {
   projects = [];
 
   printProjects = (parentID = '', padding = 0) => {
+    // padding issues
     this.props.projects.forEach(project => {
       if (project.parent_id === parentID) {
-        this.projects.push(
-          <ProjectItem
-            onDelete={this.onDelete}
-            padding={padding}
-            projectsList={this.props.projects}
-            key={project._id}
-            project={project}
-            renameMe={this.props.handleRenaming}
-          />
-        );
+        if (project.done === this.props.showArchived) {
+          const getPadding = this.props.showArchived ? 0 : padding;
+          this.projects.push(
+            <ProjectItem
+              onDelete={this.onDelete}
+              padding={getPadding}
+              toggleDone={this.props.handleToggling}
+              projectsList={this.props.projects}
+              key={project._id}
+              project={project}
+              renameMe={this.props.handleRenaming}
+            />
+          );
+        }
         this.printProjects(project._id, padding + 16);
       }
     });
@@ -81,6 +91,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleRenaming(id, name, parentID) {
     dispatch(renameProject(id, name, parentID));
+  },
+  handleToggling(id) {
+    dispatch(toggleDone(id));
   }
 });
 

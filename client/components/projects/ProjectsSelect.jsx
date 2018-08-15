@@ -20,9 +20,13 @@ class ProjectsSelect extends React.Component<Props> {
   };
 
   getListOfProjects = (parentID: string = '', level: number = 1) => {
+    const children = this.getAllChildren(this.props.itselfID);
     this.props.projects.forEach(project => {
       let disabled = false;
-      if (this.props.disableItself && this.props.itselfID === project._id) {
+      const isChild = children.indexOf(project._id) !== -1;
+      const disableItself =
+        this.props.disableItself && this.props.itselfID === project._id;
+      if (isChild || disableItself) {
         disabled = true;
       }
       if (parentID === project.parent_id) {
@@ -41,6 +45,21 @@ class ProjectsSelect extends React.Component<Props> {
     });
     return this.projects;
   };
+
+  getAllChildren = (myID: string): string[] => {
+    const children = [];
+    const recursive = (id: string) => {
+      this.props.projects.forEach(project => {
+        if (id === project.parent_id) {
+          children.push(project._id);
+          recursive(project._id);
+        }
+      });
+    };
+    recursive(myID);
+    return children;
+  };
+
   projects = [];
 
   render() {

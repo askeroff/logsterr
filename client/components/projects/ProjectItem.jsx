@@ -80,6 +80,7 @@ class ProjectItem extends React.Component<Props, State> {
             parentID={this.state.parentID}
             projects={this.props.projectsList}
             changeSelect={this.changeSelect}
+            defaultOption="No Parent"
           />
         </div>
       );

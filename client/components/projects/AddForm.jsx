@@ -12,7 +12,7 @@ type AddFormProps = {
   labelName: string,
   parentID: string,
   changeSelect: (e: SyntheticEvent<HTMLSelectElement>) => void,
-  className: string,
+  className: string
 };
 
 const AddForm = (props: AddFormProps) => (
@@ -24,6 +24,7 @@ const AddForm = (props: AddFormProps) => (
       <ProjectsSelect
         parentID={props.parentID}
         myClass={''}
+        defaultOption="No Parent"
         changeSelect={props.changeSelect}
         projects={props.projects}
       />
@@ -43,7 +44,7 @@ AddForm.defaultProps = {
   changeSelect: () => {},
   parentID: '',
   projects: [],
-  className: 'form',
+  className: 'form'
 };
 
 export default AddForm;

@@ -9,7 +9,8 @@ type Props = {
   itselfID?: string,
   disableDefault: boolean,
   changeSelect: (e: SyntheticEvent<HTMLSelectElement>) => void,
-  myClass: string
+  myClass: string,
+  defaultOption?: string
 };
 
 class ProjectsSelect extends React.Component<Props> {
@@ -74,7 +75,7 @@ class ProjectsSelect extends React.Component<Props> {
         className={this.props.myClass}
       >
         <option disabled={disabled} value={''}>
-          None
+          {this.props.defaultOption || 'None'}
         </option>
         {listItems}
       </select>

@@ -47,7 +47,10 @@ class ProjectsSelect extends React.Component<Props> {
     return this.projects;
   };
 
-  getAllChildren = (myID: string): string[] => {
+  getAllChildren = (myID?: string): string[] => {
+    if (myID === undefined) {
+      return [];
+    }
     const children = [];
     const recursive = (id: string) => {
       this.props.projects.forEach(project => {

@@ -15,7 +15,8 @@ type Props = {
   projects: IProject[],
   showArchived: boolean,
   handleDeleting: (projectID: string) => void,
-  handleRenaming: (id: string, name: string, parentID: string) => void
+  handleRenaming: (id: string, name: string, parentID: string) => void,
+  handleToggling: (id: string) => void
 };
 
 type State = {

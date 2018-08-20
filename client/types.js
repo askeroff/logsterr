@@ -16,6 +16,7 @@ export interface IProject {
   name: string;
   author: string;
   __v: number;
+  done: boolean;
   parent_id: string;
   timeSpent: number;
 }

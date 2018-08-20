@@ -9,7 +9,8 @@ type Props = {
   project: IProject,
   projectsList: IProject[],
   onDelete: (projectId: string) => void,
-  renameMe: (id: string, name: string) => void,
+  renameMe: (id: string, name: string, parentId: string) => void,
+  toggleDone: (id: string) => void,
   padding: number
 };
 

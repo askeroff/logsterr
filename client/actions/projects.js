@@ -63,6 +63,9 @@ export function renameProject(id, name, parentID) {
         if (res.data.project) {
           dispatch(renameProjectSuccess({ id, name, parentID }));
         } else {
+          if (res.data.error) {
+            error.message = res.data.error;
+          }
           dispatch(projectError(error));
         }
       })

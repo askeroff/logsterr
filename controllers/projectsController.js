@@ -3,6 +3,23 @@ const mongoose = require('mongoose');
 const Project = mongoose.model('Project');
 const Task = mongoose.model('Task');
 
+function getAllChildren(myID, projects) {
+  if (myID === undefined) {
+    return [];
+  }
+  const children = [];
+  const recursive = id => {
+    projects.forEach(project => {
+      if (id === project.parent_id) {
+        children.push(project._id.toString());
+        recursive(project._id);
+      }
+    });
+  };
+  recursive(myID);
+  return children;
+}
+
 exports.add = async (req, res) => {
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
   const project = await new Project(req.body).save();
@@ -10,11 +27,21 @@ exports.add = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  const projects = await Project.find({});
+  const children = getAllChildren(req.params.id, projects);
+  const isChild = children.indexOf(req.body.parentID.toString()) !== -1;
+  if (isChild) {
+    res.json({
+      error:
+        'Could not update the project. Child project can not be chosen as a parent'
+    });
+    return;
+  }
   await Project.findById(req.params.id, (err, data) => {
     data.name = req.body.name; // eslint-disable-line no-param-reassign
-    if (data.parent_id !== req.body.parentID) {
-      data.parent_id = req.body.parentID; // eslint-disable-line no-param-reassign
-    }
+    // if (data.parent_id !== req.body.parentID) {
+    //   data.parent_id = req.body.parentID; // eslint-disable-line no-param-reassign
+    // }
     data.save();
     res.json({ project: data });
   });

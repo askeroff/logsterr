@@ -25,7 +25,7 @@ class Header extends React.Component<Props> {
         <Li myClassName="nav__item" url="/logmeout" linkText="Log Out" />
         <li className="nav__item">
           <span className="nav__user">
-            (You are loged in as {this.props.userEmail})
+            (You are logged in as {this.props.userEmail})
           </span>
         </li>
       </ul>

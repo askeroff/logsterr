@@ -4,6 +4,7 @@
   "plugins": ["flowtype"],
   "rules": {
     "no-console": "off",
+    "no-bitwise": "off",
     "no-debugger": "off",
     "no-restricted-syntax": "off",
     "react/prop-types": "off",

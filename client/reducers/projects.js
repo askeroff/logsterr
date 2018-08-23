@@ -5,6 +5,7 @@ import {
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
+  TOGGLE_PROJECT_DONE,
   SUBTRACT_TASK_TIME
 } from '../actions/actionTypes';
 
@@ -37,6 +38,15 @@ export function projects(state = [], action) {
         if (item._id === action.project.id) {
           item.name = action.project.name; // eslint-disable-line no-param-reassign
           item.parent_id = action.project.parentID; // eslint-disable-line no-param-reassign
+        }
+        return item;
+      });
+      return projectsList;
+    }
+    case TOGGLE_PROJECT_DONE: {
+      const projectsList = state.map(item => {
+        if (item._id === action.id) {
+          item.done = action.done; // eslint-disable-line no-param-reassign
         }
         return item;
       });

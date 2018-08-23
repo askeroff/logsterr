@@ -3,6 +3,7 @@ import {
   GET_PROJECTS,
   ADD_PROJECT,
   DELETE_PROJECT,
+  TOGGLE_PROJECT_DONE,
   RENAME_PROJECT,
   SUBTRACT_TASK_TIME,
   ADD_TIME_TO_PROJECT
@@ -15,6 +16,7 @@ const projectsList = [
     author: '59bc1b5c5ee11d1964a214ec',
     __v: 0,
     parent_id: '',
+    done: false,
     timeSpent: 21346
   },
   {
@@ -23,6 +25,7 @@ const projectsList = [
     author: '59bc1b5c5ee11d1964a214ec',
     __v: 0,
     parent_id: '',
+    done: false,
     timeSpent: 274880
   },
   {
@@ -31,6 +34,7 @@ const projectsList = [
     author: '59bc1b5c5ee11d1964a214ec',
     __v: 0,
     parent_id: '',
+    done: false,
     timeSpent: 532060
   },
   {
@@ -39,6 +43,7 @@ const projectsList = [
     author: '59bc1b5c5ee11d1964a214ec',
     __v: 0,
     parent_id: '',
+    done: false,
     timeSpent: 1587
   },
   {
@@ -47,6 +52,7 @@ const projectsList = [
     author: '59bc1b5c5ee11d1964a214ec',
     __v: 0,
     parent_id: '',
+    done: false,
     timeSpent: 0
   },
   {
@@ -55,6 +61,7 @@ const projectsList = [
     author: '59bc1b5c5ee11d1964a214ec',
     __v: 0,
     parent_id: '',
+    done: false,
     timeSpent: 0
   },
   {
@@ -63,6 +70,7 @@ const projectsList = [
     author: '59bc1b5c5ee11d1964a214ec',
     __v: 0,
     parent_id: '5a281df108567500ade59253',
+    done: false,
     timeSpent: 45399
   },
   {
@@ -71,6 +79,7 @@ const projectsList = [
     author: '59bc1b5c5ee11d1964a214ec',
     __v: 0,
     parent_id: '5a2a1703a2efd310b8225595',
+    done: false,
     timeSpent: 360023
   }
 ];
@@ -142,5 +151,25 @@ describe('Projects Reducer', () => {
     const result = projects(projectsList, action);
     const find = result.find(item => item._id === action.id);
     expect(find.timeSpent).toBe(271280);
+  });
+
+  test('Toggle projects done state to true', () => {
+    const action = {
+      type: TOGGLE_PROJECT_DONE,
+      id: '5ad79de1e1d0a410c4f2834e',
+      done: true
+    };
+    const result = projects(projectsList, action);
+    const find = result.find(item => item._id === action.id);
+    expect(find.done).toBe(true);
+
+    const action2 = {
+      type: TOGGLE_PROJECT_DONE,
+      id: '5ad79de1e1d0a410c4f2834e',
+      done: false
+    };
+    const result2 = projects(projectsList, action2);
+    const find2 = result2.find(item => item._id === action.id);
+    expect(find2.done).toBe(false);
   });
 });

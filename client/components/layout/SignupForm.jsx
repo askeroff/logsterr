@@ -5,13 +5,15 @@ import FormInput from './FormInput';
 type Props = {
   myClassName: string,
   emailValue: string,
+  inviteValue: string,
   passwordValue: string,
   handleEmailChange: (event: SyntheticEvent<HTMLInputElement>) => void,
   handlePasswordChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+  handleInviteChange: (event: SyntheticEvent<HTMLInputElement>) => void,
   handleSubmit: (event: SyntheticEvent<HTMLFormElement>) => void
 };
 
-const LoginForm = (props: Props) => (
+const SignupForm = (props: Props) => (
   <form onSubmit={props.handleSubmit} className={props.myClassName}>
     <label htmlFor="email">E-mail:</label>
     <FormInput
@@ -30,8 +32,18 @@ const LoginForm = (props: Props) => (
       inputValue={props.passwordValue}
       handleInput={props.handlePasswordChange}
     />
+
+    <label htmlFor="invite">Invite:</label>
+    <FormInput
+      inputType="text"
+      inputName="invite"
+      inputId="invite"
+      inputValue={props.inviteValue}
+      handleInput={props.handleInviteChange}
+    />
+
     <input type="submit" value="Submit" className="button--submit" />
   </form>
 );
 
-export default LoginForm;
+export default SignupForm;

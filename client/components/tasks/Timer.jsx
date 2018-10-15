@@ -6,35 +6,34 @@ import TimeAddForm from './TimeAddForm';
 import timestorage from '../scripts/timestorage';
 
 class Timer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      seconds: 0,
-      started: false,
-      showForm: false
-    };
-    this.handleTimer = this.handleTimer.bind(this);
-    this.handleStart = this.handleStart.bind(this);
-    this.formToggle = this.formToggle.bind(this);
-    this.handleStop = this.handleStop.bind(this);
-    this.incrementSeconds = this.incrementSeconds.bind(this);
-    this.timer = null;
-  }
+  state = {
+    seconds: 0,
+    date: undefined,
+    started: false,
+    showForm: false
+  };
 
-  incrementSeconds() {
-    this.setState({
-      seconds: this.state.seconds + 1
+  timer = null;
+
+  incrementSeconds = () => {
+    this.setState(prevState => {
+      const now = new Date().getTime();
+      return {
+        seconds: parseInt((now - prevState.date) / 1000, 10)
+      };
     });
-  }
+  };
 
-  handleStart() {
-    this.setState({ started: true });
-    timestorage.add(this.props.id, this.props.taskName, this.props.project);
-    this.incrementSeconds(); // fixes one second delay when first called
-    this.timer = setInterval(this.incrementSeconds, 1000);
-  }
+  handleStart = () => {
+    const now = new Date().getTime();
+    this.setState({ started: true, date: now }, () => {
+      timestorage.add(this.props.id, this.props.taskName, this.props.project);
+      this.incrementSeconds(); // fixes one second delay when first called
+      this.timer = setInterval(this.incrementSeconds, 1000);
+    });
+  };
 
-  handleStop() {
+  handleStop = () => {
     clearInterval(this.timer);
     timestorage.reset();
     const data = {
@@ -47,21 +46,21 @@ class Timer extends React.Component {
     this.props.handleAddingTimeLog(data, this.state.seconds);
     this.setState({ started: false, seconds: 0 });
     swal('Good job!', 'Time has been added to your timelog', 'success');
-  }
+  };
 
-  handleTimer() {
+  handleTimer = () => {
     if (!this.state.started) {
       this.handleStart();
     } else {
       this.handleStop();
     }
-  }
+  };
 
-  formToggle() {
+  formToggle = () => {
     this.setState(state => ({
       showForm: !state.showForm
     }));
-  }
+  };
 
   render() {
     const timerButtonString = this.state.started ? 'stop' : 'start';

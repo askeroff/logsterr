@@ -65,6 +65,9 @@
     "setupFiles": [
       "raf/polyfill"
     ],
+    "testMatch": [
+      "**/__tests__/**/?(*.)+(spec|test).js?(x)"
+    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],

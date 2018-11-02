@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 const filterData = require('./common/filterData');
 const formatData = require('./common/formatData');
-// const prepareStatsData = require('./common/prepareStatsData');
+const prepareStatsData = require('./common/prepareStatsData');
 
 const Timelog = mongoose.model('Timelog');
-// const Project = mongoose.model('Project');
+const Project = mongoose.model('Project');
 
 exports.getMotivationData = async (req, res) => {
   /*
@@ -53,12 +53,17 @@ exports.getData = async (req, res) => {
       $gte: startDate,
       $lte: endDate
     }
-  });
+  }).lean();
+
+  const projects = await Project.find({ author: req.user._id }).lean();
 
   const formatted = formatData(data);
+  const prepared = prepareStatsData(data, projects);
+
   res.send({
     data: formatted,
     dataSent: true,
-    myData: data
+    myData: data,
+    prepared
   });
 };

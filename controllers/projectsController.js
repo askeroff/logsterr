@@ -4,6 +4,7 @@ const Project = mongoose.model('Project');
 const Task = mongoose.model('Task');
 
 function getAllChildren(myID, projects) {
+  // TODO: Possible duplication of code: to reduce
   if (myID === undefined) {
     return [];
   }

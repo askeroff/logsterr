@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   GET_DASHBOARD_DATA,
   ADD_MESSAGE,
+  FETCH_DASHBOARD,
   GET_MOTIVATION_DATA
 } from '../actions/actionTypes';
 
@@ -19,13 +20,19 @@ export function getDashboardDataError(response) {
   };
 }
 
+export function fetchPosts() {
+  return {
+    type: FETCH_DASHBOARD,
+    response: true
+  };
+}
+
 export function getDashboardData(start, end) {
   return dispatch =>
     axios
       .get(`/dashboard/getdata?start=${start}&end=${end}`)
       .then(res => {
         if (res.data.dataSent) {
-          console.log(res.data.myData);
           dispatch(getDashboardDataSuccess(res.data));
         } else {
           dispatch(

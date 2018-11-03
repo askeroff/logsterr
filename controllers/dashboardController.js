@@ -43,6 +43,14 @@ exports.getMotivationData = async (req, res) => {
   });
 };
 
+function filterByProperty(arr, prop) {
+  const f = [];
+  return arr.filter(
+    obj =>
+      f.indexOf(obj[prop].toString()) === -1 && f.push(obj[prop].toString())
+  );
+}
+
 exports.getData = async (req, res) => {
   const { start, end } = req.query;
   const startDate = `${start} 00:00:00`;
@@ -57,13 +65,21 @@ exports.getData = async (req, res) => {
 
   const projects = await Project.find({ author: req.user._id }).lean();
 
-  const formatted = formatData(data);
-  const prepared = prepareStatsData(data, projects);
+  const timelogs = filterByProperty(data, 'task').map(timelog => {
+    const result = { ...timelog };
+    const seconds = data.reduce((accum, value) => {
+      if (timelog.task.toString() === value.task.toString()) {
+        return accum + value.seconds;
+      }
+      return accum + 0;
+    }, 0);
+    result.seconds = seconds;
+    return result;
+  });
+  const prepared = prepareStatsData(timelogs, projects);
 
   res.send({
-    data: formatted,
     dataSent: true,
-    myData: data,
     prepared
   });
 };

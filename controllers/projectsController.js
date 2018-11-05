@@ -21,10 +21,41 @@ function getAllChildren(myID, projects) {
   return children;
 }
 
+function checkIfAnyParentIsDone(projects, id) {
+  let result = false;
+  function recursive(parentID) {
+    projects.forEach(project => {
+      if (project.id === parentID && project.done === true) {
+        result = true;
+      } else if (
+        project.id === parentID &&
+        project.done !== true &&
+        project.parent_id !== '' &&
+        result !== true
+      ) {
+        recursive(project.parent_id);
+      }
+    });
+  }
+  recursive(id);
+  return result;
+}
+
 exports.add = async (req, res) => {
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
-  const project = await new Project(req.body).save();
-  res.json({ project });
+  const projects = await Project.find({});
+  const hasArchivedParents = checkIfAnyParentIsDone(
+    projects,
+    req.body.parent_id
+  );
+  if (hasArchivedParents) {
+    res.json({
+      error: 'Can not add children to the archived project'
+    });
+  } else {
+    const project = await new Project(req.body).save();
+    res.json({ project });
+  }
 };
 
 exports.update = async (req, res) => {

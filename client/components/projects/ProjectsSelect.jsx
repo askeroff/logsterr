@@ -26,11 +26,11 @@ class ProjectsSelect extends React.Component<Props> {
       let disabled = false;
       const isChild = children.indexOf(project._id) !== -1;
       const disableItself =
-        this.props.disableItself && this.props.itselfID === project._id;
+        (this.props.disableItself && this.props.itselfID === project._id);
       if (isChild || disableItself) {
         disabled = true;
       }
-      if (parentID === project.parent_id) {
+      if (parentID === project.parent_id && !project.done) {
         this.projects.push(
           <option
             key={`select_project-${project._id}`}

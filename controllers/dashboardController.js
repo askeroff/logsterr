@@ -55,13 +55,23 @@ exports.getData = async (req, res) => {
   const { start, end } = req.query;
   const startDate = `${start} 00:00:00`;
   const endDate = `${end} 23:59:59`;
-  const data = await Timelog.find({
-    author: req.user._id,
-    started: {
-      $gte: startDate,
-      $lte: endDate
-    }
-  }).lean();
+  const getTimelogs = await Timelog.getProjects(
+    req.user._id,
+    new Date(startDate),
+    new Date(endDate)
+  );
+
+  const data = getTimelogs.map(item => {
+    const newItem = { ...item };
+    const { taskdata } = item;
+    newItem.taskName =
+      (taskdata && taskdata[0] && taskdata[0].name) || 'Task Not found';
+    newItem.done = undefined;
+    newItem.__v = undefined;
+    newItem.taskdata = undefined;
+    newItem.author = undefined;
+    return newItem;
+  });
 
   const projects = await Project.find({ author: req.user._id }).lean();
 

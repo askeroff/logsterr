@@ -37,6 +37,7 @@ export function addProject(name, id) {
         if (res.data.project) {
           dispatch(addProjectSuccess(res.data.project));
         } else {
+          error.message = res.data.error || error.message;
           dispatch(projectError(error));
         }
       })

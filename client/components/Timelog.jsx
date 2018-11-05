@@ -33,7 +33,7 @@ class Timelog extends React.Component {
       text: 'Once deleted, the data will be gone',
       icon: 'warning',
       buttons: true,
-      dangerMode: true,
+      dangerMode: true
     }).then(willDelete => {
       if (willDelete) {
         this.props.handleDelete(id);
@@ -56,7 +56,7 @@ class Timelog extends React.Component {
         const project = item.projectdata[0]
           ? item.projectdata[0].name
           : 'Not found';
-
+        const taskName = item.taskdata[0] ? item.taskdata[0].name : item.name;
         if (formatDate(item.started) !== formatDate(date)) {
           date = item.started;
           showDate = true;
@@ -67,7 +67,7 @@ class Timelog extends React.Component {
           <TimelogItem
             key={item._id}
             id={item._id}
-            name={item.name}
+            name={taskName}
             seconds={item.seconds}
             started={item.started}
             project={project}
@@ -97,8 +97,8 @@ class Timelog extends React.Component {
 
 Timelog.defaultProps = {
   timelogs: {
-    data: [],
-  },
+    data: []
+  }
 };
 
 Timelog.propTypes = {
@@ -106,11 +106,11 @@ Timelog.propTypes = {
   clearLogsList: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
   timelogs: PropTypes.object,
-  match: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  timelogs: state.timelog,
+  timelogs: state.timelog
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -122,7 +122,10 @@ const mapDispatchToProps = dispatch => ({
   },
   handleDelete(id) {
     dispatch(deleteLog(id));
-  },
+  }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Timelog);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Timelog);

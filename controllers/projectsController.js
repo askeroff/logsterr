@@ -11,7 +11,7 @@ function getAllChildren(myID, projects) {
   const children = [];
   const recursive = id => {
     projects.forEach(project => {
-      if (id === project.parent_id) {
+      if (id.toString() === project.parent_id.toString()) {
         children.push(project._id.toString());
         recursive(project._id);
       }
@@ -19,6 +19,19 @@ function getAllChildren(myID, projects) {
   };
   recursive(myID);
   return children;
+}
+
+function checkIfHasActiveChildren(projects, id) {
+  let result = false;
+  projects.forEach(project => {
+    if (
+      project.parent_id.toString() === id.toString() &&
+      project.done === false
+    ) {
+      result = true;
+    }
+  });
+  return result;
 }
 
 function checkIfAnyParentIsDone(projects, id) {
@@ -69,7 +82,7 @@ exports.update = async (req, res) => {
     });
     return;
   }
-  await Project.findById(req.params.id, (err, data) => {
+  Project.findById(req.params.id, (err, data) => {
     data.name = req.body.name; // eslint-disable-line no-param-reassign
     // if (data.parent_id !== req.body.parentID) {
     //   data.parent_id = req.body.parentID; // eslint-disable-line no-param-reassign
@@ -79,8 +92,8 @@ exports.update = async (req, res) => {
   });
 };
 
-exports.addTime = async (req, res) => {
-  await Project.findById(req.body.id, (err, data) => {
+exports.addTime = (req, res) => {
+  Project.findById(req.body.id, (err, data) => {
     data.timeSpent += req.body.time; // eslint-disable-line no-param-reassign
     data.save();
     res.json({ timeAdded: true });
@@ -112,10 +125,17 @@ exports.deleteProject = (req, res) => {
 };
 
 exports.toggleDone = async (req, res) => {
-  await Project.findById(req.body.id, (err, project) => {
-    project.done = !project.done; // eslint-disable-line no-param-reassign
-    project.updated = new Date(); // eslint-disable-line no-param-reassign
+  const projects = await Project.find({});
+  const hasActiveChildren = checkIfHasActiveChildren(projects, req.body.id);
+  if (hasActiveChildren) {
+    res.json({
+      error: 'Project has active children. Archive them first'
+    });
+  } else {
+    const project = await Project.findById(req.body.id);
+    project.done = !project.done;
+    project.updated = new Date();
     project.save();
     res.json({ done: project.done });
-  });
+  }
 };

@@ -37,9 +37,8 @@ const timelogSchema = new mongoose.Schema({
   }
 });
 
-timelogSchema.statics.getProjects = function getProjects(id) {
-  return this.aggregate([
-    { $match: { author: id } },
+timelogSchema.statics.getProjects = function getProjects(id, start, end) {
+  const query = [
     { $sort: { started: 1 } },
     {
       $lookup: {
@@ -48,8 +47,26 @@ timelogSchema.statics.getProjects = function getProjects(id) {
         foreignField: '_id',
         as: 'projectdata'
       }
+    },
+    {
+      $lookup: {
+        from: 'tasks',
+        localField: 'task',
+        foreignField: '_id',
+        as: 'taskdata'
+      }
     }
-  ]);
+  ];
+  if (start && end) {
+    query.unshift({
+      $match: {
+        $and: [{ started: { $gte: start, $lte: end } }, { author: id }]
+      }
+    });
+  } else {
+    query.unshift({ $match: { author: id } });
+  }
+  return this.aggregate(query);
 };
 
 module.exports = mongoose.model('Timelog', timelogSchema);

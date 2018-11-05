@@ -182,6 +182,7 @@ export function toggleDone(id) {
         if (res.data.done !== undefined) {
           dispatch(toggleDoneSuccess(id, res.data.done));
         } else {
+          error.message = res.data.error || error.message;
           dispatch(projectError(error));
         }
       })

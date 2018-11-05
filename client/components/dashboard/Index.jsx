@@ -41,10 +41,13 @@ class Dashboard extends React.Component<Props, State> {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.dashboardData.prepared) {
+  componentDidUpdate({ dashboardData }: Props) {
+    if (
+      this.props.dashboardData.isFetching === false &&
+      dashboardData.isFetching === true
+    ) {
       this.setState({
-        dashboard: nextProps.dashboardData.prepared
+        dashboard: this.props.dashboardData.prepared
       });
     }
   }

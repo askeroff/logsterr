@@ -13,6 +13,7 @@
     "linebreak-style": ["error", "windows"],
     "class-methods-use-this": "off",
     "react/forbid-prop-types": "off",
+    "react/no-did-update-set-state": "off",
     "jsx-a11y/label-has-for": "off",
     "arrow-parens": "off",
     "comma-dangle": "off",

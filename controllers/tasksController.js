@@ -11,14 +11,20 @@ exports.newTask = async (req, res) => {
 exports.getTasks = async (req, res) => {
   const tasksList = await Task.find({
     project: req.params.id,
+    deleted: false
   });
   res.json({ tasksList });
 };
 
 exports.deleteTask = (req, res) => {
-  Task.findByIdAndRemove(req.body.id, () => {
+  Task.findById(req.body.id, (err, task) => {
+    task.deleted = true; // eslint-disable-line no-param-reassign
+    task.save();
     res.json({ deleted: true });
   });
+  // Task.findByIdAndRemove(req.body.id, () => {
+  //   res.json({ deleted: true });
+  // });
 };
 
 /*
@@ -41,7 +47,7 @@ exports.renameTask = async (req, res) => {
     newProject,
     timeSpent,
     moveTime,
-    deleteTime,
+    deleteTime
   } = req.body;
   const promises = [];
   if (moveTime === true) {
@@ -72,8 +78,8 @@ exports.renameTask = async (req, res) => {
   res.json({ renamed: true, body: req.body });
 };
 
-exports.toggleDone = async (req, res) => {
-  await Task.findById(req.body.id, (err, task) => {
+exports.toggleDone = (req, res) => {
+  Task.findById(req.body.id, (err, task) => {
     task.done = !task.done; // eslint-disable-line no-param-reassign
     task.updated = new Date(); // eslint-disable-line no-param-reassign
     task.save();

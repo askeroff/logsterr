@@ -22,9 +22,6 @@ exports.deleteTask = (req, res) => {
     task.save();
     res.json({ deleted: true });
   });
-  // Task.findByIdAndRemove(req.body.id, () => {
-  //   res.json({ deleted: true });
-  // });
 };
 
 /*

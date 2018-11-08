@@ -4,17 +4,25 @@ const Timelog = mongoose.model('Timelog');
 const Project = mongoose.model('Project');
 const Task = mongoose.model('Task');
 
-const projectsPromises = [];
+let projectsPromises = [];
 
-function addTimeToParentProjects(id, timeSpent) {
+function goThroughParents(id, timeSpent, callback) {
   const promise = Project.findById(id, async (err, project) => {
-    project.timeSpent += timeSpent; // eslint-disable-line no-param-reassign
+    callback(project, timeSpent);
     project.save();
     if (project.parent_id !== '') {
-      addTimeToParentProjects(project.parent_id, timeSpent);
+      goThroughParents(project.parent_id, timeSpent, callback);
     }
   });
   projectsPromises.push(promise);
+}
+
+function addTimeToProject(project, timeSpent) {
+  project.timeSpent += timeSpent; // eslint-disable-line no-param-reassign
+}
+
+function removeTimeFromProject(project, timeSpent) {
+  project.timeSpent -= timeSpent; // eslint-disable-line no-param-reassign
 }
 
 exports.addTime = async (req, res) => {
@@ -29,8 +37,8 @@ exports.addTime = async (req, res) => {
     task.timeSpent += req.body.seconds; // eslint-disable-line no-param-reassign
     task.save();
   });
-
-  addTimeToParentProjects(req.body.project, req.body.seconds);
+  projectsPromises = [];
+  goThroughParents(req.body.project, req.body.seconds, addTimeToProject);
 
   const [timelog, task] = await Promise.all([
     timelogPromise,
@@ -81,17 +89,14 @@ exports.deleteLog = async (req, res) => {
     }
   });
 
-  const projectPromise = Project.findById(
+  projectsPromises = [];
+  goThroughParents(
     timelogTodelete.project,
-    (err, project) => {
-      if (project && project.timeSpent) {
-        project.timeSpent -= timelogTodelete.seconds; // eslint-disable-line no-param-reassign
-        project.save();
-      }
-    }
+    timelogTodelete.seconds,
+    removeTimeFromProject
   );
 
-  await Promise.all([taskPromise, projectPromise]);
+  await Promise.all([taskPromise, ...projectsPromises]);
 
   Timelog.findByIdAndRemove(req.body.id, () => {
     res.json({ deleted: true });

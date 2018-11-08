@@ -38,7 +38,6 @@ class Timer extends React.Component {
     timestorage.reset();
     const data = {
       seconds: this.state.seconds,
-      name: this.props.taskName,
       task: this.props.id,
       done: true,
       project: this.props.project

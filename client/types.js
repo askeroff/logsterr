@@ -49,7 +49,6 @@ export interface IRenameTask {
 
 export interface ITimeLogData {
   seconds: number;
-  name: string;
   task: string;
   done: boolean;
   project: string;

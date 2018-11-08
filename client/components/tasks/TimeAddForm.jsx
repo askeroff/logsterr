@@ -5,7 +5,6 @@ import { ITimeLogData } from '../../types';
 
 type Props = {
   task: string,
-  name: string,
   from: string,
   project: string,
   addProjectTime?: (projectID: string, seconds: number) => void,
@@ -50,7 +49,6 @@ class TimeAddForm extends React.Component<Props, State> {
     const { hours, minutes } = this.state;
     const {
       task,
-      name,
       project,
       addTaskTime,
       addProjectTime,
@@ -77,7 +75,6 @@ class TimeAddForm extends React.Component<Props, State> {
       const data = {
         seconds: result,
         done: true,
-        name,
         task,
         project
       };

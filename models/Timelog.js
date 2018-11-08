@@ -3,11 +3,6 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const timelogSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    trim: true,
-    required: 'Timelog should have the name of the task'
-  },
   done: {
     type: Boolean,
     default: false

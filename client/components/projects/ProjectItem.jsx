@@ -24,12 +24,8 @@ class ProjectItem extends React.Component<Props, State> {
   state = {
     showInput: false,
     newName: '',
-    parentID: ''
+    parentID: this.props.project.parent_id
   };
-
-  componentWillMount() {
-    this.setState({ parentID: this.props.project.parent_id });
-  }
 
   renameLink: any;
 
@@ -91,13 +87,14 @@ class ProjectItem extends React.Component<Props, State> {
 
   render() {
     const { project, onDelete } = this.props;
-    const { showInput } = this.state;
-    const hideTaskName = this.state.showInput ? 'none' : '';
-    const editClassName = this.state.showInput ? 'projects__item--edit' : '';
+    const { showInput, parentID } = this.state;
+    const hideTaskName = showInput ? 'none' : '';
+    const editClassName = showInput ? 'projects__item--edit' : '';
+    const parentClassName = parentID === '' ? 'project__item--parent' : '';
     return (
       <li
         style={{ marginLeft: `${this.props.padding}px` }}
-        className={`projects__item ${editClassName}`.trim()}
+        className={`projects__item ${editClassName} ${parentClassName}`.trim()}
       >
         <Link
           className="projects__item-title"

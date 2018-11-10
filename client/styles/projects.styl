@@ -18,7 +18,11 @@
   display grid
   margin-bottom 8px
   grid-template-columns 1fr 1fr 1fr
-  border 1px solid #ededed
+  height 34px
+
+.project__item--parent
+  box-shadow 0 2px 6px 0 hsla(0,0%,0%,0.2);
+  background #f1f0f0;
 
 .projects--topbuttons
   display flex
@@ -84,6 +88,12 @@
 
 .project__motivation a:hover
   color #A3BAC2
+
+.projects__list .buttons-group
+  display none
+
+.projects__item:hover .buttons-group
+  display block
 
 @media (max-width: 960px) and (max-device-width: 960px)
   .project__description

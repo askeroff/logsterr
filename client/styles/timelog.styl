@@ -1,36 +1,37 @@
 .timelogs
   margin 0
   padding 0
+  width 100%
+  border-collapse collapse
 
 .timelogs__item
-  @extends .projects__item
-  border none
+  border-top 1px solid #f1f1f1
+
+.timelogs__item td
+  padding 20px 0
+  padding-left 5px
 
 .timelogs__title
-  margin-bottom 10px
-  margin-top 10px
-  background #eee
-  padding 5px
-  text-align center
-  list-style none
+  text-align left
+  background #f1f1f1
+  padding 15px 0
+  padding-left 5px
+  text-transform uppercase 
+  color #4A4A4A
+  font-weight 600
+
+.timelogs__deletecell
+  visibility hidden
+
+.timelogs__item:hover .timelogs__deletecell
+  visibility visible
+
+.timelogs__item:hover
+  background #fcf8f8
+  cursor pointer
 
 .timelogs__item-delete
   border 0
   border-radius 3px
   margin-left 5px
 
-.timelogs__item-time
-  justify-self end
-
-.timelogs__item-task
-  justify-self center
-
-@media (max-width: 960px) and (max-device-width: 960px)
-  .timelogs__item
-    grid-template-columns 1fr
-
-  .timelogs__item-task
-    justify-self unset
-
-  .timelogs__item-time
-    justify-self unset

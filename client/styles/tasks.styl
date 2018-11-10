@@ -8,7 +8,9 @@
 
 .tasks__list-item, .tasks__list-item--done
   @extends .projects__item
-
+  height auto
+  border-bottom 1px solid #ededed
+  
 .tasks__list-item--done
   grid-template-columns 1fr 1fr
 
@@ -42,6 +44,12 @@
 .tasks__list-item--done .tasks__list-name
   grid-column 1
 
+
+.tasks__list-item .buttons-group
+  display none 
+  
+.tasks__list-item:hover .buttons-group
+  display block
 
 @media (max-width: 960px) and (max-device-width: 960px)
   .tasks__list-item, .tasks__list-item--done

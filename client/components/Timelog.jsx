@@ -8,14 +8,8 @@ import Pagination from './layout/Pagination';
 import TimelogItem from './TimelogItem';
 import NotLoggedIn from './NotLoggedIn';
 import { getLogs, clearLogs, deleteLog } from '../actions/timelog';
-import { formatDate } from '../helpers';
 
 class Timelog extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleLogDelete = this.handleLogDelete.bind(this);
-  }
-
   componentDidMount() {
     this.props.clearLogsList();
     this.props.handleGetLogs(this.props.match.params.page);
@@ -27,7 +21,7 @@ class Timelog extends React.Component {
     }
   }
 
-  handleLogDelete(id) {
+  handleLogDelete = id => {
     swal({
       title: 'Are you sure?',
       text: 'Once deleted, the data will be gone',
@@ -39,7 +33,7 @@ class Timelog extends React.Component {
         this.props.handleDelete(id);
       }
     });
-  }
+  };
 
   render() {
     let logs = null;
@@ -50,19 +44,11 @@ class Timelog extends React.Component {
     }
 
     if (this.props.timelogs && this.props.timelogs.data) {
-      let showDate = false;
-      let date;
       logs = this.props.timelogs.data.map(item => {
         const project = item.projectdata[0]
           ? item.projectdata[0].name
           : 'Not found';
-        const taskName = item.taskdata[0] ? item.taskdata[0].name : item.name;
-        if (formatDate(item.started) !== formatDate(date)) {
-          date = item.started;
-          showDate = true;
-        } else {
-          showDate = false;
-        }
+        const taskName = item.taskdata[0] ? item.taskdata[0].name : 'Not Found';
         return (
           <TimelogItem
             key={item._id}
@@ -71,7 +57,6 @@ class Timelog extends React.Component {
             seconds={item.seconds}
             started={item.started}
             project={project}
-            showDate={showDate}
             handleDelete={this.handleLogDelete}
           />
         );
@@ -88,7 +73,18 @@ class Timelog extends React.Component {
       <Layout>
         <h1 className="page-title">History of your logged time</h1>
         {!this.props.timelogs.data ? <Spinner /> : null}
-        <ul className="timelogs">{logs}</ul>
+        <table className="timelogs">
+          <tbody>
+            <tr>
+              <th className="timelogs__title">Project</th>
+              <th className="timelogs__title">Task</th>
+              <th className="timelogs__title">Time</th>
+              <th className="timelogs__title">Date</th>
+              <th className="timelogs__title">&nbsp;</th>
+            </tr>
+            {logs}
+          </tbody>
+        </table>
         {pagination}
       </Layout>
     );

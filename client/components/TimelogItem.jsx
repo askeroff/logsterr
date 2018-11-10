@@ -1,60 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDate, formatTime } from '../helpers';
+import { formatTime, formatDate } from '../helpers';
 
-const Title = props => {
-  if (props.show) {
-    return <li className="timelogs__title">{formatDate(props.title)}</li>;
-  }
-  return null;
-};
-
-const TimelogItem = props => [
-  <Title
-    show={props.showDate}
-    title={props.started}
-    key={`title-${props.id}`}
-  />,
-  <li key={`item-${props.id}`} className="timelogs__item">
-    <div className="timelogs__item-project">
-      <strong>Project:</strong> <em>{props.project} </em>
-    </div>
-    <div className="timelogs__item-task">
-      <strong>Task:</strong> <em>{props.name}</em>
-    </div>
-    <div className="timelogs__item-time">
-      <span className="timelogs__item-span">
-        <strong>Time:</strong> <em>{formatTime(props.seconds)}</em>
-      </span>
+const TimelogItem = props => (
+  <tr key={`item-${props.id}`} className="timelogs__item">
+    <td>{props.project}</td>
+    <td>{props.name}</td>
+    <td>{formatTime(props.seconds)}</td>
+    <td>{props.started && formatDate(props.started) || ''}</td>
+    <td className="timelogs__deletecell">
       <button
         onClick={() => props.handleDelete(props.id)}
         className="timelogs__item-delete button--danger"
       >
         X
       </button>
-    </div>
-  </li>,
-];
+    </td>
+  </tr>
+);
 
 TimelogItem.defaultProps = {
   started: '',
   name: '',
   seconds: 0,
-  showDate: false,
+  showDate: false
 };
 
 TimelogItem.propTypes = {
   started: PropTypes.string,
   name: PropTypes.string,
-  project: PropTypes.string,
+  // project: PropTypes.string,
   seconds: PropTypes.number,
-  showDate: PropTypes.bool,
-  id: PropTypes.string.isRequired,
-};
-
-Title.propTypes = {
-  title: PropTypes.string.isRequired,
-  show: PropTypes.bool.isRequired,
+  // showDate: PropTypes.bool,
+  id: PropTypes.string.isRequired
 };
 
 export default TimelogItem;

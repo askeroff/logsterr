@@ -28,18 +28,7 @@ const expectedResult = [
             project: '5ad3b1be1c06a61a302fe853',
             author: '59bc1b5c5ee11d1964a214ec',
             started: '2018-10-30T13:31:16.484Z',
-            seconds: 1263,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bdb5899807d285c7ca08795',
-            name: 'Task Code Course',
-            task: '5bc39e4a8a75cf182c0baf04',
-            project: '5ad3b1be1c06a61a302fe853',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-11-01T19:48:41.909Z',
-            seconds: 1617,
+            seconds: 2880,
             done: true,
             __v: 0
           }
@@ -83,73 +72,7 @@ const expectedResult = [
             project: '5bd6bfb2c3b4bc53203c3098',
             author: '59bc1b5c5ee11d1964a214ec',
             started: '2018-10-29T08:25:03.118Z',
-            seconds: 1046,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd6c7d3c3b4bc53203c309b',
-            name: 'Task Code',
-            task: '5bd6bfc5c3b4bc53203c3099',
-            project: '5bd6bfb2c3b4bc53203c3098',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-29T08:41:55.481Z',
-            seconds: 673,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd6d014c3b4bc53203c309c',
-            name: 'Task Code',
-            task: '5bd6bfc5c3b4bc53203c3099',
-            project: '5bd6bfb2c3b4bc53203c3098',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-29T09:17:08.793Z',
-            seconds: 1570,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd6e651c3b4bc53203c309d',
-            name: 'Task Code',
-            task: '5bd6bfc5c3b4bc53203c3099',
-            project: '5bd6bfb2c3b4bc53203c3098',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-29T10:52:01.791Z',
-            seconds: 492,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd722c3c3b4bc53203c309e',
-            name: 'Task Code',
-            task: '5bd6bfc5c3b4bc53203c3099',
-            project: '5bd6bfb2c3b4bc53203c3098',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-29T15:09:55.808Z',
-            seconds: 732,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd72a2fc3b4bc53203c309f',
-            name: 'Task Code',
-            task: '5bd6bfc5c3b4bc53203c3099',
-            project: '5bd6bfb2c3b4bc53203c3098',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-29T15:41:35.888Z',
-            seconds: 1022,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd83a7a6396aa9724b815c8',
-            name: 'Task Code',
-            task: '5bd6bfc5c3b4bc53203c3099',
-            project: '5bd6bfb2c3b4bc53203c3098',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-30T11:03:22.433Z',
-            seconds: 1200,
+            seconds: 6735,
             done: true,
             __v: 0
           }
@@ -300,73 +223,7 @@ const expectedResult = [
             project: '5b4f757a68806c43b4277be0',
             author: '59bc1b5c5ee11d1964a214ec',
             started: '2018-10-29T16:36:23.844Z',
-            seconds: 1282,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd7466ac3b4bc53203c30a1',
-            name: 'Task Song',
-            task: '5bb8b5c5c253781b683f311d',
-            project: '5b4f757a68806c43b4277be0',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-29T17:42:02.854Z',
-            seconds: 1036,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd863f36396aa9724b815cb',
-            name: 'Task Song',
-            task: '5bb8b5c5c253781b683f311d',
-            project: '5b4f757a68806c43b4277be0',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-30T14:00:19.681Z',
-            seconds: 1463,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd99d50af4c051aa430c861',
-            name: 'Task Song',
-            task: '5bb8b5c5c253781b683f311d',
-            project: '5b4f757a68806c43b4277be0',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-31T12:17:20.598Z',
-            seconds: 664,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bd9a155634fd02054655d42',
-            name: 'Task Song',
-            task: '5bb8b5c5c253781b683f311d',
-            project: '5b4f757a68806c43b4277be0',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-10-31T12:34:29.945Z',
-            seconds: 584,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bdaf71a634fd02054655d4a',
-            name: 'Task Song',
-            task: '5bb8b5c5c253781b683f311d',
-            project: '5b4f757a68806c43b4277be0',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-11-01T12:52:42.752Z',
-            seconds: 1483,
-            done: true,
-            __v: 0
-          },
-          {
-            _id: '5bdb161e634fd02054655d4b',
-            name: 'Task Song',
-            task: '5bb8b5c5c253781b683f311d',
-            project: '5b4f757a68806c43b4277be0',
-            author: '59bc1b5c5ee11d1964a214ec',
-            started: '2018-11-01T15:05:02.636Z',
-            seconds: 568,
+            seconds: 7080,
             done: true,
             __v: 0
           }

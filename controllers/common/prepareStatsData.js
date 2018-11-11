@@ -61,15 +61,36 @@ function putTimeLog(projects, timelog) {
   recursive(projects, timelog);
 }
 
+function filterByProperty(arr, prop) {
+  const f = [];
+  return arr.filter(
+    obj =>
+      f.indexOf(obj[prop].toString()) === -1 && f.push(obj[prop].toString())
+  );
+}
+
 function prepareStatsData(timelogs, projects) {
   if (!projects || !timelogs) {
     throw new Error('need 2 arguments, arrays for Project Schema and Timelog');
   }
+
+  const myLogs = filterByProperty(timelogs, 'task').map(timelog => {
+    const result = { ...timelog };
+    const seconds = timelogs.reduce((accum, value) => {
+      if (timelog.task.toString() === value.task.toString()) {
+        return accum + value.seconds;
+      }
+      return accum + 0;
+    }, 0);
+    result.seconds = seconds;
+    return result;
+  });
+
   const builtProjects = buildProjects(
     projects.map(project => ({ ...project }))
   );
 
-  timelogs.forEach(timelog => {
+  myLogs.forEach(timelog => {
     putTimeLog(builtProjects, timelog);
   });
   return builtProjects;

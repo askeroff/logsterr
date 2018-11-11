@@ -9,7 +9,6 @@ import AddForm from './AddForm';
 import { IUser, IProject } from '../../types';
 
 type State = {
-  userLoaded: boolean,
   parentID: string,
   showForm: boolean,
   formInput: string,
@@ -32,7 +31,6 @@ class Index extends React.Component<IndexProps, State> {
   };
 
   state = {
-    userLoaded: false,
     parentID: '',
     showForm: false,
     formInput: '',
@@ -51,13 +49,9 @@ class Index extends React.Component<IndexProps, State> {
     ) {
       this.setState({ spinner: false });
     }
-    if (
-      nextProps.user &&
-      nextProps.user.loggedIn === true &&
-      !this.state.userLoaded
-    ) {
+    const { user } = nextProps;
+    if (user && user.loggedIn) {
       this.props.handleProjects(nextProps.user._id);
-      this.setState({ userLoaded: true });
     }
   }
 
@@ -93,23 +87,20 @@ class Index extends React.Component<IndexProps, State> {
   };
 
   render() {
-    let projects;
     const addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
     const archivedText = this.state.showArchived
       ? 'Hide Archived Projects'
       : 'Show Archived Projects';
-    if (!this.state.userLoaded) {
-      projects = <Spinner />;
-    } else {
-      projects = (
-        <ul className="projects__list">
-          <ProjectsList
-            showArchived={this.state.showArchived}
-            projects={this.props.projects}
-          />
-        </ul>
-      );
-    }
+
+    const projects = (
+      <ul className="projects__list">
+        <ProjectsList
+          showArchived={this.state.showArchived}
+          projects={this.props.projects}
+        />
+      </ul>
+    );
+
     return (
       <Layout>
         <div className="projects">

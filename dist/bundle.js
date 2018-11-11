@@ -74752,7 +74752,6 @@ var Index = function (_React$Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      userLoaded: false,
       parentID: '',
       showForm: false,
       formInput: '',
@@ -74793,9 +74792,10 @@ var Index = function (_React$Component) {
       if (this.state.spinner === true && nextProps.projects.length > this.props.projects.length) {
         this.setState({ spinner: false });
       }
-      if (nextProps.user && nextProps.user.loggedIn === true && !this.state.userLoaded) {
+      var user = nextProps.user;
+
+      if (user && user.loggedIn) {
         this.props.handleProjects(nextProps.user._id);
-        this.setState({ userLoaded: true });
       }
     }
   }, {
@@ -74803,21 +74803,18 @@ var Index = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var projects = void 0;
       var addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
       var archivedText = this.state.showArchived ? 'Hide Archived Projects' : 'Show Archived Projects';
-      if (!this.state.userLoaded) {
-        projects = _react2.default.createElement(_Spinner2.default, null);
-      } else {
-        projects = _react2.default.createElement(
-          'ul',
-          { className: 'projects__list' },
-          _react2.default.createElement(_ProjectsList2.default, {
-            showArchived: this.state.showArchived,
-            projects: this.props.projects
-          })
-        );
-      }
+
+      var projects = _react2.default.createElement(
+        'ul',
+        { className: 'projects__list' },
+        _react2.default.createElement(_ProjectsList2.default, {
+          showArchived: this.state.showArchived,
+          projects: this.props.projects
+        })
+      );
+
       return _react2.default.createElement(
         _Layout2.default,
         null,

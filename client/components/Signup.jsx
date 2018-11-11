@@ -63,7 +63,7 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Layout>
+      <Layout showToGuests>
         <h1 className="page-title">Signup Page</h1>
         <SignupForm
           myClassName="form__signup"

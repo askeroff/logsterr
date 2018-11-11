@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { getProjects, addProject, clearProjects } from '../../actions/projects';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
-import NotLoggedIn from '../NotLoggedIn';
 import ProjectsList from './ProjectsList';
 import AddForm from './AddForm';
 import { IUser, IProject } from '../../types';
@@ -99,9 +98,6 @@ class Index extends React.Component<IndexProps, State> {
     const archivedText = this.state.showArchived
       ? 'Hide Archived Projects'
       : 'Show Archived Projects';
-    if (this.props.user && this.props.user.loggedIn === false) {
-      return <NotLoggedIn />;
-    }
     if (!this.state.userLoaded) {
       projects = <Spinner />;
     } else {

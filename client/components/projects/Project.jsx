@@ -12,7 +12,6 @@ import {
 import { getTasks, newTask, clearTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
-import NotLoggedIn from '../NotLoggedIn';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
 import AddForm from './AddForm';
@@ -174,10 +173,6 @@ class Project extends React.Component<ProjectProps, State> {
     const { dashboardData, match } = this.props;
     const projectId = match.params.id;
 
-    if (this.props.user && this.props.user.loggedIn === false) {
-      return <NotLoggedIn />;
-    }
-
     if (!this.state.projectsLoaded) {
       return (
         <Layout>
@@ -249,7 +244,8 @@ class Project extends React.Component<ProjectProps, State> {
             <div className="motivation-paragraph">
               <p>
                 You can checkout tasks you already done{' '}
-                <Link to={`${this.props.location.pathname}/archive`}>here</Link>.
+                <Link to={`${this.props.location.pathname}/archive`}>here</Link>
+                .
               </p>
               <MotivationBlock
                 dashboardData={dashboardData}

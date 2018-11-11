@@ -8,10 +8,12 @@ import Spinner from './Spinner';
 import ShowLostTime from './ShowLostTime';
 import ShowMessages from './ShowMessages';
 import { IUser } from '../../types';
+import NotLoggedIn from '../NotLoggedIn';
 
 type Props = {
   children: any[],
   user: IUser,
+  showToGuests: boolean,
   getUserData: () => void
 };
 
@@ -19,6 +21,13 @@ class Layout extends React.Component<Props> {
   componentDidMount() {
     this.props.getUserData();
   }
+
+  getContent = () => {
+    if (this.props.user && this.props.user.loggedIn || this.props.showToGuests) {
+      return this.props.children;
+    }
+    return <NotLoggedIn />;
+  };
 
   render() {
     if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
@@ -32,7 +41,7 @@ class Layout extends React.Component<Props> {
             <ShowLostTime />
             <ShowMessages />
           </div>
-          {this.props.children}
+          {this.getContent()}
         </div>
         <Footer />
       </div>

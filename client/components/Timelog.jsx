@@ -6,7 +6,6 @@ import Layout from './layout/Layout';
 import Spinner from './layout/Spinner';
 import Pagination from './layout/Pagination';
 import TimelogItem from './TimelogItem';
-import NotLoggedIn from './NotLoggedIn';
 import { getLogs, clearLogs, deleteLog } from '../actions/timelog';
 
 class Timelog extends React.Component {
@@ -38,10 +37,6 @@ class Timelog extends React.Component {
   render() {
     let logs = null;
     let pagination = null;
-
-    if (this.props.timelogs && this.props.timelogs.authenticated === false) {
-      return <NotLoggedIn />;
-    }
 
     if (this.props.timelogs && this.props.timelogs.data) {
       logs = this.props.timelogs.data.map(item => {

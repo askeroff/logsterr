@@ -57,7 +57,7 @@ class Reset extends React.Component {
 
   render() {
     return (
-      <Layout>
+      <Layout showToGuests>
         <h1 className="page-title">Reset Password</h1>
         {this.state.message === '' ? (
           <ResetForm

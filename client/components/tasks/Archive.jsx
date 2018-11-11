@@ -6,7 +6,6 @@ import { getProjects } from '../../actions/projects';
 import { getTasks, clearTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
-import NotLoggedIn from '../NotLoggedIn';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
 import { IMatch, IProject, ITask, IUser } from '../../types';
@@ -100,12 +99,10 @@ class Archive extends React.Component<Props, State> {
   };
 
   render() {
-    const { match, user, tasks } = this.props;
+    const { match, tasks } = this.props;
     const { currentProject } = this.state;
     const name = (currentProject && currentProject.name) || '...';
-    if (user && user.loggedIn === false) {
-      return <NotLoggedIn />;
-    }
+
     if (!this.state.projectsLoaded) {
       return (
         <Layout>

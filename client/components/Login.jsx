@@ -90,7 +90,7 @@ class Login extends React.Component<Props, State> {
 
   render() {
     return (
-      <Layout>
+      <Layout showToGuests>
         <h1 className="page-title">Login Page</h1>
         <LoginForm
           myClassName="form__login"

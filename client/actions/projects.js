@@ -7,7 +7,8 @@ import {
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   ADD_MESSAGE,
-  TOGGLE_PROJECT_DONE
+  TOGGLE_PROJECT_DONE,
+  FETCH_PROJECTS
 } from '../actions/actionTypes';
 
 export function addProjectSuccess(project) {
@@ -98,6 +99,13 @@ export function addTimeToProject(id, time) {
         }
       })
       .catch(() => dispatch(projectError(error)));
+}
+
+export function fetchProjects() {
+  return {
+    type: FETCH_PROJECTS,
+    response: true
+  };
 }
 
 export function getProjectsSuccess(response) {

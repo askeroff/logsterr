@@ -1,7 +1,12 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
-import { getProjects, addProject, clearProjects } from '../../actions/projects';
+import {
+  getProjects,
+  addProject,
+  clearProjects,
+  fetchProjects
+} from '../../actions/projects';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
 import ProjectsList from './ProjectsList';
@@ -12,7 +17,6 @@ type State = {
   parentID: string,
   showForm: boolean,
   formInput: string,
-  spinner: boolean,
   showArchived: boolean
 };
 
@@ -21,7 +25,7 @@ type IndexProps = {
   handleAdding: (name: string, id: string) => void,
   clearProjectsList: () => void,
   user: IUser,
-  projects: IProject[]
+  projects: { list: IProject[], isFetching: boolean }
 };
 
 class Index extends React.Component<IndexProps, State> {
@@ -34,30 +38,47 @@ class Index extends React.Component<IndexProps, State> {
     parentID: '',
     showForm: false,
     formInput: '',
-    spinner: false,
     showArchived: false
   };
 
   componentDidMount() {
     this.props.clearProjectsList();
+    this.props.handleProjects(this.props.user._id);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.state.spinner === true &&
-      nextProps.projects.length > this.props.projects.length
-    ) {
-      this.setState({ spinner: false });
-    }
-    const { user } = nextProps;
-    if (user && user.loggedIn) {
-      this.props.handleProjects(nextProps.user._id);
-    }
-  }
+  getAddFormProps = () => ({
+    inputValue: this.state.formInput,
+    handleInput: this.handleFormInput,
+    className: 'form form__newproject',
+    clickHandler: e => {
+      e.preventDefault();
+      this.addProject(this.state.formInput, this.state.parentID);
+    },
+    changeSelect: e => {
+      this.selectParent(e);
+    },
+    parentID: this.state.parentID,
+    projects: this.props.projects.list,
+    labelName: 'Name Of Your New Project'
+  });
+
+  selectParent = (event: SyntheticEvent<HTMLSelectElement>) => {
+    this.setState({
+      parentID: event.currentTarget.value
+    });
+  };
 
   showAddForm = () => {
     this.setState({
       showForm: !this.state.showForm
+    });
+  };
+
+  addProject = (name, id) => {
+    this.props.handleAdding(name, id);
+    this.setState({
+      showForm: false,
+      formInput: ''
     });
   };
 
@@ -71,21 +92,6 @@ class Index extends React.Component<IndexProps, State> {
     this.setState({ formInput: event.currentTarget.value });
   };
 
-  addProject = (name, id) => {
-    this.props.handleAdding(name, id);
-    this.setState({
-      showForm: false,
-      spinner: true,
-      formInput: ''
-    });
-  };
-
-  selectParent = (event: SyntheticEvent<HTMLSelectElement>) => {
-    this.setState({
-      parentID: event.currentTarget.value
-    });
-  };
-
   render() {
     const addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
     const archivedText = this.state.showArchived
@@ -96,7 +102,7 @@ class Index extends React.Component<IndexProps, State> {
       <ul className="projects__list">
         <ProjectsList
           showArchived={this.state.showArchived}
-          projects={this.props.projects}
+          projects={this.props.projects.list}
         />
       </ul>
     );
@@ -113,24 +119,8 @@ class Index extends React.Component<IndexProps, State> {
               {archivedText}
             </button>
           </div>
-          {this.state.showForm ? (
-            <AddForm
-              inputValue={this.state.formInput}
-              handleInput={this.handleFormInput}
-              className="form form__newproject"
-              clickHandler={e => {
-                e.preventDefault();
-                this.addProject(this.state.formInput, this.state.parentID);
-              }}
-              changeSelect={e => {
-                this.selectParent(e);
-              }}
-              parentID={this.state.parentID}
-              projects={this.props.projects}
-              labelName="Name Of Your New Project"
-            />
-          ) : null}
-          {this.state.spinner ? <Spinner /> : null}
+          {this.state.showForm ? <AddForm {...this.getAddFormProps()} /> : null}
+          {this.props.projects.isFetching ? <Spinner /> : null}
           {projects}
         </div>
       </Layout>
@@ -140,7 +130,7 @@ class Index extends React.Component<IndexProps, State> {
 
 Index.defaultProps = {
   user: {},
-  projects: []
+  projects: {}
 };
 
 const mapStateToProps = state => ({
@@ -150,6 +140,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   handleProjects(authorID) {
+    dispatch(fetchProjects());
     dispatch(getProjects(authorID));
   },
   handleAdding(name, id) {

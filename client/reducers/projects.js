@@ -6,59 +6,66 @@ import {
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   TOGGLE_PROJECT_DONE,
+  FETCH_PROJECTS,
   SUBTRACT_TASK_TIME
 } from '../actions/actionTypes';
 
-export function projects(state = [], action) {
+export function projects(state = {}, action) {
   switch (action.type) {
+    case FETCH_PROJECTS:
+      return { ...state, isFetching: action.response };
     case ADD_PROJECT: {
-      return [...state, action.project];
+      return { ...state, list: [...state, action.project] };
     }
     case ADD_TIME_TO_PROJECT: {
-      const projectList = state.map(item => {
+      const list = state.list.map(item => {
         const newItem = Object.assign({}, item);
         if (newItem._id === action.id) {
           newItem.timeSpent += action.time;
         }
         return newItem;
       });
-      return projectList;
+      return { ...state, list };
     }
     case SUBTRACT_TASK_TIME: {
-      const projectsList = state.map(item => {
+      const list = state.list.list.map(item => {
         if (item._id === action.id && action.deleteTime === true) {
           item.timeSpent -= action.timeSpent; // eslint-disable-line no-param-reassign
         }
         return item;
       });
-      return projectsList;
+      return { ...state, list };
     }
     case RENAME_PROJECT: {
-      const projectsList = state.map(item => {
+      const list = state.list.map(item => {
         if (item._id === action.project.id) {
           item.name = action.project.name; // eslint-disable-line no-param-reassign
           item.parent_id = action.project.parentID; // eslint-disable-line no-param-reassign
         }
         return item;
       });
-      return projectsList;
+      return { ...state, list };
     }
     case TOGGLE_PROJECT_DONE: {
-      const projectsList = state.map(item => {
+      const list = state.list.map(item => {
         if (item._id === action.id) {
           item.done = action.done; // eslint-disable-line no-param-reassign
         }
         return item;
       });
-      return projectsList;
+      return { ...state, list };
     }
     case GET_PROJECTS:
-      return action.response.data.projectsList;
+      return {
+        ...state,
+        list: action.response.data.projectsList,
+        isFetching: false
+      };
     case CLEAR_PROJECTS:
       return action.response;
     case DELETE_PROJECT: {
-      const projectsList = state.filter(item => item._id !== action.id);
-      return projectsList;
+      const list = state.list.filter(item => item._id !== action.id);
+      return { ...state, list };
     }
     default:
       return state;

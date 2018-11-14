@@ -139,6 +139,7 @@ class Task extends React.Component<TaskProps, TaskState> {
     const inputProps = Object.assign({}, this.props, {
       editName,
       categoryID,
+      projects: this.props.projects.list,
       changeSelect: this.changeSelect,
       handleNameInput: this.handleNameInput,
       handleEnterButton: this.handleEnterButton

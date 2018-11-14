@@ -269,7 +269,7 @@ class Project extends React.Component<ProjectProps, State> {
 }
 
 const mapStateToProps = state => ({
-  projects: state.projects,
+  projects: state.projects.list,
   user: state.user,
   tasks: state.tasks,
   dashboardData: state.dashboard,

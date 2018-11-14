@@ -5605,6 +5605,7 @@ var ADD_MESSAGE = exports.ADD_MESSAGE = 'ADD_MESSAGE';
 var REMOVE_MESSAGE = exports.REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 
 var FETCH_DASHBOARD = exports.FETCH_DASHBOARD = 'FETCH_DASHBOARD';
+var FETCH_PROJECTS = exports.FETCH_PROJECTS = 'FETCH_PROJECTS';
 
 /***/ }),
 /* 19 */
@@ -7048,6 +7049,7 @@ exports.renameProjectSuccess = renameProjectSuccess;
 exports.renameProject = renameProject;
 exports.addTimeToProjectSuccess = addTimeToProjectSuccess;
 exports.addTimeToProject = addTimeToProject;
+exports.fetchProjects = fetchProjects;
 exports.getProjectsSuccess = getProjectsSuccess;
 exports.getProjects = getProjects;
 exports.clearProjects = clearProjects;
@@ -7151,6 +7153,13 @@ function addTimeToProject(id, time) {
     }).catch(function () {
       return dispatch(projectError(error));
     });
+  };
+}
+
+function fetchProjects() {
+  return {
+    type: _actionTypes.FETCH_PROJECTS,
+    response: true
   };
 }
 
@@ -59659,6 +59668,9 @@ exports.default = user;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.projects = projects;
 
 var _actionTypes = __webpack_require__(18);
@@ -59666,66 +59678,71 @@ var _actionTypes = __webpack_require__(18);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function projects() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
 
   switch (action.type) {
+    case _actionTypes.FETCH_PROJECTS:
+      return _extends({}, state, { isFetching: action.response });
     case _actionTypes.ADD_PROJECT:
       {
-        return [].concat(_toConsumableArray(state), [action.project]);
+        return _extends({}, state, { list: [].concat(_toConsumableArray(state), [action.project]) });
       }
     case _actionTypes.ADD_TIME_TO_PROJECT:
       {
-        var projectList = state.map(function (item) {
+        var list = state.list.map(function (item) {
           var newItem = Object.assign({}, item);
           if (newItem._id === action.id) {
             newItem.timeSpent += action.time;
           }
           return newItem;
         });
-        return projectList;
+        return _extends({}, state, { list: list });
       }
     case _actionTypes.SUBTRACT_TASK_TIME:
       {
-        var projectsList = state.map(function (item) {
+        var _list = state.list.list.map(function (item) {
           if (item._id === action.id && action.deleteTime === true) {
             item.timeSpent -= action.timeSpent; // eslint-disable-line no-param-reassign
           }
           return item;
         });
-        return projectsList;
+        return _extends({}, state, { list: _list });
       }
     case _actionTypes.RENAME_PROJECT:
       {
-        var _projectsList = state.map(function (item) {
+        var _list2 = state.list.map(function (item) {
           if (item._id === action.project.id) {
             item.name = action.project.name; // eslint-disable-line no-param-reassign
             item.parent_id = action.project.parentID; // eslint-disable-line no-param-reassign
           }
           return item;
         });
-        return _projectsList;
+        return _extends({}, state, { list: _list2 });
       }
     case _actionTypes.TOGGLE_PROJECT_DONE:
       {
-        var _projectsList2 = state.map(function (item) {
+        var _list3 = state.list.map(function (item) {
           if (item._id === action.id) {
             item.done = action.done; // eslint-disable-line no-param-reassign
           }
           return item;
         });
-        return _projectsList2;
+        return _extends({}, state, { list: _list3 });
       }
     case _actionTypes.GET_PROJECTS:
-      return action.response.data.projectsList;
+      return _extends({}, state, {
+        list: action.response.data.projectsList,
+        isFetching: false
+      });
     case _actionTypes.CLEAR_PROJECTS:
       return action.response;
     case _actionTypes.DELETE_PROJECT:
       {
-        var _projectsList3 = state.filter(function (item) {
+        var _list4 = state.list.filter(function (item) {
           return item._id !== action.id;
         });
-        return _projectsList3;
+        return _extends({}, state, { list: _list4 });
       }
     default:
       return state;
@@ -74755,11 +74772,36 @@ var Index = function (_React$Component) {
       parentID: '',
       showForm: false,
       formInput: '',
-      spinner: false,
       showArchived: false
+    }, _this.getAddFormProps = function () {
+      return {
+        inputValue: _this.state.formInput,
+        handleInput: _this.handleFormInput,
+        className: 'form form__newproject',
+        clickHandler: function clickHandler(e) {
+          e.preventDefault();
+          _this.addProject(_this.state.formInput, _this.state.parentID);
+        },
+        changeSelect: function changeSelect(e) {
+          _this.selectParent(e);
+        },
+        parentID: _this.state.parentID,
+        projects: _this.props.projects.list,
+        labelName: 'Name Of Your New Project'
+      };
+    }, _this.selectParent = function (event) {
+      _this.setState({
+        parentID: event.currentTarget.value
+      });
     }, _this.showAddForm = function () {
       _this.setState({
         showForm: !_this.state.showForm
+      });
+    }, _this.addProject = function (name, id) {
+      _this.props.handleAdding(name, id);
+      _this.setState({
+        showForm: false,
+        formInput: ''
       });
     }, _this.toggleArchived = function () {
       _this.setState({
@@ -74767,17 +74809,6 @@ var Index = function (_React$Component) {
       });
     }, _this.handleFormInput = function (event) {
       _this.setState({ formInput: event.currentTarget.value });
-    }, _this.addProject = function (name, id) {
-      _this.props.handleAdding(name, id);
-      _this.setState({
-        showForm: false,
-        spinner: true,
-        formInput: ''
-      });
-    }, _this.selectParent = function (event) {
-      _this.setState({
-        parentID: event.currentTarget.value
-      });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -74785,24 +74816,11 @@ var Index = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.clearProjectsList();
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (this.state.spinner === true && nextProps.projects.length > this.props.projects.length) {
-        this.setState({ spinner: false });
-      }
-      var user = nextProps.user;
-
-      if (user && user.loggedIn) {
-        this.props.handleProjects(nextProps.user._id);
-      }
+      this.props.handleProjects(this.props.user._id);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
       var archivedText = this.state.showArchived ? 'Hide Archived Projects' : 'Show Archived Projects';
 
@@ -74811,7 +74829,7 @@ var Index = function (_React$Component) {
         { className: 'projects__list' },
         _react2.default.createElement(_ProjectsList2.default, {
           showArchived: this.state.showArchived,
-          projects: this.props.projects
+          projects: this.props.projects.list
         })
       );
 
@@ -74840,22 +74858,8 @@ var Index = function (_React$Component) {
               archivedText
             )
           ),
-          this.state.showForm ? _react2.default.createElement(_AddForm2.default, {
-            inputValue: this.state.formInput,
-            handleInput: this.handleFormInput,
-            className: 'form form__newproject',
-            clickHandler: function clickHandler(e) {
-              e.preventDefault();
-              _this2.addProject(_this2.state.formInput, _this2.state.parentID);
-            },
-            changeSelect: function changeSelect(e) {
-              _this2.selectParent(e);
-            },
-            parentID: this.state.parentID,
-            projects: this.props.projects,
-            labelName: 'Name Of Your New Project'
-          }) : null,
-          this.state.spinner ? _react2.default.createElement(_Spinner2.default, null) : null,
+          this.state.showForm ? _react2.default.createElement(_AddForm2.default, this.getAddFormProps()) : null,
+          this.props.projects.isFetching ? _react2.default.createElement(_Spinner2.default, null) : null,
           projects
         )
       );
@@ -74873,7 +74877,7 @@ Index.defaultProps = {
 
 Index.defaultProps = {
   user: {},
-  projects: []
+  projects: {}
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -74886,6 +74890,7 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     handleProjects: function handleProjects(authorID) {
+      dispatch((0, _projects.fetchProjects)());
       dispatch((0, _projects.getProjects)(authorID));
     },
     handleAdding: function handleAdding(name, id) {
@@ -75568,7 +75573,7 @@ Project.defaultProps = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    projects: state.projects,
+    projects: state.projects.list,
     user: state.user,
     tasks: state.tasks,
     dashboardData: state.dashboard,
@@ -75773,6 +75778,7 @@ var Task = function (_React$Component) {
       var inputProps = Object.assign({}, _this.props, {
         editName: editName,
         categoryID: categoryID,
+        projects: _this.props.projects.list,
         changeSelect: _this.changeSelect,
         handleNameInput: _this.handleNameInput,
         handleEnterButton: _this.handleEnterButton
@@ -76664,7 +76670,7 @@ Archive.defaultProps = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    projects: state.projects,
+    projects: state.projects.list,
     user: state.user,
     tasks: state.tasks
   };

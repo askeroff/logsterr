@@ -15,7 +15,7 @@ export function projects(state = {}, action) {
     case FETCH_PROJECTS:
       return { ...state, isFetching: action.response };
     case ADD_PROJECT: {
-      return { ...state, list: [...state, action.project] };
+      return { ...state, list: [...state.list, action.project] };
     }
     case ADD_TIME_TO_PROJECT: {
       const list = state.list.map(item => {
@@ -28,7 +28,7 @@ export function projects(state = {}, action) {
       return { ...state, list };
     }
     case SUBTRACT_TASK_TIME: {
-      const list = state.list.list.map(item => {
+      const list = state.list.map(item => {
         if (item._id === action.id && action.deleteTime === true) {
           item.timeSpent -= action.timeSpent; // eslint-disable-line no-param-reassign
         }

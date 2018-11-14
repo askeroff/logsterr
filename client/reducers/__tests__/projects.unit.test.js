@@ -88,8 +88,8 @@ describe('Projects Reducer', () => {
   test('Get projects list', () => {
     const response = { data: {} };
     response.data.projectsList = projectsList;
-    const result = projects([], { type: GET_PROJECTS, response });
-    expect(result).toEqual(projectsList);
+    const result = projects({}, { type: GET_PROJECTS, response });
+    expect(result).toEqual({ list: projectsList, isFetching: false });
   });
 
   test('Add a project', () => {
@@ -104,8 +104,8 @@ describe('Projects Reducer', () => {
         timeSpent: 0
       }
     };
-    const result = projects(projectsList, action);
-    expect(result).toEqual([...projectsList, action.project]);
+    const result = projects({ list: projectsList }, action);
+    expect(result).toEqual({ list: [...projectsList, action.project] });
   });
 
   test('Delete a project', () => {
@@ -113,8 +113,8 @@ describe('Projects Reducer', () => {
       type: DELETE_PROJECT,
       id: '5ad79de1e1d0a410c4f2834e'
     };
-    const result = projects(projectsList, action);
-    expect(result.length).toBe(projectsList.length - 1);
+    const result = projects({ list: projectsList }, action);
+    expect(result.list.length).toBe(projectsList.length - 1);
   });
 
   test('Rename a project', () => {
@@ -125,8 +125,8 @@ describe('Projects Reducer', () => {
         name: 'Renamed French'
       }
     };
-    const result = projects(projectsList, action);
-    const find = result.find(item => item._id === action.project.id);
+    const result = projects({ list: projectsList }, action);
+    const find = result.list.find(item => item._id === action.project.id);
     expect(find.name).toBe('Renamed French');
   });
 
@@ -136,8 +136,8 @@ describe('Projects Reducer', () => {
       id: '5a281df108567500ade59253',
       time: 3600
     };
-    const result = projects(projectsList, action);
-    const find = result.find(item => item._id === action.id);
+    const result = projects({ list: projectsList }, action);
+    const find = result.list.find(item => item._id === action.id);
     expect(find.timeSpent).toBe(278480);
   });
 
@@ -148,8 +148,8 @@ describe('Projects Reducer', () => {
       timeSpent: 3600,
       deleteTime: true
     };
-    const result = projects(projectsList, action);
-    const find = result.find(item => item._id === action.id);
+    const result = projects({ list: projectsList }, action);
+    const find = result.list.find(item => item._id === action.id);
     expect(find.timeSpent).toBe(271280);
   });
 
@@ -159,8 +159,8 @@ describe('Projects Reducer', () => {
       id: '5ad79de1e1d0a410c4f2834e',
       done: true
     };
-    const result = projects(projectsList, action);
-    const find = result.find(item => item._id === action.id);
+    const result = projects({ list: projectsList }, action);
+    const find = result.list.find(item => item._id === action.id);
     expect(find.done).toBe(true);
 
     const action2 = {
@@ -168,8 +168,8 @@ describe('Projects Reducer', () => {
       id: '5ad79de1e1d0a410c4f2834e',
       done: false
     };
-    const result2 = projects(projectsList, action2);
-    const find2 = result2.find(item => item._id === action.id);
+    const result2 = projects({ list: projectsList }, action2);
+    const find2 = result2.list.find(item => item._id === action.id);
     expect(find2.done).toBe(false);
   });
 });

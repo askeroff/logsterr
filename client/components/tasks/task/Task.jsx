@@ -19,7 +19,7 @@ type TaskProps = {
   updated?: string,
   projectId: string,
   timeSpent: number,
-  projects: IProject[],
+  projects: { list: IProject[] },
   optionsValues: boolean[],
   handleChangeOptions: (arr: boolean[]) => void,
   handleAddingTimeLog?: (data: ITimeLogData, seconds: number) => void
@@ -136,14 +136,15 @@ class Task extends React.Component<TaskProps, TaskState> {
 
   shouldShowInput = (): ?React$Element<any> => {
     const { editName, categoryID } = this.state;
-    const inputProps = Object.assign({}, this.props, {
+    const inputProps = {
       editName,
       categoryID,
+      id: this.props.id,
       projects: this.props.projects.list,
       changeSelect: this.changeSelect,
       handleNameInput: this.handleNameInput,
       handleEnterButton: this.handleEnterButton
-    });
+    };
     if (this.state.showInput) {
       return <Input {...inputProps} />;
     }

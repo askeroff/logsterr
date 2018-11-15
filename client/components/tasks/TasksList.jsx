@@ -13,7 +13,7 @@ type TasksListProps = {
   tasks: ITask[],
   handleDeleting: (id: string) => void,
   projectId: string,
-  projects: IProject[],
+  projects: { list: IProject[] },
   filter: boolean,
   handleEditing: (params: IRenameTask) => void,
   handleDone: (id: string) => void,
@@ -123,4 +123,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TasksList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TasksList);

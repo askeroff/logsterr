@@ -24,7 +24,6 @@ type ProjectProps = {
   match: IMatch,
   projects: IProject[],
   dashboardData: {},
-  // tasks: { list: ITask[] },
   user: IUser,
   location: { pathname: string },
   handleProjects: (userID: string) => void,
@@ -45,7 +44,6 @@ type State = {
   showForm: boolean,
   timeForm: boolean,
   notFound: boolean,
-  spinner: boolean,
   newTaskInput: string,
   initialTime: number
 };
@@ -66,7 +64,6 @@ class Project extends React.Component<ProjectProps, State> {
     timeForm: false,
     newTaskInput: '',
     notFound: false,
-    spinner: false,
     initialTime: 0
   };
 

@@ -75339,7 +75339,6 @@ var Project = function (_React$Component) {
       timeForm: false,
       newTaskInput: '',
       notFound: false,
-      spinner: false,
       initialTime: 0
     }, _this.onUpdateProjects = function () {
       if (_this.props.projects.length !== 0 && !_this.state.projectsLoaded) {

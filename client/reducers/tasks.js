@@ -5,24 +5,30 @@ import {
   DELETE_TASK,
   EDIT_TASK,
   TOGGLE_DONE,
+  FETCH_TASKS,
   ADD_TIMELOG
 } from '../actions/actionTypes';
 
-export function tasks(state = [], action) {
+export function tasks(state = {}, action) {
   switch (action.type) {
+    case FETCH_TASKS:
+      return { ...state, isFetching: action.response };
     case GET_TASKS:
-      return action.response;
+      return { ...state, list: action.response, isFetching: false };
     case CLEAR_TASKS:
-      return action.response;
+      return { ...state, list: action.response };
     case NEW_TASK: {
-      return [...state, action.task];
+      return { ...state, list: [...state.list, action.task] };
     }
     case DELETE_TASK: {
-      return state.filter(item => item._id !== action.id);
+      return {
+        ...state,
+        list: state.list.filter(item => item._id !== action.id)
+      };
     }
     case EDIT_TASK: {
       let sameProject = false;
-      const tasksList = state.map(item => {
+      const tasksList = state.list.map(item => {
         if (item._id === action.id) {
           item.name = action.name; // eslint-disable-line no-param-reassign
           if (item.project !== action.newProject) {
@@ -34,27 +40,32 @@ export function tasks(state = [], action) {
         return item;
       });
       if (sameProject) {
-        return tasksList;
+        return { ...state, list: tasksList };
       }
-      return tasksList.filter(item => item.project !== action.newProject);
+      return {
+        ...state,
+        list: tasksList.filter(item => item.project !== action.newProject)
+      };
     }
     case TOGGLE_DONE: {
-      const tasksList = state.map(item => {
-        if (item._id === action.id) {
-          item.done = action.done; // eslint-disable-line no-param-reassign
-        }
-        return item;
-      });
-      return tasksList;
+      const tasksList = state.list
+        .map(item => {
+          if (item._id === action.id) {
+            return undefined;
+          }
+          return item;
+        })
+        .filter(item => item !== undefined);
+      return { ...state, list: tasksList };
     }
     case ADD_TIMELOG: {
-      const tasksList = state.map(item => {
+      const tasksList = state.list.map(item => {
         if (item._id === action.data.task._id) {
           item.timeSpent += action.seconds; // eslint-disable-line no-param-reassign
         }
         return item;
       });
-      return tasksList;
+      return { ...state, list: tasksList };
     }
     default:
       return state;

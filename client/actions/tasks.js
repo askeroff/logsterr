@@ -8,6 +8,7 @@ import {
   EDIT_TASK,
   TOGGLE_DONE,
   ADD_MESSAGE,
+  FETCH_TASKS,
   SUBTRACT_TASK_TIME
 } from '../actions/actionTypes';
 import { IRenameTask } from '../types';
@@ -30,7 +31,14 @@ export function taskError(response: {
   };
 }
 
-export function getTasks(id: string) {
+export function fetchTasks() {
+  return {
+    type: FETCH_TASKS,
+    response: true
+  };
+}
+
+export function getTasks(id: string, done: boolean) {
   const error = {
     message: 'Something went wrong. Could not load the tasks. Try reloading.',
     name: 'tasks-get-error',
@@ -38,7 +46,7 @@ export function getTasks(id: string) {
   };
   return (dispatch: any) =>
     axios
-      .get(`/projects/${id}/getTasks`)
+      .get(`/projects/${id}/getTasks?done=${done}`)
       .then(res => {
         if (res.data.tasksList) {
           dispatch(getTasksSuccess(res.data.tasksList));

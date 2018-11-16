@@ -23,7 +23,10 @@ class Layout extends React.Component<Props> {
   }
 
   getContent = () => {
-    if (this.props.user && this.props.user.loggedIn || this.props.showToGuests) {
+    if (
+      (this.props.user && this.props.user.loggedIn) ||
+      this.props.showToGuests
+    ) {
       return this.props.children;
     }
     return <NotLoggedIn />;

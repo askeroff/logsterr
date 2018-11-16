@@ -3,17 +3,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProjects } from '../../actions/projects';
-import { getTasks, clearTasks } from '../../actions/tasks';
+import { getTasks, clearTasks, fetchTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
-import { IMatch, IProject, ITask, IUser } from '../../types';
+import { IMatch, IProject, IUser } from '../../types';
 
 type Props = {
   match: IMatch,
   projects: IProject[],
-  tasks: ITask[],
+  // tasks: { list: ITask[] },
   user: IUser,
   handleProjects: (userID: string) => void,
   handleTasks: (projectID: string) => void,
@@ -35,35 +35,25 @@ class Archive extends React.Component<Props, State> {
     user: {}
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentProject: undefined,
-      userLoaded: false,
-      projectsLoaded: false,
-      tasksLoaded: false,
-      notFound: false
-    };
-  }
+  state = {
+    currentProject: undefined,
+    userLoaded: false,
+    projectsLoaded: false,
+    tasksLoaded: false,
+    notFound: false
+  };
 
   componentDidMount() {
     this.props.clearTasksList();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.user &&
-      nextProps.user.loggedIn === true &&
-      !this.state.userLoaded
-    ) {
-      this.props.handleProjects(nextProps.user._id);
-      this.setState({ userLoaded: true });
-    }
-  }
-
   componentDidUpdate() {
     this.onUpdateProjects();
     this.onUpdateTasks();
+    if (this.props.user.loggedIn && !this.state.userLoaded) {
+      this.props.handleProjects(this.props.user._id);
+      this.setState({ userLoaded: true });
+    }
   }
 
   onUpdateProjects = () => {
@@ -99,7 +89,7 @@ class Archive extends React.Component<Props, State> {
   };
 
   render() {
-    const { match, tasks } = this.props;
+    const { match } = this.props;
     const { currentProject } = this.state;
     const name = (currentProject && currentProject.name) || '...';
 
@@ -120,9 +110,14 @@ class Archive extends React.Component<Props, State> {
           <p>Archive of your finished tasks! </p>
           <Link to={`/projects/${match.params.id}`}>
             Go back to the project
-          </Link>.
+          </Link>
+          .
         </div>
-        <TasksList filter projectId={match.params.id} tasks={tasks} />
+        {this.props.tasks.isFetching ? (
+          <Spinner />
+        ) : (
+          <TasksList projectId={this.props.match.params.id} />
+        )}
       </Layout>
     );
   }
@@ -139,11 +134,15 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getProjects(authorID));
   },
   handleTasks(projectId) {
-    dispatch(getTasks(projectId));
+    dispatch(fetchTasks());
+    dispatch(getTasks(projectId, true));
   },
   clearTasksList() {
     dispatch(clearTasks());
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Archive);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Archive);

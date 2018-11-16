@@ -155,8 +155,8 @@ describe('Tests Reducers', () => {
       type: GET_TASKS,
       response: tasksList
     };
-    const result = tasks([], action);
-    expect(result).toEqual(tasksList);
+    const result = tasks({ list: [] }, action);
+    expect(result).toEqual({ list: tasksList, isFetching: false });
   });
 
   test('New Task', () => {
@@ -173,9 +173,9 @@ describe('Tests Reducers', () => {
         done: false
       }
     };
-    const result = tasks(tasksList, action);
+    const result = tasks({ list: tasksList }, action);
     const newArray = [...tasksList, action.task];
-    expect(result).toEqual(newArray);
+    expect(result).toEqual({ list: newArray });
   });
 
   test('Delete Task', () => {
@@ -183,9 +183,9 @@ describe('Tests Reducers', () => {
       type: DELETE_TASK,
       id: '5a303c1f2388b30f1c175dba'
     };
-    const result = tasks(tasksList, action);
+    const result = tasks({ list: tasksList }, action);
     const shouldBe = [...tasksList].filter(item => item._id !== action.id);
-    expect(result).toEqual(shouldBe);
+    expect(result).toEqual({ list: shouldBe });
   });
 
   test('Toggle Done', () => {
@@ -194,18 +194,8 @@ describe('Tests Reducers', () => {
       id: '5a303c1f2388b30f1c175dba',
       done: true
     };
-    const result = tasks(tasksList, action);
-    const find = result.find(item => item._id === action.id);
-    expect(find.done).toBe(true);
-
-    const action2 = {
-      type: TOGGLE_DONE,
-      id: '5a303c1f2388b30f1c175dba',
-      done: false
-    };
-
-    const result2 = tasks(tasksList, action2);
-    const find2 = result2.find(item => item._id === action.id);
-    expect(find2.done).toBe(false);
+    const result = tasks({ list: tasksList }, action);
+    const find = result.list.find(item => item._id === action.id);
+    expect(find).toBe(undefined);
   });
 });

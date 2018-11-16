@@ -9,7 +9,7 @@ import {
   clearProjects,
   addTimeToProject
 } from '../../actions/projects';
-import { getTasks, newTask, clearTasks } from '../../actions/tasks';
+import { getTasks, newTask, clearTasks, fetchTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
 import NotFound from '../NotFound';
@@ -18,13 +18,13 @@ import AddForm from './AddForm';
 import MotivationBlock from './MotivationBlock';
 import TimeAddForm from '../tasks/TimeAddForm';
 import { formatTime } from '../../helpers';
-import { ITask, IProject, IUser, IMatch } from '../../types';
+import { IProject, IUser, IMatch } from '../../types';
 
 type ProjectProps = {
   match: IMatch,
   projects: IProject[],
   dashboardData: {},
-  tasks: ITask[],
+  // tasks: { list: ITask[] },
   user: IUser,
   location: { pathname: string },
   handleProjects: (userID: string) => void,
@@ -75,27 +75,14 @@ class Project extends React.Component<ProjectProps, State> {
     this.props.clearTasksList();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.state.spinner === true &&
-      nextProps.tasks.length > this.props.tasks.length
-    ) {
-      this.setState({ spinner: false });
-    }
-    if (
-      nextProps.user &&
-      nextProps.user.loggedIn === true &&
-      !this.state.userLoaded
-    ) {
-      this.props.handleProjects(nextProps.user._id);
-      this.props.handleDashboardData();
-      this.setState({ userLoaded: true });
-    }
-  }
-
   componentDidUpdate() {
     this.onUpdateProjects();
     this.onUpdateTasks();
+    if (this.props.user.loggedIn && !this.state.userLoaded) {
+      this.props.handleProjects(this.props.user._id);
+      this.props.handleDashboardData();
+      this.setState({ userLoaded: true });
+    }
   }
 
   componentWillUnmount() {
@@ -172,7 +159,6 @@ class Project extends React.Component<ProjectProps, State> {
   render() {
     const { dashboardData, match } = this.props;
     const projectId = match.params.id;
-
     if (!this.state.projectsLoaded) {
       return (
         <Layout>
@@ -257,12 +243,11 @@ class Project extends React.Component<ProjectProps, State> {
           </div>
         </div>
 
-        {this.state.spinner ? <Spinner /> : null}
-
-        <TasksList
-          projectId={this.props.match.params.id}
-          tasks={this.props.tasks}
-        />
+        {this.props.tasks.isFetching ? (
+          <Spinner />
+        ) : (
+          <TasksList projectId={this.props.match.params.id} />
+        )}
       </Layout>
     );
   }
@@ -281,7 +266,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getProjects(authorID));
   },
   handleTasks(projectId) {
-    dispatch(getTasks(projectId));
+    dispatch(fetchTasks());
+    dispatch(getTasks(projectId, false));
   },
   handleNewTask(task) {
     dispatch(newTask(task));

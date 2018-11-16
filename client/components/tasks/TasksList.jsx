@@ -5,23 +5,20 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { deleteTask, renameTask, toggleDone } from '../../actions/tasks';
 import { addTimelog } from '../../actions/timelog';
-import Spinner from '../layout/Spinner';
 import Task from './task/Task';
 import { ITask, IProject, IRenameTask, ITimeLogData } from '../../types';
 
 type TasksListProps = {
-  tasks: ITask[],
+  tasks: { list: ITask[] },
   handleDeleting: (id: string) => void,
   projectId: string,
   projects: { list: IProject[] },
-  filter: boolean,
   handleEditing: (params: IRenameTask) => void,
   handleDone: (id: string) => void,
   handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void
 };
 
 type TasksListState = {
-  spinner: boolean,
   optionsValues: boolean[]
 };
 
@@ -32,15 +29,8 @@ class TasksList extends React.Component<TasksListProps, TasksListState> {
   };
 
   state = {
-    spinner: true,
     optionsValues: [true, false]
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps) {
-      this.setState({ spinner: false });
-    }
-  }
 
   handleChangeOptions = arr => {
     this.setState({
@@ -87,19 +77,8 @@ class TasksList extends React.Component<TasksListProps, TasksListState> {
   }
 
   render() {
-    const doneItems = this.props.tasks.filter(task => task.done);
-    const undoneItems = this.props.tasks.filter(task => !task.done);
-    let result = null;
-
-    result = <ul className="tasks__list">{this.mapItems(undoneItems)}</ul>;
-
-    if (this.props.filter) {
-      result = (
-        <ul className="tasks__list--done">{this.mapItems(doneItems)}</ul>
-      );
-    }
-
-    return this.state.spinner ? <Spinner /> : result;
+    const tasks = this.props.tasks.list;
+    return <ul className="tasks__list">{this.mapItems(tasks)}</ul>;
   }
 }
 

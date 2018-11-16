@@ -9,8 +9,11 @@ exports.newTask = async (req, res) => {
 };
 
 exports.getTasks = async (req, res) => {
+  const done = req.query.done === 'true';
+  console.log(done);
   const tasksList = await Task.find({
     project: req.params.id,
+    done,
     deleted: false
   });
   res.json({ tasksList });

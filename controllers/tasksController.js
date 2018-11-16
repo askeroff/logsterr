@@ -10,12 +10,19 @@ exports.newTask = async (req, res) => {
 
 exports.getTasks = async (req, res) => {
   const done = req.query.done === 'true';
-  const tasksList = await Task.find({
+  const projectPromise = Project.findById(req.params.id);
+  const list = Task.find({
     project: req.params.id,
     done,
     deleted: false
   });
-  res.json({ tasksList });
+
+  try {
+    const [project, tasksList] = await Promise.all([projectPromise, list]);
+    return res.json({ tasksList, project });
+  } catch (err) {
+    return res.json({ tasksList: [], project: false });
+  }
 };
 
 exports.deleteTask = (req, res) => {

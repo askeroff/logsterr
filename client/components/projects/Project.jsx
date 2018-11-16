@@ -4,11 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getMotivationData } from '../../actions/dashboard';
 import { clearLogs } from '../../actions/timelog';
-import {
-  getProjects,
-  clearProjects,
-  addTimeToProject
-} from '../../actions/projects';
+import { addTimeToProject } from '../../actions/projects';
 import { getTasks, newTask, clearTasks, fetchTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
@@ -18,31 +14,23 @@ import AddForm from './AddForm';
 import MotivationBlock from './MotivationBlock';
 import TimeAddForm from '../tasks/TimeAddForm';
 import { formatTime } from '../../helpers';
-import { IProject, IMatch } from '../../types';
+import { IMatch } from '../../types';
 
 type ProjectProps = {
   match: IMatch,
-  projects: IProject[],
   dashboardData: {},
   location: { pathname: string },
-  handleProjects: () => void,
   handleAddingTimeToProject: (projectID: string, time: number) => void,
   handleDashboardData: () => void,
   handleTasks: (projectID: string) => void,
   handleNewTask: (data: { name: string, project: string }) => void,
-  clearProjectsList: () => void,
   clearTasksList: () => void,
   clearSecondsLog: () => void
 };
 
 type State = {
-  projectIndex?: number,
-  userLoaded: boolean,
-  projectsLoaded: boolean,
-  tasksLoaded: boolean,
   showForm: boolean,
   timeForm: boolean,
-  notFound: boolean,
   newTaskInput: string,
   initialTime: number
 };
@@ -55,66 +43,21 @@ class Project extends React.Component<ProjectProps, State> {
     dashboardData: {}
   };
   state = {
-    projectIndex: undefined,
-    userLoaded: false,
-    projectsLoaded: false,
-    tasksLoaded: false,
     showForm: false,
     timeForm: false,
     newTaskInput: '',
-    notFound: false,
     initialTime: 0
   };
 
   componentDidMount() {
-    this.props.clearProjectsList();
     this.props.clearTasksList();
-    this.props.handleProjects();
     this.props.handleDashboardData();
-  }
-
-  componentDidUpdate() {
-    this.onUpdateProjects();
-    this.onUpdateTasks();
+    this.props.handleTasks(this.props.match.params.id);
   }
 
   componentWillUnmount() {
     this.props.clearSecondsLog();
   }
-
-  onUpdateProjects = () => {
-    if (this.props.projects.length !== 0 && !this.state.projectsLoaded) {
-      this.props.projects.forEach((item, index) => {
-        if (item._id === this.props.match.params.id) {
-          this.setState({
-            projectsLoaded: true,
-            projectIndex: index,
-            initialTime: item.timeSpent
-          });
-        }
-        return item;
-      });
-      this.setState({ projectsLoaded: true });
-    }
-  };
-
-  onUpdateTasks = () => {
-    if (
-      this.state.projectsLoaded &&
-      this.state.projectIndex === undefined &&
-      this.state.notFound === false
-    ) {
-      this.setState({ notFound: true });
-    }
-    if (
-      this.state.projectsLoaded &&
-      this.state.projectIndex !== undefined &&
-      !this.state.tasksLoaded
-    ) {
-      this.props.handleTasks(this.props.match.params.id);
-      this.setState({ tasksLoaded: true });
-    }
-  };
 
   showAddForm = () => {
     this.setState({
@@ -149,26 +92,22 @@ class Project extends React.Component<ProjectProps, State> {
   };
 
   render() {
-    const { dashboardData, match } = this.props;
-    const projectId = match.params.id;
-    if (!this.state.projectsLoaded) {
+    const { dashboardData, tasks } = this.props;
+    if (this.props.tasks.isFetching || this.props.tasks.project === undefined) {
       return (
         <Layout>
           <Spinner />
         </Layout>
       );
     }
-    if (this.state.notFound) {
+    if (this.props.tasks.project === false) {
       return <NotFound />;
     }
-    const { projectIndex, showForm, newTaskInput } = this.state;
+    const { showForm, newTaskInput } = this.state;
     const addLinkText = showForm ? 'Hide The Form' : 'New Task';
-    const { projects } = this.props;
-    const projectTime =
-      projectIndex !== undefined ? projects[projectIndex].timeSpent : 0;
+    const projectTime = tasks.project.timeSpent;
 
-    const title =
-      projectIndex !== undefined ? projects[projectIndex].name : '...';
+    const title = tasks.project.name;
 
     return (
       <Layout>
@@ -198,7 +137,7 @@ class Project extends React.Component<ProjectProps, State> {
                 addProjectTime={this.props.handleAddingTimeToProject}
                 from="project"
                 formToggle={this.formToggle}
-                project={projectId}
+                project={tasks.project._id}
               />
             ) : null}
 
@@ -227,26 +166,20 @@ class Project extends React.Component<ProjectProps, State> {
               </p>
               <MotivationBlock
                 dashboardData={dashboardData}
-                projectId={projectId}
+                projectId={tasks.project._id}
                 initialTime={this.state.initialTime}
                 time={projectTime}
               />
             </div>
           </div>
         </div>
-
-        {this.props.tasks.isFetching ? (
-          <Spinner />
-        ) : (
-          <TasksList projectId={this.props.match.params.id} />
-        )}
+        <TasksList projectId={this.props.match.params.id} />
       </Layout>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  projects: state.projects.list,
   user: state.user,
   tasks: state.tasks,
   dashboardData: state.dashboard,
@@ -254,9 +187,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleProjects() {
-    dispatch(getProjects());
-  },
   handleTasks(projectId) {
     dispatch(fetchTasks());
     dispatch(getTasks(projectId, false));
@@ -269,9 +199,6 @@ const mapDispatchToProps = dispatch => ({
   },
   handleAddingTimeToProject(id, time) {
     dispatch(addTimeToProject(id, time));
-  },
-  clearProjectsList() {
-    dispatch(clearProjects());
   },
   clearTasksList() {
     dispatch(clearTasks());

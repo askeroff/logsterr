@@ -9,12 +9,17 @@ import {
   ADD_TIMELOG
 } from '../actions/actionTypes';
 
-export function tasks(state = {}, action) {
+export function tasks(state = { list: [], project: undefined }, action) {
   switch (action.type) {
     case FETCH_TASKS:
       return { ...state, isFetching: action.response };
     case GET_TASKS:
-      return { ...state, list: action.response, isFetching: false };
+      return {
+        ...state,
+        list: action.response.list,
+        project: action.response.project,
+        isFetching: false
+      };
     case CLEAR_TASKS:
       return { ...state, list: action.response };
     case NEW_TASK: {

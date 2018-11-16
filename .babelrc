@@ -13,6 +13,7 @@
   "plugins": [
     "transform-class-properties",
     "transform-react-display-name",
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    "transform-runtime"
   ]
 }

@@ -49,7 +49,12 @@ export function getTasks(id: string, done: boolean) {
       .get(`/projects/${id}/getTasks?done=${done}`)
       .then(res => {
         if (res.data.tasksList) {
-          dispatch(getTasksSuccess(res.data.tasksList));
+          dispatch(
+            getTasksSuccess({
+              list: res.data.tasksList,
+              project: res.data.project
+            })
+          );
         } else {
           dispatch(taskError(error));
         }

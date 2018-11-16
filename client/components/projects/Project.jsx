@@ -18,13 +18,12 @@ import AddForm from './AddForm';
 import MotivationBlock from './MotivationBlock';
 import TimeAddForm from '../tasks/TimeAddForm';
 import { formatTime } from '../../helpers';
-import { IProject, IUser, IMatch } from '../../types';
+import { IProject, IMatch } from '../../types';
 
 type ProjectProps = {
   match: IMatch,
   projects: IProject[],
   dashboardData: {},
-  user: IUser,
   location: { pathname: string },
   handleProjects: () => void,
   handleAddingTimeToProject: (projectID: string, time: number) => void,
@@ -70,16 +69,13 @@ class Project extends React.Component<ProjectProps, State> {
   componentDidMount() {
     this.props.clearProjectsList();
     this.props.clearTasksList();
+    this.props.handleProjects();
+    this.props.handleDashboardData();
   }
 
   componentDidUpdate() {
     this.onUpdateProjects();
     this.onUpdateTasks();
-    if (this.props.user.loggedIn && !this.state.userLoaded) {
-      this.props.handleProjects();
-      this.props.handleDashboardData();
-      this.setState({ userLoaded: true });
-    }
   }
 
   componentWillUnmount() {

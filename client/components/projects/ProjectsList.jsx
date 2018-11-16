@@ -8,7 +8,6 @@ import {
   toggleDone
 } from '../../actions/projects';
 import ProjectItem from './ProjectItem';
-import Spinner from '../layout/Spinner';
 import { IProject } from '../../types';
 
 type Props = {
@@ -77,8 +76,7 @@ class ProjectsList extends React.Component<Props, State> {
 
   render() {
     this.projects = [];
-    const listItems = this.printProjects();
-    return this.state.spinner ? <Spinner /> : listItems;
+    return this.printProjects();
   }
 }
 

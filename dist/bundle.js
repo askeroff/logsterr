@@ -74924,10 +74924,6 @@ var _ProjectItem = __webpack_require__(555);
 
 var _ProjectItem2 = _interopRequireDefault(_ProjectItem);
 
-var _Spinner = __webpack_require__(13);
-
-var _Spinner2 = _interopRequireDefault(_Spinner);
-
 var _types = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -75003,8 +74999,7 @@ var ProjectsList = function (_React$Component) {
     key: 'render',
     value: function render() {
       this.projects = [];
-      var listItems = this.printProjects();
-      return this.state.spinner ? _react2.default.createElement(_Spinner2.default, null) : listItems;
+      return this.printProjects();
     }
   }]);
 
@@ -75394,17 +75389,14 @@ var Project = function (_React$Component) {
     value: function componentDidMount() {
       this.props.clearProjectsList();
       this.props.clearTasksList();
+      this.props.handleProjects();
+      this.props.handleDashboardData();
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       this.onUpdateProjects();
       this.onUpdateTasks();
-      if (this.props.user.loggedIn && !this.state.userLoaded) {
-        this.props.handleProjects();
-        this.props.handleDashboardData();
-        this.setState({ userLoaded: true });
-      }
     }
   }, {
     key: 'componentWillUnmount',

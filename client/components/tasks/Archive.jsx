@@ -15,7 +15,7 @@ type Props = {
   projects: IProject[],
   // tasks: { list: ITask[] },
   user: IUser,
-  handleProjects: (userID: string) => void,
+  handleProjects: () => void,
   handleTasks: (projectID: string) => void,
   clearTasksList: () => void
 };
@@ -51,7 +51,7 @@ class Archive extends React.Component<Props, State> {
     this.onUpdateProjects();
     this.onUpdateTasks();
     if (this.props.user.loggedIn && !this.state.userLoaded) {
-      this.props.handleProjects(this.props.user._id);
+      this.props.handleProjects();
       this.setState({ userLoaded: true });
     }
   }
@@ -130,8 +130,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleProjects(authorID) {
-    dispatch(getProjects(authorID));
+  handleProjects() {
+    dispatch(getProjects());
   },
   handleTasks(projectId) {
     dispatch(fetchTasks());

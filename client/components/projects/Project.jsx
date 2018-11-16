@@ -26,7 +26,7 @@ type ProjectProps = {
   dashboardData: {},
   user: IUser,
   location: { pathname: string },
-  handleProjects: (userID: string) => void,
+  handleProjects: () => void,
   handleAddingTimeToProject: (projectID: string, time: number) => void,
   handleDashboardData: () => void,
   handleTasks: (projectID: string) => void,
@@ -76,7 +76,7 @@ class Project extends React.Component<ProjectProps, State> {
     this.onUpdateProjects();
     this.onUpdateTasks();
     if (this.props.user.loggedIn && !this.state.userLoaded) {
-      this.props.handleProjects(this.props.user._id);
+      this.props.handleProjects();
       this.props.handleDashboardData();
       this.setState({ userLoaded: true });
     }
@@ -142,7 +142,6 @@ class Project extends React.Component<ProjectProps, State> {
     this.props.handleNewTask({ name: task.name, project: task.project });
     this.setState({
       showForm: false,
-      spinner: true,
       newTaskInput: ''
     });
   };
@@ -259,8 +258,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleProjects(authorID) {
-    dispatch(getProjects(authorID));
+  handleProjects() {
+    dispatch(getProjects());
   },
   handleTasks(projectId) {
     dispatch(fetchTasks());

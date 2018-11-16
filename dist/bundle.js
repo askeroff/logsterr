@@ -7171,14 +7171,14 @@ function getProjectsSuccess(response) {
   };
 }
 
-function getProjects(authorID) {
+function getProjects() {
   var error = {
     message: 'Something went wrong. Could not fetch the projects. Try reloading the page.',
     name: 'project-getList-error',
     type: 'error'
   };
   return function (dispatch) {
-    return _axios2.default.get('/projects/getProjects', authorID).then(function (res) {
+    return _axios2.default.get('/projects/getProjects').then(function (res) {
       if (res.data.projectsList) {
         dispatch(getProjectsSuccess(res));
       } else {
@@ -74807,7 +74807,7 @@ var Index = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.clearProjectsList();
-      this.props.handleProjects(this.props.user._id);
+      this.props.handleProjects();
     }
   }, {
     key: 'render',
@@ -74880,9 +74880,9 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    handleProjects: function handleProjects(authorID) {
+    handleProjects: function handleProjects() {
       dispatch((0, _projects.fetchProjects)());
-      dispatch((0, _projects.getProjects)(authorID));
+      dispatch((0, _projects.getProjects)());
     },
     handleAdding: function handleAdding(name, id) {
       dispatch((0, _projects.addProject)(name, id));
@@ -75378,7 +75378,6 @@ var Project = function (_React$Component) {
       _this.props.handleNewTask({ name: task.name, project: task.project });
       _this.setState({
         showForm: false,
-        spinner: true,
         newTaskInput: ''
       });
     }, _this.formToggle = function () {
@@ -75402,7 +75401,7 @@ var Project = function (_React$Component) {
       this.onUpdateProjects();
       this.onUpdateTasks();
       if (this.props.user.loggedIn && !this.state.userLoaded) {
-        this.props.handleProjects(this.props.user._id);
+        this.props.handleProjects();
         this.props.handleDashboardData();
         this.setState({ userLoaded: true });
       }
@@ -75561,8 +75560,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    handleProjects: function handleProjects(authorID) {
-      dispatch((0, _projects.getProjects)(authorID));
+    handleProjects: function handleProjects() {
+      dispatch((0, _projects.getProjects)());
     },
     handleTasks: function handleTasks(projectId) {
       dispatch((0, _tasks.fetchTasks)());
@@ -76583,7 +76582,7 @@ var Archive = function (_React$Component) {
       this.onUpdateProjects();
       this.onUpdateTasks();
       if (this.props.user.loggedIn && !this.state.userLoaded) {
-        this.props.handleProjects(this.props.user._id);
+        this.props.handleProjects();
         this.setState({ userLoaded: true });
       }
     }
@@ -76653,8 +76652,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    handleProjects: function handleProjects(authorID) {
-      dispatch((0, _projects.getProjects)(authorID));
+    handleProjects: function handleProjects() {
+      dispatch((0, _projects.getProjects)());
     },
     handleTasks: function handleTasks(projectId) {
       dispatch((0, _tasks.fetchTasks)());

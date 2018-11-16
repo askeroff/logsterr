@@ -115,7 +115,7 @@ export function getProjectsSuccess(response) {
   };
 }
 
-export function getProjects(authorID) {
+export function getProjects() {
   const error = {
     message:
       'Something went wrong. Could not fetch the projects. Try reloading the page.',
@@ -124,7 +124,7 @@ export function getProjects(authorID) {
   };
   return dispatch =>
     axios
-      .get('/projects/getProjects', authorID)
+      .get('/projects/getProjects')
       .then(res => {
         if (res.data.projectsList) {
           dispatch(getProjectsSuccess(res));

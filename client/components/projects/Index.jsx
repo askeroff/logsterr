@@ -21,7 +21,7 @@ type State = {
 };
 
 type IndexProps = {
-  handleProjects: (authorID: string) => void,
+  handleProjects: () => void,
   handleAdding: (name: string, id: string) => void,
   clearProjectsList: () => void,
   user: IUser,
@@ -43,7 +43,7 @@ class Index extends React.Component<IndexProps, State> {
 
   componentDidMount() {
     this.props.clearProjectsList();
-    this.props.handleProjects(this.props.user._id);
+    this.props.handleProjects();
   }
 
   getAddFormProps = () => ({
@@ -139,9 +139,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleProjects(authorID) {
+  handleProjects() {
     dispatch(fetchProjects());
-    dispatch(getProjects(authorID));
+    dispatch(getProjects());
   },
   handleAdding(name, id) {
     dispatch(addProject(name, id));

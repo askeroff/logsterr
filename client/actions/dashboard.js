@@ -62,10 +62,10 @@ export function getMotivationError(response) {
   };
 }
 
-export function getMotivationData() {
+export function getMotivationData(id) {
   return dispatch =>
     axios
-      .get('/dashboard/getmotivation')
+      .get(`/dashboard/getmotivation?project=${id}`)
       .then(res => {
         if (res.data.dataSent) {
           dispatch(getMotivationSuccess(res.data));

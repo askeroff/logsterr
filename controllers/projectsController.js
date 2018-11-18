@@ -92,12 +92,11 @@ exports.update = async (req, res) => {
   });
 };
 
-exports.addTime = (req, res) => {
-  Project.findById(req.body.id, (err, data) => {
-    data.timeSpent += req.body.time; // eslint-disable-line no-param-reassign
-    data.save();
-    res.json({ timeAdded: true });
-  });
+exports.addTime = async (req, res) => {
+  const project = await Project.findById(req.body.id);
+  project.timeSpent += req.body.time; // eslint-disable-line no-param-reassign
+  project.save();
+  res.json({ timeAdded: true });
 };
 
 exports.getProjects = async (req, res) => {

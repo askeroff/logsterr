@@ -10,7 +10,7 @@ import {
   SUBTRACT_TASK_TIME
 } from '../actions/actionTypes';
 
-export function projects(state = {}, action) {
+export function projects(state = { list: [] }, action) {
   switch (action.type) {
     case FETCH_PROJECTS:
       return { ...state, isFetching: action.response };

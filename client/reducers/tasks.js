@@ -17,7 +17,10 @@ export function tasks(state = { list: [], project: undefined }, action) {
       return {
         ...state,
         list: action.response.list,
-        project: action.response.project,
+        project: {
+          ...action.response.project,
+          initialTime: action.response.project.timeSpent
+        },
         isFetching: false
       };
     case CLEAR_TASKS:
@@ -70,7 +73,11 @@ export function tasks(state = { list: [], project: undefined }, action) {
         }
         return item;
       });
-      return { ...state, list: tasksList };
+      const project = {
+        ...state.project,
+        timeSpent: state.project.timeSpent + action.seconds
+      };
+      return { ...state, list: tasksList, project };
     }
     default:
       return state;

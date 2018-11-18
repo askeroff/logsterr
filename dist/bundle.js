@@ -8846,7 +8846,6 @@ function addTimelog(data, seconds) {
     return _axios2.default.post('/projects/timelog', data).then(function (res) {
       if (res.data.success === true) {
         dispatch(addTimelogSuccess(res.data, seconds));
-        dispatch(addTimeProjectSuccess(res.data, seconds));
       } else {
         dispatch(timelogError(error));
       }
@@ -28305,9 +28304,9 @@ function getMotivationError(response) {
   };
 }
 
-function getMotivationData() {
+function getMotivationData(id) {
   return function (dispatch) {
-    return _axios2.default.get('/dashboard/getmotivation').then(function (res) {
+    return _axios2.default.get('/dashboard/getmotivation?project=' + id).then(function (res) {
       if (res.data.dataSent) {
         dispatch(getMotivationSuccess(res.data));
       } else {
@@ -61397,7 +61396,7 @@ var _actionTypes = __webpack_require__(25);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function projects() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { list: [] };
   var action = arguments[1];
 
   switch (action.type) {
@@ -61579,7 +61578,9 @@ function tasks() {
     case _actionTypes.GET_TASKS:
       return (0, _extends3.default)({}, state, {
         list: action.response.list,
-        project: action.response.project,
+        project: (0, _extends3.default)({}, action.response.project, {
+          initialTime: action.response.project.timeSpent
+        }),
         isFetching: false
       });
     case _actionTypes.CLEAR_TASKS:
@@ -61639,7 +61640,10 @@ function tasks() {
           }
           return item;
         });
-        return (0, _extends3.default)({}, state, { list: _tasksList2 });
+        var project = (0, _extends3.default)({}, state.project, {
+          timeSpent: state.project.timeSpent + action.seconds
+        });
+        return (0, _extends3.default)({}, state, { list: _tasksList2, project: project });
       }
     default:
       return state;
@@ -77529,8 +77533,7 @@ var Project = function (_React$Component) {
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Project.__proto__ || (0, _getPrototypeOf2.default)(Project)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       showForm: false,
       timeForm: false,
-      newTaskInput: '',
-      initialTime: 0
+      newTaskInput: ''
     }, _this.showAddForm = function () {
       _this.setState({
         showForm: !_this.state.showForm
@@ -77562,7 +77565,7 @@ var Project = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.clearTasksList();
-      this.props.handleDashboardData();
+      this.props.handleDashboardData(this.props.match.params.id);
       this.props.handleTasks(this.props.match.params.id);
     }
   }, {
@@ -77586,7 +77589,7 @@ var Project = function (_React$Component) {
           _react2.default.createElement(_Spinner2.default, null)
         );
       }
-      if (this.props.tasks.project === false) {
+      if (tasks.project === false) {
         return _react2.default.createElement(_NotFound2.default, null);
       }
       var _state = this.state,
@@ -77635,7 +77638,7 @@ var Project = function (_React$Component) {
                 {
                   onClick: this.showAddTimeForm,
                   className: 'button--submit',
-                  title: 'Add Time Specifically To The Project'
+                  title: 'Add Time To The Project'
                 },
                 'Add Time'
               )
@@ -77680,9 +77683,8 @@ var Project = function (_React$Component) {
               ),
               _react2.default.createElement(_MotivationBlock2.default, {
                 dashboardData: dashboardData,
-                projectId: tasks.project._id,
-                initialTime: this.state.initialTime,
-                time: projectTime
+                initialTime: tasks.project.initialTime,
+                time: tasks.project.timeSpent
               })
             )
           )
@@ -77720,8 +77722,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     handleNewTask: function handleNewTask(task) {
       dispatch((0, _tasks.newTask)(task));
     },
-    handleDashboardData: function handleDashboardData() {
-      dispatch((0, _dashboard.getMotivationData)());
+    handleDashboardData: function handleDashboardData(id) {
+      dispatch((0, _dashboard.getMotivationData)(id));
     },
     handleAddingTimeToProject: function handleAddingTimeToProject(id, time) {
       dispatch((0, _projects.addTimeToProject)(id, time));
@@ -78493,181 +78495,89 @@ var _helpers = __webpack_require__(32);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// ! TODO make it update real time
 var MotivationBlock = function MotivationBlock(props) {
   var thisWeekString = '';
+  var lastWeekString = '';
+  var diffString = '';
   var time = props.time,
       initialTime = props.initialTime;
 
-  var difference = Number(time) - Number(initialTime);
-  var dashboardData = props.dashboardData,
-      projectId = props.projectId;
+  var initialDifference = Number(time) - Number(initialTime);
+  var dashboardData = props.dashboardData;
 
-  if (dashboardData.lastWeek && dashboardData.lastWeek.length !== 0) {
-    var lastWeek = dashboardData.lastWeek.find(function (item) {
-      return item.id === projectId;
-    });
-    var thisWeek = dashboardData.thisWeek.find(function (item) {
-      return item.id === projectId;
-    });
-    if (thisWeek !== undefined && lastWeek !== undefined) {
-      var diff = lastWeek.time - thisWeek.time - difference;
-      if (diff < 0) {
-        thisWeekString = _react2.default.createElement(
+  if (dashboardData.lastWeek && dashboardData.thisWeek) {
+    var lastWeek = dashboardData.lastWeek,
+        thisWeek = dashboardData.thisWeek;
+
+
+    if (lastWeek && lastWeek.seconds) {
+      lastWeekString = _react2.default.createElement(
+        'p',
+        null,
+        'Last week you did ',
+        _react2.default.createElement(
+          'b',
+          null,
+          (0, _helpers.formatTime)(lastWeek.seconds)
+        ),
+        ' on this project.'
+      );
+    }
+    if (thisWeek && thisWeek.seconds) {
+      var difference = time - initialTime;
+      thisWeekString = _react2.default.createElement(
+        'p',
+        null,
+        'This week you did ',
+        _react2.default.createElement(
+          'b',
+          null,
+          (0, _helpers.formatTime)(thisWeek.seconds + difference)
+        ),
+        '.'
+      );
+    }
+
+    if (lastWeek && lastWeek.seconds && thisWeek && thisWeek.seconds) {
+      var _difference = lastWeek.seconds - initialDifference - thisWeek.seconds;
+      if (_difference > 0) {
+        diffString = _react2.default.createElement(
           'p',
           null,
+          'Do no less this week - ',
           _react2.default.createElement(
-            'span',
+            'b',
             null,
-            'Last week you did ',
-            _react2.default.createElement(
-              'b',
-              null,
-              (0, _helpers.formatTime)(lastWeek.time)
-            ),
-            ' on this project.',
-            ' '
+            (0, _helpers.formatTime)(_difference)
           ),
-          _react2.default.createElement(
-            'span',
-            null,
-            'And this week you did even more! '
-          ),
-          _react2.default.createElement(
-            'span',
-            null,
-            'Exactly,',
-            _react2.default.createElement(
-              'b',
-              null,
-              (0, _helpers.formatTime)(Math.abs(diff))
-            ),
-            ' more.'
-          )
+          ' to do'
         );
       } else {
-        thisWeekString = _react2.default.createElement(
+        diffString = _react2.default.createElement(
           'p',
           null,
+          'You did - ',
           _react2.default.createElement(
-            'span',
+            'b',
             null,
-            'Last week you did ',
-            _react2.default.createElement(
-              'b',
-              null,
-              (0, _helpers.formatTime)(lastWeek.time)
-            ),
-            ' on this project.',
-            ' '
+            (0, _helpers.formatTime)(Math.abs(_difference))
           ),
-          _react2.default.createElement(
-            'span',
-            null,
-            'Focus and do no less this week! '
-          ),
-          _react2.default.createElement(
-            'span',
-            null,
-            _react2.default.createElement(
-              'b',
-              null,
-              (0, _helpers.formatTime)(diff)
-            ),
-            ' left to do.'
-          )
+          ' more than last week!'
         );
       }
     }
-
-    if (thisWeek === undefined && lastWeek !== undefined) {
-      var _diff = lastWeek.time - difference;
-      var newData = _diff > 0 ? _react2.default.createElement(
-        'span',
-        null,
-        _react2.default.createElement(
-          'b',
-          null,
-          (0, _helpers.formatTime)(Math.abs(_diff))
-        ),
-        ' left to do.'
-      ) : _react2.default.createElement(
-        'span',
-        null,
-        _react2.default.createElement(
-          'b',
-          null,
-          ' And you did ',
-          (0, _helpers.formatTime)(Math.abs(_diff))
-        ),
-        ' more than last week!'
-      );
-      thisWeekString = _react2.default.createElement(
-        'p',
-        null,
-        _react2.default.createElement(
-          'span',
-          null,
-          'Last week you did ',
-          _react2.default.createElement(
-            'b',
-            null,
-            (0, _helpers.formatTime)(lastWeek.time)
-          ),
-          ' on this project.',
-          ' '
-        ),
-        _react2.default.createElement(
-          'span',
-          null,
-          'Focus and do no less this week! '
-        ),
-        newData
-      );
-    }
-    if (thisWeek !== undefined && lastWeek === undefined) {
-      var _diff2 = thisWeek.time + difference;
-      thisWeekString = _react2.default.createElement(
-        'p',
-        null,
-        _react2.default.createElement(
-          'span',
-          null,
-          'This week you worked ',
-          _react2.default.createElement(
-            'b',
-            null,
-            (0, _helpers.formatTime)(Math.abs(_diff2))
-          ),
-          ' on this project. Keep on!'
-        )
-      );
-    }
-    if (thisWeek === undefined && lastWeek === undefined) {
-      var _newData = difference !== 0 ? _react2.default.createElement(
-        'span',
-        null,
-        'Here is new data: ',
-        _react2.default.createElement(
-          'b',
-          null,
-          (0, _helpers.formatTime)(difference)
-        ),
-        ' this week on this project!'
-      ) : '';
-      thisWeekString = _react2.default.createElement(
-        'p',
-        null,
-        _react2.default.createElement(
-          'span',
-          null,
-          'Seems you haven`t worken on this project for a while. Care to start now?',
-          ' '
-        ),
-        _newData
-      );
-    }
   }
-  return thisWeekString;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    lastWeekString,
+    ' ',
+    thisWeekString,
+    ' ',
+    diffString
+  );
 };
 
 MotivationBlock.defaultProps = {

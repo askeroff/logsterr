@@ -21,7 +21,7 @@ type ProjectProps = {
   dashboardData: {},
   location: { pathname: string },
   handleAddingTimeToProject: (projectID: string, time: number) => void,
-  handleDashboardData: () => void,
+  handleDashboardData: (projectId: string) => void,
   handleTasks: (projectID: string) => void,
   handleNewTask: (data: { name: string, project: string }) => void,
   clearTasksList: () => void,
@@ -31,8 +31,7 @@ type ProjectProps = {
 type State = {
   showForm: boolean,
   timeForm: boolean,
-  newTaskInput: string,
-  initialTime: number
+  newTaskInput: string
 };
 
 class Project extends React.Component<ProjectProps, State> {
@@ -45,13 +44,12 @@ class Project extends React.Component<ProjectProps, State> {
   state = {
     showForm: false,
     timeForm: false,
-    newTaskInput: '',
-    initialTime: 0
+    newTaskInput: ''
   };
 
   componentDidMount() {
     this.props.clearTasksList();
-    this.props.handleDashboardData();
+    this.props.handleDashboardData(this.props.match.params.id);
     this.props.handleTasks(this.props.match.params.id);
   }
 
@@ -100,7 +98,7 @@ class Project extends React.Component<ProjectProps, State> {
         </Layout>
       );
     }
-    if (this.props.tasks.project === false) {
+    if (tasks.project === false) {
       return <NotFound />;
     }
     const { showForm, newTaskInput } = this.state;
@@ -126,7 +124,7 @@ class Project extends React.Component<ProjectProps, State> {
               <button
                 onClick={this.showAddTimeForm}
                 className="button--submit"
-                title="Add Time Specifically To The Project"
+                title="Add Time To The Project"
               >
                 Add Time
               </button>
@@ -166,9 +164,8 @@ class Project extends React.Component<ProjectProps, State> {
               </p>
               <MotivationBlock
                 dashboardData={dashboardData}
-                projectId={tasks.project._id}
-                initialTime={this.state.initialTime}
-                time={projectTime}
+                initialTime={tasks.project.initialTime}
+                time={tasks.project.timeSpent}
               />
             </div>
           </div>
@@ -194,8 +191,8 @@ const mapDispatchToProps = dispatch => ({
   handleNewTask(task) {
     dispatch(newTask(task));
   },
-  handleDashboardData() {
-    dispatch(getMotivationData());
+  handleDashboardData(id) {
+    dispatch(getMotivationData(id));
   },
   handleAddingTimeToProject(id, time) {
     dispatch(addTimeToProject(id, time));

@@ -1,29 +1,61 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const filterData = require('./common/filterData');
-const formatData = require('./common/formatData');
 const prepareStatsData = require('./common/prepareStatsData');
 
 const Timelog = mongoose.model('Timelog');
 const Project = mongoose.model('Project');
+
+function pickProject(projects, projectId) {
+  let result = null;
+  function recursive(data, id) {
+    data.forEach(item => {
+      if (item._id.toString() === id.toString()) {
+        result = item;
+      } else if (item.children && item.children.length > 0) {
+        recursive(item.children, id);
+      }
+    });
+  }
+  recursive(projects, projectId);
+  return result;
+}
 
 exports.getMotivationData = async (req, res) => {
   /*
    We are subtracting here to have a buffer of extra week,
    because we show data for this month, but also for the last week
   */
-  const setFirstDay = moment()
-    .startOf('month')
-    .subtract({ days: 14 });
-  const setLastDay = moment().endOf('month');
+  const setFirstDay = new Date(
+    moment()
+      .startOf('month')
+      .subtract({ days: 14 })
+      .format('YYYY-MM-DD')
+  );
+  const setLastDay = new Date(
+    moment()
+      .endOf('month')
+      .format('YYYY-MM-DD')
+  );
 
-  const data = await Timelog.find({
-    author: req.user._id,
-    started: {
-      $gte: setFirstDay,
-      $lte: setLastDay
-    }
+  const getTimelogs = await Timelog.getProjects(
+    req.user._id,
+    setFirstDay,
+    setLastDay
+  );
+
+  const data = getTimelogs.map(item => {
+    const newItem = { ...item };
+    const { taskdata } = item;
+    newItem.taskName =
+      (taskdata && taskdata[0] && taskdata[0].name) || 'Task Not found';
+    newItem.done = undefined;
+    newItem.__v = undefined;
+    newItem.taskdata = undefined;
+    newItem.author = undefined;
+    return newItem;
   });
+
   const lastSunday = moment().isoWeekday(0)._d;
   const lastMonday = moment().isoWeekday(-6)._d;
   const thisMonday = moment().isoWeekday(1)._d;
@@ -31,14 +63,21 @@ exports.getMotivationData = async (req, res) => {
 
   const lastWeek = filterData(data, lastMonday, lastSunday);
   const thisWeek = filterData(data, thisMonday, thisSunday);
+  const projects = await Project.find({ author: req.user._id }).lean();
 
-  const formattedLastWeek = formatData(lastWeek);
-  const formattedThisWeek = formatData(thisWeek);
-
+  const formattedLastWeek = prepareStatsData(lastWeek, projects);
+  const formattedThisWeek = prepareStatsData(thisWeek, projects);
+  const formattedLastWeekProject = pickProject(
+    formattedLastWeek,
+    req.query.project
+  );
+  const formattedThisWeekProject = pickProject(
+    formattedThisWeek,
+    req.query.project
+  );
   res.send({
-    lastWeek: formattedLastWeek,
-    thisWeek: formattedThisWeek,
-
+    lastWeek: formattedLastWeekProject,
+    thisWeek: formattedThisWeekProject,
     dataSent: true
   });
 };

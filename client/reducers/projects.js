@@ -1,7 +1,6 @@
 import {
   GET_PROJECTS,
   ADD_PROJECT,
-  ADD_TIME_TO_PROJECT,
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
@@ -16,16 +15,6 @@ export function projects(state = { list: [] }, action) {
       return { ...state, isFetching: action.response };
     case ADD_PROJECT: {
       return { ...state, list: [...state.list, action.project] };
-    }
-    case ADD_TIME_TO_PROJECT: {
-      const list = state.list.map(item => {
-        const newItem = Object.assign({}, item);
-        if (newItem._id === action.id) {
-          newItem.timeSpent += action.time;
-        }
-        return newItem;
-      });
-      return { ...state, list };
     }
     case SUBTRACT_TASK_TIME: {
       const list = state.list.map(item => {

@@ -77,8 +77,10 @@ export function renameProject(id, name, parentID) {
 export function addTimeToProjectSuccess(id, time) {
   return {
     type: ADD_TIME_TO_PROJECT,
-    id,
-    time
+    data: {
+      task: { _id: id }
+    },
+    seconds: time
   };
 }
 

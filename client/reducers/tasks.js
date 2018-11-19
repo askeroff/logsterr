@@ -4,6 +4,7 @@ import {
   NEW_TASK,
   DELETE_TASK,
   EDIT_TASK,
+  ADD_TIME_TO_PROJECT,
   TOGGLE_DONE,
   FETCH_TASKS,
   ADD_TIMELOG
@@ -66,6 +67,7 @@ export function tasks(state = { list: [], project: undefined }, action) {
         .filter(item => item !== undefined);
       return { ...state, list: tasksList };
     }
+    case ADD_TIME_TO_PROJECT:
     case ADD_TIMELOG: {
       const tasksList = state.list.map(item => {
         if (item._id === action.data.task._id) {

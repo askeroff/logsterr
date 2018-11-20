@@ -9,6 +9,7 @@ import {
   TOGGLE_DONE,
   ADD_MESSAGE,
   FETCH_TASKS,
+  SUBTRACT_PROJECT_TIME,
   SUBTRACT_TASK_TIME
 } from '../actions/actionTypes';
 import { IRenameTask } from '../types';
@@ -137,6 +138,19 @@ export function subtractTaskTime(
   };
 }
 
+export function subtractProjectTime(
+  id: string,
+  deleteTime: boolean,
+  timeSpent: number
+) {
+  return {
+    type: SUBTRACT_PROJECT_TIME,
+    id,
+    deleteTime,
+    timeSpent
+  };
+}
+
 export function renameTask(params: IRenameTask) {
   const error = {
     message:
@@ -148,6 +162,13 @@ export function renameTask(params: IRenameTask) {
     dispatch(renameTaskSuccess(params));
     dispatch(
       subtractTaskTime(
+        params.currentProject || '',
+        params.deleteTime || false,
+        params.timeSpent || 0
+      )
+    );
+    dispatch(
+      subtractProjectTime(
         params.currentProject || '',
         params.deleteTime || false,
         params.timeSpent || 0

@@ -6,7 +6,7 @@ import {
   DELETE_PROJECT,
   TOGGLE_PROJECT_DONE,
   FETCH_PROJECTS,
-  SUBTRACT_TASK_TIME
+  SUBTRACT_PROJECT_TIME
 } from '../actions/actionTypes';
 
 export function projects(state = { list: [] }, action) {
@@ -16,7 +16,7 @@ export function projects(state = { list: [] }, action) {
     case ADD_PROJECT: {
       return { ...state, list: [...state.list, action.project] };
     }
-    case SUBTRACT_TASK_TIME: {
+    case SUBTRACT_PROJECT_TIME: {
       const list = state.list.map(item => {
         if (item._id === action.id && action.deleteTime === true) {
           item.timeSpent -= action.timeSpent; // eslint-disable-line no-param-reassign

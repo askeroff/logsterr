@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getMotivationData } from '../../actions/dashboard';
 import { clearLogs } from '../../actions/timelog';
-import { addTimeToProject } from '../../actions/projects';
+import { addTimeToProject, getProjects } from '../../actions/projects';
 import { getTasks, newTask, clearTasks, fetchTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
@@ -21,6 +21,7 @@ type ProjectProps = {
   handleTasks: (projectID: string) => void,
   handleNewTask: (data: { name: string, project: string }) => void,
   clearTasksList: () => void,
+  handleGettingProjects: () => void,
   clearSecondsLog: () => void
 };
 
@@ -34,6 +35,7 @@ class Project extends React.Component<ProjectProps> {
 
   componentDidMount() {
     this.props.clearTasksList();
+    this.props.handleGettingProjects();
     this.props.handleDashboardData(this.props.match.params.id);
     this.props.handleTasks(this.props.match.params.id);
   }
@@ -84,6 +86,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleNewTask(task) {
     dispatch(newTask(task));
+  },
+  handleGettingProjects() {
+    dispatch(getProjects());
   },
   handleDashboardData(id) {
     dispatch(getMotivationData(id));

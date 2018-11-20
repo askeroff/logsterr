@@ -42,8 +42,10 @@ class Index extends React.Component<IndexProps, State> {
   };
 
   componentDidMount() {
-    this.props.clearProjectsList();
-    this.props.handleProjects();
+    if (this.props.projects.isFetching === undefined) {
+      this.props.clearProjectsList();
+      this.props.handleProjects();
+    }
   }
 
   getAddFormProps = () => ({

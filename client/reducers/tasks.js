@@ -7,6 +7,7 @@ import {
   ADD_TIME_TO_PROJECT,
   TOGGLE_DONE,
   FETCH_TASKS,
+  SUBTRACT_TASK_TIME,
   ADD_TIMELOG
 } from '../actions/actionTypes';
 
@@ -80,6 +81,13 @@ export function tasks(state = { list: [], project: undefined }, action) {
         timeSpent: state.project.timeSpent + action.seconds
       };
       return { ...state, list: tasksList, project };
+    }
+    case SUBTRACT_TASK_TIME: {
+      const project = {
+        ...state.project,
+        timeSpent: state.project.timeSpent - action.timeSpent
+      };
+      return { ...state, project };
     }
     default:
       return state;

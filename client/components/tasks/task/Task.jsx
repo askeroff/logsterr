@@ -101,9 +101,6 @@ class Task extends React.Component<TaskProps, TaskState> {
           moveTime: value.options[0],
           deleteTime: value.options[1]
         });
-        this.setState({
-          showInput: false
-        });
         this.props.handleChangeOptions(value.options);
       });
     } else {

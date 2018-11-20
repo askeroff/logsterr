@@ -40,24 +40,32 @@ class Task extends React.Component<TaskProps, TaskState> {
     showInput: false,
     showTimer: false,
     spinner: false,
-    categoryID: '',
+    categoryID: this.props.projectId,
     optionValues: [true, false]
   };
 
-  componentWillMount() {
-    this.setState({ categoryID: this.props.projectId });
-  }
+  getButtonProps = () => {
+    const { id, name, done, taskDone } = this.props;
+    const { editName, showInput, categoryID } = this.state;
+    const doneButtonValue = done ? 'undone' : 'done';
 
-  componentWillReceiveProps(nextProps: any) {
-    if (nextProps) {
-      this.setState({ spinner: false });
-    }
-  }
-
-  handleShowTimer = () => {
-    this.setState(state => ({
-      showTimer: !state.showTimer
-    }));
+    return {
+      done,
+      id,
+      handleDelete: this.props.handleDelete,
+      name,
+      showInput,
+      showTimer: this.handleShowTimer,
+      handleShowInput: this.handleShowInput,
+      handleRenaming: () =>
+        this.handleRenaming({
+          id,
+          name: editName,
+          newProject: categoryID
+        }),
+      doneButtonValue,
+      taskDone
+    };
   };
 
   handleNameInput = (e: SyntheticEvent<HTMLInputElement>) => {
@@ -94,16 +102,14 @@ class Task extends React.Component<TaskProps, TaskState> {
           deleteTime: value.options[1]
         });
         this.setState({
-          showInput: false,
-          spinner: true
+          showInput: false
         });
         this.props.handleChangeOptions(value.options);
       });
     } else {
       this.props.handleRename({ id, name, newProject });
       this.setState({
-        showInput: false,
-        spinner: true
+        showInput: false
       });
     }
   };
@@ -165,11 +171,16 @@ class Task extends React.Component<TaskProps, TaskState> {
     return null;
   };
 
-  render() {
-    const { editName, showInput, categoryID } = this.state;
-    const { id, name, done } = this.props;
+  handleShowTimer = () => {
+    this.setState(state => ({
+      showTimer: !state.showTimer
+    }));
+  };
 
-    const doneButtonValue = done ? 'undone' : 'done';
+  render() {
+    const { showInput } = this.state;
+    const { name, done } = this.props;
+
     const doneClass = done ? 'tasks__list-item--done' : 'tasks__list-item';
     const hideOrNot = showInput ? 'none' : '';
 
@@ -188,24 +199,7 @@ class Task extends React.Component<TaskProps, TaskState> {
         {this.showDateString()}
         {this.shouldShowInput()}
 
-        <ButtonsGroup
-          done={done}
-          id={id}
-          handleDelete={this.props.handleDelete}
-          name={name}
-          showInput={showInput}
-          showTimer={this.handleShowTimer}
-          handleShowInput={this.handleShowInput}
-          handleRenaming={() =>
-            this.handleRenaming({
-              id,
-              name: editName,
-              newProject: categoryID
-            })
-          }
-          doneButtonValue={doneButtonValue}
-          taskDone={this.props.taskDone}
-        />
+        <ButtonsGroup {...this.getButtonProps()} />
         {this.shouldShowTimer()}
       </li>
     );

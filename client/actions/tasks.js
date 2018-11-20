@@ -144,24 +144,24 @@ export function renameTask(params: IRenameTask) {
     name: 'tasks-rename-error',
     type: 'error'
   };
-  return (dispatch: any) =>
-    axios
+  return (dispatch: any) => {
+    dispatch(renameTaskSuccess(params));
+    dispatch(
+      subtractTaskTime(
+        params.currentProject || '',
+        params.deleteTime || false,
+        params.timeSpent || 0
+      )
+    );
+    return axios
       .post(`/projects/tasks/${params.id}/edit`, { ...params })
       .then(res => {
-        if (res.data.renamed) {
-          dispatch(renameTaskSuccess(params));
-          dispatch(
-            subtractTaskTime(
-              params.currentProject || '',
-              params.deleteTime || false,
-              params.timeSpent || 0
-            )
-          );
-        } else {
+        if (!res.data.renamed) {
           dispatch(taskError(error));
         }
       })
       .catch(() => dispatch(taskError(error)));
+  };
 }
 
 export function clearTasks() {

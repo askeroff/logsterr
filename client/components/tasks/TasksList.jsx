@@ -32,6 +32,21 @@ class TasksList extends React.Component<TasksListProps, TasksListState> {
     optionsValues: [true, false]
   };
 
+  getTaskProps = task => ({
+    id: task._id,
+    name: task.name,
+    done: task.done,
+    optionsValues: this.state.optionsValues,
+    handleChangeOptions: this.handleChangeOptions,
+    projects: this.props.projects,
+    handleDelete: this.handleTaskDelete,
+    handleRename: this.props.handleEditing,
+    handleAddingTimeLog: this.props.handleAddingTimeLog,
+    projectId: this.props.projectId,
+    taskDone: this.props.handleDone,
+    timeSpent: task.timeSpent
+  });
+
   handleChangeOptions = arr => {
     this.setState({
       optionsValues: [...arr]
@@ -56,23 +71,8 @@ class TasksList extends React.Component<TasksListProps, TasksListState> {
     if (items.length === 0) {
       return <li>No tasks yet</li>;
     }
-
     return items.map(task => (
-      <Task
-        key={task._id}
-        id={task._id}
-        name={task.name}
-        done={task.done}
-        optionsValues={this.state.optionsValues}
-        handleChangeOptions={this.handleChangeOptions}
-        projects={this.props.projects}
-        handleDelete={this.handleTaskDelete}
-        handleRename={this.props.handleEditing}
-        handleAddingTimeLog={this.props.handleAddingTimeLog}
-        projectId={this.props.projectId}
-        taskDone={this.props.handleDone}
-        timeSpent={task.timeSpent}
-      />
+      <Task key={task._id} {...this.getTaskProps(task)} />
     ));
   }
 

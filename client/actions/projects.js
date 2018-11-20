@@ -58,20 +58,18 @@ export function renameProject(id, name, parentID) {
     name: 'project-rename-error',
     type: 'error'
   };
-  return dispatch =>
-    axios
+  return dispatch => {
+    dispatch(renameProjectSuccess({ id, name, parentID }));
+    return axios
       .post(`/projects/${id}/edit`, { name, parentID })
       .then(res => {
-        if (res.data.project) {
-          dispatch(renameProjectSuccess({ id, name, parentID }));
-        } else {
-          if (res.data.error) {
-            error.message = res.data.error;
-          }
+        if (res.data.error) {
+          error.message = res.data.error;
           dispatch(projectError(error));
         }
       })
       .catch(() => dispatch(projectError(error)));
+  };
 }
 
 export function addTimeToProjectSuccess(id, time) {

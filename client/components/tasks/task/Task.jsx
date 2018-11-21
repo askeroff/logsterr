@@ -1,13 +1,17 @@
 // @flow
 import * as React from 'react';
-import swal from 'sweetalert';
+// import Swal from 'sweetalert';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import Timer from '../Timer';
 import ButtonsGroup from '../ButtonsGroup';
 import Spinner from '../../layout/Spinner';
 import { formatDate, formatTime } from '../../../helpers';
 import Input from './Input';
-import TimeAddOptionsNode from './TimeAddOptions';
+import TimeAddOptions from './TimeAddOptions';
 import { IProject, IRenameTask, ITimeLogData } from '../../../types';
+
+const MySwal = withReactContent(Swal);
 
 type TaskProps = {
   name: string,
@@ -20,8 +24,6 @@ type TaskProps = {
   projectId: string,
   timeSpent: number,
   projects: { list: IProject[] },
-  optionsValues: boolean[],
-  handleChangeOptions: (arr: boolean[]) => void,
   handleAddingTimeLog?: (data: ITimeLogData, seconds: number) => void
 };
 
@@ -30,8 +32,7 @@ type TaskState = {
   showInput: boolean,
   showTimer: boolean,
   spinner: boolean,
-  categoryID: string,
-  optionValues: boolean[]
+  categoryID: string
 };
 
 class Task extends React.Component<TaskProps, TaskState> {
@@ -40,8 +41,7 @@ class Task extends React.Component<TaskProps, TaskState> {
     showInput: false,
     showTimer: false,
     spinner: false,
-    categoryID: this.props.projectId,
-    optionValues: [true, false]
+    categoryID: this.props.projectId
   };
 
   getButtonProps = () => {
@@ -68,6 +68,17 @@ class Task extends React.Component<TaskProps, TaskState> {
     };
   };
 
+  setMovetimeRef = element => {
+    this.moveTime = element;
+  };
+
+  setDeletetimeRef = element => {
+    this.deleteTime = element;
+  };
+
+  deleteTime = null;
+  moveTime = null;
+
   handleNameInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ editName: e.currentTarget.value });
   };
@@ -82,26 +93,31 @@ class Task extends React.Component<TaskProps, TaskState> {
   handleRenaming = (params: IRenameTask) => {
     const { id, name, newProject } = params;
     if (this.props.projectId !== params.newProject) {
-      const { optionsValues } = this.props;
-      swal({
-        text: "You changing project's task. Read the options",
-        content: TimeAddOptionsNode,
-        buttons: {
-          confirm: {
-            value: { options: [...optionsValues] }
-          }
+      MySwal.fire({
+        title: 'Read the options!',
+        type: 'warning',
+        showCancelButton: true,
+        html: (
+          <TimeAddOptions
+            setDeleteRef={this.setDeletetimeRef}
+            setMoveRef={this.setMovetimeRef}
+          />
+        ),
+        preConfirm: () => [this.moveTime.value, this.deleteTime.value]
+      }).then(options => {
+        if (options.value) {
+          const moveTime = options.value[0] === 'true';
+          const deleteTime = options.value[1] === 'true';
+          this.props.handleRename({
+            id,
+            name,
+            currentProject: this.props.projectId,
+            timeSpent: this.props.timeSpent,
+            newProject,
+            moveTime,
+            deleteTime
+          });
         }
-      }).then(value => {
-        this.props.handleRename({
-          id,
-          name,
-          currentProject: this.props.projectId,
-          timeSpent: this.props.timeSpent,
-          newProject,
-          moveTime: value.options[0],
-          deleteTime: value.options[1]
-        });
-        this.props.handleChangeOptions(value.options);
       });
     } else {
       this.props.handleRename({ id, name, newProject });

@@ -18,26 +18,16 @@ type TasksListProps = {
   handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void
 };
 
-type TasksListState = {
-  optionsValues: boolean[]
-};
-
-class TasksList extends React.Component<TasksListProps, TasksListState> {
+class TasksList extends React.Component<TasksListProps> {
   static defaultProps = {
     tasks: [],
     filter: false
-  };
-
-  state = {
-    optionsValues: [true, false]
   };
 
   getTaskProps = task => ({
     id: task._id,
     name: task.name,
     done: task.done,
-    optionsValues: this.state.optionsValues,
-    handleChangeOptions: this.handleChangeOptions,
     projects: this.props.projects,
     handleDelete: this.handleTaskDelete,
     handleRename: this.props.handleEditing,
@@ -46,12 +36,6 @@ class TasksList extends React.Component<TasksListProps, TasksListState> {
     taskDone: this.props.handleDone,
     timeSpent: task.timeSpent
   });
-
-  handleChangeOptions = arr => {
-    this.setState({
-      optionsValues: [...arr]
-    });
-  };
 
   handleTaskDelete = id => {
     swal({

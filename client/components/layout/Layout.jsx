@@ -14,6 +14,7 @@ type Props = {
   children: any[],
   user: IUser,
   showToGuests: boolean,
+  showSpinner: boolean,
   getUserData: () => void
 };
 
@@ -33,7 +34,10 @@ class Layout extends React.Component<Props> {
   };
 
   render() {
-    if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
+    const isNotReady =
+      this.props.showSpinner ||
+      !Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn');
+    if (isNotReady) {
       return <Spinner />;
     }
     return (

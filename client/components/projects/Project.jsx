@@ -6,7 +6,6 @@ import { clearLogs } from '../../actions/timelog';
 import { addTimeToProject, getProjects } from '../../actions/projects';
 import { getTasks, newTask, clearTasks, fetchTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
-import Spinner from '../layout/Spinner';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
 import { IMatch } from '../../types';
@@ -46,19 +45,13 @@ class Project extends React.Component<ProjectProps> {
 
   render() {
     const { dashboardData, tasks } = this.props;
-    if (this.props.tasks.isFetching || this.props.tasks.project === undefined) {
-      return (
-        <Layout>
-          <Spinner />
-        </Layout>
-      );
-    }
+    const showSpinner = this.props.tasks.isFetching || this.props.tasks.project === undefined;
     if (tasks.project === false) {
       return <NotFound />;
     }
 
     return (
-      <Layout>
+      <Layout showSpinner={showSpinner}>
         <ProjectInfo
           project={tasks.project}
           handleAddingTimeToProject={this.props.handleAddingTimeToProject}

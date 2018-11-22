@@ -4,6 +4,11 @@
   --danger #dc3545
   --info #17a2b8
   --info-text #fff
+  --mainBlue #1C3144
+  --secondBlue #2F4858
+  --myOrange #E56140
+  --myRed #A20021
+  --myGrey #E8E9EB
 
 html, body
   height 100%
@@ -37,7 +42,7 @@ button:focus
 .page-title
   text-align center
   text-transform uppercase
-  color #007090
+  color var(--mainBlue)
   margin-left 0
   margin-right 0
 
@@ -118,8 +123,8 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
   color var(--info-text)
 
 .pretty-time
-  background #006889
-  color #ffffff
+  background var(--mainBlue)
+  color var(--myGrey)
   padding 5px
   margin-left 10px
 
@@ -150,8 +155,8 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
 /* FOOTER */
 
 footer
-  background #006989
-  border-top 10px solid var(--second-color)
+  background var(--mainBlue)
+  border-top 5px solid var(--myOrange)
   color #fafafa
   text-align center
   margin-top 30px

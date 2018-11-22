@@ -22,7 +22,7 @@
 
 .project__item--parent
   box-shadow 0 2px 6px 0 hsla(0,0%,0%,0.2);
-  background #f1f0f0;
+  background var(--myGrey);
 
 .projects--topbuttons
   display flex
@@ -43,18 +43,20 @@
 .projects__item-title
   text-decoration none
   display block
-  color #006989
+  color var(--myBlue)
   align-self center
 
 .projects__item-title:hover
-  color #01A7C2
+  color var(--secondBlue)
 
 .projects__item-title .pretty-time
-  color #03525a
-  font-size 0.5em
+  color var(--myOrange)
+  background var(--mainBlue)
+  font-size 0.7em
   font-weight bold
   margin-left 20px
-  background none
+  transform rotate(-3deg)
+  display inline-block
 
 .form__newproject
   display grid
@@ -94,6 +96,13 @@
 
 .projects__item:hover .buttons-group
   display block
+
+.project__info .page-title .pretty-time
+  color var(--myGrey)
+  transform rotate(2deg)
+  display inline-block
+  padding 8px
+  border-bottom 2px solid var(--myOrange)
 
 @media (max-width: 960px) and (max-device-width: 960px)
   .project__description

@@ -24,6 +24,9 @@ class Layout extends React.Component<Props> {
   }
 
   getContent = () => {
+    if (this.props.showSpinner && this.props.user && this.props.user.loggedIn) {
+      return <Spinner />;
+    }
     if (
       (this.props.user && this.props.user.loggedIn) ||
       this.props.showToGuests
@@ -34,10 +37,7 @@ class Layout extends React.Component<Props> {
   };
 
   render() {
-    const isNotReady =
-      this.props.showSpinner ||
-      !Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn');
-    if (isNotReady) {
+    if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
       return <Spinner />;
     }
     return (

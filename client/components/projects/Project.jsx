@@ -32,20 +32,28 @@ class Project extends React.Component<ProjectProps> {
     dashboardData: {}
   };
 
-  componentDidMount() {
-    this.props.clearTasksList();
-    this.props.handleGettingProjects();
-    this.props.handleDashboardData(this.props.match.params.id);
-    this.props.handleTasks(this.props.match.params.id);
+  isReady = false;
+
+  // componentDidMount() {}
+
+  componentDidUpdate() {
+    if (this.props.user.loggedIn && !this.isReady) {
+      this.props.handleGettingProjects();
+      this.props.handleDashboardData(this.props.match.params.id);
+      this.props.handleTasks(this.props.match.params.id);
+      this.isReady = true;
+    }
   }
 
   componentWillUnmount() {
+    this.props.clearTasksList();
     this.props.clearSecondsLog();
+    this.isReady = false;
   }
 
   render() {
     const { dashboardData, tasks } = this.props;
-    const showSpinner = this.props.tasks.isFetching || this.props.tasks.project === undefined;
+    const showSpinner = tasks.isFetching || tasks.project === undefined || !this.isReady;
     if (tasks.project === false) {
       return <NotFound />;
     }

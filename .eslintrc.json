@@ -17,6 +17,7 @@
     "jsx-a11y/label-has-for": "off",
     "arrow-parens": "off",
     "comma-dangle": "off",
+    "react/sort-comp": "off",
     "no-underscore-dangle": "off",
     "react/no-danger": "off",
     "no-mixed-operators": "off"

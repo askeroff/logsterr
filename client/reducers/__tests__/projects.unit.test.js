@@ -4,9 +4,7 @@ import {
   ADD_PROJECT,
   DELETE_PROJECT,
   TOGGLE_PROJECT_DONE,
-  RENAME_PROJECT,
-  SUBTRACT_TASK_TIME,
-  ADD_TIME_TO_PROJECT
+  RENAME_PROJECT
 } from '../../actions/actionTypes';
 
 const projectsList = [
@@ -128,29 +126,6 @@ describe('Projects Reducer', () => {
     const result = projects({ list: projectsList }, action);
     const find = result.list.find(item => item._id === action.project.id);
     expect(find.name).toBe('Renamed French');
-  });
-
-  test('Add Time To A Project', () => {
-    const action = {
-      type: ADD_TIME_TO_PROJECT,
-      id: '5a281df108567500ade59253',
-      time: 3600
-    };
-    const result = projects({ list: projectsList }, action);
-    const find = result.list.find(item => item._id === action.id);
-    expect(find.timeSpent).toBe(278480);
-  });
-
-  test('Subtract task time', () => {
-    const action = {
-      type: SUBTRACT_TASK_TIME,
-      id: '5a281df108567500ade59253',
-      timeSpent: 3600,
-      deleteTime: true
-    };
-    const result = projects({ list: projectsList }, action);
-    const find = result.list.find(item => item._id === action.id);
-    expect(find.timeSpent).toBe(271280);
   });
 
   test('Toggle projects done state to true', () => {

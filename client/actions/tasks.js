@@ -9,8 +9,7 @@ import {
   TOGGLE_DONE,
   ADD_MESSAGE,
   FETCH_TASKS,
-  SUBTRACT_PROJECT_TIME,
-  SUBTRACT_TASK_TIME
+  SUBTRACT_PROJECT_TIME
 } from '../actions/actionTypes';
 import { IRenameTask } from '../types';
 
@@ -127,13 +126,6 @@ export function renameTaskSuccess(params: IRenameTask) {
   };
 }
 
-export function subtractTaskTime(params: IRenameTask) {
-  return {
-    type: SUBTRACT_TASK_TIME,
-    params
-  };
-}
-
 export function subtractProjectTime(params: IRenameTask) {
   return {
     type: SUBTRACT_PROJECT_TIME,
@@ -150,7 +142,6 @@ export function renameTask(params: IRenameTask) {
   };
   return (dispatch: any) => {
     dispatch(renameTaskSuccess(params));
-    dispatch(subtractTaskTime(params));
     dispatch(subtractProjectTime(params));
     return axios
       .post(`/projects/tasks/${params.id}/edit`, { ...params })

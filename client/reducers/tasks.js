@@ -7,9 +7,51 @@ import {
   ADD_TIME_TO_PROJECT,
   TOGGLE_DONE,
   FETCH_TASKS,
-  SUBTRACT_TASK_TIME,
   ADD_TIMELOG
 } from '../actions/actionTypes';
+
+function editTask(state, action) {
+  let editedTask;
+  let addList;
+  const toBeMoved = action.currentProject !== action.newProject;
+  const newList = state.list.map(item => {
+    if (item.project._id === action.currentProject) {
+      const newItem = deepClone(item);
+      newItem.list = newItem.list
+        .map(task => {
+          const newTask = { ...task };
+          if (task._id === action.id) {
+            newTask.name = action.name;
+            editedTask = newTask;
+            if (toBeMoved) {
+              return undefined;
+            }
+          }
+          return newTask;
+        })
+        .filter(edited => edited !== undefined);
+      newItem.project.timeSpent = action.deleteTime
+        ? newItem.project.timeSpent - action.timeSpent
+        : newItem.project.timeSpent;
+      return newItem;
+    }
+    return item;
+  });
+  if (toBeMoved) {
+    addList = newList.map(myItem => {
+      if (myItem.project._id === action.newProject) {
+        const newItem = deepClone(myItem);
+        newItem.list.push(editedTask);
+        newItem.project.timeSpent = action.moveTime
+          ? newItem.project.timeSpent + action.timeSpent
+          : newItem.project.timeSpent;
+        return newItem;
+      }
+      return myItem;
+    });
+  }
+  return { ...state, list: addList || newList };
+}
 
 export function tasks(state = { list: [] }, action) {
   switch (action.type) {
@@ -68,40 +110,7 @@ export function tasks(state = { list: [] }, action) {
       return { ...state, list: newList };
     }
     case EDIT_TASK: {
-      let editedTask;
-      let addList;
-      const toBeMoved = action.currentProject !== action.newProject;
-      const newList = state.list.map(item => {
-        if (item.project._id === action.currentProject) {
-          const newItem = deepClone(item);
-          newItem.list = newItem.list
-            .map(task => {
-              const newTask = { ...task };
-              if (task._id === action.id) {
-                newTask.name = action.name;
-                editedTask = newTask;
-                if (toBeMoved) {
-                  return undefined;
-                }
-              }
-              return newTask;
-            })
-            .filter(edited => edited !== undefined);
-          return newItem;
-        }
-        return item;
-      });
-      if (toBeMoved) {
-        addList = newList.map(myItem => {
-          if (myItem.project._id === action.newProject) {
-            const newItem = deepClone(myItem);
-            newItem.list.push(editedTask);
-            return newItem;
-          }
-          return myItem;
-        });
-      }
-      return { ...state, list: addList || newList };
+      return editTask(state, action);
     }
     case TOGGLE_DONE: {
       let newList = state.list;
@@ -153,38 +162,6 @@ export function tasks(state = { list: [] }, action) {
           });
           newItem.project.timeSpent += action.seconds;
           return newItem;
-        }
-        return newItem;
-      });
-      return { ...state, list: newList };
-    }
-    case SUBTRACT_TASK_TIME: {
-      if (!action.params.deleteTime && !action.params.moveTime) {
-        return state;
-      }
-      const newList = state.list.map(item => {
-        const newItem = deepClone(item);
-        if (
-          item.project._id === action.params.currentProject &&
-          action.params.deleteTime
-        ) {
-          const project = {
-            ...newItem.project,
-            timeSpent:
-              newItem.project.timeSpent - (action.params.timeSpent || 0)
-          };
-          newItem.project = project;
-        }
-        if (
-          item.project._id === action.params.newProject &&
-          action.params.moveTime
-        ) {
-          const project = {
-            ...newItem.project,
-            timeSpent:
-              newItem.project.timeSpent + (action.params.timeSpent || 0)
-          };
-          newItem.project = project;
         }
         return newItem;
       });

@@ -4,6 +4,7 @@ import {
   NEW_TASK,
   DELETE_TASK,
   EDIT_TASK,
+  // SUBTRACT_TASK_TIME,
   TOGGLE_DONE
 } from '../../actions/actionTypes';
 
@@ -73,7 +74,9 @@ describe('Tests Reducers', () => {
     };
     const result = tasks({ list: [] }, action);
     expect(result).toEqual({
-      list: [{ doneList: undefined, list: tasksList.list, project: codingProject }],
+      list: [
+        { doneList: undefined, list: tasksList.list, project: codingProject }
+      ],
       isFetching: false
     });
   });
@@ -192,17 +195,19 @@ describe('Tests Reducers', () => {
     });
     task.name = action.name;
     // and be present in the project which it was moved to
+    // and time of the current and newProject should be changed
+    // according to the moveTime and deleteTime flags
     expect(result).toEqual({
       list: [
         {
           doneList: undefined,
           list: fromProjectList,
-          project: codingProject
+          project: { ...codingProject, timeSpent: 476240 }
         },
         {
           doneList: undefined,
           list: [task],
-          project: anotherProject
+          project: { ...anotherProject, timeSpent: 165946 }
         }
       ],
       isFetching: false

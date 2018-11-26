@@ -11,7 +11,7 @@ type Props = {
   handleRenaming: () => void,
   handleShowInput: (name: string) => void,
   handleDelete: (id: string) => void,
-  taskDone: (id: string) => void
+  taskDone: (id: string, projectId: string) => void
 };
 
 const ButtonsGroup = (props: Props) => (
@@ -47,7 +47,7 @@ const ButtonsGroup = (props: Props) => (
     ) : null}
     <button
       title={`Mark this item ${props.doneButtonValue}`}
-      onClick={() => props.taskDone(props.id)}
+      onClick={() => props.taskDone(props.id, props.projectId)}
       className="button--info button--small"
     >
       <span aria-label="mark done" role="img">

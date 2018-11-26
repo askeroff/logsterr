@@ -19,7 +19,7 @@ type ProjectProps = {
   handleDashboardData: (projectId: string) => void,
   handleTasks: (projectID: string) => void,
   handleNewTask: (data: { name: string, project: string }) => void,
-  clearTasksList: () => void,
+  // clearTasksList: () => void,
   handleGettingProjects: () => void,
   clearSecondsLog: () => void
 };
@@ -27,14 +27,21 @@ type ProjectProps = {
 class Project extends React.Component<ProjectProps> {
   static defaultProps = {
     projects: [],
-    tasks: [],
+    tasks: { list: [] },
     user: {},
     dashboardData: {}
   };
 
   isReady = false;
 
-  // componentDidMount() {}
+  componentDidMount() {
+    const projectTasks = this.props.tasks.list.find(
+      item => item.project._id === this.props.match.params.id
+    );
+    if (projectTasks && projectTasks.list !== undefined) {
+      this.isReady = true;
+    }
+  }
 
   componentDidUpdate() {
     if (this.props.user.loggedIn && !this.isReady) {
@@ -46,28 +53,41 @@ class Project extends React.Component<ProjectProps> {
   }
 
   componentWillUnmount() {
-    this.props.clearTasksList();
+    // this.props.clearTasksList();
     this.props.clearSecondsLog();
     this.isReady = false;
   }
 
   render() {
     const { dashboardData, tasks } = this.props;
-    const showSpinner = tasks.isFetching || tasks.project === undefined || !this.isReady;
-    if (tasks.project === false) {
+    const projectTasks = tasks.list.find(
+      item => item.project._id === this.props.match.params.id
+    );
+    const showSpinner =
+      (tasks.isFetching || !this.isReady) &&
+      (projectTasks && projectTasks.list) === undefined;
+
+    if (projectTasks === undefined && !showSpinner) {
       return <NotFound />;
     }
 
     return (
       <Layout showSpinner={showSpinner}>
-        <ProjectInfo
-          project={tasks.project}
-          handleAddingTimeToProject={this.props.handleAddingTimeToProject}
-          handleNewTask={this.props.handleNewTask}
-          pathname={this.props.location.pathname}
-          dashboardData={dashboardData}
-        />
-        <TasksList projectId={this.props.match.params.id} />
+        {projectTasks && projectTasks.list ? (
+          <React.Fragment>
+            <ProjectInfo
+              project={projectTasks.project}
+              handleAddingTimeToProject={this.props.handleAddingTimeToProject}
+              handleNewTask={this.props.handleNewTask}
+              pathname={this.props.location.pathname}
+              dashboardData={dashboardData}
+            />
+            <TasksList
+              tasks={projectTasks}
+              projectId={this.props.match.params.id}
+            />{' '}
+          </React.Fragment>
+        ) : null}
       </Layout>
     );
   }

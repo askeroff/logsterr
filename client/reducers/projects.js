@@ -18,8 +18,17 @@ export function projects(state = { list: [] }, action) {
     }
     case SUBTRACT_PROJECT_TIME: {
       const list = state.list.map(item => {
-        if (item._id === action.id && action.deleteTime === true) {
-          item.timeSpent -= action.timeSpent; // eslint-disable-line no-param-reassign
+        if (
+          item._id === action.params.currentProject &&
+          action.params.deleteTime === true
+        ) {
+          item.timeSpent -= action.params.timeSpent || 0; // eslint-disable-line no-param-reassign
+        }
+        if (
+          item._id === action.params.newProject &&
+          action.params.moveTime === true
+        ) {
+          item.timeSpent += action.params.timeSpent || 0; // eslint-disable-line no-param-reassign
         }
         return item;
       });

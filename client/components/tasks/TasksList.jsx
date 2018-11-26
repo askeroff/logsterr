@@ -14,14 +14,15 @@ type TasksListProps = {
   projectId: string,
   projects: { list: IProject[] },
   handleEditing: (params: IRenameTask) => void,
-  handleDone: (id: string) => void,
+  handleDone: (id: string, projectId: string) => void,
+  showDone: boolean,
   handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void
 };
 
 class TasksList extends React.Component<TasksListProps> {
   static defaultProps = {
     tasks: [],
-    filter: false
+    showDone: false
   };
 
   getTaskProps = task => ({
@@ -46,7 +47,7 @@ class TasksList extends React.Component<TasksListProps> {
       dangerMode: true
     }).then(willDelete => {
       if (willDelete) {
-        this.props.handleDeleting(id);
+        this.props.handleDeleting(id, this.props.projectId);
       }
     });
   };
@@ -61,25 +62,25 @@ class TasksList extends React.Component<TasksListProps> {
   }
 
   render() {
-    const tasks = this.props.tasks.list;
-    return <ul className="tasks__list">{this.mapItems(tasks)}</ul>;
+    const { tasks, showDone } = this.props;
+    const data = showDone ? tasks.doneList : tasks.list;
+    return <ul className="tasks__list">{this.mapItems(data)}</ul>;
   }
 }
 
 const mapStateToProps = state => ({
-  tasks: state.tasks,
   projects: state.projects
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleDeleting(id) {
-    dispatch(deleteTask(id));
+  handleDeleting(id, projectId) {
+    dispatch(deleteTask(id, projectId));
   },
   handleEditing(params: IRenameTask) {
     dispatch(renameTask(params));
   },
-  handleDone(id) {
-    dispatch(toggleDone(id));
+  handleDone(id, projectId) {
+    dispatch(toggleDone(id, projectId));
   },
   handleAddingTimeLog(data, seconds) {
     dispatch(addTimelog(data, seconds));

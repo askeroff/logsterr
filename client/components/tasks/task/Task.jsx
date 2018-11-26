@@ -17,7 +17,7 @@ type TaskProps = {
   name: string,
   handleDelete: (id: string) => void,
   handleRename: (params: IRenameTask) => void,
-  taskDone: (id: string) => void,
+  taskDone: (id: string, projectId: string) => void,
   done: boolean,
   id: string,
   updated?: string,
@@ -45,13 +45,14 @@ class Task extends React.Component<TaskProps, TaskState> {
   };
 
   getButtonProps = () => {
-    const { id, name, done, taskDone } = this.props;
+    const { id, name, done, taskDone, projectId } = this.props;
     const { editName, showInput, categoryID } = this.state;
     const doneButtonValue = done ? 'undone' : 'done';
 
     return {
       done,
       id,
+      projectId,
       handleDelete: this.props.handleDelete,
       name,
       showInput,
@@ -120,7 +121,12 @@ class Task extends React.Component<TaskProps, TaskState> {
         }
       });
     } else {
-      this.props.handleRename({ id, name, newProject });
+      this.props.handleRename({
+        id,
+        name,
+        newProject,
+        currentProject: this.props.projectId
+      });
       this.setState({
         showInput: false
       });

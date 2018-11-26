@@ -52,7 +52,8 @@ export function getTasks(id: string, done: boolean) {
         if (res.data.tasksList) {
           dispatch(
             getTasksSuccess({
-              list: res.data.tasksList,
+              list: !done ? res.data.tasksList : undefined,
+              doneList: done ? res.data.tasksList : undefined,
               project: res.data.project
             })
           );
@@ -91,14 +92,15 @@ export function newTask(task: any) {
       .catch(() => dispatch(taskError(error)));
 }
 
-export function deleteTaskSuccess(id: string) {
+export function deleteTaskSuccess(id: string, projectId) {
   return {
     type: DELETE_TASK,
-    id
+    id,
+    projectId
   };
 }
 
-export function deleteTask(id: string) {
+export function deleteTask(id: string, projectId: string) {
   const error = {
     message:
       'Something went wrong. Could not delete the task. Try again or reload the page',
@@ -110,7 +112,7 @@ export function deleteTask(id: string) {
       .post(`/projects/${id}/delete`, { id })
       .then(res => {
         if (res.data.deleted) {
-          dispatch(deleteTaskSuccess(id));
+          dispatch(deleteTaskSuccess(id, projectId));
         } else {
           dispatch(taskError(error));
         }
@@ -125,29 +127,17 @@ export function renameTaskSuccess(params: IRenameTask) {
   };
 }
 
-export function subtractTaskTime(
-  id: string,
-  deleteTime: boolean,
-  timeSpent: number
-) {
+export function subtractTaskTime(params: IRenameTask) {
   return {
     type: SUBTRACT_TASK_TIME,
-    id,
-    deleteTime,
-    timeSpent
+    params
   };
 }
 
-export function subtractProjectTime(
-  id: string,
-  deleteTime: boolean,
-  timeSpent: number
-) {
+export function subtractProjectTime(params: IRenameTask) {
   return {
     type: SUBTRACT_PROJECT_TIME,
-    id,
-    deleteTime,
-    timeSpent
+    params
   };
 }
 
@@ -160,20 +150,8 @@ export function renameTask(params: IRenameTask) {
   };
   return (dispatch: any) => {
     dispatch(renameTaskSuccess(params));
-    dispatch(
-      subtractTaskTime(
-        params.currentProject || '',
-        params.deleteTime || false,
-        params.timeSpent || 0
-      )
-    );
-    dispatch(
-      subtractProjectTime(
-        params.currentProject || '',
-        params.deleteTime || false,
-        params.timeSpent || 0
-      )
-    );
+    dispatch(subtractTaskTime(params));
+    dispatch(subtractProjectTime(params));
     return axios
       .post(`/projects/tasks/${params.id}/edit`, { ...params })
       .then(res => {
@@ -192,15 +170,16 @@ export function clearTasks() {
   };
 }
 
-export function toggleDoneSuccess(id: string, done: boolean) {
+export function toggleDoneSuccess(id: string, projectId, done: boolean) {
   return {
     type: TOGGLE_DONE,
     id,
+    projectId,
     done
   };
 }
 
-export function toggleDone(id: string) {
+export function toggleDone(id: string, projectId: string) {
   const error = {
     message:
       'Something went wrong. Could not toggle the task. Try again or reload the page',
@@ -212,10 +191,13 @@ export function toggleDone(id: string) {
       .post(`/projects/tasks/${id}/done`, { id })
       .then(res => {
         if (res.data.done !== undefined) {
-          dispatch(toggleDoneSuccess(id, res.data.done));
+          dispatch(toggleDoneSuccess(id, projectId, res.data.done));
         } else {
           dispatch(taskError(error));
         }
       })
-      .catch(() => dispatch(taskError(error)));
+      .catch(err => {
+        console.log(err);
+        dispatch(taskError(error));
+      });
 }

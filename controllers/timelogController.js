@@ -4,17 +4,19 @@ const Timelog = mongoose.model('Timelog');
 const Project = mongoose.model('Project');
 const Task = mongoose.model('Task');
 
-let projectsPromises = [];
-
-function goThroughParents(id, timeSpent, callback) {
-  const promise = Project.findById(id, async (err, project) => {
+async function goThroughParents(id, timeSpent, callback) {
+  const projects = [];
+  async function recursive(myId) {
+    const project = await Project.findById(myId);
     callback(project, timeSpent);
-    project.save();
+    await project.save();
+    projects.push({ id: myId });
     if (project.parent_id !== '') {
-      goThroughParents(project.parent_id, timeSpent, callback);
+      await recursive(project.parent_id, timeSpent, callback);
     }
-  });
-  projectsPromises.push(promise);
+  }
+  await recursive(id, timeSpent, callback);
+  return projects;
 }
 
 function addTimeToProject(project, timeSpent) {
@@ -37,18 +39,24 @@ exports.addTime = async (req, res) => {
     task.timeSpent += req.body.seconds; // eslint-disable-line no-param-reassign
     task.save();
   });
-  projectsPromises = [];
-  goThroughParents(req.body.project, req.body.seconds, addTimeToProject);
 
-  const [timelog, task] = await Promise.all([
+  const projectsPromise = goThroughParents(
+    req.body.project,
+    req.body.seconds,
+    addTimeToProject
+  );
+
+  const [timelog, task, projects] = await Promise.all([
     timelogPromise,
     taskPromise,
-    ...projectsPromises
+    projectsPromise
   ]);
+
   res.json({
     timelog,
     task,
     project: { _id: req.body.project },
+    projects,
     success: true
   });
   return true;
@@ -89,14 +97,13 @@ exports.deleteLog = async (req, res) => {
     }
   });
 
-  projectsPromises = [];
-  goThroughParents(
+  const projectsPromise = goThroughParents(
     timelogTodelete.project,
     timelogTodelete.seconds,
     removeTimeFromProject
   );
 
-  await Promise.all([taskPromise, ...projectsPromises]);
+  await Promise.all([taskPromise, projectsPromise]);
 
   Timelog.findByIdAndRemove(req.body.id, () => {
     res.json({ deleted: true });

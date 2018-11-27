@@ -1,3 +1,4 @@
+import deepClone from 'lodash.clonedeep';
 import {
   GET_PROJECTS,
   ADD_PROJECT,
@@ -6,8 +7,10 @@ import {
   DELETE_PROJECT,
   TOGGLE_PROJECT_DONE,
   FETCH_PROJECTS,
+  ADD_TIME_TO_PROJECTS,
   SUBTRACT_PROJECT_TIME
 } from '../actions/actionTypes';
+import { findParents } from '../helpers';
 
 export function projects(state = { list: [] }, action) {
   switch (action.type) {
@@ -17,17 +20,19 @@ export function projects(state = { list: [] }, action) {
       return { ...state, list: [...state.list, action.project] };
     }
     case SUBTRACT_PROJECT_TIME: {
+      const currentParents = findParents(
+        state.list,
+        action.params.currentProject
+      );
+      const newParents = findParents(state.list, action.params.newProject);
       const list = state.list.map(item => {
         if (
-          item._id === action.params.currentProject &&
+          currentParents.includes(item._id) &&
           action.params.deleteTime === true
         ) {
           item.timeSpent -= action.params.timeSpent || 0; // eslint-disable-line no-param-reassign
         }
-        if (
-          item._id === action.params.newProject &&
-          action.params.moveTime === true
-        ) {
+        if (newParents.includes(item._id) && action.params.moveTime === true) {
           item.timeSpent += action.params.timeSpent || 0; // eslint-disable-line no-param-reassign
         }
         return item;
@@ -41,6 +46,17 @@ export function projects(state = { list: [] }, action) {
           item.parent_id = action.project.parentID; // eslint-disable-line no-param-reassign
         }
         return item;
+      });
+      return { ...state, list };
+    }
+    case ADD_TIME_TO_PROJECTS: {
+      const projectsList = action.data.projects.map(item => item.id);
+      const list = state.list.map(item => {
+        const newItem = deepClone(item);
+        if (projectsList.includes(item._id)) {
+          newItem.timeSpent += action.seconds;
+        }
+        return newItem;
       });
       return { ...state, list };
     }

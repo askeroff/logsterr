@@ -5,6 +5,7 @@ import {
   CLEAR_LOGS,
   DELETE_LOG,
   ADD_MESSAGE,
+  ADD_TIME_TO_PROJECTS,
   ADD_TIME_TO_PROJECT
 } from './actionTypes';
 
@@ -22,6 +23,15 @@ export function addTimelogSuccess(data, seconds) {
     seconds
   };
 }
+
+export function addTimeToProjects(data, seconds) {
+  return {
+    type: ADD_TIME_TO_PROJECTS,
+    data,
+    seconds
+  };
+}
+
 export function addTimeProjectSuccess(data, seconds) {
   return {
     type: ADD_TIME_TO_PROJECT,
@@ -43,6 +53,7 @@ export function addTimelog(data, seconds) {
       .then(res => {
         if (res.data.success === true) {
           dispatch(addTimelogSuccess(res.data, seconds));
+          dispatch(addTimeToProjects(res.data, seconds));
         } else {
           dispatch(timelogError(error));
         }

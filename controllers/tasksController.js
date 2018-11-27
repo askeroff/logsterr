@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const timelogController = require('./timelogController');
 
 const Task = mongoose.model('Task');
 const Project = mongoose.model('Project');
@@ -55,20 +56,27 @@ exports.renameTask = async (req, res) => {
     moveTime,
     deleteTime
   } = req.body;
+  const {
+    goThroughParents,
+    removeTimeFromProject,
+    addTimeToProject
+  } = timelogController;
   const promises = [];
   if (moveTime === true) {
-    const timeMovePromise = Project.findById(newProject, (err, data) => {
-      data.timeSpent += timeSpent; // eslint-disable-line no-param-reassign
-      data.save();
-    });
+    const timeMovePromise = goThroughParents(
+      newProject,
+      timeSpent,
+      addTimeToProject
+    );
     promises.push(timeMovePromise);
   }
 
   if (deleteTime === true) {
-    const timeDeletePromise = Project.findById(currentProject, (err, data) => {
-      data.timeSpent -= timeSpent; // eslint-disable-line no-param-reassign
-      data.save();
-    });
+    const timeDeletePromise = goThroughParents(
+      currentProject,
+      timeSpent,
+      removeTimeFromProject
+    );
     promises.push(timeDeletePromise);
   }
 
@@ -77,9 +85,8 @@ exports.renameTask = async (req, res) => {
     task.project = newProject; // eslint-disable-line no-param-reassign
     task.save();
   });
-  promises.push(taskEditPromise);
 
-  await Promise.all(promises);
+  await Promise.all([...promises, taskEditPromise]);
 
   res.json({ renamed: true, body: req.body });
 };

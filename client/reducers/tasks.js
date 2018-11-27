@@ -150,8 +150,12 @@ export function tasks(state = { list: [] }, action) {
     }
     case ADD_TIME_TO_PROJECT:
     case ADD_TIMELOG: {
+      const projects = action.data.projects.map(item => item.id);
       const newList = state.list.map(item => {
         const newItem = { ...item };
+        if (projects.includes(item.project._id)) {
+          newItem.project.timeSpent += action.seconds;
+        }
         if (item.project._id === action.data.project._id) {
           newItem.list = newItem.list.map(task => {
             const newTask = deepClone(task);
@@ -160,7 +164,6 @@ export function tasks(state = { list: [] }, action) {
             }
             return newTask;
           });
-          newItem.project.timeSpent += action.seconds;
           return newItem;
         }
         return newItem;

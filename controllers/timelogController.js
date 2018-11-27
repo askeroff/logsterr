@@ -4,7 +4,11 @@ const Timelog = mongoose.model('Timelog');
 const Project = mongoose.model('Project');
 const Task = mongoose.model('Task');
 
-async function goThroughParents(id, timeSpent, callback) {
+exports.goThroughParents = async function goThroughParents(
+  id,
+  timeSpent,
+  callback
+) {
   const projects = [];
   async function recursive(myId) {
     const project = await Project.findById(myId);
@@ -17,15 +21,15 @@ async function goThroughParents(id, timeSpent, callback) {
   }
   await recursive(id, timeSpent, callback);
   return projects;
-}
+};
 
-function addTimeToProject(project, timeSpent) {
+exports.addTimeToProject = function addTimeToProject(project, timeSpent) {
   project.timeSpent += timeSpent; // eslint-disable-line no-param-reassign
-}
+};
 
-function removeTimeFromProject(project, timeSpent) {
+exports.removeTimeFromProject = function removeTimeFromProject(project, timeSpent) {
   project.timeSpent -= timeSpent; // eslint-disable-line no-param-reassign
-}
+};
 
 exports.addTime = async (req, res) => {
   if (req.body.seconds < 60) {
@@ -40,10 +44,10 @@ exports.addTime = async (req, res) => {
     task.save();
   });
 
-  const projectsPromise = goThroughParents(
+  const projectsPromise = exports.goThroughParents(
     req.body.project,
     req.body.seconds,
-    addTimeToProject
+    exports.addTimeToProject
   );
 
   const [timelog, task, projects] = await Promise.all([
@@ -97,10 +101,10 @@ exports.deleteLog = async (req, res) => {
     }
   });
 
-  const projectsPromise = goThroughParents(
+  const projectsPromise = exports.goThroughParents(
     timelogTodelete.project,
     timelogTodelete.seconds,
-    removeTimeFromProject
+    exports.removeTimeFromProject
   );
 
   await Promise.all([taskPromise, projectsPromise]);

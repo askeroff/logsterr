@@ -26,7 +26,7 @@ type ProjectProps = {
 
 class Project extends React.Component<ProjectProps> {
   static defaultProps = {
-    projects: [],
+    projects: { list: [] },
     tasks: { list: [] },
     user: {},
     dashboardData: {}
@@ -51,7 +51,7 @@ class Project extends React.Component<ProjectProps> {
 
   loadData = () => {
     if (this.props.user.loggedIn && !this.isReady) {
-      if (this.props.projects.length === 0) {
+      if (this.props.projects.list.length === 0) {
         this.props.handleGettingProjects();
       }
       this.props.handleTasks(this.props.match.params.id);

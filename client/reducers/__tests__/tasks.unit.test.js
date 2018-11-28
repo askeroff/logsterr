@@ -8,6 +8,39 @@ import {
   TOGGLE_DONE
 } from '../../actions/actionTypes';
 
+const codingProject = {
+  _id: '5a281df108567500ade59253',
+  name: 'Coding',
+  author: '59bc1b5c5ee11d1964a214ec',
+  __v: 0,
+  parent_id: '',
+  timeSpent: 477450,
+  initialTime: 477450,
+  done: false
+};
+
+const anotherProject = {
+  _id: '5ad3b1be1c06a61a302fe853',
+  name: 'Another Project',
+  author: '59bc1b5c5ee11d1964a214ec',
+  __v: 0,
+  parent_id: '',
+  timeSpent: 164736,
+  initialTime: 164736,
+  done: false
+};
+
+const childProject = {
+  _id: '5ad3b1be1c06a61a202fe303',
+  name: 'Child Project',
+  author: '59bc1b5c5ee11d1964a214ec',
+  __v: 0,
+  parent_id: '5ad3b1be1c06a61a302fe853',
+  timeSpent: 600,
+  initialTime: 600,
+  done: false
+};
+
 const tasksList = {
   list: [
     {
@@ -33,37 +66,24 @@ const tasksList = {
       done: false
     }
   ],
-  project: {
-    _id: '5a281df108567500ade59253',
-    name: 'Coding',
-    author: '59bc1b5c5ee11d1964a214ec',
-    __v: 0,
-    parent_id: '',
-    timeSpent: 477450,
-    done: false
-  }
+  project: codingProject
 };
 
-const codingProject = {
-  _id: '5a281df108567500ade59253',
-  name: 'Coding',
-  author: '59bc1b5c5ee11d1964a214ec',
-  __v: 0,
-  parent_id: '',
-  timeSpent: 477450,
-  initialTime: 477450,
-  done: false
-};
-
-const anotherProject = {
-  _id: '5ad3b1be1c06a61a302fe853',
-  name: 'Books && Courses',
-  author: '59bc1b5c5ee11d1964a214ec',
-  __v: 0,
-  parent_id: '',
-  timeSpent: 164736,
-  initialTime: 164736,
-  done: false
+const anotherTasksList = {
+  list: [
+    {
+      _id: '5a7ed310sdfsfe19302cdsdf4c03',
+      name: 'Child Project Task',
+      project: '5ad3b1be1c06a61a202fe303',
+      __v: 0,
+      updated: '2018-11-16T04:40:30.798Z',
+      created: '2018-02-10T11:12:32.500Z',
+      timeSpent: 600,
+      deleted: false,
+      done: false
+    }
+  ],
+  project: childProject
 };
 
 describe('Tests Reducers', () => {
@@ -208,6 +228,68 @@ describe('Tests Reducers', () => {
           doneList: undefined,
           list: [task],
           project: { ...anotherProject, timeSpent: 165946 }
+        }
+      ],
+      isFetching: false
+    });
+  });
+
+  test('Move to a new project where projects have parent-child relationships', () => {
+    const action = {
+      type: EDIT_TASK,
+      id: '5a7ed3a09cde19302cd34c05',
+      currentProject: '5ad3b1be1c06a61a202fe303',
+      newProject: '5a281df108567500ade59253',
+      name: 'New Name',
+      timeSpent: 600,
+      moveTime: true,
+      deleteTime: true
+    };
+    const result = tasks(
+      {
+        list: [
+          {
+            doneList: undefined,
+            list: anotherTasksList.list,
+            project: anotherTasksList.project
+          },
+          {
+            doneList: undefined,
+            list: [],
+            project: anotherProject
+          },
+          {
+            doneList: undefined,
+            list: tasksList.list,
+            project: tasksList.project
+          }
+        ],
+        isFetching: false
+      },
+      action
+    );
+
+    const currentProjectList = anotherTasksList.list.filter(
+      item => item._id !== action.id
+    );
+    const newProjectList = [...tasksList.list, anotherTasksList[0]];
+    // subtract time from child project, from it's parent project and add to the new project
+    expect(result).toEqual({
+      list: [
+        {
+          doneList: undefined,
+          list: currentProjectList,
+          project: { ...anotherTasksList.project, timeSpent: 0 }
+        },
+        {
+          doneList: undefined,
+          list: [],
+          project: { ...anotherProject, timeSpent: 164136 }
+        },
+        {
+          doneList: undefined,
+          list: newProjectList,
+          project: { ...tasksList.project, timeSpent: 478050 }
         }
       ],
       isFetching: false

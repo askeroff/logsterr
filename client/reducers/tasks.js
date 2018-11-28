@@ -1,4 +1,5 @@
 import deepClone from 'lodash.clonedeep';
+import { findParents } from '../helpers';
 import {
   GET_TASKS,
   NEW_TASK,
@@ -14,8 +15,11 @@ function editTask(state, action) {
   let editedTask;
   let addList;
   const toBeMoved = action.currentProject !== action.newProject;
+  const projects = state.list.map(item => ({ ...deepClone(item.project) }));
+  const currentParents = findParents(projects, action.currentProject);
+  const newParents = findParents(projects, action.newProject);
   const newList = state.list.map(item => {
-    if (item.project._id === action.currentProject) {
+    if (currentParents.includes(item.project._id)) {
       const newItem = deepClone(item);
       newItem.list = newItem.list
         .map(task => {
@@ -39,7 +43,7 @@ function editTask(state, action) {
   });
   if (toBeMoved) {
     addList = newList.map(myItem => {
-      if (myItem.project._id === action.newProject) {
+      if (newParents.includes(myItem.project._id)) {
         const newItem = deepClone(myItem);
         newItem.list.push(editedTask);
         newItem.project.timeSpent = action.moveTime

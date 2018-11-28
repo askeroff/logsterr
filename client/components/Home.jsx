@@ -6,33 +6,23 @@ import Dashboard from './dashboard/Index';
 import Spinner from './layout/Spinner';
 import { IUser } from '../types';
 
-type State = { loggedIn: boolean };
-
 type Props = {
   user: IUser,
   history: any
 };
 
-class Home extends React.Component<Props, State> {
-  static defaultProps = { history: {} };
-  state = {
-    loggedIn: false
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.user.loggedIn === true) {
-      this.setState({ loggedIn: true });
-    } else if (
-      nextProps.user.loggedIn === false &&
-      Object.prototype.hasOwnProperty.call(nextProps.history, 'push')
-    ) {
-      nextProps.history.push('/login');
-    }
-  }
+class Home extends React.Component<Props> {
+  static defaultProps = { history: {}, user: {} };
 
   shouldRender = () => {
-    if (this.state.loggedIn) {
+    const hasHistory = Object.prototype.hasOwnProperty.call(
+      this.props.history,
+      'push'
+    );
+    if (this.props.user.loggedIn) {
       return <Dashboard />;
+    } else if (this.props.user.loggedIn === false && hasHistory) {
+      this.props.history.push('/login');
     }
     return <Spinner />;
   };

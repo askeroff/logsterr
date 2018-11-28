@@ -41,19 +41,25 @@ class Project extends React.Component<ProjectProps> {
     if (projectTasks && projectTasks.list !== undefined) {
       this.isReady = true;
     }
+    this.loadData();
   }
 
   componentDidUpdate() {
+    this.loadData();
+  }
+
+  loadData = () => {
     if (this.props.user.loggedIn && !this.isReady) {
-      this.props.handleGettingProjects();
+      if (this.props.projects.length === 0) {
+        this.props.handleGettingProjects();
+      }
       this.props.handleDashboardData(this.props.match.params.id);
       this.props.handleTasks(this.props.match.params.id);
       this.isReady = true;
     }
-  }
+  };
 
   componentWillUnmount() {
-    // this.props.clearTasksList();
     this.props.clearSecondsLog();
     this.isReady = false;
   }
@@ -97,6 +103,7 @@ const mapStateToProps = state => ({
   user: state.user,
   tasks: state.tasks,
   dashboardData: state.dashboard,
+  projects: state.projects,
   timelog: state.timelog
 });
 

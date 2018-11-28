@@ -20,7 +20,6 @@ type Props = {
 
 class Layout extends React.Component<Props> {
   componentDidMount() {
-    console.log(this.props.user);
     if (this.props.user.loggedIn === undefined) {
       this.props.getUserData();
     }

@@ -42,6 +42,7 @@ class Project extends React.Component<ProjectProps> {
       this.isReady = true;
     }
     this.loadData();
+    this.props.handleDashboardData(this.props.match.params.id);
   }
 
   componentDidUpdate() {
@@ -53,7 +54,6 @@ class Project extends React.Component<ProjectProps> {
       if (this.props.projects.length === 0) {
         this.props.handleGettingProjects();
       }
-      this.props.handleDashboardData(this.props.match.params.id);
       this.props.handleTasks(this.props.match.params.id);
       this.isReady = true;
     }

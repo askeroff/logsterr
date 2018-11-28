@@ -43,15 +43,16 @@ function editTask(state, action) {
   });
   if (toBeMoved) {
     addList = newList.map(myItem => {
+      const newItem = deepClone(myItem);
       if (newParents.includes(myItem.project._id)) {
-        const newItem = deepClone(myItem);
-        newItem.list.push(editedTask);
         newItem.project.timeSpent = action.moveTime
           ? newItem.project.timeSpent + action.timeSpent
           : newItem.project.timeSpent;
-        return newItem;
       }
-      return myItem;
+      if (myItem.project._id === action.newProject) {
+        newItem.list.push(editedTask);
+      }
+      return newItem;
     });
   }
   return { ...state, list: addList || newList };

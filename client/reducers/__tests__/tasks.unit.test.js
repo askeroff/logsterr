@@ -35,7 +35,7 @@ const childProject = {
   name: 'Child Project',
   author: '59bc1b5c5ee11d1964a214ec',
   __v: 0,
-  parent_id: '5ad3b1be1c06a61a302fe853',
+  parent_id: '5ad3b1be1c06a61a302fe853', // another project's child
   timeSpent: 600,
   initialTime: 600,
   done: false
@@ -234,47 +234,55 @@ describe('Tests Reducers', () => {
     });
   });
 
-  test('Move to a new project where projects have parent-child relationships', () => {
+  test.only('Move to a new project where projects have parent-child relationships', () => {
     const action = {
       type: EDIT_TASK,
-      id: '5a7ed3a09cde19302cd34c05',
+      id: '5a7ed310sdfsfe19302cdsdf4c03',
       currentProject: '5ad3b1be1c06a61a202fe303',
       newProject: '5a281df108567500ade59253',
-      name: 'New Name',
+      name: 'Child Project Task',
       timeSpent: 600,
       moveTime: true,
       deleteTime: true
     };
-    const result = tasks(
-      {
-        list: [
-          {
-            doneList: undefined,
-            list: anotherTasksList.list,
-            project: anotherTasksList.project
-          },
-          {
-            doneList: undefined,
-            list: [],
-            project: anotherProject
-          },
-          {
-            doneList: undefined,
-            list: tasksList.list,
-            project: tasksList.project
-          }
-        ],
-        isFetching: false
-      },
-      action
-    );
+    const secondAction = {
+      type: EDIT_TASK,
+      id: '5a7ed310sdfsfe19302cdsdf4c03',
+      currentProject: '5a281df108567500ade59253',
+      newProject: '5ad3b1be1c06a61a202fe303',
+      name: 'Child Project Task',
+      timeSpent: 600,
+      moveTime: true,
+      deleteTime: true
+    };
+    const oldState = {
+      list: [
+        {
+          doneList: undefined,
+          list: anotherTasksList.list,
+          project: childProject
+        },
+        {
+          doneList: undefined,
+          list: [],
+          project: anotherProject
+        },
+        {
+          doneList: undefined,
+          list: tasksList.list,
+          project: tasksList.project
+        }
+      ],
+      isFetching: false
+    };
+    const result = tasks(oldState, action);
 
     const currentProjectList = anotherTasksList.list.filter(
       item => item._id !== action.id
     );
-    const newProjectList = [...tasksList.list, anotherTasksList[0]];
+    const newProjectList = [...tasksList.list, anotherTasksList.list[0]];
     // subtract time from child project, from it's parent project and add to the new project
-    expect(result).toEqual({
+    const newState = {
       list: [
         {
           doneList: undefined,
@@ -293,7 +301,11 @@ describe('Tests Reducers', () => {
         }
       ],
       isFetching: false
-    });
+    };
+    expect(result).toEqual(newState);
+
+    const secondResult = tasks(newState, secondAction);
+    expect(secondResult).toEqual(oldState);
   });
 
   test('Toggle Task Done State', () => {

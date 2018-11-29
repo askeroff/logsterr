@@ -27,7 +27,10 @@ exports.addTimeToProject = function addTimeToProject(project, timeSpent) {
   project.timeSpent += timeSpent; // eslint-disable-line no-param-reassign
 };
 
-exports.removeTimeFromProject = function removeTimeFromProject(project, timeSpent) {
+exports.removeTimeFromProject = function removeTimeFromProject(
+  project,
+  timeSpent
+) {
   project.timeSpent -= timeSpent; // eslint-disable-line no-param-reassign
 };
 
@@ -108,8 +111,15 @@ exports.deleteLog = async (req, res) => {
   );
 
   await Promise.all([taskPromise, projectsPromise]);
-
+  // to subtract time from the task
+  // to subtract time from the the projects reducers (including parents)
+  // to subtract time from project from tasks reducers including parents
   Timelog.findByIdAndRemove(req.body.id, () => {
-    res.json({ deleted: true });
+    res.json({
+      deleted: true,
+      task: timelogTodelete.task,
+      project: timelogTodelete.project,
+      timeSpent: timelogTodelete.seconds
+    });
   });
 };

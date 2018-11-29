@@ -5,6 +5,7 @@ import {
   NEW_TASK,
   DELETE_TASK,
   EDIT_TASK,
+  TASKS_DELETE_LOG,
   ADD_TIME_TO_PROJECT,
   TOGGLE_DONE,
   FETCH_TASKS,
@@ -157,7 +158,7 @@ export function tasks(state = { list: [] }, action) {
     case ADD_TIMELOG: {
       const projects = action.data.projects.map(item => item.id);
       const newList = state.list.map(item => {
-        const newItem = { ...item };
+        const newItem = deepClone(item);
         if (projects.includes(item.project._id)) {
           newItem.project.timeSpent += action.seconds;
         }
@@ -173,6 +174,28 @@ export function tasks(state = { list: [] }, action) {
         }
         return newItem;
       });
+      return { ...state, list: newList };
+    }
+    case TASKS_DELETE_LOG: {
+      const projects = state.list.map(item => ({ ...deepClone(item.project) }));
+      const parents = findParents(projects, action.data.project);
+      const newList = state.list.map(item => {
+        const newItem = deepClone(item);
+        if (parents.includes(newItem.project._id)) {
+          newItem.project.timeSpent -= action.data.timeSpent;
+        }
+        if (newItem.project._id === action.data.project) {
+          newItem.list = newItem.list.map(task => {
+            const newTask = deepClone(task);
+            if (task._id === action.data.task) {
+              newTask.timeSpent -= action.data.timeSpent;
+            }
+            return newTask;
+          });
+        }
+        return newItem;
+      });
+
       return { ...state, list: newList };
     }
     default:

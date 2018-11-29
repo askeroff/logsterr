@@ -4,6 +4,8 @@ import {
   GET_LOGS,
   CLEAR_LOGS,
   DELETE_LOG,
+  PROJECTS_DELETE_LOG,
+  TASKS_DELETE_LOG,
   ADD_MESSAGE,
   ADD_TIME_TO_PROJECTS,
   ADD_TIME_TO_PROJECT
@@ -68,6 +70,20 @@ export function deleteLogSuccess(id) {
   };
 }
 
+function projectsLogDeleted(data) {
+  return {
+    type: PROJECTS_DELETE_LOG,
+    data
+  };
+}
+
+function tasksLogDeleted(data) {
+  return {
+    type: TASKS_DELETE_LOG,
+    data
+  };
+}
+
 export function deleteLog(id) {
   const error = {
     message:
@@ -80,6 +96,8 @@ export function deleteLog(id) {
       .post(`/timelogs/${id}/delete`, { id })
       .then(res => {
         if (res.data.deleted === true) {
+          dispatch(projectsLogDeleted(res.data));
+          dispatch(tasksLogDeleted(res.data));
           dispatch(deleteLogSuccess(id));
         } else {
           dispatch(timelogError(error));

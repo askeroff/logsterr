@@ -5,6 +5,7 @@ import {
   RENAME_PROJECT,
   CLEAR_PROJECTS,
   DELETE_PROJECT,
+  PROJECTS_DELETE_LOG,
   TOGGLE_PROJECT_DONE,
   FETCH_PROJECTS,
   ADD_TIME_TO_PROJECTS,
@@ -80,6 +81,17 @@ export function projects(state = { list: [] }, action) {
     case DELETE_PROJECT: {
       const list = state.list.filter(item => item._id !== action.id);
       return { ...state, list };
+    }
+    case PROJECTS_DELETE_LOG: {
+      const parents = findParents(state.list, action.data.project);
+      const newList = state.list.map(item => {
+        const newItem = deepClone(item);
+        if (parents.includes(item._id)) {
+          newItem.timeSpent -= action.data.timeSpent;
+        }
+        return newItem;
+      });
+      return { ...state, list: newList };
     }
     default:
       return state;

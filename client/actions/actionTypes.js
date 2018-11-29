@@ -28,6 +28,8 @@ export const TOGGLE_DONE = 'TOGGLE_DONE';
 
 export const ADD_TIMELOG = 'ADD_TIMELOG';
 export const DELETE_LOG = 'DELETE_LOG';
+export const PROJECTS_DELETE_LOG = 'PROJECTS_DELETE_LOG';
+export const TASKS_DELETE_LOG = 'TASKS_DELETE_LOG';
 export const GET_LOGS = 'GET_LOGS';
 export const CLEAR_LOGS = 'CLEAR_LOGS';
 

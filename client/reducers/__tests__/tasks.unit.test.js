@@ -234,7 +234,7 @@ describe('Tests Reducers', () => {
     });
   });
 
-  test.only('Move to a new project where projects have parent-child relationships', () => {
+  test('Move to a new project where projects have parent-child relationships', () => {
     const action = {
       type: EDIT_TASK,
       id: '5a7ed310sdfsfe19302cdsdf4c03',
@@ -306,6 +306,67 @@ describe('Tests Reducers', () => {
 
     const secondResult = tasks(newState, secondAction);
     expect(secondResult).toEqual(oldState);
+  });
+
+  test('Move to a new project and dont delete/move time', () => {
+    const action = {
+      type: EDIT_TASK,
+      id: '5a7ed310sdfsfe19302cdsdf4c03',
+      currentProject: '5ad3b1be1c06a61a202fe303',
+      newProject: '5a281df108567500ade59253',
+      name: 'Child Project Task',
+      timeSpent: 600,
+      moveTime: false,
+      deleteTime: false
+    };
+    const oldState = {
+      list: [
+        {
+          doneList: undefined,
+          list: anotherTasksList.list,
+          project: childProject
+        },
+        {
+          doneList: undefined,
+          list: [],
+          project: anotherProject
+        },
+        {
+          doneList: undefined,
+          list: tasksList.list,
+          project: tasksList.project
+        }
+      ],
+      isFetching: false
+    };
+    const result = tasks(oldState, action);
+
+    const currentProjectList = anotherTasksList.list.filter(
+      item => item._id !== action.id
+    );
+    const newProjectList = [...tasksList.list, anotherTasksList.list[0]];
+
+    const newState = {
+      list: [
+        {
+          doneList: undefined,
+          list: currentProjectList,
+          project: anotherTasksList.project
+        },
+        {
+          doneList: undefined,
+          list: [],
+          project: anotherProject
+        },
+        {
+          doneList: undefined,
+          list: newProjectList,
+          project: tasksList.project
+        }
+      ],
+      isFetching: false
+    };
+    expect(result).toEqual(newState);
   });
 
   test('Toggle Task Done State', () => {

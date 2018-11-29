@@ -111,9 +111,6 @@ exports.deleteLog = async (req, res) => {
   );
 
   await Promise.all([taskPromise, projectsPromise]);
-  // to subtract time from the task
-  // to subtract time from the the projects reducers (including parents)
-  // to subtract time from project from tasks reducers including parents
   Timelog.findByIdAndRemove(req.body.id, () => {
     res.json({
       deleted: true,

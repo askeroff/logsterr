@@ -19,7 +19,6 @@ type ProjectProps = {
   handleDashboardData: (projectId: string) => void,
   handleTasks: (projectID: string) => void,
   handleNewTask: (data: { name: string, project: string }) => void,
-  // clearTasksList: () => void,
   handleGettingProjects: () => void,
   clearSecondsLog: () => void
 };

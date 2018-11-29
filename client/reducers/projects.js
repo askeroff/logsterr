@@ -27,26 +27,28 @@ export function projects(state = { list: [] }, action) {
       );
       const newParents = findParents(state.list, action.params.newProject);
       const list = state.list.map(item => {
+        const newItem = deepClone(item);
         if (
           currentParents.includes(item._id) &&
           action.params.deleteTime === true
         ) {
-          item.timeSpent -= action.params.timeSpent || 0; // eslint-disable-line no-param-reassign
+          newItem.timeSpent -= action.params.timeSpent || 0;
         }
         if (newParents.includes(item._id) && action.params.moveTime === true) {
-          item.timeSpent += action.params.timeSpent || 0; // eslint-disable-line no-param-reassign
+          newItem.timeSpent += action.params.timeSpent || 0;
         }
-        return item;
+        return newItem;
       });
       return { ...state, list };
     }
     case RENAME_PROJECT: {
       const list = state.list.map(item => {
+        const newItem = deepClone(item);
         if (item._id === action.project.id) {
-          item.name = action.project.name; // eslint-disable-line no-param-reassign
-          item.parent_id = action.project.parentID; // eslint-disable-line no-param-reassign
+          newItem.name = action.project.name;
+          newItem.parent_id = action.project.parentID;
         }
-        return item;
+        return newItem;
       });
       return { ...state, list };
     }
@@ -63,10 +65,11 @@ export function projects(state = { list: [] }, action) {
     }
     case TOGGLE_PROJECT_DONE: {
       const list = state.list.map(item => {
+        const newItem = deepClone(item);
         if (item._id === action.id) {
-          item.done = action.done; // eslint-disable-line no-param-reassign
+          newItem.done = action.done;
         }
-        return item;
+        return newItem;
       });
       return { ...state, list };
     }

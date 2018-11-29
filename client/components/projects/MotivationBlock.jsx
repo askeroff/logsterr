@@ -1,14 +1,18 @@
 // @flow
 import React from 'react';
 import { formatTime } from '../../helpers';
+import Spinner from '../layout/Spinner';
 
 type Props = {
   initialTime: number,
   time: number,
   dashboardData: any
 };
-// ! TODO make it update real time
+
 const MotivationBlock = (props: Props) => {
+  if (props.dashboardData.isFetching) {
+    return <Spinner />;
+  }
   let thisWeekString = '';
   let lastWeekString = '';
   let diffString = '';

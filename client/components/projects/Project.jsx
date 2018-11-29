@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
-import { getMotivationData } from '../../actions/dashboard';
+import { getMotivationData, fetchPosts } from '../../actions/dashboard';
 import { clearLogs } from '../../actions/timelog';
 import { addTimeToProject, getProjects } from '../../actions/projects';
 import { getTasks, newTask, clearTasks, fetchTasks } from '../../actions/tasks';
@@ -119,6 +119,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getProjects());
   },
   handleDashboardData(id) {
+    dispatch(fetchPosts());
     dispatch(getMotivationData(id));
   },
   handleAddingTimeToProject(id, time) {

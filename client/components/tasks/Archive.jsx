@@ -18,8 +18,8 @@ type Props = {
 
 class Archive extends React.Component<Props> {
   static defaultProps = {
-    projects: [],
-    tasks: [],
+    projects: { list: [] },
+    tasks: { list: [] },
     user: {}
   };
 
@@ -32,15 +32,22 @@ class Archive extends React.Component<Props> {
     if (projectTasks && projectTasks.doneList !== undefined) {
       this.isReady = true;
     }
+    this.loadData();
   }
 
   componentDidUpdate() {
+    this.loadData();
+  }
+
+  loadData = () => {
     if (this.props.user.loggedIn && !this.isReady) {
-      this.props.handleProjects();
+      if (this.props.projects.list.length === 0) {
+        this.props.handleProjects();
+      }
       this.props.handleTasks(this.props.match.params.id);
       this.isReady = true;
     }
-  }
+  };
 
   componentWillUnmount() {
     this.isReady = false;
@@ -85,7 +92,7 @@ class Archive extends React.Component<Props> {
 }
 
 const mapStateToProps = state => ({
-  projects: state.projects.list,
+  projects: state.projects,
   user: state.user,
   tasks: state.tasks
 });

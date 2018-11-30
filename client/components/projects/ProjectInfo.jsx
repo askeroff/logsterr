@@ -121,11 +121,7 @@ class ProjectInfo extends React.Component<Props, State> {
               You can checkout tasks you already done{' '}
               <Link to={`${this.props.pathname}/archive`}>here</Link>.
             </p>
-            <MotivationBlock
-              dashboardData={this.props.dashboardData}
-              initialTime={this.props.project.initialTime}
-              time={this.props.project.timeSpent}
-            />
+            <MotivationBlock dashboardData={this.props.dashboardData} />
           </div>
         </div>
       </div>

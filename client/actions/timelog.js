@@ -7,6 +7,7 @@ import {
   PROJECTS_DELETE_LOG,
   TASKS_DELETE_LOG,
   ADD_MESSAGE,
+  MOTIVATION_ADD_TIMELOG,
   ADD_TIME_TO_PROJECTS,
   ADD_TIME_TO_PROJECT
 } from './actionTypes';
@@ -41,6 +42,13 @@ export function addTimeProjectSuccess(data, seconds) {
     time: seconds
   };
 }
+export function addTimeMotivation(data, seconds) {
+  return {
+    type: MOTIVATION_ADD_TIMELOG,
+    id: data.project._id,
+    time: seconds
+  };
+}
 
 export function addTimelog(data, seconds) {
   const error = {
@@ -56,6 +64,7 @@ export function addTimelog(data, seconds) {
         if (res.data.success === true) {
           dispatch(addTimelogSuccess(res.data, seconds));
           dispatch(addTimeToProjects(res.data, seconds));
+          dispatch(addTimeMotivation(res.data, seconds));
         } else {
           dispatch(timelogError(error));
         }

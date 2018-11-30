@@ -5,14 +5,9 @@ function filterData(arr, day1, day2) {
   if (day1 === undefined || day2 === undefined) {
     throw new Error('No days passed to condition filtering');
   }
-  const filtered = arr.filter(item => {
-    const date = new Date(item.started);
-    if (moment(date).isBetween(day1, day2, 'day', '[]')) {
-      return item;
-    }
-    return false;
-  });
-  return filtered;
+  return arr.filter(item =>
+    moment(new Date(item.started)).isBetween(day1, day2, 'day', '[]')
+  );
 }
 
 module.exports = filterData;

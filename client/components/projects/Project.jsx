@@ -75,7 +75,6 @@ class Project extends React.Component<ProjectProps> {
     if (projectTasks === undefined && !showSpinner) {
       return <NotFound />;
     }
-
     return (
       <Layout showSpinner={showSpinner}>
         {projectTasks && projectTasks.list ? (

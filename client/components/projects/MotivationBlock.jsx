@@ -4,8 +4,6 @@ import { formatTime } from '../../helpers';
 import Spinner from '../layout/Spinner';
 
 type Props = {
-  initialTime: number,
-  time: number,
   dashboardData: any
 };
 
@@ -16,8 +14,6 @@ const MotivationBlock = (props: Props) => {
   let thisWeekString = '';
   let lastWeekString = '';
   let diffString = '';
-  const { time, initialTime } = props;
-  const initialDifference = Number(time) - Number(initialTime);
   const { dashboardData } = props;
   if (dashboardData.lastWeek && dashboardData.thisWeek) {
     const { lastWeek, thisWeek } = dashboardData;
@@ -31,17 +27,15 @@ const MotivationBlock = (props: Props) => {
       );
     }
     if (thisWeek && thisWeek.seconds) {
-      const difference = time - initialTime;
       thisWeekString = (
         <p>
-          This week you did <b>{formatTime(thisWeek.seconds + difference)}</b>.
+          This week you did <b>{formatTime(thisWeek.seconds)}</b>.
         </p>
       );
     }
 
     if (lastWeek && lastWeek.seconds && thisWeek && thisWeek.seconds) {
-      const difference =
-        lastWeek.seconds - initialDifference - thisWeek.seconds;
+      const difference = lastWeek.seconds - thisWeek.seconds;
       if (difference > 0) {
         diffString = (
           <p>

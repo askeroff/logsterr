@@ -21,30 +21,8 @@ function pickProject(projects, projectId) {
   return result;
 }
 
-exports.getMotivationData = async (req, res) => {
-  /*
-   We are subtracting here to have a buffer of extra week,
-   because we show data for this month, but also for the last week
-  */
-  const setFirstDay = new Date(
-    moment()
-      .startOf('month')
-      .subtract({ days: 14 })
-      .format('YYYY-MM-DD')
-  );
-  const setLastDay = new Date(
-    moment()
-      .endOf('month')
-      .format('YYYY-MM-DD')
-  );
-
-  const getTimelogs = await Timelog.getProjects(
-    req.user._id,
-    setFirstDay,
-    setLastDay
-  );
-
-  const data = getTimelogs.map(item => {
+function formatLogs(logs) {
+  return logs.map(item => {
     const newItem = { ...item };
     const { taskdata } = item;
     newItem.taskName =
@@ -55,14 +33,34 @@ exports.getMotivationData = async (req, res) => {
     newItem.author = undefined;
     return newItem;
   });
+}
 
-  const lastSunday = moment().isoWeekday(0)._d;
-  const lastMonday = moment().isoWeekday(-6)._d;
-  const thisMonday = moment().isoWeekday(1)._d;
-  const thisSunday = moment().isoWeekday(7)._d;
+exports.getMotivationData = async (req, res) => {
+  const lastSunday = moment()
+    .isoWeekday(0)
+    .endOf('day')._d;
+  const lastMonday = moment()
+    .isoWeekday(-6)
+
+    .startOf('day')._d;
+  const thisMonday = moment()
+    .isoWeekday(1)
+    .startOf('day')._d;
+  const thisSunday = moment()
+    .isoWeekday(7)
+    .endOf('day')._d;
+
+  const getTimelogs = await Timelog.getProjects(
+    req.user._id,
+    new Date(lastMonday),
+    new Date(thisSunday)
+  );
+
+  const data = formatLogs(getTimelogs);
 
   const lastWeek = filterData(data, lastMonday, lastSunday);
   const thisWeek = filterData(data, thisMonday, thisSunday);
+
   const projects = await Project.find({ author: req.user._id }).lean();
 
   const formattedLastWeek = prepareStatsData(lastWeek, projects);
@@ -92,17 +90,7 @@ exports.getData = async (req, res) => {
     new Date(endDate)
   );
 
-  const data = getTimelogs.map(item => {
-    const newItem = { ...item };
-    const { taskdata } = item;
-    newItem.taskName =
-      (taskdata && taskdata[0] && taskdata[0].name) || 'Task Not found';
-    newItem.done = undefined;
-    newItem.__v = undefined;
-    newItem.taskdata = undefined;
-    newItem.author = undefined;
-    return newItem;
-  });
+  const data = formatLogs(getTimelogs);
 
   const projects = await Project.find({ author: req.user._id }).lean();
 

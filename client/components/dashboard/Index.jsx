@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { getDashboardData, fetchPosts } from '../../actions/dashboard';
 import DatePicker from './DatePicker';
 import RenderData from './RenderData';
@@ -28,8 +28,8 @@ class Dashboard extends React.Component<Props, State> {
   state = {
     dashboard: [],
     defaultShow: 'today',
-    startDate: moment(new Date()),
-    endDate: moment(new Date()),
+    startDate: moment.utc(new Date()),
+    endDate: moment.utc(new Date()),
     focusedInput: null
   };
 
@@ -37,7 +37,8 @@ class Dashboard extends React.Component<Props, State> {
     const { startDate, endDate } = this.state;
     this.props.handleDashboardData(
       startDate.format('YYYY-MM-DD'),
-      endDate.format('YYYY-MM-DD')
+      endDate.format('YYYY-MM-DD'),
+      moment.tz.guess()
     );
   }
 
@@ -54,8 +55,8 @@ class Dashboard extends React.Component<Props, State> {
 
   setDates = (startDate, endDate) => {
     this.setState({
-      startDate,
-      endDate
+      startDate: moment.utc(startDate),
+      endDate: moment.utc(endDate)
     });
   };
 
@@ -96,9 +97,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleDashboardData(start, end) {
+  handleDashboardData(start, end, timezone) {
     dispatch(fetchPosts());
-    dispatch(getDashboardData(start, end));
+    dispatch(getDashboardData(start, end, timezone));
   }
 });
 

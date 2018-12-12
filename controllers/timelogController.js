@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment-timezone');
 
 const Timelog = mongoose.model('Timelog');
 const Project = mongoose.model('Project');
@@ -41,7 +42,11 @@ exports.addTime = async (req, res) => {
   }
 
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
-  const timelogPromise = new Timelog(req.body).save();
+  const timelogPromise = new Timelog({
+    ...req.body,
+    started: moment(new Date()).valueOf()
+  }).save();
+
   const taskPromise = Task.findById(req.body.task, (err, task) => {
     task.timeSpent += req.body.seconds; // eslint-disable-line no-param-reassign
     task.save();

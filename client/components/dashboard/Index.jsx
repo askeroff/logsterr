@@ -28,8 +28,8 @@ class Dashboard extends React.Component<Props, State> {
   state = {
     dashboard: [],
     defaultShow: 'today',
-    startDate: moment.utc(new Date()),
-    endDate: moment.utc(new Date()),
+    startDate: moment(new Date()),
+    endDate: moment(new Date()),
     focusedInput: null
   };
 
@@ -37,8 +37,7 @@ class Dashboard extends React.Component<Props, State> {
     const { startDate, endDate } = this.state;
     this.props.handleDashboardData(
       startDate.format('YYYY-MM-DD'),
-      endDate.format('YYYY-MM-DD'),
-      moment.tz.guess()
+      endDate.format('YYYY-MM-DD')
     );
   }
 
@@ -55,8 +54,8 @@ class Dashboard extends React.Component<Props, State> {
 
   setDates = (startDate, endDate) => {
     this.setState({
-      startDate: moment.utc(startDate),
-      endDate: moment.utc(endDate)
+      startDate: moment(startDate),
+      endDate: moment(endDate)
     });
   };
 
@@ -97,9 +96,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleDashboardData(start, end, timezone) {
+  handleDashboardData(start, end) {
     dispatch(fetchPosts());
-    dispatch(getDashboardData(start, end, timezone));
+    dispatch(getDashboardData(start, end));
   }
 });
 

@@ -46,7 +46,7 @@ export function getTasks(id: string, done: boolean) {
   };
   return (dispatch: any) =>
     axios
-      .get(`/projects/${id}/getTasks?done=${done}`)
+      .get(`/projects/${id}/getTasks?done=${done.toString()}`)
       .then(res => {
         if (res.data.tasksList) {
           dispatch(
@@ -91,7 +91,7 @@ export function newTask(task: any) {
       .catch(() => dispatch(taskError(error)));
 }
 
-export function deleteTaskSuccess(id: string, projectId) {
+export function deleteTaskSuccess(id: string, projectId: string) {
   return {
     type: DELETE_TASK,
     id,
@@ -161,7 +161,7 @@ export function clearTasks() {
   };
 }
 
-export function toggleDoneSuccess(id: string, projectId, done: boolean) {
+export function toggleDoneSuccess(id: string, projectId: string, done: boolean) {
   return {
     type: TOGGLE_DONE,
     id,

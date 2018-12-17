@@ -42,10 +42,13 @@ class Layout extends React.Component<Props> {
     if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
       return <Spinner />;
     }
+    const contentClass = this.props.contentClass
+      ? this.props.contentClass
+      : 'content-wrapper';
     return (
       <div className="wrapper">
         <Header userEmail={this.props.user.email} />
-        <div className="content-wrapper">
+        <div className={contentClass}>
           <div className="important-messages">
             <ShowLostTime />
             <ShowMessages />

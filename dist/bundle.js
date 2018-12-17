@@ -6246,13 +6246,14 @@ var Layout = function (_React$Component) {
       if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
         return _react2.default.createElement(_Spinner2.default, null);
       }
+      var contentClass = this.props.contentClass ? this.props.contentClass : 'content-wrapper';
       return _react2.default.createElement(
         'div',
         { className: 'wrapper' },
         _react2.default.createElement(_Header2.default, { userEmail: this.props.user.email }),
         _react2.default.createElement(
           'div',
-          { className: 'content-wrapper' },
+          { className: contentClass },
           _react2.default.createElement(
             'div',
             { className: 'important-messages' },
@@ -7115,7 +7116,7 @@ function logIn(user) {
           email = _res$data$user.email,
           _id = _res$data$user._id;
 
-      var loggedUser = { email: email, _id: _id };
+      var loggedUser = { email: email, _id: _id, loggedIn: true };
       dispatch(logInSuccess(loggedUser));
     }).catch(function (err) {
       return dispatch(logInError(err));
@@ -7178,7 +7179,7 @@ function signUp(user) {
           email = _res$data$user2.email,
           _id = _res$data$user2._id;
 
-      var loggedUser = { email: email, _id: _id };
+      var loggedUser = { email: email, _id: _id, loggedIn: true };
       dispatch(signUpSuccess(loggedUser));
     }).catch(function (err) {
       dispatch(signUpError(err));
@@ -63831,6 +63832,10 @@ var _Spinner2 = _interopRequireDefault(_Spinner);
 
 var _types = __webpack_require__(15);
 
+var _LandingPage = __webpack_require__(677);
+
+var _LandingPage2 = _interopRequireDefault(_LandingPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Home = function (_React$Component) {
@@ -63850,22 +63855,30 @@ var Home = function (_React$Component) {
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Home.__proto__ || (0, _getPrototypeOf2.default)(Home)).call.apply(_ref, [this].concat(args))), _this), _this.shouldRender = function () {
       var hasHistory = Object.prototype.hasOwnProperty.call(_this.props.history, 'push');
       if (_this.props.user.loggedIn) {
-        return _react2.default.createElement(_Index2.default, null);
+        return _react2.default.createElement(
+          _Layout2.default,
+          { showToGuests: true },
+          _react2.default.createElement(_Index2.default, null)
+        );
       } else if (_this.props.user.loggedIn === false && hasHistory) {
-        _this.props.history.push('/login');
+        return _react2.default.createElement(
+          _Layout2.default,
+          { showToGuests: true, contentClass: 'landing-wrapper' },
+          _react2.default.createElement(_LandingPage2.default, null)
+        );
       }
-      return _react2.default.createElement(_Spinner2.default, null);
+      return _react2.default.createElement(
+        _Layout2.default,
+        { showToGuests: true },
+        _react2.default.createElement(_Spinner2.default, null)
+      );
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Home, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        _Layout2.default,
-        null,
-        this.shouldRender()
-      );
+      return this.shouldRender();
     }
   }]);
   return Home;
@@ -84415,10 +84428,199 @@ exports = module.exports = __webpack_require__(118)(false);
 
 
 // module
-exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n  --mainBlue: #1c3144;\n  --secondBlue: #2f4858;\n  --myOrange: #e56140;\n  --myRed: #a20021;\n  --myGrey: #e8e9eb;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n  max-width: 1200px;\n}\n.hide {\n  display: none !important;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: var(--mainBlue);\n  margin-left: 0;\n  margin-right: 0;\n}\n.swal2-title {\n  font-size: 1.2rem;\n}\n.swal2-content .timeoptions {\n  font-size: 0.8rem;\n}\n.swal2-content input {\n  margin-left: 6px;\n}\n/* HEADER */\n.header {\n  background: var(--mainBlue);\n  border-bottom: 5px solid var(--myOrange);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav {\n  margin-left: 0;\n  padding-left: 0;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 10px 0 0;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n  display: block;\n  margin-top: 10px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  padding: 0;\n  margin: 0;\n}\n.projects-titlewrapper {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  justify-items: center;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done {\n  list-style: none;\n  padding: 5px 8px;\n  display: grid;\n  margin-bottom: 8px;\n  grid-template-columns: 1fr 1fr 1fr;\n  height: 34px;\n}\n.project__item--parent {\n  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2);\n  background: var(--myGrey);\n}\n.projects--topbuttons {\n  display: flex;\n  justify-content: center;\n}\n.projects__item--edit {\n  grid-template-columns: 1fr 1fr;\n}\n.projects__item--edit input,\n.projects__item--edit select {\n  height: 22px;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.projects__item .name-input {\n  grid-column: 1/3;\n  max-width: 380px;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: var(--myBlue);\n  align-self: center;\n}\n.projects__item-title:hover {\n  color: var(--secondBlue);\n}\n.projects__item-title .pretty-time {\n  color: var(--myOrange);\n  background: var(--mainBlue);\n  font-size: 0.7em;\n  font-weight: bold;\n  margin-left: 20px;\n  transform: rotate(-3deg);\n  display: inline-block;\n}\n.form__newproject {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n.projects__list .buttons-group {\n  display: none;\n}\n.projects__item:hover .buttons-group {\n  display: block;\n}\n.project__info .page-title .pretty-time {\n  color: var(--myGrey);\n  transform: rotate(2deg);\n  display: inline-block;\n  padding: 8px;\n  border-bottom: 2px solid var(--myOrange);\n}\n.project-name {\n  display: flex;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item,\n.tasks__list-item--done {\n  height: auto;\n  border-bottom: 1px solid #ededed;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title,\n.tasks__list-input {\n  grid-column: 1/3;\n}\n.tasks__list-input input,\n.project-select {\n  height: 20px;\n  box-sizing: content-box;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n.tasks__list-item .buttons-group {\n  display: none;\n}\n.tasks__list-item .buttons-group.buttons-group--show {\n  display: block;\n}\n.tasks__list-item:hover .buttons-group {\n  display: block;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name,\n  .tasks__list-input {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: var(--myGrey);\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--mainBlue);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--secondBlue);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.timelogs__item {\n  border-top: 1px solid #f1f1f1;\n}\n.timelogs__item td {\n  padding: 20px 0;\n  padding-left: 5px;\n}\n.timelogs__title {\n  text-align: left;\n  background: #f1f1f1;\n  padding: 15px 0;\n  padding-left: 5px;\n  text-transform: uppercase;\n  color: #4a4a4a;\n  font-weight: 600;\n}\n.timelogs__deletecell {\n  visibility: hidden;\n}\n.timelogs__item:hover .timelogs__deletecell {\n  visibility: visible;\n}\n.timelogs__item:hover {\n  background: #fcf8f8;\n  cursor: pointer;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n/* DASHBOARD */\n.dashboard__parent .dashboard__item-title {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 8px;\n  border: none;\n}\n.dashboard__item-title {\n  color: var(--mainBlue);\n  border-left: 4px solid var(--myOrange);\n  padding: 8px;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  padding: 5px;\n}\n.dashboard__select {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n}\n.dashboard__title {\n  text-transform: uppercase;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: flex-start;\n  margin: 30px 0px;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n  align-self: center;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 10px;\n  border: 0;\n  border-bottom: 2px solid var(--myOrange);\n  text-align: center;\n}\n.button-addproject {\n  width: 70px;\n  font-size: 2em;\n  line-height: 1em;\n  align-self: center;\n  height: 50px;\n  border-radius: 30px;\n  color: #fff;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  box-sizing: content-box;\n  border-radius: 5px;\n}\n.button--danger {\n  background: var(--myRed);\n  color: var(--myGrey);\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* FOOTER */\nfooter {\n  background: var(--mainBlue);\n  border-top: 5px solid var(--myOrange);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 720px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n  .dashboard__header {\n    display: grid;\n    justify-content: center;\n  }\n  .dashboard__select {\n    padding: 10px;\n  }\n  .projects__item,\n  .projects__item--done,\n  .tasks__list-item,\n  .tasks__list-item--done {\n    padding: 16px 8px;\n    height: 70px;\n  }\n  .projects__item:hover .buttons-group {\n    display: grid;\n    justify-self: end;\n  }\n  .project-name {\n    display: grid;\n  }\n  .tasks__list-item {\n    height: auto;\n  }\n  .tasks__list-input {\n    margin-bottom: 10px;\n  }\n}\n", ""]);
+exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n  --mainBlue: #1c3144;\n  --secondBlue: #2f4858;\n  --myOrange: #e56140;\n  --myRed: #a20021;\n  --myGrey: #e8e9eb;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n  max-width: 1200px;\n}\n.hide {\n  display: none !important;\n}\n.landing-content {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.landing-block--main {\n  grid-column: 1/-1;\n}\n.highlight {\n  background-color: var(--myRed);\n  height: 15px;\n  position: relative;\n  top: -34px;\n  left: -10px;\n  width: 120%;\n  max-width: 32vw;\n  margin: auto;\n}\n.landing-block {\n  color: #fff;\n  padding: 10px;\n  line-height: 2em;\n  background: var(--mainBlue);\n  margin-bottom: 10px;\n}\n.landing-block a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 2px dashed var(--myOrange);\n}\n.landing-block a:hover {\n  border: none;\n}\n.landing-block .page-title {\n  color: #fff;\n  z-index: 999999;\n  position: relative;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: var(--mainBlue);\n  margin-left: 0;\n  margin-right: 0;\n}\n.secondblue {\n  background: var(--secondBlue);\n}\n.myred {\n  background: var(--myRed);\n}\n.white {\n  background-color: #fff;\n}\n.orange {\n  background: var(--myOrange);\n}\n.landing-block.white {\n  color: #333;\n}\n.white .page-title {\n  color: #333;\n}\n.swal2-title {\n  font-size: 1.2rem;\n}\n.swal2-content .timeoptions {\n  font-size: 0.8rem;\n}\n.swal2-content input {\n  margin-left: 6px;\n}\n/* HEADER */\n.header {\n  background: var(--mainBlue);\n  border-bottom: 5px solid var(--myOrange);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav {\n  margin-left: 0;\n  padding-left: 0;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 10px 0 0;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n  display: block;\n  margin-top: 10px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  padding: 0;\n  margin: 0;\n}\n.projects-titlewrapper {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  justify-items: center;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done {\n  list-style: none;\n  padding: 5px 8px;\n  display: grid;\n  margin-bottom: 8px;\n  grid-template-columns: 1fr 1fr 1fr;\n  height: 34px;\n}\n.project__item--parent {\n  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2);\n  background: var(--myGrey);\n}\n.projects--topbuttons {\n  display: flex;\n  justify-content: center;\n}\n.projects__item--edit {\n  grid-template-columns: 1fr 1fr;\n}\n.projects__item--edit input,\n.projects__item--edit select {\n  height: 22px;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.projects__item .name-input {\n  grid-column: 1/3;\n  max-width: 380px;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: var(--myBlue);\n  align-self: center;\n}\n.projects__item-title:hover {\n  color: var(--secondBlue);\n}\n.projects__item-title .pretty-time {\n  color: var(--myOrange);\n  background: var(--mainBlue);\n  font-size: 0.7em;\n  font-weight: bold;\n  margin-left: 20px;\n  transform: rotate(-3deg);\n  display: inline-block;\n}\n.form__newproject {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n.projects__list .buttons-group {\n  display: none;\n}\n.projects__item:hover .buttons-group {\n  display: block;\n}\n.project__info .page-title .pretty-time {\n  color: var(--myGrey);\n  transform: rotate(2deg);\n  display: inline-block;\n  padding: 8px;\n  border-bottom: 2px solid var(--myOrange);\n}\n.project-name {\n  display: flex;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item,\n.tasks__list-item--done {\n  height: auto;\n  border-bottom: 1px solid #ededed;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title,\n.tasks__list-input {\n  grid-column: 1/3;\n}\n.tasks__list-input input,\n.project-select {\n  height: 20px;\n  box-sizing: content-box;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n.tasks__list-item .buttons-group {\n  display: none;\n}\n.tasks__list-item .buttons-group.buttons-group--show {\n  display: block;\n}\n.tasks__list-item:hover .buttons-group {\n  display: block;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name,\n  .tasks__list-input {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: var(--myGrey);\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--mainBlue);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--secondBlue);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.timelogs__item {\n  border-top: 1px solid #f1f1f1;\n}\n.timelogs__item td {\n  padding: 20px 0;\n  padding-left: 5px;\n}\n.timelogs__title {\n  text-align: left;\n  background: #f1f1f1;\n  padding: 15px 0;\n  padding-left: 5px;\n  text-transform: uppercase;\n  color: #4a4a4a;\n  font-weight: 600;\n}\n.timelogs__deletecell {\n  visibility: hidden;\n}\n.timelogs__item:hover .timelogs__deletecell {\n  visibility: visible;\n}\n.timelogs__item:hover {\n  background: #fcf8f8;\n  cursor: pointer;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n/* DASHBOARD */\n.dashboard__parent .dashboard__item-title {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 8px;\n  border: none;\n}\n.dashboard__item-title {\n  color: var(--mainBlue);\n  border-left: 4px solid var(--myOrange);\n  padding: 8px;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  padding: 5px;\n}\n.dashboard__select {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n}\n.dashboard__title {\n  text-transform: uppercase;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: flex-start;\n  margin: 30px 0px;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n  align-self: center;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 10px;\n  border: 0;\n  border-bottom: 2px solid var(--myOrange);\n  text-align: center;\n}\n.button-addproject {\n  width: 70px;\n  font-size: 2em;\n  line-height: 1em;\n  align-self: center;\n  height: 50px;\n  border-radius: 30px;\n  color: #fff;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  box-sizing: content-box;\n  border-radius: 5px;\n}\n.button--danger {\n  background: var(--myRed);\n  color: var(--myGrey);\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* FOOTER */\nfooter {\n  background: var(--mainBlue);\n  border-top: 5px solid var(--myOrange);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 720px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n  .dashboard__header {\n    display: grid;\n    justify-content: center;\n  }\n  .dashboard__select {\n    padding: 10px;\n  }\n  .projects__item,\n  .projects__item--done,\n  .tasks__list-item,\n  .tasks__list-item--done {\n    padding: 16px 8px;\n    height: 70px;\n  }\n  .projects__item:hover .buttons-group {\n    display: grid;\n    justify-self: end;\n  }\n  .project-name {\n    display: grid;\n  }\n  .tasks__list-item {\n    height: auto;\n  }\n  .tasks__list-input {\n    margin-bottom: 10px;\n  }\n  .landing-content {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n}\n", ""]);
 
 // exports
 
+
+/***/ }),
+/* 677 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(5);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(6);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(7);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(8);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(9);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LandingPage = function (_Component) {
+  (0, _inherits3.default)(LandingPage, _Component);
+
+  function LandingPage() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    (0, _classCallCheck3.default)(this, LandingPage);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = LandingPage.__proto__ || (0, _getPrototypeOf2.default)(LandingPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      test: ''
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(LandingPage, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'landing-content' },
+        _react2.default.createElement(
+          'div',
+          { className: 'landing-block white landing-block--main' },
+          _react2.default.createElement(
+            'div',
+            { className: 'content-wrapper' },
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'What is this?'
+            ),
+            _react2.default.createElement('div', { className: 'highlight orange' }),
+            _react2.default.createElement(
+              'p',
+              { className: 'landing-paragraph' },
+              _react2.default.createElement(
+                'strong',
+                null,
+                'Logsterr'
+              ),
+              ' is an app, I have built to keep track of certain projects I am working on. In another words, it is a side project of mine. More details below.'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'landing-block' },
+          _react2.default.createElement(
+            'div',
+            { className: 'content-wrapper' },
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'What does this app do?'
+            ),
+            _react2.default.createElement('div', { className: 'highlight' }),
+            _react2.default.createElement(
+              'div',
+              { className: 'landing-paragraph' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'You can create projects (and projects within those projects), create tasks inside those projects and whenever you are doing them you can press start and log how many minutes/hours you have spent on it. You also can mark projects and tasks as complete, and view the history of your timelogs.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'There is a popular pomodoro technique for productivity. But what I have found it keeps you in certain boundaries of specified time, like 25 minutes, when maybe you would\'ve done more. Or you don\'t start all, because you don\'t feel like it. While here, you press the timer and do the job as long as you can go.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'Sometimes it will be 10 minutes, sometimes 2 hours. The added benefit of this app, is not only you can do this, but the app will keep track of all the logs you did and give you some stats on how much you have spent on each project.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'I, personally, started this app as a way to keep track of my guitar practice. There were a lot of small tasks I had to 5-10 minutes long and at the end I wanted to know how much I spent on it.'
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'landing-block myred' },
+          _react2.default.createElement(
+            'div',
+            { className: 'content-wrapper' },
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'Can I sign up?'
+            ),
+            _react2.default.createElement('div', { className: 'highlight secondblue' }),
+            _react2.default.createElement(
+              'div',
+              { className: 'landing-paragraph' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Sort of. The app is not fully ready yet. I am the only user right now and there is still work to do. Even though I started this with the idea of a simple app, it kind of spiraled and I keep thinking new things to do and features to add.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'With that said, I haven\'t opened the sign up yet, it\'s only with invites. But if you really like the idea and want to try it out, you can either',
+                ' ',
+                _react2.default.createElement(
+                  'a',
+                  { href: 'mailto:askerovlab@gmail.com' },
+                  'email'
+                ),
+                ' me or',
+                ' ',
+                _react2.default.createElement(
+                  'a',
+                  { href: 'https://twitter.com/askerovlab' },
+                  'tweet'
+                ),
+                ' at me, and I will send you the invite. And of course there is an option to set the app yourself. It\'s open source. If you have any questions, the same procedure: tweet or email.'
+              )
+            ),
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'Is there mobile version?'
+            ),
+            _react2.default.createElement('div', { className: 'highlight secondblue' }),
+            _react2.default.createElement(
+              'div',
+              { className: 'landing-paragraph' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Not yet. It\'s primarily desktop focused browser version. But I\'m working on it. You should be able to interact with the app through your mobile browser but it might not be the best experience yet.'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return LandingPage;
+}(_react.Component);
+
+exports.default = LandingPage;
 
 /***/ })
 /******/ ]);

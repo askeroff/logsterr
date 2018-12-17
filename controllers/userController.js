@@ -21,15 +21,12 @@ exports.validateSignup = async (req, res, next) => {
     }
     res.status(403).json({ result: 'error', errors });
   } else {
-    let updatedInvite = false;
-    await Invite.findById(invite[0]._id, (err, item) => {
-      item.used = true; // eslint-disable-line no-param-reassign
+    try {
+      const item = await Invite.findById(invite[0]._id);
+      item.used = true;
       item.save();
-      updatedInvite = true;
-    });
-    if (updatedInvite) {
-      next();
-    } else {
+      return next();
+    } catch (e) {
       res.status(403).json({
         result: 'error',
         errors: ['Something went wrong. Try again later']

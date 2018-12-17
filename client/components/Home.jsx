@@ -5,6 +5,7 @@ import Layout from './layout/Layout';
 import Dashboard from './dashboard/Index';
 import Spinner from './layout/Spinner';
 import { IUser } from '../types';
+import LandingPage from './LandingPage';
 
 type Props = {
   user: IUser,
@@ -20,15 +21,27 @@ class Home extends React.Component<Props> {
       'push'
     );
     if (this.props.user.loggedIn) {
-      return <Dashboard />;
+      return (
+        <Layout showToGuests>
+          <Dashboard />
+        </Layout>
+      );
     } else if (this.props.user.loggedIn === false && hasHistory) {
-      this.props.history.push('/login');
+      return (
+        <Layout showToGuests contentClass="landing-wrapper">
+          <LandingPage />
+        </Layout>
+      );
     }
-    return <Spinner />;
+    return (
+      <Layout showToGuests>
+        <Spinner />
+      </Layout>
+    );
   };
 
   render() {
-    return <Layout>{this.shouldRender()}</Layout>;
+    return this.shouldRender();
   }
 }
 

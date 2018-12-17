@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "now": {
-    "dotenv": "variables.env.now"
-  },
   "scripts": {
     "test": "jest",
     "flow": "flow",

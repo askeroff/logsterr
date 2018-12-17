@@ -1,3 +1,14 @@
 {
-  "dotenv": "variables.env.now"
+  "env": {
+    "NODE_ENV": "production",
+    "DATABASE": "@logsterr_db",
+    "PORT": "@logsterr_port",
+    "SECRET": "@logsterr_secret",
+    "KEY": "@logsterr_key",
+    "MAIL_USER": "@logsterr_mailuser",
+    "MAIL_PASS": "@logsterr_mailpass",
+    "MAIL_HOST": "@logsterr_mailhost",
+    "MAIL_PORT": "@logsterr_mailport",
+    "MAIL_FROM": "@logsterr_mailfrom"
+  }
 }

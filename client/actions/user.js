@@ -9,27 +9,27 @@ import {
   POST_RESET,
   LOG_IN_ERROR,
   SIGN_UP_ERROR,
-  ADD_MESSAGE,
+  ADD_MESSAGE
 } from './actionTypes';
 
 export function userMessage(response) {
   return {
     type: ADD_MESSAGE,
-    response,
+    response
   };
 }
 
 export function logInSuccess(user) {
   return {
     type: LOG_IN,
-    user,
+    user
   };
 }
 
 export function logInError(error) {
   return {
     type: LOG_IN_ERROR,
-    error,
+    error
   };
 }
 
@@ -39,7 +39,7 @@ export function logIn(user) {
       .post('/login', user)
       .then(res => {
         const { email, _id } = res.data.user;
-        const loggedUser = { email, _id };
+        const loggedUser = { email, _id, loggedIn: true };
         dispatch(logInSuccess(loggedUser));
       })
       .catch(err => dispatch(logInError(err)));
@@ -48,7 +48,7 @@ export function logIn(user) {
 export function logOutSuccess(user) {
   return {
     type: LOG_OUT,
-    user,
+    user
   };
 }
 
@@ -65,7 +65,7 @@ export function logOut() {
 export function isLoggedInSuccess(user) {
   return {
     type: IS_LOGGED_IN,
-    user,
+    user
   };
 }
 
@@ -82,14 +82,14 @@ export function isLoggedIn() {
 export function signUpError(error) {
   return {
     type: SIGN_UP_ERROR,
-    error,
+    error
   };
 }
 
 export function signUpSuccess(user) {
   return {
     type: SIGN_UP,
-    user,
+    user
   };
 }
 
@@ -99,7 +99,7 @@ export function signUp(user) {
       .post('/signup', user)
       .then(res => {
         const { email, _id } = res.data.user;
-        const loggedUser = { email, _id };
+        const loggedUser = { email, _id, loggedIn: true };
         dispatch(signUpSuccess(loggedUser));
       })
       .catch(err => {
@@ -124,7 +124,7 @@ export function forgot(email) {
             userMessage({
               message: res.data.message,
               name: `user-forgot-message-${Date.now()}`,
-              type: 'error',
+              type: 'error'
             })
           );
         } else {
@@ -132,7 +132,7 @@ export function forgot(email) {
             userMessage({
               message: res.data.message,
               name: `user-forgot-message-${Date.now()}`,
-              type: 'info',
+              type: 'info'
             })
           );
         }
@@ -141,9 +141,10 @@ export function forgot(email) {
       .catch(err => {
         dispatch(
           userMessage({
-            message: 'Sorry, something went wrong on our side. Try later or contact support.',
+            message:
+              'Sorry, something went wrong on our side. Try later or contact support.',
             name: `user-forgot-message-${Date.now()}`,
-            type: 'error',
+            type: 'error'
           })
         );
         dispatch(forgotSuccess(true));
@@ -154,7 +155,7 @@ export function forgot(email) {
 export function getResetSuccess(data) {
   return {
     type: GET_RESET,
-    data,
+    data
   };
 }
 
@@ -173,7 +174,7 @@ export function getReset(token) {
 export function postResetSuccess(data) {
   return {
     type: POST_RESET,
-    data,
+    data
   };
 }
 

@@ -46,3 +46,19 @@ export function formatForTimer(number) {
   const time = `${hours}:${minutes}:${seconds}`;
   return time;
 }
+
+export function findParents(arr, id) {
+  const parents = [];
+  function recursive(myId) {
+    arr.forEach(item => {
+      if (item._id === myId) {
+        parents.push(myId);
+        if (item.parent_id !== '') {
+          recursive(item.parent_id);
+        }
+      }
+    });
+  }
+  recursive(id);
+  return parents;
+}

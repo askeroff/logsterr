@@ -6,26 +6,26 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  entry: './client/index.js',
+  entry: './client/index.jsx',
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
-      DEBUG: false,
+      DEBUG: false
     }),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       title: 'TimeTracker App',
       template: 'assets/template.html',
-      favicon: 'assets/favicon.png',
+      favicon: 'assets/favicon.png'
     }),
     new UglifyJSPlugin({
-      sourceMap: true,
-    }),
+      sourceMap: true
+    })
   ],
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -33,18 +33,21 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
         use: {
-          loader: 'babel-loader',
-        },
+          loader: 'babel-loader'
+        }
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader']
       },
       // handling our stylus files
       {
         test: /\.styl$/,
-        use: ['style-loader', 'css-loader', 'stylus-loader'],
-      },
-    ],
+        use: ['style-loader', 'css-loader', 'stylus-loader']
+      }
+    ]
   },
+  resolve: {
+    extensions: ['.jsx', '.js', 'json', 'css', 'sass']
+  }
 };

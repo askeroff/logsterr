@@ -45,7 +45,7 @@ app.use(
     key: process.env.KEY,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
 
@@ -86,7 +86,7 @@ app.post(
       .withMessage('Password should be longer than 5 symbols'),
     sanitize('email')
       .trim()
-      .normalizeEmail(),
+      .normalizeEmail()
   ],
   userController.validateSignup,
   catchErrors(userController.signup),
@@ -159,10 +159,22 @@ app.get(
   catchErrors(timelogController.getLogs)
 );
 
-app.get(
-  '/dashboard/getdata/all',
+app.post(
+  '/projects/:id/done',
   authController.isLoggedIn,
-  dashboardController.getAll
+  catchErrors(projectsController.toggleDone)
+);
+
+app.get(
+  '/dashboard/getmotivation',
+  authController.isLoggedIn,
+  dashboardController.getMotivationData
+);
+
+app.get(
+  '/dashboard/getdata',
+  authController.isLoggedIn,
+  dashboardController.getData
 );
 
 app.get('*', (req, res) => {

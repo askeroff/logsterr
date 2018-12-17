@@ -4,6 +4,11 @@
   --danger #dc3545
   --info #17a2b8
   --info-text #fff
+  --mainBlue #1C3144
+  --secondBlue #2F4858
+  --myOrange #E56140
+  --myRed #A20021
+  --myGrey #E8E9EB
 
 html, body
   height 100%
@@ -32,14 +37,81 @@ button:focus
 .content-wrapper
   width 80%
   margin 0 auto
+  max-width 1200px
+
+.hide
+  display none !important
+
+.landing-content
+  display grid 
+  grid-template-columns 1fr 1fr
+  
+.landing-block--main
+  grid-column 1/-1
+
+.highlight
+  background-color var(--myRed)
+  height: 15px
+  position relative
+  top -34px
+  left -10px
+  width 120%
+  max-width 32vw
+  margin auto
+  
+.landing-block
+  color #ffffff
+  padding 10px
+  line-height 2em
+  background var(--mainBlue)
+  margin-bottom 10px
+  
+.landing-block a
+  color #ffffff
+  text-decoration none 
+  border-bottom 2px dashed var(--myOrange)
+
+.landing-block a:hover
+  border none
+  
+.landing-block .page-title
+  color #fff
+  z-index 999999
+  position relative
 
 .page-title
   text-align center
   text-transform uppercase
-  color #007090
+  color var(--mainBlue)
   margin-left 0
   margin-right 0
+  
+.secondblue
+  background var(--secondBlue)
 
+.myred
+  background var(--myRed)
+
+.white
+  background-color #fff
+
+.orange
+  background var(--myOrange)
+
+.landing-block.white
+  color #333
+  
+.white .page-title
+  color #333
+
+.swal2-title
+  font-size 1.2rem
+
+.swal2-content .timeoptions
+  font-size 0.8rem
+
+.swal2-content input 
+  margin-left 6px
 
 /* HEADER */
 @import 'header.styl'
@@ -109,8 +181,8 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
   color var(--info-text)
 
 .pretty-time
-  background #006889
-  color #ffffff
+  background var(--mainBlue)
+  color var(--myGrey)
   padding 5px
   margin-left 10px
 
@@ -141,8 +213,8 @@ input[type="submit"]:hover, input[type="button"]:hover, button:hover
 /* FOOTER */
 
 footer
-  background #006989
-  border-top 10px solid var(--second-color)
+  background var(--mainBlue)
+  border-top 5px solid var(--myOrange)
   color #fafafa
   text-align center
   margin-top 30px
@@ -151,14 +223,5 @@ footer
   color #fafafa
   text-decoration none
   border-bottom 1px solid #eeeeee
-
-@media (max-width: 360px) and (max-device-width: 360px)
-  .content-wrapper
-    margin 0
-    width auto
-
-@media (max-width: 960px) and (max-device-width: 960px)
-  .page-title .pretty-time
-    font-size small
-    background #ffffff
-    color #007090
+  
+@import 'media.styl'  

@@ -7,35 +7,38 @@ import {
   CLEAR_PROJECTS,
   DELETE_PROJECT,
   ADD_MESSAGE,
+  TOGGLE_PROJECT_DONE,
+  FETCH_PROJECTS
 } from '../actions/actionTypes';
 
 export function addProjectSuccess(project) {
   return {
     type: ADD_PROJECT,
-    project,
+    project
   };
 }
 
 export function projectError(response) {
   return {
     type: ADD_MESSAGE,
-    response,
+    response
   };
 }
 
-export function addProject(name) {
+export function addProject(name, id) {
   const error = {
     message: 'Something went wrong. Try adding the project later.',
     name: 'project-add-error',
-    type: 'error',
+    type: 'error'
   };
   return dispatch =>
     axios
-      .post('/projects/add', { name })
+      .post('/projects/add', { name, parent_id: id })
       .then(res => {
         if (res.data.project) {
           dispatch(addProjectSuccess(res.data.project));
         } else {
+          error.message = res.data.error || error.message;
           dispatch(projectError(error));
         }
       })
@@ -45,34 +48,37 @@ export function addProject(name) {
 export function renameProjectSuccess(project) {
   return {
     type: RENAME_PROJECT,
-    project,
+    project
   };
 }
 
-export function renameProject(id, name) {
+export function renameProject(id, name, parentID) {
   const error = {
     message: 'Something went wrong. Try renaming the project later.',
     name: 'project-rename-error',
-    type: 'error',
+    type: 'error'
   };
-  return dispatch =>
-    axios
-      .post(`/projects/${id}/edit`, { name })
+  return dispatch => {
+    dispatch(renameProjectSuccess({ id, name, parentID }));
+    return axios
+      .post(`/projects/${id}/edit`, { name, parentID })
       .then(res => {
-        if (res.data.project) {
-          dispatch(renameProjectSuccess({ id, name }));
-        } else {
+        if (res.data.error) {
+          error.message = res.data.error;
           dispatch(projectError(error));
         }
       })
       .catch(() => dispatch(projectError(error)));
+  };
 }
 
 export function addTimeToProjectSuccess(id, time) {
   return {
     type: ADD_TIME_TO_PROJECT,
-    id,
-    time,
+    data: {
+      task: { _id: id }
+    },
+    seconds: time
   };
 }
 
@@ -80,7 +86,7 @@ export function addTimeToProject(id, time) {
   const error = {
     message: 'Something went wrong. Try adding time to this project later.',
     name: 'project-timeAdd-error',
-    type: 'error',
+    type: 'error'
   };
   return dispatch =>
     axios
@@ -95,23 +101,30 @@ export function addTimeToProject(id, time) {
       .catch(() => dispatch(projectError(error)));
 }
 
-export function getProjectsSuccess(response) {
+export function fetchProjects() {
   return {
-    type: GET_PROJECTS,
-    response,
+    type: FETCH_PROJECTS,
+    response: true
   };
 }
 
-export function getProjects(authorID) {
+export function getProjectsSuccess(response) {
+  return {
+    type: GET_PROJECTS,
+    response
+  };
+}
+
+export function getProjects() {
   const error = {
     message:
       'Something went wrong. Could not fetch the projects. Try reloading the page.',
     name: 'project-getList-error',
-    type: 'error',
+    type: 'error'
   };
   return dispatch =>
     axios
-      .get('/projects/getProjects', authorID)
+      .get('/projects/getProjects')
       .then(res => {
         if (res.data.projectsList) {
           dispatch(getProjectsSuccess(res));
@@ -125,14 +138,14 @@ export function getProjects(authorID) {
 export function clearProjects() {
   return {
     type: CLEAR_PROJECTS,
-    response: [],
+    response: []
   };
 }
 
 export function deleteProjectSuccess(id) {
   return {
     type: DELETE_PROJECT,
-    id,
+    id
   };
 }
 
@@ -140,7 +153,7 @@ export function deleteProject(id) {
   const error = {
     message: 'Something went wrong. Could not delete the project. Try later',
     name: 'project-delete-error',
-    type: 'error',
+    type: 'error'
   };
   return dispatch =>
     axios
@@ -149,6 +162,35 @@ export function deleteProject(id) {
         if (res.data.deleted) {
           dispatch(deleteProjectSuccess(id));
         } else {
+          dispatch(projectError(error));
+        }
+      })
+      .catch(() => dispatch(projectError(error)));
+}
+
+export function toggleDoneSuccess(id, done) {
+  return {
+    type: TOGGLE_PROJECT_DONE,
+    id,
+    done
+  };
+}
+
+export function toggleDone(id) {
+  const error = {
+    message:
+      'Something went wrong. Could not toggle the project. Try again or reload the page',
+    name: 'projects-toggle-error',
+    type: 'error'
+  };
+  return dispatch =>
+    axios
+      .post(`/projects/${id}/done`, { id })
+      .then(res => {
+        if (res.data.done !== undefined) {
+          dispatch(toggleDoneSuccess(id, res.data.done));
+        } else {
+          error.message = res.data.error || error.message;
           dispatch(projectError(error));
         }
       })

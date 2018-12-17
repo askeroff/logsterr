@@ -6,29 +6,34 @@ const taskSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
-    required: 'You need to give your task a name!',
+    required: 'You need to give your task a name!'
   },
   done: {
     type: Boolean,
-    default: false,
+    default: false
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   },
   timeSpent: {
     type: Number,
-    default: 0,
+    default: 0
   },
   created: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   updated: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   project: {
     type: mongoose.Schema.ObjectId,
     ref: 'Project',
-    required: 'Task should have a parent project',
-  },
+    required: 'Task should have a parent project'
+  }
 });
 
 module.exports = mongoose.model('Task', taskSchema);
+

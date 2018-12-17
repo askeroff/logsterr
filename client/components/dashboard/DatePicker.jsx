@@ -88,6 +88,7 @@ class DatePicker extends Component<Props, {}> {
           endDateId="your_unique_end_date_id"
           onDatesChange={this.onDatesChange}
           firstDayOfWeek={1}
+          minimumNights={0}
           isOutsideRange={() => false}
           focusedInput={this.props.focusedInput}
           onFocusChange={focusedInput =>

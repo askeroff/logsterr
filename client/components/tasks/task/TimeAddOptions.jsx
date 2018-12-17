@@ -6,7 +6,12 @@ type State = {
   deleteTime: boolean
 };
 
-class TimeAddOptions extends React.Component<{}, State> {
+type Props = {
+  setMoveRef: any,
+  setDeleteRef: any,
+}
+
+class TimeAddOptions extends React.Component<Props, State> {
   state = {
     moveTime: true,
     deleteTime: false

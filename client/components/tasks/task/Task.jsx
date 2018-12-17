@@ -69,16 +69,16 @@ class Task extends React.Component<TaskProps, TaskState> {
     };
   };
 
-  setMovetimeRef = element => {
+  setMovetimeRef = (element?: React$ElementRef<any>) => {
     this.moveTime = element;
   };
 
-  setDeletetimeRef = element => {
+  setDeletetimeRef = (element?: React$ElementRef<any>) => {
     this.deleteTime = element;
   };
 
-  deleteTime = null;
-  moveTime = null;
+  deleteTime: ?HTMLInputElement = null;
+  moveTime: ?HTMLInputElement = null;
 
   handleNameInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ editName: e.currentTarget.value });

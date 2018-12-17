@@ -5,6 +5,7 @@ type Props = {
   done: boolean,
   doneButtonValue: string,
   id: string,
+  projectId: string,
   name: string,
   showInput: boolean,
   showTimer: () => void,

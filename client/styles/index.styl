@@ -39,6 +39,9 @@ button:focus
   margin 0 auto
   max-width 1200px
 
+.hide
+  display none !important
+
 .page-title
   text-align center
   text-transform uppercase
@@ -165,14 +168,5 @@ footer
   color #fafafa
   text-decoration none
   border-bottom 1px solid #eeeeee
-
-@media (max-width: 360px) and (max-device-width: 360px)
-  .content-wrapper
-    margin 0
-    width auto
-
-@media (max-width: 960px) and (max-device-width: 960px)
-  .page-title .pretty-time
-    font-size small
-    background #ffffff
-    color #007090
+  
+@import 'media.styl'  

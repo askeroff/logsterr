@@ -47,7 +47,8 @@ class Project extends React.Component<ProjectProps> {
     this.loadData();
     this.props.handleDashboardData(
       this.props.match.params.id,
-      moment.tz.guess()
+
+
     );
   }
 

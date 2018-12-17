@@ -63,7 +63,7 @@ class ProjectItem extends React.Component<Props, State> {
   shouldShowInput = () => {
     if (this.state.showInput) {
       return (
-        <div style={{ display: 'flex' }}>
+        <div className="project-name">
           <input
             type="text"
             value={this.state.newName}
@@ -89,6 +89,7 @@ class ProjectItem extends React.Component<Props, State> {
     const { project, onDelete } = this.props;
     const { showInput, parentID } = this.state;
     const hideTaskName = showInput ? 'none' : '';
+    const hideButtons = showInput ? 'hide' : '';
     const editClassName = showInput ? 'projects__item--edit' : '';
     const parentClassName = parentID === '' ? 'project__item--parent' : '';
     return (
@@ -125,7 +126,7 @@ class ProjectItem extends React.Component<Props, State> {
           ) : null}
           <button
             onClick={() => this.handleShowInput(project.name)}
-            className="button--info button--small"
+            className={`button--info button--small ${hideButtons}`}
           >
             <span aria-label="edit" role="img">
               ✎
@@ -135,7 +136,7 @@ class ProjectItem extends React.Component<Props, State> {
           <button
             title={'Mark this project done'}
             onClick={() => this.props.toggleDone(project._id)}
-            className="button--info button--small"
+            className={`button--info button--small ${hideButtons}`}
           >
             <span aria-label="mark done" role="img">
               ✔
@@ -144,7 +145,7 @@ class ProjectItem extends React.Component<Props, State> {
 
           <button
             onClick={() => onDelete(project._id)}
-            className="button--info button--danger button--small"
+            className={`button--info button-danger button--small ${hideButtons}`}
           >
             <span aria-label="delete" role="img">
               ✕

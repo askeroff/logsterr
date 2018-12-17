@@ -9,8 +9,8 @@ import Task from './task/Task';
 import { ITask, IProject, IRenameTask, ITimeLogData } from '../../types';
 
 type TasksListProps = {
-  tasks: { list: ITask[] },
-  handleDeleting: (id: string) => void,
+  tasks: { list: ITask[], doneList?: ITask[] },
+  handleDeleting: (id: string, projectId: string) => void,
   projectId: string,
   projects: { list: IProject[] },
   handleEditing: (params: IRenameTask) => void,
@@ -52,7 +52,7 @@ class TasksList extends React.Component<TasksListProps> {
     });
   };
 
-  mapItems(items) {
+  mapItems(items?: ITask[] = []) {
     if (items.length === 0) {
       return <li>No tasks yet</li>;
     }

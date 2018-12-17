@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
+import * as moment from 'moment-timezone';
 import { getMotivationData, fetchPosts } from '../../actions/dashboard';
 import { clearLogs } from '../../actions/timelog';
 import { addTimeToProject, getProjects } from '../../actions/projects';
@@ -8,15 +9,18 @@ import { getTasks, newTask, clearTasks, fetchTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
-import { IMatch } from '../../types';
+import { IMatch, IUser } from '../../types';
 import ProjectInfo from './ProjectInfo';
 
 type ProjectProps = {
   match: IMatch,
   dashboardData: {},
+  tasks: { list: [], isFetching?: boolean },
+  user: IUser,
+  projects: { list: [] },
   location: { pathname: string },
   handleAddingTimeToProject: (projectID: string, time: number) => void,
-  handleDashboardData: (projectId: string) => void,
+  handleDashboardData: (projectId: string, timezone: string) => void,
   handleTasks: (projectID: string) => void,
   handleNewTask: (data: { name: string, project: string }) => void,
   handleGettingProjects: () => void,
@@ -41,7 +45,10 @@ class Project extends React.Component<ProjectProps> {
       this.isReady = true;
     }
     this.loadData();
-    this.props.handleDashboardData(this.props.match.params.id);
+    this.props.handleDashboardData(
+      this.props.match.params.id,
+      moment.tz.guess()
+    );
   }
 
   componentDidUpdate() {
@@ -116,9 +123,9 @@ const mapDispatchToProps = dispatch => ({
   handleGettingProjects() {
     dispatch(getProjects());
   },
-  handleDashboardData(id) {
+  handleDashboardData(id, timezone) {
     dispatch(fetchPosts());
-    dispatch(getMotivationData(id));
+    dispatch(getMotivationData(id, timezone));
   },
   handleAddingTimeToProject(id, time) {
     dispatch(addTimeToProject(id, time));

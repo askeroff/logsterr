@@ -42,10 +42,7 @@ exports.addTime = async (req, res) => {
   }
 
   req.body.author = req.user._id; // eslint-disable-line no-underscore-dangle
-  const timelogPromise = new Timelog({
-    ...req.body,
-    started: moment(new Date()).valueOf()
-  }).save();
+  const timelogPromise = new Timelog(req.body).save();
 
   const taskPromise = Task.findById(req.body.task, (err, task) => {
     task.timeSpent += req.body.seconds; // eslint-disable-line no-param-reassign

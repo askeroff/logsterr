@@ -46,7 +46,7 @@ class LandingPage extends Component {
               </p>
               <p>
                 I, personally, started this app as a way to keep track of my
-                guitar practice. There were a lot of small tasks I had to 5-10
+                guitar practice. There were a lot of small tasks I had 5-10
                 minutes long and at the end I wanted to know how much I spent on
                 it.
               </p>

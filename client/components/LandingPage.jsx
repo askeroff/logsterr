@@ -46,7 +46,7 @@ class LandingPage extends Component {
               </p>
               <p>
                 I, personally, started this app as a way to keep track of my
-                guitar practice. There were a lot of small tasks I had to 5-10
+                guitar practice. There were a lot of small tasks I had 5-10
                 minutes long and at the end I wanted to know how much I spent on
                 it.
               </p>
@@ -87,6 +87,21 @@ class LandingPage extends Component {
                 experience yet.
               </p>
             </div>
+          </div>
+        </div>
+
+        <div className="landing-block white landing-block--main">
+          <div className="content-wrapper">
+            <h2 className="page-title">Quick Video Tour!</h2>
+            <div className="highlight orange" />
+            <iframe
+              className="landing-video"
+              title="demo"
+              src="https://www.youtube.com/embed/ZNZA-a-KZak"
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
       </div>

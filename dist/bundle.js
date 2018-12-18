@@ -65090,9 +65090,7 @@ var Footer = function Footer() {
       _react2.default.createElement(
         'span',
         null,
-        '\xA9 TimeTracker ',
-        new Date().getFullYear(),
-        ' / '
+        'Logsterr / '
       ),
       _react2.default.createElement(
         'span',

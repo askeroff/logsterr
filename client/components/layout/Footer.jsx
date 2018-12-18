@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => (
   <footer>
     <p>
-      <span>&copy; TimeTracker {new Date().getFullYear()} / </span>
+      <span>Logsterr / </span>
       <span>
         The source is on{' '}
         <a

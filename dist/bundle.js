@@ -11850,85 +11850,94 @@ module.exports = function assign(target, source) {
 
 /***/ }),
 /* 118 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 /*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
 */
 // css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
+module.exports = function (useSourceMap) {
+  var list = []; // return the list of modules as css string
 
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item, useSourceMap);
 
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
+      if (item[2]) {
+        return '@media ' + item[2] + '{' + content + '}';
+      } else {
+        return content;
+      }
+    }).join('');
+  }; // import a list of modules into the list
+
+
+  list.i = function (modules, mediaQuery) {
+    if (typeof modules === 'string') {
+      modules = [[null, modules, '']];
+    }
+
+    var alreadyImportedModules = {};
+
+    for (var i = 0; i < this.length; i++) {
+      var id = this[i][0];
+
+      if (id != null) {
+        alreadyImportedModules[id] = true;
+      }
+    }
+
+    for (i = 0; i < modules.length; i++) {
+      var item = modules[i]; // skip already imported module
+      // this implementation is not 100% perfect for weird media query combinations
+      // when a module is imported multiple times with different media queries.
+      // I hope this will never occur (Hey this way we have smaller bundles)
+
+      if (item[0] == null || !alreadyImportedModules[item[0]]) {
+        if (mediaQuery && !item[2]) {
+          item[2] = mediaQuery;
+        } else if (mediaQuery) {
+          item[2] = '(' + item[2] + ') and (' + mediaQuery + ')';
+        }
+
+        list.push(item);
+      }
+    }
+  };
+
+  return list;
 };
 
 function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
+  var content = item[1] || '';
+  var cssMapping = item[3];
 
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
+  if (!cssMapping) {
+    return content;
+  }
 
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
+  if (useSourceMap && typeof btoa === 'function') {
+    var sourceMapping = toComment(cssMapping);
+    var sourceURLs = cssMapping.sources.map(function (source) {
+      return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
+    });
+    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+  }
 
-	return [content].join('\n');
-}
+  return [content].join('\n');
+} // Adapted from convert-source-map (MIT)
 
-// Adapted from convert-source-map (MIT)
+
 function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
+  // eslint-disable-next-line no-undef
+  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+  var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+  return '/*# ' + data + ' */';
 }
-
 
 /***/ }),
 /* 119 */
@@ -38606,7 +38615,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(653);
+__webpack_require__(654);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -38730,7 +38739,7 @@ var _tasks = __webpack_require__(85);
 
 var _timelog = __webpack_require__(86);
 
-var _Task = __webpack_require__(663);
+var _Task = __webpack_require__(664);
 
 var _Task2 = _interopRequireDefault(_Task);
 
@@ -39039,19 +39048,19 @@ var _Home = __webpack_require__(482);
 
 var _Home2 = _interopRequireDefault(_Home);
 
-var _Signup = __webpack_require__(646);
+var _Signup = __webpack_require__(647);
 
 var _Signup2 = _interopRequireDefault(_Signup);
 
-var _Login = __webpack_require__(648);
+var _Login = __webpack_require__(649);
 
 var _Login2 = _interopRequireDefault(_Login);
 
-var _Logout = __webpack_require__(651);
+var _Logout = __webpack_require__(652);
 
 var _Logout2 = _interopRequireDefault(_Logout);
 
-var _Timelog = __webpack_require__(652);
+var _Timelog = __webpack_require__(653);
 
 var _Timelog2 = _interopRequireDefault(_Timelog);
 
@@ -39059,17 +39068,17 @@ var _NotFound = __webpack_require__(133);
 
 var _NotFound2 = _interopRequireDefault(_NotFound);
 
-var _Reset = __webpack_require__(656);
+var _Reset = __webpack_require__(657);
 
 var _Reset2 = _interopRequireDefault(_Reset);
 
-var _ProjectsRoutes = __webpack_require__(658);
+var _ProjectsRoutes = __webpack_require__(659);
 
 var _ProjectsRoutes2 = _interopRequireDefault(_ProjectsRoutes);
 
-__webpack_require__(673);
+__webpack_require__(674);
 
-__webpack_require__(675);
+__webpack_require__(676);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63832,7 +63841,7 @@ var _Spinner2 = _interopRequireDefault(_Spinner);
 
 var _types = __webpack_require__(15);
 
-var _LandingPage = __webpack_require__(677);
+var _LandingPage = __webpack_require__(646);
 
 var _LandingPage2 = _interopRequireDefault(_LandingPage);
 
@@ -70770,8 +70779,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../css-loader/index.js!./_datepicker.css", function() {
-			var newContent = require("!!../../../css-loader/index.js!./_datepicker.css");
+		module.hot.accept("!!../../../css-loader/dist/cjs.js!./_datepicker.css", function() {
+			var newContent = require("!!../../../css-loader/dist/cjs.js!./_datepicker.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -70785,13 +70794,9 @@ if(false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(118)(false);
-// imports
-
-
-// module
+// Module
 exports.push([module.i, ".PresetDateRangePicker_panel {\n  padding: 0 22px 11px\n}\n.PresetDateRangePicker_button {\n  position: relative;\n  height: 100%;\n  text-align: center;\n  background: 0 0;\n  border: 2px solid #00a699;\n  color: #00a699;\n  padding: 4px 12px;\n  margin-right: 8px;\n  font: inherit;\n  font-weight: 700;\n  line-height: normal;\n  overflow: visible;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  cursor: pointer\n}\n.PresetDateRangePicker_button:active {\n  outline: 0\n}\n.PresetDateRangePicker_button__selected {\n  color: #fff;\n  background: #00a699\n}\n.SingleDatePickerInput {\n  display: inline-block;\n  background-color: #fff\n}\n.SingleDatePickerInput__withBorder {\n  border-radius: 2px;\n  border: 1px solid #dbdbdb\n}\n.SingleDatePickerInput__rtl {\n  direction: rtl\n}\n.SingleDatePickerInput__disabled {\n  background-color: #f2f2f2\n}\n.SingleDatePickerInput__block {\n  display: block\n}\n.SingleDatePickerInput__showClearDate {\n  padding-right: 30px\n}\n.SingleDatePickerInput_clearDate {\n  background: 0 0;\n  border: 0;\n  color: inherit;\n  font: inherit;\n  line-height: normal;\n  overflow: visible;\n  cursor: pointer;\n  padding: 10px;\n  margin: 0 10px 0 5px;\n  position: absolute;\n  right: 0;\n  top: 50%;\n  -webkit-transform: translateY(-50%);\n  -ms-transform: translateY(-50%);\n  transform: translateY(-50%)\n}\n.SingleDatePickerInput_clearDate__default:focus,\n.SingleDatePickerInput_clearDate__default:hover {\n  background: #dbdbdb;\n  border-radius: 50%\n}\n.SingleDatePickerInput_clearDate__small {\n  padding: 6px\n}\n.SingleDatePickerInput_clearDate__hide {\n  visibility: hidden\n}\n.SingleDatePickerInput_clearDate_svg {\n  fill: #82888a;\n  height: 12px;\n  width: 15px;\n  vertical-align: middle\n}\n.SingleDatePickerInput_clearDate_svg__small {\n  height: 9px\n}\n.SingleDatePickerInput_calendarIcon {\n  background: 0 0;\n  border: 0;\n  color: inherit;\n  font: inherit;\n  line-height: normal;\n  overflow: visible;\n  cursor: pointer;\n  display: inline-block;\n  vertical-align: middle;\n  padding: 10px;\n  margin: 0 5px 0 10px\n}\n.SingleDatePickerInput_calendarIcon_svg {\n  fill: #82888a;\n  height: 15px;\n  width: 14px;\n  vertical-align: middle\n}\n.SingleDatePicker {\n  position: relative;\n  display: inline-block\n}\n.SingleDatePicker__block {\n  display: block\n}\n.SingleDatePicker_picker {\n  z-index: 1;\n  background-color: #fff;\n  position: absolute\n}\n.SingleDatePicker_picker__rtl {\n  direction: rtl\n}\n.SingleDatePicker_picker__directionLeft {\n  left: 0\n}\n.SingleDatePicker_picker__directionRight {\n  right: 0\n}\n.SingleDatePicker_picker__portal {\n  background-color: rgba(0,0,0,.3);\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%\n}\n.SingleDatePicker_picker__fullScreenPortal {\n  background-color: #fff\n}\n.SingleDatePicker_closeButton {\n  background: 0 0;\n  border: 0;\n  color: inherit;\n  font: inherit;\n  line-height: normal;\n  overflow: visible;\n  cursor: pointer;\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 15px;\n  z-index: 2\n}\n.SingleDatePicker_closeButton:focus,\n.SingleDatePicker_closeButton:hover {\n  color: darken(#cacccd,10%);\n  text-decoration: none\n}\n.SingleDatePicker_closeButton_svg {\n  height: 15px;\n  width: 15px;\n  fill: #cacccd\n}\n.DayPickerKeyboardShortcuts_buttonReset {\n  background: 0 0;\n  border: 0;\n  border-radius: 0;\n  color: inherit;\n  font: inherit;\n  line-height: normal;\n  overflow: visible;\n  padding: 0;\n  cursor: pointer;\n  font-size: 14px\n}\n.DayPickerKeyboardShortcuts_buttonReset:active {\n  outline: 0\n}\n.DayPickerKeyboardShortcuts_show {\n  width: 22px;\n  position: absolute;\n  z-index: 2\n}\n.DayPickerKeyboardShortcuts_show__bottomRight {\n  border-top: 26px solid transparent;\n  border-right: 33px solid #00a699;\n  bottom: 0;\n  right: 0\n}\n.DayPickerKeyboardShortcuts_show__bottomRight:hover {\n  border-right: 33px solid #008489\n}\n.DayPickerKeyboardShortcuts_show__topRight {\n  border-bottom: 26px solid transparent;\n  border-right: 33px solid #00a699;\n  top: 0;\n  right: 0\n}\n.DayPickerKeyboardShortcuts_show__topRight:hover {\n  border-right: 33px solid #008489\n}\n.DayPickerKeyboardShortcuts_show__topLeft {\n  border-bottom: 26px solid transparent;\n  border-left: 33px solid #00a699;\n  top: 0;\n  left: 0\n}\n.DayPickerKeyboardShortcuts_show__topLeft:hover {\n  border-left: 33px solid #008489\n}\n.DayPickerKeyboardShortcuts_showSpan {\n  color: #fff;\n  position: absolute\n}\n.DayPickerKeyboardShortcuts_showSpan__bottomRight {\n  bottom: 0;\n  right: -28px\n}\n.DayPickerKeyboardShortcuts_showSpan__topRight {\n  top: 1px;\n  right: -28px\n}\n.DayPickerKeyboardShortcuts_showSpan__topLeft {\n  top: 1px;\n  left: -28px\n}\n.DayPickerKeyboardShortcuts_panel {\n  overflow: auto;\n  background: #fff;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  left: 0;\n  z-index: 2;\n  padding: 22px;\n  margin: 33px\n}\n.DayPickerKeyboardShortcuts_title {\n  font-size: 16px;\n  font-weight: 700;\n  margin: 0\n}\n.DayPickerKeyboardShortcuts_list {\n  list-style: none;\n  padding: 0;\n  font-size: 14px\n}\n.DayPickerKeyboardShortcuts_close {\n  position: absolute;\n  right: 22px;\n  top: 22px;\n  z-index: 2\n}\n.DayPickerKeyboardShortcuts_close:active {\n  outline: 0\n}\n.DayPickerKeyboardShortcuts_closeSvg {\n  height: 15px;\n  width: 15px;\n  fill: #cacccd\n}\n.DayPickerKeyboardShortcuts_closeSvg:focus,\n.DayPickerKeyboardShortcuts_closeSvg:hover {\n  fill: #82888a\n}\n.CalendarDay {\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  cursor: pointer;\n  font-size: 14px;\n  text-align: center\n}\n.CalendarDay:active {\n  outline: 0\n}\n.CalendarDay__defaultCursor {\n  cursor: default\n}\n.CalendarDay__default {\n  border: 1px solid #e4e7e7;\n  color: #484848;\n  background: #fff\n}\n.CalendarDay__default:hover {\n  background: #e4e7e7;\n  border: 1px double #e4e7e7;\n  color: inherit\n}\n.CalendarDay__hovered_offset {\n  background: #f4f5f5;\n  border: 1px double #e4e7e7;\n  color: inherit\n}\n.CalendarDay__outside {\n  border: 0;\n  background: #fff;\n  color: #484848\n}\n.CalendarDay__outside:hover {\n  border: 0\n}\n.CalendarDay__blocked_minimum_nights {\n  background: #fff;\n  border: 1px solid #eceeee;\n  color: #cacccd\n}\n.CalendarDay__blocked_minimum_nights:active,\n.CalendarDay__blocked_minimum_nights:hover {\n  background: #fff;\n  color: #cacccd\n}\n.CalendarDay__highlighted_calendar {\n  background: #ffe8bc;\n  color: #484848\n}\n.CalendarDay__highlighted_calendar:active,\n.CalendarDay__highlighted_calendar:hover {\n  background: #ffce71;\n  color: #484848\n}\n.CalendarDay__selected_span {\n  background: #66e2da;\n  border: 1px solid #33dacd;\n  color: #fff\n}\n.CalendarDay__selected_span:active,\n.CalendarDay__selected_span:hover {\n  background: #33dacd;\n  border: 1px solid #33dacd;\n  color: #fff\n}\n.CalendarDay__last_in_range {\n  border-right: #00a699\n}\n.CalendarDay__selected,\n.CalendarDay__selected:active,\n.CalendarDay__selected:hover {\n  background: #00a699;\n  border: 1px solid #00a699;\n  color: #fff\n}\n.CalendarDay__hovered_span,\n.CalendarDay__hovered_span:hover {\n  background: #b2f1ec;\n  border: 1px solid #80e8e0;\n  color: #007a87\n}\n.CalendarDay__hovered_span:active {\n  background: #80e8e0;\n  border: 1px solid #80e8e0;\n  color: #007a87\n}\n.CalendarDay__blocked_calendar,\n.CalendarDay__blocked_calendar:active,\n.CalendarDay__blocked_calendar:hover {\n  background: #cacccd;\n  border: 1px solid #cacccd;\n  color: #82888a\n}\n.CalendarDay__blocked_out_of_range,\n.CalendarDay__blocked_out_of_range:active,\n.CalendarDay__blocked_out_of_range:hover {\n  background: #fff;\n  border: 1px solid #e4e7e7;\n  color: #cacccd\n}\n.CalendarMonth {\n  background: #fff;\n  text-align: center;\n  padding: 0 13px;\n  vertical-align: top;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none\n}\n.CalendarMonth_table {\n  border-collapse: collapse;\n  border-spacing: 0\n}\n.CalendarMonth_verticalSpacing {\n  border-collapse: separate\n}\n.CalendarMonth_caption {\n  color: #484848;\n  font-size: 18px;\n  text-align: center;\n  padding-top: 22px;\n  padding-bottom: 37px;\n  caption-side: initial\n}\n.CalendarMonth_caption__verticalScrollable {\n  padding-top: 12px;\n  padding-bottom: 7px\n}\n.CalendarMonthGrid {\n  background: #fff;\n  text-align: left;\n  z-index: 0\n}\n.CalendarMonthGrid__animating {\n  z-index: 1\n}\n.CalendarMonthGrid__horizontal {\n  position: absolute;\n  left: 9px\n}\n.CalendarMonthGrid__vertical {\n  margin: 0 auto\n}\n.CalendarMonthGrid__vertical_scrollable {\n  margin: 0 auto;\n  overflow-y: scroll\n}\n.CalendarMonthGrid_month__horizontal {\n  display: inline-block;\n  vertical-align: top;\n  min-height: 100%\n}\n.CalendarMonthGrid_month__hideForAnimation {\n  position: absolute;\n  z-index: -1;\n  opacity: 0;\n  pointer-events: none\n}\n.CalendarMonthGrid_month__hidden {\n  visibility: hidden\n}\n.DayPickerNavigation {\n  position: relative;\n  z-index: 2\n}\n.DayPickerNavigation__verticalDefault {\n  position: absolute;\n  width: 100%;\n  height: 52px;\n  bottom: 0;\n  left: 0\n}\n.DayPickerNavigation__verticalScrollableDefault {\n  position: relative\n}\n.DayPickerNavigation_button {\n  cursor: pointer;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  border: 0;\n  padding: 0;\n  margin: 0\n}\n.DayPickerNavigation_button__default {\n  border: 1px solid #e4e7e7;\n  background-color: #fff;\n  color: #757575\n}\n.DayPickerNavigation_button__default:focus,\n.DayPickerNavigation_button__default:hover {\n  border: 1px solid #c4c4c4\n}\n.DayPickerNavigation_button__default:active {\n  background: #f2f2f2\n}\n.DayPickerNavigation_button__horizontalDefault {\n  position: absolute;\n  top: 18px;\n  line-height: .78;\n  border-radius: 3px;\n  padding: 6px 9px\n}\n.DayPickerNavigation_leftButton__horizontalDefault {\n  left: 22px\n}\n.DayPickerNavigation_rightButton__horizontalDefault {\n  right: 22px\n}\n.DayPickerNavigation_button__verticalDefault {\n  padding: 5px;\n  background: #fff;\n  box-shadow: 0 0 5px 2px rgba(0,0,0,.1);\n  position: relative;\n  display: inline-block;\n  height: 100%;\n  width: 50%\n}\n.DayPickerNavigation_nextButton__verticalDefault {\n  border-left: 0\n}\n.DayPickerNavigation_nextButton__verticalScrollableDefault {\n  width: 100%\n}\n.DayPickerNavigation_svg__horizontal {\n  height: 19px;\n  width: 19px;\n  fill: #82888a\n}\n.DayPickerNavigation_svg__vertical {\n  height: 42px;\n  width: 42px;\n  fill: #484848\n}\n.DayPicker {\n  background: #fff;\n  position: relative;\n  text-align: left\n}\n.DayPicker__horizontal {\n  background: #fff\n}\n.DayPicker__verticalScrollable {\n  height: 100%\n}\n.DayPicker__hidden {\n  visibility: hidden\n}\n.DayPicker__withBorder {\n  box-shadow: 0 2px 6px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.07);\n  border-radius: 3px\n}\n.DayPicker_portal__horizontal {\n  box-shadow: none;\n  position: absolute;\n  left: 50%;\n  top: 50%\n}\n.DayPicker_portal__vertical {\n  position: initial\n}\n.DayPicker_focusRegion {\n  outline: 0\n}\n.DayPicker_calendarInfo__horizontal,\n.DayPicker_wrapper__horizontal {\n  display: inline-block;\n  vertical-align: top\n}\n.DayPicker_weekHeaders {\n  position: relative\n}\n.DayPicker_weekHeaders__horizontal {\n  margin-left: 9px\n}\n.DayPicker_weekHeader {\n  color: #757575;\n  position: absolute;\n  top: 62px;\n  z-index: 2;\n  padding: 0 13px;\n  text-align: left\n}\n.DayPicker_weekHeader__vertical {\n  left: 50%\n}\n.DayPicker_weekHeader__verticalScrollable {\n  top: 0;\n  display: table-row;\n  border-bottom: 1px solid #dbdbdb;\n  background: #fff;\n  margin-left: 0;\n  left: 0;\n  width: 100%;\n  text-align: center\n}\n.DayPicker_weekHeader_ul {\n  list-style: none;\n  margin: 1px 0;\n  padding-left: 0;\n  padding-right: 0;\n  font-size: 14px\n}\n.DayPicker_weekHeader_li {\n  display: inline-block;\n  text-align: center\n}\n.DayPicker_transitionContainer {\n  position: relative;\n  overflow: hidden;\n  border-radius: 3px\n}\n.DayPicker_transitionContainer__horizontal {\n  -webkit-transition: height .2s ease-in-out;\n  -moz-transition: height .2s ease-in-out;\n  transition: height .2s ease-in-out\n}\n.DayPicker_transitionContainer__vertical {\n  width: 100%\n}\n.DayPicker_transitionContainer__verticalScrollable {\n  padding-top: 20px;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  left: 0;\n  overflow-y: scroll\n}\n.DateInput {\n  margin: 0;\n  padding: 0;\n  background: #fff;\n  position: relative;\n  display: inline-block;\n  width: 130px;\n  vertical-align: middle\n}\n.DateInput__small {\n  width: 97px\n}\n.DateInput__block {\n  width: 100%\n}\n.DateInput__disabled {\n  background: #f2f2f2;\n  color: #dbdbdb\n}\n.DateInput_input {\n  font-weight: 200;\n  font-size: 19px;\n  line-height: 24px;\n  color: #484848;\n  background-color: #fff;\n  width: 100%;\n  padding: 11px 11px 9px;\n  border: 0;\n  border-top: 0;\n  border-right: 0;\n  border-bottom: 2px solid transparent;\n  border-left: 0;\n  border-radius: 0\n}\n.DateInput_input__small {\n  font-size: 15px;\n  line-height: 18px;\n  letter-spacing: .2px;\n  padding: 7px 7px 5px\n}\n.DateInput_input__regular {\n  font-weight: auto\n}\n.DateInput_input__readOnly {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none\n}\n.DateInput_input__focused {\n  outline: 0;\n  background: #fff;\n  border: 0;\n  border-top: 0;\n  border-right: 0;\n  border-bottom: 2px solid #008489;\n  border-left: 0\n}\n.DateInput_input__disabled {\n  background: #f2f2f2;\n  font-style: italic\n}\n.DateInput_screenReaderMessage {\n  border: 0;\n  clip: rect(0,0,0,0);\n  height: 1px;\n  margin: -1px;\n  overflow: hidden;\n  padding: 0;\n  position: absolute;\n  width: 1px\n}\n.DateInput_fang {\n  position: absolute;\n  width: 20px;\n  height: 10px;\n  left: 22px;\n  z-index: 2\n}\n.DateInput_fangShape {\n  fill: #fff\n}\n.DateInput_fangStroke {\n  stroke: #dbdbdb;\n  fill: transparent\n}\n.DateRangePickerInput {\n  background-color: #fff;\n  display: inline-block\n}\n.DateRangePickerInput__disabled {\n  background: #f2f2f2\n}\n.DateRangePickerInput__withBorder {\n  border-radius: 2px;\n  border: 1px solid #dbdbdb\n}\n.DateRangePickerInput__rtl {\n  direction: rtl\n}\n.DateRangePickerInput__block {\n  display: block\n}\n.DateRangePickerInput__showClearDates {\n  padding-right: 30px\n}\n.DateRangePickerInput_arrow {\n  display: inline-block;\n  vertical-align: middle;\n  color: #484848\n}\n.DateRangePickerInput_arrow_svg {\n  vertical-align: middle;\n  fill: #484848;\n  height: 24px;\n  width: 24px\n}\n.DateRangePickerInput_clearDates {\n  background: 0 0;\n  border: 0;\n  color: inherit;\n  font: inherit;\n  line-height: normal;\n  overflow: visible;\n  cursor: pointer;\n  padding: 10px;\n  margin: 0 10px 0 5px;\n  position: absolute;\n  right: 0;\n  top: 50%;\n  -webkit-transform: translateY(-50%);\n  -ms-transform: translateY(-50%);\n  transform: translateY(-50%)\n}\n.DateRangePickerInput_clearDates__small {\n  padding: 6px\n}\n.DateRangePickerInput_clearDates_default:focus,\n.DateRangePickerInput_clearDates_default:hover {\n  background: #dbdbdb;\n  border-radius: 50%\n}\n.DateRangePickerInput_clearDates__hide {\n  visibility: hidden\n}\n.DateRangePickerInput_clearDates_svg {\n  fill: #82888a;\n  height: 12px;\n  width: 15px;\n  vertical-align: middle\n}\n.DateRangePickerInput_clearDates_svg__small {\n  height: 9px\n}\n.DateRangePickerInput_calendarIcon {\n  background: 0 0;\n  border: 0;\n  color: inherit;\n  font: inherit;\n  line-height: normal;\n  overflow: visible;\n  cursor: pointer;\n  display: inline-block;\n  vertical-align: middle;\n  padding: 10px;\n  margin: 0 5px 0 10px\n}\n.DateRangePickerInput_calendarIcon_svg {\n  fill: #82888a;\n  height: 15px;\n  width: 14px;\n  vertical-align: middle\n}\n.DateRangePicker {\n  position: relative;\n  display: inline-block\n}\n.DateRangePicker__block {\n  display: block\n}\n.DateRangePicker_picker {\n  z-index: 1;\n  background-color: #fff;\n  position: absolute\n}\n.DateRangePicker_picker__rtl {\n  direction: rtl\n}\n.DateRangePicker_picker__directionLeft {\n  left: 0\n}\n.DateRangePicker_picker__directionRight {\n  right: 0\n}\n.DateRangePicker_picker__portal {\n  background-color: rgba(0,0,0,.3);\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%\n}\n.DateRangePicker_picker__fullScreenPortal {\n  background-color: #fff\n}\n.DateRangePicker_closeButton {\n  background: 0 0;\n  border: 0;\n  color: inherit;\n  font: inherit;\n  line-height: normal;\n  overflow: visible;\n  cursor: pointer;\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 15px;\n  z-index: 2\n}\n.DateRangePicker_closeButton:focus,\n.DateRangePicker_closeButton:hover {\n  color: darken(#cacccd,10%);\n  text-decoration: none\n}\n.DateRangePicker_closeButton_svg {\n  height: 15px;\n  width: 15px;\n  fill: #cacccd\n}", ""]);
 
-// exports
 
 
 /***/ }),
@@ -77955,6 +77960,217 @@ exports.default = Tasks;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _getPrototypeOf = __webpack_require__(5);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(6);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(7);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(8);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(9);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LandingPage = function (_Component) {
+  (0, _inherits3.default)(LandingPage, _Component);
+
+  function LandingPage() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    (0, _classCallCheck3.default)(this, LandingPage);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = LandingPage.__proto__ || (0, _getPrototypeOf2.default)(LandingPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      test: ''
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(LandingPage, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'landing-content' },
+        _react2.default.createElement(
+          'div',
+          { className: 'landing-block white landing-block--main' },
+          _react2.default.createElement(
+            'div',
+            { className: 'content-wrapper' },
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'What is this?'
+            ),
+            _react2.default.createElement('div', { className: 'highlight orange' }),
+            _react2.default.createElement(
+              'p',
+              { className: 'landing-paragraph' },
+              _react2.default.createElement(
+                'strong',
+                null,
+                'Logsterr'
+              ),
+              ' is an app, I have built to keep track of certain projects I am working on. In another words, it is a side project of mine. More details below.'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'landing-block' },
+          _react2.default.createElement(
+            'div',
+            { className: 'content-wrapper' },
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'What does this app do?'
+            ),
+            _react2.default.createElement('div', { className: 'highlight' }),
+            _react2.default.createElement(
+              'div',
+              { className: 'landing-paragraph' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'You can create projects (and projects within those projects), create tasks inside those projects and whenever you are doing them you can press start and log how many minutes/hours you have spent on it. You also can mark projects and tasks as complete, and view the history of your timelogs.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'There is a popular pomodoro technique for productivity. But what I have found it keeps you in certain boundaries of specified time, like 25 minutes, when maybe you would\'ve done more. Or you don\'t start all, because you don\'t feel like it. While here, you press the timer and do the job as long as you can go.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'Sometimes it will be 10 minutes, sometimes 2 hours. The added benefit of this app, is not only you can do this, but the app will keep track of all the logs you did and give you some stats on how much you have spent on each project.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'I, personally, started this app as a way to keep track of my guitar practice. There were a lot of small tasks I had to 5-10 minutes long and at the end I wanted to know how much I spent on it.'
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'landing-block myred' },
+          _react2.default.createElement(
+            'div',
+            { className: 'content-wrapper' },
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'Can I sign up?'
+            ),
+            _react2.default.createElement('div', { className: 'highlight secondblue' }),
+            _react2.default.createElement(
+              'div',
+              { className: 'landing-paragraph' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Sort of. The app is not fully ready yet. I am the only user right now and there is still work to do. Even though I started this with the idea of a simple app, it kind of spiraled and I keep thinking new things to do and features to add.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'With that said, I haven\'t opened the sign up yet, it\'s only with invites. But if you really like the idea and want to try it out, you can either',
+                ' ',
+                _react2.default.createElement(
+                  'a',
+                  { href: 'mailto:askerovlab@gmail.com' },
+                  'email'
+                ),
+                ' me or',
+                ' ',
+                _react2.default.createElement(
+                  'a',
+                  { href: 'https://twitter.com/askerovlab' },
+                  'tweet'
+                ),
+                ' at me, and I will send you the invite. And of course there is an option to set the app yourself. It\'s open source. If you have any questions, the same procedure: tweet or email.'
+              )
+            ),
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'Is there mobile version?'
+            ),
+            _react2.default.createElement('div', { className: 'highlight secondblue' }),
+            _react2.default.createElement(
+              'div',
+              { className: 'landing-paragraph' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Not yet. It\'s primarily desktop focused browser version. But I\'m working on it. You should be able to interact with the app through your mobile browser but it might not be the best experience yet.'
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'landing-block white landing-block--main' },
+          _react2.default.createElement(
+            'div',
+            { className: 'content-wrapper' },
+            _react2.default.createElement(
+              'h2',
+              { className: 'page-title' },
+              'Quick Video Tour'
+            ),
+            _react2.default.createElement('div', { className: 'highlight orange' }),
+            _react2.default.createElement('iframe', {
+              className: 'landing-video',
+              title: 'demo',
+              src: 'https://www.youtube.com/embed/ZNZA-a-KZak',
+              frameBorder: '0',
+              allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+              allowFullScreen: true
+            })
+          )
+        )
+      );
+    }
+  }]);
+  return LandingPage;
+}(_react.Component);
+
+exports.default = LandingPage;
+
+/***/ }),
+/* 647 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.UnwrappedSignup = undefined;
 
 var _getPrototypeOf = __webpack_require__(5);
@@ -77993,7 +78209,7 @@ var _Layout = __webpack_require__(28);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
-var _SignupForm = __webpack_require__(647);
+var _SignupForm = __webpack_require__(648);
 
 var _SignupForm2 = _interopRequireDefault(_SignupForm);
 
@@ -78123,7 +78339,7 @@ var UnwrappedSignup = exports.UnwrappedSignup = Signup;
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Signup);
 
 /***/ }),
-/* 647 */
+/* 648 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78190,7 +78406,7 @@ var SignupForm = function SignupForm(props) {
 exports.default = SignupForm;
 
 /***/ }),
-/* 648 */
+/* 649 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78229,11 +78445,11 @@ var _reactRedux = __webpack_require__(17);
 
 var _user = __webpack_require__(57);
 
-var _LoginForm = __webpack_require__(649);
+var _LoginForm = __webpack_require__(650);
 
 var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
-var _ForgotForm = __webpack_require__(650);
+var _ForgotForm = __webpack_require__(651);
 
 var _ForgotForm2 = _interopRequireDefault(_ForgotForm);
 
@@ -78387,7 +78603,7 @@ var UnwrappedLogin = exports.UnwrappedLogin = Login;
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
 
 /***/ }),
-/* 649 */
+/* 650 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78442,7 +78658,7 @@ var LoginForm = function LoginForm(props) {
 exports.default = LoginForm;
 
 /***/ }),
-/* 650 */
+/* 651 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78493,7 +78709,7 @@ ForgotForm.defaultProps = {
 exports.default = ForgotForm;
 
 /***/ }),
-/* 651 */
+/* 652 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78618,7 +78834,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Logout);
 
 /***/ }),
-/* 652 */
+/* 653 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78670,11 +78886,11 @@ var _Spinner = __webpack_require__(26);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
-var _Pagination = __webpack_require__(654);
+var _Pagination = __webpack_require__(655);
 
 var _Pagination2 = _interopRequireDefault(_Pagination);
 
-var _TimelogItem = __webpack_require__(655);
+var _TimelogItem = __webpack_require__(656);
 
 var _TimelogItem2 = _interopRequireDefault(_TimelogItem);
 
@@ -78847,7 +79063,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Timelog);
 
 /***/ }),
-/* 653 */
+/* 654 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -79040,7 +79256,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35), __webpack_require__(175)))
 
 /***/ }),
-/* 654 */
+/* 655 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79109,7 +79325,7 @@ var Pagination = function Pagination(props) {
 exports.default = Pagination;
 
 /***/ }),
-/* 655 */
+/* 656 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79196,7 +79412,7 @@ TimelogItem.propTypes = {
 exports.default = TimelogItem;
 
 /***/ }),
-/* 656 */
+/* 657 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79242,7 +79458,7 @@ var _Layout = __webpack_require__(28);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
-var _ResetForm = __webpack_require__(657);
+var _ResetForm = __webpack_require__(658);
 
 var _ResetForm2 = _interopRequireDefault(_ResetForm);
 
@@ -79377,7 +79593,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Reset);
 
 /***/ }),
-/* 657 */
+/* 658 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79427,7 +79643,7 @@ ResetForm.defaultProps = {
 exports.default = ResetForm;
 
 /***/ }),
-/* 658 */
+/* 659 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79443,15 +79659,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(31);
 
-var _Index = __webpack_require__(659);
+var _Index = __webpack_require__(660);
 
 var _Index2 = _interopRequireDefault(_Index);
 
-var _Project = __webpack_require__(662);
+var _Project = __webpack_require__(663);
 
 var _Project2 = _interopRequireDefault(_Project);
 
-var _Archive = __webpack_require__(672);
+var _Archive = __webpack_require__(673);
 
 var _Archive2 = _interopRequireDefault(_Archive);
 
@@ -79475,7 +79691,7 @@ var ProjectsRoutes = function ProjectsRoutes(_ref) {
 exports.default = ProjectsRoutes;
 
 /***/ }),
-/* 659 */
+/* 660 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79521,7 +79737,7 @@ var _Spinner = __webpack_require__(26);
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
 
-var _ProjectsList = __webpack_require__(660);
+var _ProjectsList = __webpack_require__(661);
 
 var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
@@ -79685,7 +79901,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Index);
 
 /***/ }),
-/* 660 */
+/* 661 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79727,7 +79943,7 @@ var _sweetalert2 = _interopRequireDefault(_sweetalert);
 
 var _projects = __webpack_require__(66);
 
-var _ProjectItem = __webpack_require__(661);
+var _ProjectItem = __webpack_require__(662);
 
 var _ProjectItem2 = _interopRequireDefault(_ProjectItem);
 
@@ -79834,7 +80050,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ProjectsList);
 
 /***/ }),
-/* 661 */
+/* 662 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80055,7 +80271,7 @@ var ProjectItem = function (_React$Component) {
 exports.default = ProjectItem;
 
 /***/ }),
-/* 662 */
+/* 663 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80117,7 +80333,7 @@ var _TasksList2 = _interopRequireDefault(_TasksList);
 
 var _types = __webpack_require__(15);
 
-var _ProjectInfo = __webpack_require__(670);
+var _ProjectInfo = __webpack_require__(671);
 
 var _ProjectInfo2 = _interopRequireDefault(_ProjectInfo);
 
@@ -80270,7 +80486,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Project);
 
 /***/ }),
-/* 663 */
+/* 664 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80312,19 +80528,19 @@ var _react = __webpack_require__(1);
 
 var React = _interopRequireWildcard(_react);
 
-var _sweetalert = __webpack_require__(664);
+var _sweetalert = __webpack_require__(665);
 
 var _sweetalert2 = _interopRequireDefault(_sweetalert);
 
-var _sweetalert2ReactContent = __webpack_require__(665);
+var _sweetalert2ReactContent = __webpack_require__(666);
 
 var _sweetalert2ReactContent2 = _interopRequireDefault(_sweetalert2ReactContent);
 
-var _Timer = __webpack_require__(666);
+var _Timer = __webpack_require__(667);
 
 var _Timer2 = _interopRequireDefault(_Timer);
 
-var _ButtonsGroup = __webpack_require__(667);
+var _ButtonsGroup = __webpack_require__(668);
 
 var _ButtonsGroup2 = _interopRequireDefault(_ButtonsGroup);
 
@@ -80334,11 +80550,11 @@ var _Spinner2 = _interopRequireDefault(_Spinner);
 
 var _helpers = __webpack_require__(25);
 
-var _Input = __webpack_require__(668);
+var _Input = __webpack_require__(669);
 
 var _Input2 = _interopRequireDefault(_Input);
 
-var _TimeAddOptions = __webpack_require__(669);
+var _TimeAddOptions = __webpack_require__(670);
 
 var _TimeAddOptions2 = _interopRequireDefault(_TimeAddOptions);
 
@@ -80570,7 +80786,7 @@ var Task = function (_React$Component) {
 exports.default = Task;
 
 /***/ }),
-/* 664 */
+/* 665 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -83239,7 +83455,7 @@ if (typeof window !== 'undefined' && window.Sweetalert2){  window.Sweetalert2.ve
 "undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,"@-webkit-keyframes swal2-show{0%{-webkit-transform:scale(.7);transform:scale(.7)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}100%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes swal2-show{0%{-webkit-transform:scale(.7);transform:scale(.7)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}100%{-webkit-transform:scale(1);transform:scale(1)}}@-webkit-keyframes swal2-hide{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}100%{-webkit-transform:scale(.5);transform:scale(.5);opacity:0}}@keyframes swal2-hide{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}100%{-webkit-transform:scale(.5);transform:scale(.5);opacity:0}}@-webkit-keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.875em;width:1.5625em}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.875em;width:1.5625em}}@-webkit-keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@-webkit-keyframes swal2-rotate-success-circular-line{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}100%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@keyframes swal2-rotate-success-circular-line{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}100%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@-webkit-keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}50%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}80%{margin-top:-.375em;-webkit-transform:scale(1.15);transform:scale(1.15)}100%{margin-top:0;-webkit-transform:scale(1);transform:scale(1);opacity:1}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}50%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}80%{margin-top:-.375em;-webkit-transform:scale(1.15);transform:scale(1.15)}100%{margin-top:0;-webkit-transform:scale(1);transform:scale(1);opacity:1}}@-webkit-keyframes swal2-animate-error-icon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}100%{-webkit-transform:rotateX(0);transform:rotateX(0);opacity:1}}@keyframes swal2-animate-error-icon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}100%{-webkit-transform:rotateX(0);transform:rotateX(0);opacity:1}}body.swal2-toast-shown .swal2-container{position:fixed;background-color:transparent}body.swal2-toast-shown .swal2-container.swal2-shown{background-color:transparent}body.swal2-toast-shown .swal2-container.swal2-top{top:0;right:auto;bottom:auto;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{top:0;right:0;bottom:auto;left:auto}body.swal2-toast-shown .swal2-container.swal2-top-left,body.swal2-toast-shown .swal2-container.swal2-top-start{top:0;right:auto;bottom:auto;left:0}body.swal2-toast-shown .swal2-container.swal2-center-left,body.swal2-toast-shown .swal2-container.swal2-center-start{top:50%;right:auto;bottom:auto;left:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{top:50%;right:auto;bottom:auto;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{top:50%;right:0;bottom:auto;left:auto;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-left,body.swal2-toast-shown .swal2-container.swal2-bottom-start{top:auto;right:auto;bottom:0;left:0}body.swal2-toast-shown .swal2-container.swal2-bottom{top:auto;right:auto;bottom:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{top:auto;right:0;bottom:0;left:auto}body.swal2-toast-column .swal2-toast{flex-direction:column;align-items:stretch}body.swal2-toast-column .swal2-toast .swal2-actions{flex:1;align-self:stretch;height:2.2em;margin-top:.3125em}body.swal2-toast-column .swal2-toast .swal2-loading{justify-content:center}body.swal2-toast-column .swal2-toast .swal2-input{height:2em;margin:.3125em auto;font-size:1em}body.swal2-toast-column .swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast{flex-direction:row;align-items:center;width:auto;padding:.625em;box-shadow:0 0 .625em #d9d9d9;overflow-y:hidden}.swal2-popup.swal2-toast .swal2-header{flex-direction:row}.swal2-popup.swal2-toast .swal2-title{flex-grow:1;justify-content:flex-start;margin:0 .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{position:initial;width:.8em;height:.8em;line-height:.8}.swal2-popup.swal2-toast .swal2-content{justify-content:flex-start;font-size:1em}.swal2-popup.swal2-toast .swal2-icon{width:2em;min-width:2em;height:2em;margin:0}.swal2-popup.swal2-toast .swal2-icon-text{font-size:2em;font-weight:700;line-height:1em}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{height:auto;margin:0 .3125em}.swal2-popup.swal2-toast .swal2-styled{margin:0 .3125em;padding:.3125em .625em;font-size:1em}.swal2-popup.swal2-toast .swal2-styled:focus{box-shadow:0 0 0 .0625em #fff,0 0 0 .125em rgba(50,100,150,.4)}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:2em;height:2.8125em;-webkit-transform:rotate(45deg);transform:rotate(45deg);border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.25em;left:-.9375em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:2em 2em;transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.25em;left:.9375em;-webkit-transform-origin:0 2em;transform-origin:0 2em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast.swal2-show{-webkit-animation:showSweetToast .5s;animation:showSweetToast .5s}.swal2-popup.swal2-toast.swal2-hide{-webkit-animation:hideSweetToast .2s forwards;animation:hideSweetToast .2s forwards}.swal2-popup.swal2-toast .swal2-animate-success-icon .swal2-success-line-tip{-webkit-animation:animate-toast-success-tip .75s;animation:animate-toast-success-tip .75s}.swal2-popup.swal2-toast .swal2-animate-success-icon .swal2-success-line-long{-webkit-animation:animate-toast-success-long .75s;animation:animate-toast-success-long .75s}@-webkit-keyframes showSweetToast{0%{-webkit-transform:translateY(-.625em) rotateZ(2deg);transform:translateY(-.625em) rotateZ(2deg);opacity:0}33%{-webkit-transform:translateY(0) rotateZ(-2deg);transform:translateY(0) rotateZ(-2deg);opacity:.5}66%{-webkit-transform:translateY(.3125em) rotateZ(2deg);transform:translateY(.3125em) rotateZ(2deg);opacity:.7}100%{-webkit-transform:translateY(0) rotateZ(0);transform:translateY(0) rotateZ(0);opacity:1}}@keyframes showSweetToast{0%{-webkit-transform:translateY(-.625em) rotateZ(2deg);transform:translateY(-.625em) rotateZ(2deg);opacity:0}33%{-webkit-transform:translateY(0) rotateZ(-2deg);transform:translateY(0) rotateZ(-2deg);opacity:.5}66%{-webkit-transform:translateY(.3125em) rotateZ(2deg);transform:translateY(.3125em) rotateZ(2deg);opacity:.7}100%{-webkit-transform:translateY(0) rotateZ(0);transform:translateY(0) rotateZ(0);opacity:1}}@-webkit-keyframes hideSweetToast{0%{opacity:1}33%{opacity:.5}100%{-webkit-transform:rotateZ(1deg);transform:rotateZ(1deg);opacity:0}}@keyframes hideSweetToast{0%{opacity:1}33%{opacity:.5}100%{-webkit-transform:rotateZ(1deg);transform:rotateZ(1deg);opacity:0}}@-webkit-keyframes animate-toast-success-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes animate-toast-success-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@-webkit-keyframes animate-toast-success-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes animate-toast-success-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto!important}body.swal2-no-backdrop .swal2-shown{top:auto;right:auto;bottom:auto;left:auto;background-color:transparent}body.swal2-no-backdrop .swal2-shown>.swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}body.swal2-no-backdrop .swal2-shown.swal2-top{top:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-top-left,body.swal2-no-backdrop .swal2-shown.swal2-top-start{top:0;left:0}body.swal2-no-backdrop .swal2-shown.swal2-top-end,body.swal2-no-backdrop .swal2-shown.swal2-top-right{top:0;right:0}body.swal2-no-backdrop .swal2-shown.swal2-center{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}body.swal2-no-backdrop .swal2-shown.swal2-center-left,body.swal2-no-backdrop .swal2-shown.swal2-center-start{top:50%;left:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-center-end,body.swal2-no-backdrop .swal2-shown.swal2-center-right{top:50%;right:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-bottom{bottom:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-bottom-left,body.swal2-no-backdrop .swal2-shown.swal2-bottom-start{bottom:0;left:0}body.swal2-no-backdrop .swal2-shown.swal2-bottom-end,body.swal2-no-backdrop .swal2-shown.swal2-bottom-right{right:0;bottom:0}.swal2-container{display:flex;position:fixed;top:0;right:0;bottom:0;left:0;flex-direction:row;align-items:center;justify-content:center;padding:10px;background-color:transparent;z-index:1060;overflow-x:hidden;-webkit-overflow-scrolling:touch}.swal2-container.swal2-top{align-items:flex-start}.swal2-container.swal2-top-left,.swal2-container.swal2-top-start{align-items:flex-start;justify-content:flex-start}.swal2-container.swal2-top-end,.swal2-container.swal2-top-right{align-items:flex-start;justify-content:flex-end}.swal2-container.swal2-center{align-items:center}.swal2-container.swal2-center-left,.swal2-container.swal2-center-start{align-items:center;justify-content:flex-start}.swal2-container.swal2-center-end,.swal2-container.swal2-center-right{align-items:center;justify-content:flex-end}.swal2-container.swal2-bottom{align-items:flex-end}.swal2-container.swal2-bottom-left,.swal2-container.swal2-bottom-start{align-items:flex-end;justify-content:flex-start}.swal2-container.swal2-bottom-end,.swal2-container.swal2-bottom-right{align-items:flex-end;justify-content:flex-end}.swal2-container.swal2-grow-fullscreen>.swal2-modal{display:flex!important;flex:1;align-self:stretch;justify-content:center}.swal2-container.swal2-grow-row>.swal2-modal{display:flex!important;flex:1;align-content:center;justify-content:center}.swal2-container.swal2-grow-column{flex:1;flex-direction:column}.swal2-container.swal2-grow-column.swal2-bottom,.swal2-container.swal2-grow-column.swal2-center,.swal2-container.swal2-grow-column.swal2-top{align-items:center}.swal2-container.swal2-grow-column.swal2-bottom-left,.swal2-container.swal2-grow-column.swal2-bottom-start,.swal2-container.swal2-grow-column.swal2-center-left,.swal2-container.swal2-grow-column.swal2-center-start,.swal2-container.swal2-grow-column.swal2-top-left,.swal2-container.swal2-grow-column.swal2-top-start{align-items:flex-start}.swal2-container.swal2-grow-column.swal2-bottom-end,.swal2-container.swal2-grow-column.swal2-bottom-right,.swal2-container.swal2-grow-column.swal2-center-end,.swal2-container.swal2-grow-column.swal2-center-right,.swal2-container.swal2-grow-column.swal2-top-end,.swal2-container.swal2-grow-column.swal2-top-right{align-items:flex-end}.swal2-container.swal2-grow-column>.swal2-modal{display:flex!important;flex:1;align-content:center;justify-content:center}.swal2-container:not(.swal2-top):not(.swal2-top-start):not(.swal2-top-end):not(.swal2-top-left):not(.swal2-top-right):not(.swal2-center-start):not(.swal2-center-end):not(.swal2-center-left):not(.swal2-center-right):not(.swal2-bottom):not(.swal2-bottom-start):not(.swal2-bottom-end):not(.swal2-bottom-left):not(.swal2-bottom-right):not(.swal2-grow-fullscreen)>.swal2-modal{margin:auto}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-container .swal2-modal{margin:0!important}}.swal2-container.swal2-fade{transition:background-color .1s}.swal2-container.swal2-shown{background-color:rgba(0,0,0,.4)}.swal2-popup{display:none;position:relative;flex-direction:column;justify-content:center;width:32em;max-width:100%;padding:1.25em;border-radius:.3125em;background:#fff;font-family:inherit;font-size:1rem;box-sizing:border-box}.swal2-popup:focus{outline:0}.swal2-popup.swal2-loading{overflow-y:hidden}.swal2-popup .swal2-header{display:flex;flex-direction:column;align-items:center}.swal2-popup .swal2-title{display:block;position:relative;max-width:100%;margin:0 0 .4em;padding:0;color:#595959;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}.swal2-popup .swal2-actions{flex-wrap:wrap;align-items:center;justify-content:center;margin:1.25em auto 0;z-index:1}.swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}.swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.1))}.swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2))}.swal2-popup .swal2-actions.swal2-loading .swal2-styled.swal2-confirm{width:2.5em;height:2.5em;margin:.46875em;padding:0;border:.25em solid transparent;border-radius:100%;border-color:transparent;background-color:transparent!important;color:transparent;cursor:default;box-sizing:border-box;-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-popup .swal2-actions.swal2-loading .swal2-styled.swal2-cancel{margin-right:30px;margin-left:30px}.swal2-popup .swal2-actions.swal2-loading :not(.swal2-styled).swal2-confirm::after{display:inline-block;width:15px;height:15px;margin-left:5px;border:3px solid #999;border-radius:50%;border-right-color:transparent;box-shadow:1px 1px 1px #fff;content:'';-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal}.swal2-popup .swal2-styled{margin:.3125em;padding:.625em 2em;font-weight:500;box-shadow:none}.swal2-popup .swal2-styled:not([disabled]){cursor:pointer}.swal2-popup .swal2-styled.swal2-confirm{border:0;border-radius:.25em;background:initial;background-color:#3085d6;color:#fff;font-size:1.0625em}.swal2-popup .swal2-styled.swal2-cancel{border:0;border-radius:.25em;background:initial;background-color:#aaa;color:#fff;font-size:1.0625em}.swal2-popup .swal2-styled:focus{outline:0;box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(50,100,150,.4)}.swal2-popup .swal2-styled::-moz-focus-inner{border:0}.swal2-popup .swal2-footer{justify-content:center;margin:1.25em 0 0;padding:1em 0 0;border-top:1px solid #eee;color:#545454;font-size:1em}.swal2-popup .swal2-image{max-width:100%;margin:1.25em auto}.swal2-popup .swal2-close{position:absolute;top:0;right:0;justify-content:center;width:1.2em;height:1.2em;padding:0;transition:color .1s ease-out;border:none;border-radius:0;background:0 0;color:#ccc;font-family:serif;font-size:2.5em;line-height:1.2;cursor:pointer;overflow:hidden}.swal2-popup .swal2-close:hover{-webkit-transform:none;transform:none;color:#f27474}.swal2-popup>.swal2-checkbox,.swal2-popup>.swal2-file,.swal2-popup>.swal2-input,.swal2-popup>.swal2-radio,.swal2-popup>.swal2-select,.swal2-popup>.swal2-textarea{display:none}.swal2-popup .swal2-content{justify-content:center;margin:0;padding:0;color:#545454;font-size:1.125em;font-weight:300;line-height:normal;z-index:1;word-wrap:break-word}.swal2-popup #swal2-content{text-align:center}.swal2-popup .swal2-checkbox,.swal2-popup .swal2-file,.swal2-popup .swal2-input,.swal2-popup .swal2-radio,.swal2-popup .swal2-select,.swal2-popup .swal2-textarea{margin:1em auto}.swal2-popup .swal2-file,.swal2-popup .swal2-input,.swal2-popup .swal2-textarea{width:100%;transition:border-color .3s,box-shadow .3s;border:1px solid #d9d9d9;border-radius:.1875em;font-size:1.125em;box-shadow:inset 0 1px 1px rgba(0,0,0,.06);box-sizing:border-box}.swal2-popup .swal2-file.swal2-inputerror,.swal2-popup .swal2-input.swal2-inputerror,.swal2-popup .swal2-textarea.swal2-inputerror{border-color:#f27474!important;box-shadow:0 0 2px #f27474!important}.swal2-popup .swal2-file:focus,.swal2-popup .swal2-input:focus,.swal2-popup .swal2-textarea:focus{border:1px solid #b4dbed;outline:0;box-shadow:0 0 3px #c4e6f5}.swal2-popup .swal2-file::-webkit-input-placeholder,.swal2-popup .swal2-input::-webkit-input-placeholder,.swal2-popup .swal2-textarea::-webkit-input-placeholder{color:#ccc}.swal2-popup .swal2-file:-ms-input-placeholder,.swal2-popup .swal2-input:-ms-input-placeholder,.swal2-popup .swal2-textarea:-ms-input-placeholder{color:#ccc}.swal2-popup .swal2-file::-ms-input-placeholder,.swal2-popup .swal2-input::-ms-input-placeholder,.swal2-popup .swal2-textarea::-ms-input-placeholder{color:#ccc}.swal2-popup .swal2-file::placeholder,.swal2-popup .swal2-input::placeholder,.swal2-popup .swal2-textarea::placeholder{color:#ccc}.swal2-popup .swal2-range input{width:80%}.swal2-popup .swal2-range output{width:20%;font-weight:600;text-align:center}.swal2-popup .swal2-range input,.swal2-popup .swal2-range output{height:2.625em;margin:1em auto;padding:0;font-size:1.125em;line-height:2.625em}.swal2-popup .swal2-input{height:2.625em;padding:0 .75em}.swal2-popup .swal2-input[type=number]{max-width:10em}.swal2-popup .swal2-file{font-size:1.125em}.swal2-popup .swal2-textarea{height:6.75em;padding:.75em}.swal2-popup .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;color:#545454;font-size:1.125em}.swal2-popup .swal2-checkbox,.swal2-popup .swal2-radio{align-items:center;justify-content:center}.swal2-popup .swal2-checkbox label,.swal2-popup .swal2-radio label{margin:0 .6em;font-size:1.125em}.swal2-popup .swal2-checkbox input,.swal2-popup .swal2-radio input{margin:0 .4em}.swal2-popup .swal2-validation-message{display:none;align-items:center;justify-content:center;padding:.625em;background:#f0f0f0;color:#666;font-size:1em;font-weight:300;overflow:hidden}.swal2-popup .swal2-validation-message::before{display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center;content:'!';zoom:normal}@supports (-ms-accelerator:true){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@-moz-document url-prefix(){.swal2-close:focus{outline:2px solid rgba(50,100,150,.4)}}.swal2-icon{position:relative;justify-content:center;width:5em;height:5em;margin:1.25em auto 1.875em;border:.25em solid transparent;border-radius:50%;line-height:5em;cursor:default;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;zoom:normal}.swal2-icon-text{font-size:3.75em}.swal2-icon.swal2-error{border-color:#f27474}.swal2-icon.swal2-error .swal2-x-mark{position:relative;flex-grow:1}.swal2-icon.swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-icon.swal2-warning{border-color:#facea8;color:#f8bb86}.swal2-icon.swal2-info{border-color:#9de0f6;color:#3fc3ee}.swal2-icon.swal2-question{border-color:#c9dae1;color:#87adbd}.swal2-icon.swal2-success{border-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;-webkit-transform:rotate(45deg);transform:rotate(45deg);border-radius:50%}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.4375em;left:-2.0635em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:3.75em 3.75em;transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.6875em;left:1.875em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:0 3.75em;transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}.swal2-icon.swal2-success .swal2-success-ring{position:absolute;top:-.25em;left:-.25em;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%;z-index:2;box-sizing:content-box}.swal2-icon.swal2-success .swal2-success-fix{position:absolute;top:.5em;left:1.625em;width:.4375em;height:5.625em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);z-index:1}.swal2-icon.swal2-success [class^=swal2-success-line]{display:block;position:absolute;height:.3125em;border-radius:.125em;background-color:#a5dc86;z-index:2}.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.875em;width:1.5625em;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-progresssteps{align-items:center;margin:0 0 1.25em;padding:0;font-weight:600}.swal2-progresssteps li{display:inline-block;position:relative}.swal2-progresssteps .swal2-progresscircle{width:2em;height:2em;border-radius:2em;background:#3085d6;color:#fff;line-height:2em;text-align:center;z-index:20}.swal2-progresssteps .swal2-progresscircle:first-child{margin-left:0}.swal2-progresssteps .swal2-progresscircle:last-child{margin-right:0}.swal2-progresssteps .swal2-progresscircle.swal2-activeprogressstep{background:#3085d6}.swal2-progresssteps .swal2-progresscircle.swal2-activeprogressstep~.swal2-progresscircle{background:#add8e6}.swal2-progresssteps .swal2-progresscircle.swal2-activeprogressstep~.swal2-progressline{background:#add8e6}.swal2-progresssteps .swal2-progressline{width:2.5em;height:.4em;margin:0 -1px;background:#3085d6;z-index:10}[class^=swal2]{-webkit-tap-highlight-color:transparent}.swal2-show{-webkit-animation:swal2-show .3s;animation:swal2-show .3s}.swal2-show.swal2-noanimation{-webkit-animation:none;animation:none}.swal2-hide{-webkit-animation:swal2-hide .15s forwards;animation:swal2-hide .15s forwards}.swal2-hide.swal2-noanimation{-webkit-animation:none;animation:none}.swal2-rtl .swal2-close{right:auto;left:0}.swal2-animate-success-icon .swal2-success-line-tip{-webkit-animation:swal2-animate-success-line-tip .75s;animation:swal2-animate-success-line-tip .75s}.swal2-animate-success-icon .swal2-success-line-long{-webkit-animation:swal2-animate-success-line-long .75s;animation:swal2-animate-success-line-long .75s}.swal2-animate-success-icon .swal2-success-circular-line-right{-webkit-animation:swal2-rotate-success-circular-line 4.25s ease-in;animation:swal2-rotate-success-circular-line 4.25s ease-in}.swal2-animate-error-icon{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-animate-error-icon .swal2-x-mark{-webkit-animation:swal2-animate-error-x-mark .5s;animation:swal2-animate-error-x-mark .5s}@-webkit-keyframes swal2-rotate-loading{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes swal2-rotate-loading{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll!important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:initial!important}}");
 
 /***/ }),
-/* 665 */
+/* 666 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /** @preserve
@@ -83430,7 +83646,7 @@ if (typeof window !== 'undefined' && window.Sweetalert2){  window.Sweetalert2.ve
 
 
 /***/ }),
-/* 666 */
+/* 667 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83602,7 +83818,7 @@ Timer.propTypes = {
 exports.default = Timer;
 
 /***/ }),
-/* 667 */
+/* 668 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83691,7 +83907,7 @@ var ButtonsGroup = function ButtonsGroup(props) {
 exports.default = ButtonsGroup;
 
 /***/ }),
-/* 668 */
+/* 669 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83738,7 +83954,7 @@ var Input = function Input(props) {
 exports.default = Input;
 
 /***/ }),
-/* 669 */
+/* 670 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83841,7 +84057,7 @@ var TimeAddOptions = function (_React$Component) {
 exports.default = TimeAddOptions;
 
 /***/ }),
-/* 670 */
+/* 671 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83885,7 +84101,7 @@ var _AddForm = __webpack_require__(378);
 
 var _AddForm2 = _interopRequireDefault(_AddForm);
 
-var _MotivationBlock = __webpack_require__(671);
+var _MotivationBlock = __webpack_require__(672);
 
 var _MotivationBlock2 = _interopRequireDefault(_MotivationBlock);
 
@@ -84039,7 +84255,7 @@ var ProjectInfo = function (_React$Component) {
 exports.default = ProjectInfo;
 
 /***/ }),
-/* 671 */
+/* 672 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -84152,7 +84368,7 @@ MotivationBlock.defaultProps = {
 exports.default = MotivationBlock;
 
 /***/ }),
-/* 672 */
+/* 673 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -84344,13 +84560,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Archive);
 
 /***/ }),
-/* 673 */
+/* 674 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(674);
+var content = __webpack_require__(675);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -84364,8 +84580,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../css-loader/index.js!./normalize.css", function() {
-			var newContent = require("!!../css-loader/index.js!./normalize.css");
+		module.hot.accept("!!../css-loader/dist/cjs.js!./normalize.css", function() {
+			var newContent = require("!!../css-loader/dist/cjs.js!./normalize.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -84373,29 +84589,25 @@ if(false) {
 	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
-
-/***/ }),
-/* 674 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(118)(false);
-// imports
-
-
-// module
-exports.push([module.i, "/*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */\n\n/* Document\n   ========================================================================== */\n\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\n\nhtml {\n  line-height: 1.15; /* 1 */\n  -ms-text-size-adjust: 100%; /* 2 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n\n/**\n * Remove the margin in all browsers (opinionated).\n */\n\nbody {\n  margin: 0;\n}\n\n/**\n * Add the correct display in IE 9-.\n */\n\narticle,\naside,\nfooter,\nheader,\nnav,\nsection {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n * 1. Add the correct display in IE.\n */\n\nfigcaption,\nfigure,\nmain { /* 1 */\n  display: block;\n}\n\n/**\n * Add the correct margin in IE 8.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\n\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * 1. Remove the gray background on active links in IE 10.\n * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.\n */\n\na {\n  background-color: transparent; /* 1 */\n  -webkit-text-decoration-skip: objects; /* 2 */\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57- and Firefox 39-.\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\n\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Prevent the duplicate application of `bolder` by the next rule in Safari 6.\n */\n\nb,\nstrong {\n  font-weight: inherit;\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\n\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font style in Android 4.3-.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Add the correct background and color in IE 9-.\n */\n\nmark {\n  background-color: #ff0;\n  color: #000;\n}\n\n/**\n * Add the correct font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\n\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\naudio,\nvideo {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in iOS 4-7.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Remove the border on images inside links in IE 10-.\n */\n\nimg {\n  border-style: none;\n}\n\n/**\n * Hide the overflow in IE.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * 1. Change the font styles in all browsers (opinionated).\n * 2. Remove the margin in Firefox and Safari.\n */\n\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: sans-serif; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\n\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\n\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`\n *    controls in Android 4.\n * 2. Correct the inability to style clickable types in iOS and Safari.\n */\n\nbutton,\nhtml [type=\"button\"], /* 1 */\n[type=\"reset\"],\n[type=\"submit\"] {\n  -webkit-appearance: button; /* 2 */\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\n\nbutton::-moz-focus-inner,\n[type=\"button\"]::-moz-focus-inner,\n[type=\"reset\"]::-moz-focus-inner,\n[type=\"submit\"]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\n\nbutton:-moz-focusring,\n[type=\"button\"]:-moz-focusring,\n[type=\"reset\"]:-moz-focusring,\n[type=\"submit\"]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Correct the padding in Firefox.\n */\n\nfieldset {\n  padding: 0.35em 0.75em 0.625em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\n\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * 1. Add the correct display in IE 9-.\n * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\n\nprogress {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Remove the default vertical scrollbar in IE.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10-.\n * 2. Remove the padding in IE 10-.\n */\n\n[type=\"checkbox\"],\n[type=\"radio\"] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n\n[type=\"number\"]::-webkit-inner-spin-button,\n[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n\n[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.\n */\n\n[type=\"search\"]::-webkit-search-cancel-button,\n[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n\n/*\n * Add the correct display in IE 9-.\n * 1. Add the correct display in Edge, IE, and Firefox.\n */\n\ndetails, /* 1 */\nmenu {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\n\nsummary {\n  display: list-item;\n}\n\n/* Scripting\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\ncanvas {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in IE.\n */\n\ntemplate {\n  display: none;\n}\n\n/* Hidden\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 10-.\n */\n\n[hidden] {\n  display: none;\n}\n", ""]);
-
-// exports
-
 
 /***/ }),
 /* 675 */
 /***/ (function(module, exports, __webpack_require__) {
 
+exports = module.exports = __webpack_require__(118)(false);
+// Module
+exports.push([module.i, "/*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */\n\n/* Document\n   ========================================================================== */\n\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\n\nhtml {\n  line-height: 1.15; /* 1 */\n  -ms-text-size-adjust: 100%; /* 2 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n\n/**\n * Remove the margin in all browsers (opinionated).\n */\n\nbody {\n  margin: 0;\n}\n\n/**\n * Add the correct display in IE 9-.\n */\n\narticle,\naside,\nfooter,\nheader,\nnav,\nsection {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n * 1. Add the correct display in IE.\n */\n\nfigcaption,\nfigure,\nmain { /* 1 */\n  display: block;\n}\n\n/**\n * Add the correct margin in IE 8.\n */\n\nfigure {\n  margin: 1em 40px;\n}\n\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\n\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * 1. Remove the gray background on active links in IE 10.\n * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.\n */\n\na {\n  background-color: transparent; /* 1 */\n  -webkit-text-decoration-skip: objects; /* 2 */\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57- and Firefox 39-.\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\n\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Prevent the duplicate application of `bolder` by the next rule in Safari 6.\n */\n\nb,\nstrong {\n  font-weight: inherit;\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\n\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font style in Android 4.3-.\n */\n\ndfn {\n  font-style: italic;\n}\n\n/**\n * Add the correct background and color in IE 9-.\n */\n\nmark {\n  background-color: #ff0;\n  color: #000;\n}\n\n/**\n * Add the correct font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\n\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\naudio,\nvideo {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in iOS 4-7.\n */\n\naudio:not([controls]) {\n  display: none;\n  height: 0;\n}\n\n/**\n * Remove the border on images inside links in IE 10-.\n */\n\nimg {\n  border-style: none;\n}\n\n/**\n * Hide the overflow in IE.\n */\n\nsvg:not(:root) {\n  overflow: hidden;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * 1. Change the font styles in all browsers (opinionated).\n * 2. Remove the margin in Firefox and Safari.\n */\n\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: sans-serif; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\n\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\n\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`\n *    controls in Android 4.\n * 2. Correct the inability to style clickable types in iOS and Safari.\n */\n\nbutton,\nhtml [type=\"button\"], /* 1 */\n[type=\"reset\"],\n[type=\"submit\"] {\n  -webkit-appearance: button; /* 2 */\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\n\nbutton::-moz-focus-inner,\n[type=\"button\"]::-moz-focus-inner,\n[type=\"reset\"]::-moz-focus-inner,\n[type=\"submit\"]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\n\nbutton:-moz-focusring,\n[type=\"button\"]:-moz-focusring,\n[type=\"reset\"]:-moz-focusring,\n[type=\"submit\"]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Correct the padding in Firefox.\n */\n\nfieldset {\n  padding: 0.35em 0.75em 0.625em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\n\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * 1. Add the correct display in IE 9-.\n * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\n\nprogress {\n  display: inline-block; /* 1 */\n  vertical-align: baseline; /* 2 */\n}\n\n/**\n * Remove the default vertical scrollbar in IE.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10-.\n * 2. Remove the padding in IE 10-.\n */\n\n[type=\"checkbox\"],\n[type=\"radio\"] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n\n[type=\"number\"]::-webkit-inner-spin-button,\n[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n\n[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.\n */\n\n[type=\"search\"]::-webkit-search-cancel-button,\n[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n\n/*\n * Add the correct display in IE 9-.\n * 1. Add the correct display in Edge, IE, and Firefox.\n */\n\ndetails, /* 1 */\nmenu {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\n\nsummary {\n  display: list-item;\n}\n\n/* Scripting\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 9-.\n */\n\ncanvas {\n  display: inline-block;\n}\n\n/**\n * Add the correct display in IE.\n */\n\ntemplate {\n  display: none;\n}\n\n/* Hidden\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 10-.\n */\n\n[hidden] {\n  display: none;\n}\n", ""]);
+
+
+
+/***/ }),
+/* 676 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(676);
+var content = __webpack_require__(677);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -84409,8 +84621,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/stylus-loader/index.js!./index.styl", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/stylus-loader/index.js!./index.styl");
+		module.hot.accept("!!../../node_modules/css-loader/dist/cjs.js!../../node_modules/stylus-loader/index.js!./index.styl", function() {
+			var newContent = require("!!../../node_modules/css-loader/dist/cjs.js!../../node_modules/stylus-loader/index.js!./index.styl");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -84420,207 +84632,14 @@ if(false) {
 }
 
 /***/ }),
-/* 676 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(118)(false);
-// imports
-
-
-// module
-exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n  --mainBlue: #1c3144;\n  --secondBlue: #2f4858;\n  --myOrange: #e56140;\n  --myRed: #a20021;\n  --myGrey: #e8e9eb;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n  max-width: 1200px;\n}\n.hide {\n  display: none !important;\n}\n.landing-content {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.landing-block--main {\n  grid-column: 1/-1;\n}\n.highlight {\n  background-color: var(--myRed);\n  height: 15px;\n  position: relative;\n  top: -34px;\n  left: -10px;\n  width: 120%;\n  max-width: 32vw;\n  margin: auto;\n}\n.landing-block {\n  color: #fff;\n  padding: 10px;\n  line-height: 2em;\n  background: var(--mainBlue);\n  margin-bottom: 10px;\n}\n.landing-block a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 2px dashed var(--myOrange);\n}\n.landing-block a:hover {\n  border: none;\n}\n.landing-block .page-title {\n  color: #fff;\n  z-index: 999999;\n  position: relative;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: var(--mainBlue);\n  margin-left: 0;\n  margin-right: 0;\n}\n.secondblue {\n  background: var(--secondBlue);\n}\n.myred {\n  background: var(--myRed);\n}\n.white {\n  background-color: #fff;\n}\n.orange {\n  background: var(--myOrange);\n}\n.landing-block.white {\n  color: #333;\n}\n.white .page-title {\n  color: #333;\n}\n.swal2-title {\n  font-size: 1.2rem;\n}\n.swal2-content .timeoptions {\n  font-size: 0.8rem;\n}\n.swal2-content input {\n  margin-left: 6px;\n}\n/* HEADER */\n.header {\n  background: var(--mainBlue);\n  border-bottom: 5px solid var(--myOrange);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav {\n  margin-left: 0;\n  padding-left: 0;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 10px 0 0;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n  display: block;\n  margin-top: 10px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  padding: 0;\n  margin: 0;\n}\n.projects-titlewrapper {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  justify-items: center;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done {\n  list-style: none;\n  padding: 5px 8px;\n  display: grid;\n  margin-bottom: 8px;\n  grid-template-columns: 1fr 1fr 1fr;\n  height: 34px;\n}\n.project__item--parent {\n  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2);\n  background: var(--myGrey);\n}\n.projects--topbuttons {\n  display: flex;\n  justify-content: center;\n}\n.projects__item--edit {\n  grid-template-columns: 1fr 1fr;\n}\n.projects__item--edit input,\n.projects__item--edit select {\n  height: 22px;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.projects__item .name-input {\n  grid-column: 1/3;\n  max-width: 380px;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: var(--myBlue);\n  align-self: center;\n}\n.projects__item-title:hover {\n  color: var(--secondBlue);\n}\n.projects__item-title .pretty-time {\n  color: var(--myOrange);\n  background: var(--mainBlue);\n  font-size: 0.7em;\n  font-weight: bold;\n  margin-left: 20px;\n  transform: rotate(-3deg);\n  display: inline-block;\n}\n.form__newproject {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n.projects__list .buttons-group {\n  display: none;\n}\n.projects__item:hover .buttons-group {\n  display: block;\n}\n.project__info .page-title .pretty-time {\n  color: var(--myGrey);\n  transform: rotate(2deg);\n  display: inline-block;\n  padding: 8px;\n  border-bottom: 2px solid var(--myOrange);\n}\n.project-name {\n  display: flex;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item,\n.tasks__list-item--done {\n  height: auto;\n  border-bottom: 1px solid #ededed;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title,\n.tasks__list-input {\n  grid-column: 1/3;\n}\n.tasks__list-input input,\n.project-select {\n  height: 20px;\n  box-sizing: content-box;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n.tasks__list-item .buttons-group {\n  display: none;\n}\n.tasks__list-item .buttons-group.buttons-group--show {\n  display: block;\n}\n.tasks__list-item:hover .buttons-group {\n  display: block;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name,\n  .tasks__list-input {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: var(--myGrey);\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--mainBlue);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--secondBlue);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.timelogs__item {\n  border-top: 1px solid #f1f1f1;\n}\n.timelogs__item td {\n  padding: 20px 0;\n  padding-left: 5px;\n}\n.timelogs__title {\n  text-align: left;\n  background: #f1f1f1;\n  padding: 15px 0;\n  padding-left: 5px;\n  text-transform: uppercase;\n  color: #4a4a4a;\n  font-weight: 600;\n}\n.timelogs__deletecell {\n  visibility: hidden;\n}\n.timelogs__item:hover .timelogs__deletecell {\n  visibility: visible;\n}\n.timelogs__item:hover {\n  background: #fcf8f8;\n  cursor: pointer;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n/* DASHBOARD */\n.dashboard__parent .dashboard__item-title {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 8px;\n  border: none;\n}\n.dashboard__item-title {\n  color: var(--mainBlue);\n  border-left: 4px solid var(--myOrange);\n  padding: 8px;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  padding: 5px;\n}\n.dashboard__select {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n}\n.dashboard__title {\n  text-transform: uppercase;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: flex-start;\n  margin: 30px 0px;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n  align-self: center;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 10px;\n  border: 0;\n  border-bottom: 2px solid var(--myOrange);\n  text-align: center;\n}\n.button-addproject {\n  width: 70px;\n  font-size: 2em;\n  line-height: 1em;\n  align-self: center;\n  height: 50px;\n  border-radius: 30px;\n  color: #fff;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  box-sizing: content-box;\n  border-radius: 5px;\n}\n.button--danger {\n  background: var(--myRed);\n  color: var(--myGrey);\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* FOOTER */\nfooter {\n  background: var(--mainBlue);\n  border-top: 5px solid var(--myOrange);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 720px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n  .dashboard__header {\n    display: grid;\n    justify-content: center;\n  }\n  .dashboard__select {\n    padding: 10px;\n  }\n  .projects__item,\n  .projects__item--done,\n  .tasks__list-item,\n  .tasks__list-item--done {\n    padding: 16px 8px;\n    height: 70px;\n  }\n  .projects__item:hover .buttons-group {\n    display: grid;\n    justify-self: end;\n  }\n  .project-name {\n    display: grid;\n  }\n  .tasks__list-item {\n    height: auto;\n  }\n  .tasks__list-input {\n    margin-bottom: 10px;\n  }\n  .landing-content {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
 /* 677 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+exports = module.exports = __webpack_require__(118)(false);
+// Module
+exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n  --mainBlue: #1c3144;\n  --secondBlue: #2f4858;\n  --myOrange: #e56140;\n  --myRed: #a20021;\n  --myGrey: #e8e9eb;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n  max-width: 1200px;\n}\n.hide {\n  display: none !important;\n}\n.landing-content {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.landing-video {\n  width: 600px;\n  height: 300px;\n  margin: auto;\n  display: block;\n}\n.landing-block--main {\n  grid-column: 1/-1;\n}\n.highlight {\n  background-color: var(--myRed);\n  height: 15px;\n  position: relative;\n  top: -34px;\n  left: -10px;\n  width: 120%;\n  max-width: 32vw;\n  margin: auto;\n}\n.landing-block {\n  color: #fff;\n  padding: 10px;\n  line-height: 2em;\n  background: var(--mainBlue);\n  margin-bottom: 10px;\n}\n.landing-block a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 2px dashed var(--myOrange);\n}\n.landing-block a:hover {\n  border: none;\n}\n.landing-block .page-title {\n  color: #fff;\n  z-index: 999999;\n  position: relative;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: var(--mainBlue);\n  margin-left: 0;\n  margin-right: 0;\n}\n.secondblue {\n  background: var(--secondBlue);\n}\n.myred {\n  background: var(--myRed);\n}\n.white {\n  background-color: #fff;\n}\n.orange {\n  background: var(--myOrange);\n}\n.landing-block.white {\n  color: #333;\n}\n.white .page-title {\n  color: #333;\n}\n.swal2-title {\n  font-size: 1.2rem;\n}\n.swal2-content .timeoptions {\n  font-size: 0.8rem;\n}\n.swal2-content input {\n  margin-left: 6px;\n}\n/* HEADER */\n.header {\n  background: var(--mainBlue);\n  border-bottom: 5px solid var(--myOrange);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav {\n  margin-left: 0;\n  padding-left: 0;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 10px 0 0;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n  display: block;\n  margin-top: 10px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  padding: 0;\n  margin: 0;\n}\n.projects-titlewrapper {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  justify-items: center;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done {\n  list-style: none;\n  padding: 5px 8px;\n  display: grid;\n  margin-bottom: 8px;\n  grid-template-columns: 1fr 1fr 1fr;\n  height: 34px;\n}\n.project__item--parent {\n  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2);\n  background: var(--myGrey);\n}\n.projects--topbuttons {\n  display: flex;\n  justify-content: center;\n}\n.projects__item--edit {\n  grid-template-columns: 1fr 1fr;\n}\n.projects__item--edit input,\n.projects__item--edit select {\n  height: 22px;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.projects__item .name-input {\n  grid-column: 1/3;\n  max-width: 380px;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: var(--myBlue);\n  align-self: center;\n}\n.projects__item-title:hover {\n  color: var(--secondBlue);\n}\n.projects__item-title .pretty-time {\n  color: var(--myOrange);\n  background: var(--mainBlue);\n  font-size: 0.7em;\n  font-weight: bold;\n  margin-left: 20px;\n  transform: rotate(-3deg);\n  display: inline-block;\n}\n.form__newproject {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n.projects__list .buttons-group {\n  display: none;\n}\n.projects__item:hover .buttons-group {\n  display: block;\n}\n.project__info .page-title .pretty-time {\n  color: var(--myGrey);\n  transform: rotate(2deg);\n  display: inline-block;\n  padding: 8px;\n  border-bottom: 2px solid var(--myOrange);\n}\n.project-name {\n  display: flex;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item,\n.tasks__list-item--done {\n  height: auto;\n  border-bottom: 1px solid #ededed;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title,\n.tasks__list-input {\n  grid-column: 1/3;\n}\n.tasks__list-input input,\n.project-select {\n  height: 20px;\n  box-sizing: content-box;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n.tasks__list-item .buttons-group {\n  display: none;\n}\n.tasks__list-item .buttons-group.buttons-group--show {\n  display: block;\n}\n.tasks__list-item:hover .buttons-group {\n  display: block;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name,\n  .tasks__list-input {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: var(--myGrey);\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--mainBlue);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--secondBlue);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.timelogs__item {\n  border-top: 1px solid #f1f1f1;\n}\n.timelogs__item td {\n  padding: 20px 0;\n  padding-left: 5px;\n}\n.timelogs__title {\n  text-align: left;\n  background: #f1f1f1;\n  padding: 15px 0;\n  padding-left: 5px;\n  text-transform: uppercase;\n  color: #4a4a4a;\n  font-weight: 600;\n}\n.timelogs__deletecell {\n  visibility: hidden;\n}\n.timelogs__item:hover .timelogs__deletecell {\n  visibility: visible;\n}\n.timelogs__item:hover {\n  background: #fcf8f8;\n  cursor: pointer;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n/* DASHBOARD */\n.dashboard__parent .dashboard__item-title {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 8px;\n  border: none;\n}\n.dashboard__item-title {\n  color: var(--mainBlue);\n  border-left: 4px solid var(--myOrange);\n  padding: 8px;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  padding: 5px;\n}\n.dashboard__select {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n}\n.dashboard__title {\n  text-transform: uppercase;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: flex-start;\n  margin: 30px 0px;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n  align-self: center;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 10px;\n  border: 0;\n  border-bottom: 2px solid var(--myOrange);\n  text-align: center;\n}\n.button-addproject {\n  width: 70px;\n  font-size: 2em;\n  line-height: 1em;\n  align-self: center;\n  height: 50px;\n  border-radius: 30px;\n  color: #fff;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  box-sizing: content-box;\n  border-radius: 5px;\n}\n.button--danger {\n  background: var(--myRed);\n  color: var(--myGrey);\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* FOOTER */\nfooter {\n  background: var(--mainBlue);\n  border-top: 5px solid var(--myOrange);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 720px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n  .dashboard__header {\n    display: grid;\n    justify-content: center;\n  }\n  .dashboard__select {\n    padding: 10px;\n  }\n  .projects__item,\n  .projects__item--done,\n  .tasks__list-item,\n  .tasks__list-item--done {\n    padding: 16px 8px;\n    height: 70px;\n  }\n  .projects__item:hover .buttons-group {\n    display: grid;\n    justify-self: end;\n  }\n  .project-name {\n    display: grid;\n  }\n  .tasks__list-item {\n    height: auto;\n  }\n  .tasks__list-input {\n    margin-bottom: 10px;\n  }\n  .landing-content {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n}\n", ""]);
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _getPrototypeOf = __webpack_require__(5);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(6);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(7);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(8);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(9);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var LandingPage = function (_Component) {
-  (0, _inherits3.default)(LandingPage, _Component);
-
-  function LandingPage() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    (0, _classCallCheck3.default)(this, LandingPage);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = LandingPage.__proto__ || (0, _getPrototypeOf2.default)(LandingPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      test: ''
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
-  (0, _createClass3.default)(LandingPage, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'landing-content' },
-        _react2.default.createElement(
-          'div',
-          { className: 'landing-block white landing-block--main' },
-          _react2.default.createElement(
-            'div',
-            { className: 'content-wrapper' },
-            _react2.default.createElement(
-              'h2',
-              { className: 'page-title' },
-              'What is this?'
-            ),
-            _react2.default.createElement('div', { className: 'highlight orange' }),
-            _react2.default.createElement(
-              'p',
-              { className: 'landing-paragraph' },
-              _react2.default.createElement(
-                'strong',
-                null,
-                'Logsterr'
-              ),
-              ' is an app, I have built to keep track of certain projects I am working on. In another words, it is a side project of mine. More details below.'
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'landing-block' },
-          _react2.default.createElement(
-            'div',
-            { className: 'content-wrapper' },
-            _react2.default.createElement(
-              'h2',
-              { className: 'page-title' },
-              'What does this app do?'
-            ),
-            _react2.default.createElement('div', { className: 'highlight' }),
-            _react2.default.createElement(
-              'div',
-              { className: 'landing-paragraph' },
-              _react2.default.createElement(
-                'p',
-                null,
-                'You can create projects (and projects within those projects), create tasks inside those projects and whenever you are doing them you can press start and log how many minutes/hours you have spent on it. You also can mark projects and tasks as complete, and view the history of your timelogs.'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'There is a popular pomodoro technique for productivity. But what I have found it keeps you in certain boundaries of specified time, like 25 minutes, when maybe you would\'ve done more. Or you don\'t start all, because you don\'t feel like it. While here, you press the timer and do the job as long as you can go.'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'Sometimes it will be 10 minutes, sometimes 2 hours. The added benefit of this app, is not only you can do this, but the app will keep track of all the logs you did and give you some stats on how much you have spent on each project.'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'I, personally, started this app as a way to keep track of my guitar practice. There were a lot of small tasks I had to 5-10 minutes long and at the end I wanted to know how much I spent on it.'
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'landing-block myred' },
-          _react2.default.createElement(
-            'div',
-            { className: 'content-wrapper' },
-            _react2.default.createElement(
-              'h2',
-              { className: 'page-title' },
-              'Can I sign up?'
-            ),
-            _react2.default.createElement('div', { className: 'highlight secondblue' }),
-            _react2.default.createElement(
-              'div',
-              { className: 'landing-paragraph' },
-              _react2.default.createElement(
-                'p',
-                null,
-                'Sort of. The app is not fully ready yet. I am the only user right now and there is still work to do. Even though I started this with the idea of a simple app, it kind of spiraled and I keep thinking new things to do and features to add.'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'With that said, I haven\'t opened the sign up yet, it\'s only with invites. But if you really like the idea and want to try it out, you can either',
-                ' ',
-                _react2.default.createElement(
-                  'a',
-                  { href: 'mailto:askerovlab@gmail.com' },
-                  'email'
-                ),
-                ' me or',
-                ' ',
-                _react2.default.createElement(
-                  'a',
-                  { href: 'https://twitter.com/askerovlab' },
-                  'tweet'
-                ),
-                ' at me, and I will send you the invite. And of course there is an option to set the app yourself. It\'s open source. If you have any questions, the same procedure: tweet or email.'
-              )
-            ),
-            _react2.default.createElement(
-              'h2',
-              { className: 'page-title' },
-              'Is there mobile version?'
-            ),
-            _react2.default.createElement('div', { className: 'highlight secondblue' }),
-            _react2.default.createElement(
-              'div',
-              { className: 'landing-paragraph' },
-              _react2.default.createElement(
-                'p',
-                null,
-                'Not yet. It\'s primarily desktop focused browser version. But I\'m working on it. You should be able to interact with the app through your mobile browser but it might not be the best experience yet.'
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-  return LandingPage;
-}(_react.Component);
-
-exports.default = LandingPage;
 
 /***/ })
 /******/ ]);

@@ -89,6 +89,21 @@ class LandingPage extends Component {
             </div>
           </div>
         </div>
+
+        <div className="landing-block white landing-block--main">
+          <div className="content-wrapper">
+            <h2 className="page-title">Quick Video Tour</h2>
+            <div className="highlight orange" />
+            <iframe
+              className="landing-video"
+              title="demo"
+              src="https://www.youtube.com/embed/ZNZA-a-KZak"
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
       </div>
     );
   }

@@ -78140,7 +78140,7 @@ var LandingPage = function (_Component) {
             _react2.default.createElement(
               'h2',
               { className: 'page-title' },
-              'Quick Video Tour'
+              'Quick Video Tour!'
             ),
             _react2.default.createElement('div', { className: 'highlight orange' }),
             _react2.default.createElement('iframe', {

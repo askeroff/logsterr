@@ -11,7 +11,7 @@
     "build-prod": "webpack -p --config webpack.prod.js",
     "devbuild": "webpack --config webpack.dev.js",
     "server": "node server.js",
-    "start": "npm run server",
+    "start": "pm2 start server.js",
     "watch": "nodemon ./server.js",
     "dev": "concurrently \"npm run devbuild\" \"npm run watch\""
   },
@@ -44,6 +44,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.2.1",
+    "pm2": "^3.2.3",
     "prop-types": "^15.5.10",
     "react": "^16.4.1",
     "react-dates": "^17.0.0",

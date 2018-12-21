@@ -30016,8 +30016,9 @@ function getMotivationError(response) {
 }
 
 function getMotivationData(id) {
+  var now = Date.now();
   return function (dispatch) {
-    return _axios2.default.get('/dashboard/getmotivation?project=' + id).then(function (res) {
+    return _axios2.default.get('/dashboard/getmotivation?project=' + id + '&date=' + now).then(function (res) {
       if (res.data.dataSent) {
         dispatch(getMotivationSuccess(res.data));
       } else {

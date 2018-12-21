@@ -63,9 +63,10 @@ export function getMotivationError(response) {
 }
 
 export function getMotivationData(id) {
+  const now = Date.now();
   return dispatch =>
     axios
-      .get(`/dashboard/getmotivation?project=${id}`)
+      .get(`/dashboard/getmotivation?project=${id}&date=${now}`)
       .then(res => {
         if (res.data.dataSent) {
           dispatch(getMotivationSuccess(res.data));

@@ -41,7 +41,6 @@ exports.getMotivationData = async (req, res) => {
     .endOf('day')._d;
   const lastMonday = moment()
     .isoWeekday(-6)
-
     .startOf('day')._d;
   const thisMonday = moment()
     .isoWeekday(1)

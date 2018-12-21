@@ -21,7 +21,7 @@ class DatePicker extends Component<Props, {}> {
   onDatesChange = ({ startDate, endDate }: any) => {
     this.props.loadData(
       startDate.startOf('day').valueOf(),
-      endDate.startOf('day').valueOf()
+      endDate.endOf('day').valueOf()
     );
     this.props.setDates(startDate, endDate);
   };

@@ -69718,7 +69718,7 @@ var DatePicker = function (_Component) {
       var startDate = _ref2.startDate,
           endDate = _ref2.endDate;
 
-      _this.props.loadData(startDate.startOf('day').valueOf(), endDate.startOf('day').valueOf());
+      _this.props.loadData(startDate.startOf('day').valueOf(), endDate.endOf('day').valueOf());
       _this.props.setDates(startDate, endDate);
     }, _this.changeData = function (event) {
       _this.props.setDefaultShow(event.target.value);

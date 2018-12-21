@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
-const filterData = require('./common/filterData');
+// const filterData = require('./common/filterData');
 const prepareStatsData = require('./common/prepareStatsData');
 
 const Timelog = mongoose.model('Timelog');
@@ -56,18 +56,26 @@ exports.getMotivationData = async (req, res) => {
   const getTimelogs = await Timelog.getProjects(
     req.user._id,
     new Date(lastMonday),
+    new Date(lastSunday)
+  );
+
+  const getTimelogs2 = await Timelog.getProjects(
+    req.user._id,
+    new Date(thisMonday),
     new Date(thisSunday)
   );
 
-  const data = formatLogs(getTimelogs);
+  const lastWeek = formatLogs(getTimelogs);
+  const thisWeek = formatLogs(getTimelogs2);
 
-  const lastWeek = filterData(data, lastMonday, lastSunday);
-  const thisWeek = filterData(data, thisMonday, thisSunday);
+  console.log(lastWeek.length);
+  console.log(thisWeek.length);
 
   const projects = await Project.find({ author: req.user._id }).lean();
 
   const formattedLastWeek = prepareStatsData(lastWeek, projects);
   const formattedThisWeek = prepareStatsData(thisWeek, projects);
+
   const formattedLastWeekProject = pickProject(
     formattedLastWeek,
     req.query.project

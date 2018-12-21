@@ -82,16 +82,15 @@ exports.getMotivationData = async (req, res) => {
 
 exports.getData = async (req, res) => {
   const { start, end } = req.query;
-  const startDate = `${start} 00:00:00`;
-  const endDate = `${end} 23:59:59`;
+  // const startDate = `${start} 00:00:00`;
+  // const endDate = `${end} 23:59:59`;
   const getTimelogs = await Timelog.getProjects(
     req.user._id,
-    new Date(startDate),
-    new Date(endDate)
+    new Date(start),
+    new Date(end)
   );
 
   const data = formatLogs(getTimelogs);
-
   const projects = await Project.find({ author: req.user._id }).lean();
 
   const prepared = prepareStatsData(data, projects);

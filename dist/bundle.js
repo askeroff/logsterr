@@ -68940,13 +68940,13 @@ var Dashboard = function (_React$Component) {
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Dashboard.__proto__ || (0, _getPrototypeOf2.default)(Dashboard)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       dashboard: [],
       defaultShow: 'today',
-      startDate: (0, _momentTimezone2.default)(new Date()),
-      endDate: (0, _momentTimezone2.default)(new Date()),
+      startDate: (0, _momentTimezone2.default)(new Date()).startOf('day'),
+      endDate: (0, _momentTimezone2.default)(new Date()).endOf('day'),
       focusedInput: null
     }, _this.setDates = function (startDate, endDate) {
       _this.setState({
-        startDate: (0, _momentTimezone2.default)(startDate),
-        endDate: (0, _momentTimezone2.default)(endDate)
+        startDate: (0, _momentTimezone2.default)(startDate).startOf('day'),
+        endDate: (0, _momentTimezone2.default)(endDate).endOf('day')
       });
     }, _this.setDefaultShow = function (str) {
       _this.setState({
@@ -68964,7 +68964,7 @@ var Dashboard = function (_React$Component) {
           startDate = _state.startDate,
           endDate = _state.endDate;
 
-      this.props.handleDashboardData(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+      this.props.handleDashboardData(startDate.format('YYYY-MM-DD HH:mm:ss'), endDate.format('YYYY-MM-DD HH:mm:ss'));
     }
   }, {
     key: 'componentDidUpdate',
@@ -69718,7 +69718,7 @@ var DatePicker = function (_Component) {
       var startDate = _ref2.startDate,
           endDate = _ref2.endDate;
 
-      _this.props.loadData(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+      _this.props.loadData(startDate.startOf('day').format('YYYY-MM-DD HH:mm:ss'), endDate.startOf('day').format('YYYY-MM-DD HH:mm:ss'));
       _this.props.setDates(startDate, endDate);
     }, _this.changeData = function (event) {
       _this.props.setDefaultShow(event.target.value);

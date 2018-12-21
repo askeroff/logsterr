@@ -20,8 +20,8 @@ type Props = {
 class DatePicker extends Component<Props, {}> {
   onDatesChange = ({ startDate, endDate }: any) => {
     this.props.loadData(
-      startDate.format('YYYY-MM-DD'),
-      endDate.format('YYYY-MM-DD')
+      startDate.startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      endDate.startOf('day').format('YYYY-MM-DD HH:mm:ss')
     );
     this.props.setDates(startDate, endDate);
   };

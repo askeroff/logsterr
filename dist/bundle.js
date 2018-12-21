@@ -29958,6 +29958,10 @@ var _axios = __webpack_require__(58);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _momentTimezone = __webpack_require__(304);
+
+var _momentTimezone2 = _interopRequireDefault(_momentTimezone);
+
 var _actionTypes = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -30016,9 +30020,13 @@ function getMotivationError(response) {
 }
 
 function getMotivationData(id) {
-  var now = Date.now();
+  var lastSunday = (0, _momentTimezone2.default)().isoWeekday(0).endOf('day').valueOf();
+  var lastMonday = (0, _momentTimezone2.default)().isoWeekday(-6).startOf('day').valueOf();
+  var thisMonday = (0, _momentTimezone2.default)().isoWeekday(1).startOf('day').valueOf();
+  var thisSunday = (0, _momentTimezone2.default)().isoWeekday(7).endOf('day').valueOf();
+  var dateString = 'lastSunday=' + lastSunday + '&lastMonday=' + lastMonday + '&thisMonday=' + thisMonday + '&thisSunday=' + thisSunday;
   return function (dispatch) {
-    return _axios2.default.get('/dashboard/getmotivation?project=' + id + '&date=' + now).then(function (res) {
+    return _axios2.default.get('/dashboard/getmotivation?project=' + id + '&' + dateString).then(function (res) {
       if (res.data.dataSent) {
         dispatch(getMotivationSuccess(res.data));
       } else {

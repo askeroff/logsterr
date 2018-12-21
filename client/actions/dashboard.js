@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment-timezone';
 import {
   GET_DASHBOARD_DATA,
   ADD_MESSAGE,
@@ -63,10 +64,26 @@ export function getMotivationError(response) {
 }
 
 export function getMotivationData(id) {
-  const now = Date.now();
+  const lastSunday = moment()
+    .isoWeekday(0)
+    .endOf('day')
+    .valueOf();
+  const lastMonday = moment()
+    .isoWeekday(-6)
+    .startOf('day')
+    .valueOf();
+  const thisMonday = moment()
+    .isoWeekday(1)
+    .startOf('day')
+    .valueOf();
+  const thisSunday = moment()
+    .isoWeekday(7)
+    .endOf('day')
+    .valueOf();
+  const dateString = `lastSunday=${lastSunday}&lastMonday=${lastMonday}&thisMonday=${thisMonday}&thisSunday=${thisSunday}`;
   return dispatch =>
     axios
-      .get(`/dashboard/getmotivation?project=${id}&date=${now}`)
+      .get(`/dashboard/getmotivation?project=${id}&${dateString}`)
       .then(res => {
         if (res.data.dataSent) {
           dispatch(getMotivationSuccess(res.data));

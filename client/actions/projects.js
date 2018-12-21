@@ -8,6 +8,7 @@ import {
   DELETE_PROJECT,
   ADD_MESSAGE,
   TOGGLE_PROJECT_DONE,
+  ADD_TIME_TO_TASK_PROJECT,
   FETCH_PROJECTS
 } from '../actions/actionTypes';
 
@@ -75,9 +76,14 @@ export function renameProject(id, name, parentID) {
 export function addTimeToProjectSuccess(id, time) {
   return {
     type: ADD_TIME_TO_PROJECT,
-    data: {
-      task: { _id: id }
-    },
+    id,
+    seconds: time
+  };
+}
+export function addTimeToTaskProject(id, time) {
+  return {
+    type: ADD_TIME_TO_TASK_PROJECT,
+    id,
     seconds: time
   };
 }
@@ -94,6 +100,7 @@ export function addTimeToProject(id, time) {
       .then(res => {
         if (res.data.timeAdded) {
           dispatch(addTimeToProjectSuccess(id, time));
+          dispatch(addTimeToTaskProject(id, time));
         } else {
           dispatch(projectError(error));
         }

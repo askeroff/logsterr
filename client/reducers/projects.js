@@ -9,6 +9,7 @@ import {
   TOGGLE_PROJECT_DONE,
   FETCH_PROJECTS,
   ADD_TIME_TO_PROJECTS,
+  ADD_TIME_TO_PROJECT,
   SUBTRACT_PROJECT_TIME
 } from '../actions/actionTypes';
 import { findParents } from '../helpers';
@@ -19,6 +20,16 @@ export function projects(state = { list: [] }, action) {
       return { ...state, isFetching: action.response };
     case ADD_PROJECT: {
       return { ...state, list: [...state.list, action.project] };
+    }
+    case ADD_TIME_TO_PROJECT: {
+      const list = state.list.map(item => {
+        const newItem = deepClone(item);
+        if (newItem._id === action.id) {
+          newItem.timeSpent += action.seconds;
+        }
+        return newItem;
+      });
+      return { ...state, list };
     }
     case SUBTRACT_PROJECT_TIME: {
       const currentParents = findParents(

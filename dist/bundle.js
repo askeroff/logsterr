@@ -5674,6 +5674,7 @@ var SIGN_UP_ERROR = exports.SIGN_UP_ERROR = 'SIGN_UP_ERROR';
 
 var GET_PROJECTS = exports.GET_PROJECTS = 'GET_PROJECTS';
 var ADD_PROJECT = exports.ADD_PROJECT = 'ADD_PROJECT';
+var ADD_TIME_TO_TASK_PROJECT = exports.ADD_TIME_TO_TASK_PROJECT = 'ADD_TIME_TO_TASK_PROJECT';
 var ADD_TIME_TO_PROJECT = exports.ADD_TIME_TO_PROJECT = 'ADD_TIME_TO_PROJECT';
 var ADD_TIME_TO_PROJECTS = exports.ADD_TIME_TO_PROJECTS = 'ADD_TIME_TO_PROJECTS';
 var RENAME_PROJECT = exports.RENAME_PROJECT = 'RENAME_PROJECT';
@@ -7453,6 +7454,7 @@ exports.addProject = addProject;
 exports.renameProjectSuccess = renameProjectSuccess;
 exports.renameProject = renameProject;
 exports.addTimeToProjectSuccess = addTimeToProjectSuccess;
+exports.addTimeToTaskProject = addTimeToTaskProject;
 exports.addTimeToProject = addTimeToProject;
 exports.fetchProjects = fetchProjects;
 exports.getProjectsSuccess = getProjectsSuccess;
@@ -7534,9 +7536,14 @@ function renameProject(id, name, parentID) {
 function addTimeToProjectSuccess(id, time) {
   return {
     type: _actionTypes.ADD_TIME_TO_PROJECT,
-    data: {
-      task: { _id: id }
-    },
+    id: id,
+    seconds: time
+  };
+}
+function addTimeToTaskProject(id, time) {
+  return {
+    type: _actionTypes.ADD_TIME_TO_TASK_PROJECT,
+    id: id,
     seconds: time
   };
 }
@@ -7551,6 +7558,7 @@ function addTimeToProject(id, time) {
     return _axios2.default.post('/projects/addTime', { id: id, time: time }).then(function (res) {
       if (res.data.timeAdded) {
         dispatch(addTimeToProjectSuccess(id, time));
+        dispatch(addTimeToTaskProject(id, time));
       } else {
         dispatch(projectError(error));
       }
@@ -63170,11 +63178,22 @@ function projects() {
       {
         return (0, _extends3.default)({}, state, { list: [].concat((0, _toConsumableArray3.default)(state.list), [action.project]) });
       }
+    case _actionTypes.ADD_TIME_TO_PROJECT:
+      {
+        var list = state.list.map(function (item) {
+          var newItem = (0, _lodash2.default)(item);
+          if (newItem._id === action.id) {
+            newItem.timeSpent += action.seconds;
+          }
+          return newItem;
+        });
+        return (0, _extends3.default)({}, state, { list: list });
+      }
     case _actionTypes.SUBTRACT_PROJECT_TIME:
       {
         var currentParents = (0, _helpers.findParents)(state.list, action.params.currentProject);
         var newParents = (0, _helpers.findParents)(state.list, action.params.newProject);
-        var list = state.list.map(function (item) {
+        var _list = state.list.map(function (item) {
           var newItem = (0, _lodash2.default)(item);
           if (currentParents.includes(item._id) && action.params.deleteTime === true) {
             newItem.timeSpent -= action.params.timeSpent || 0;
@@ -63184,11 +63203,11 @@ function projects() {
           }
           return newItem;
         });
-        return (0, _extends3.default)({}, state, { list: list });
+        return (0, _extends3.default)({}, state, { list: _list });
       }
     case _actionTypes.RENAME_PROJECT:
       {
-        var _list = state.list.map(function (item) {
+        var _list2 = state.list.map(function (item) {
           var newItem = (0, _lodash2.default)(item);
           if (item._id === action.project.id) {
             newItem.name = action.project.name;
@@ -63196,32 +63215,32 @@ function projects() {
           }
           return newItem;
         });
-        return (0, _extends3.default)({}, state, { list: _list });
+        return (0, _extends3.default)({}, state, { list: _list2 });
       }
     case _actionTypes.ADD_TIME_TO_PROJECTS:
       {
         var projectsList = action.data.projects.map(function (item) {
           return item.id;
         });
-        var _list2 = state.list.map(function (item) {
+        var _list3 = state.list.map(function (item) {
           var newItem = (0, _lodash2.default)(item);
           if (projectsList.includes(item._id)) {
             newItem.timeSpent += action.seconds;
           }
           return newItem;
         });
-        return (0, _extends3.default)({}, state, { list: _list2 });
+        return (0, _extends3.default)({}, state, { list: _list3 });
       }
     case _actionTypes.TOGGLE_PROJECT_DONE:
       {
-        var _list3 = state.list.map(function (item) {
+        var _list4 = state.list.map(function (item) {
           var newItem = (0, _lodash2.default)(item);
           if (item._id === action.id) {
             newItem.done = action.done;
           }
           return newItem;
         });
-        return (0, _extends3.default)({}, state, { list: _list3 });
+        return (0, _extends3.default)({}, state, { list: _list4 });
       }
     case _actionTypes.GET_PROJECTS:
       return (0, _extends3.default)({}, state, {
@@ -63232,10 +63251,10 @@ function projects() {
       return action.response;
     case _actionTypes.DELETE_PROJECT:
       {
-        var _list4 = state.list.filter(function (item) {
+        var _list5 = state.list.filter(function (item) {
           return item._id !== action.id;
         });
-        return (0, _extends3.default)({}, state, { list: _list4 });
+        return (0, _extends3.default)({}, state, { list: _list5 });
       }
     case _actionTypes.PROJECTS_DELETE_LOG:
       {
@@ -63609,13 +63628,23 @@ function tasks() {
 
         return (0, _extends3.default)({}, state, { list: _newList2 });
       }
-    case _actionTypes.ADD_TIME_TO_PROJECT:
+    case _actionTypes.ADD_TIME_TO_TASK_PROJECT:
+      {
+        var _newList3 = state.list.map(function (item) {
+          var newItem = (0, _lodash2.default)(item);
+          if (newItem.project._id === action.id) {
+            newItem.project.timeSpent += action.seconds;
+          }
+          return newItem;
+        });
+        return (0, _extends3.default)({}, state, { list: _newList3 });
+      }
     case _actionTypes.ADD_TIMELOG:
       {
         var projects = action.data.projects.map(function (item) {
           return item.id;
         });
-        var _newList3 = state.list.map(function (item) {
+        var _newList4 = state.list.map(function (item) {
           var newItem = (0, _lodash2.default)(item);
           if (projects.includes(item.project._id)) {
             newItem.project.timeSpent += action.seconds;
@@ -63632,7 +63661,7 @@ function tasks() {
           }
           return newItem;
         });
-        return (0, _extends3.default)({}, state, { list: _newList3 });
+        return (0, _extends3.default)({}, state, { list: _newList4 });
       }
     case _actionTypes.TASKS_DELETE_LOG:
       {
@@ -63640,7 +63669,7 @@ function tasks() {
           return (0, _extends3.default)({}, (0, _lodash2.default)(item.project));
         });
         var parents = (0, _helpers.findParents)(_projects, action.data.project);
-        var _newList4 = state.list.map(function (item) {
+        var _newList5 = state.list.map(function (item) {
           var newItem = (0, _lodash2.default)(item);
           if (parents.includes(newItem.project._id)) {
             newItem.project.timeSpent -= action.data.timeSpent;
@@ -63657,7 +63686,7 @@ function tasks() {
           return newItem;
         });
 
-        return (0, _extends3.default)({}, state, { list: _newList4 });
+        return (0, _extends3.default)({}, state, { list: _newList5 });
       }
     default:
       return state;

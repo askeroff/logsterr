@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
-const filterData = require('./common/filterData');
+// const moment = require('moment-timezone');
+// const filterData = require('./common/filterData');
 const prepareStatsData = require('./common/prepareStatsData');
 
 const Timelog = mongoose.model('Timelog');
@@ -36,35 +36,26 @@ function formatLogs(logs) {
 }
 
 exports.getMotivationData = async (req, res) => {
-  const lastSunday = moment()
-    .isoWeekday(0)
-    .endOf('day')._d;
-  const lastMonday = moment()
-    .isoWeekday(-6)
-
-    .startOf('day')._d;
-  const thisMonday = moment()
-    .isoWeekday(1)
-    .startOf('day')._d;
-  const thisSunday = moment()
-    .isoWeekday(7)
-    .endOf('day')._d;
-
   const getTimelogs = await Timelog.getProjects(
     req.user._id,
-    new Date(lastMonday),
-    new Date(thisSunday)
+    new Date(+req.query.lastMonday),
+    new Date(+req.query.lastSunday)
   );
 
-  const data = formatLogs(getTimelogs);
+  const getTimelogs2 = await Timelog.getProjects(
+    req.user._id,
+    new Date(+req.query.thisMonday),
+    new Date(+req.query.thisSunday)
+  );
 
-  const lastWeek = filterData(data, lastMonday, lastSunday);
-  const thisWeek = filterData(data, thisMonday, thisSunday);
+  const lastWeek = formatLogs(getTimelogs);
+  const thisWeek = formatLogs(getTimelogs2);
 
   const projects = await Project.find({ author: req.user._id }).lean();
 
   const formattedLastWeek = prepareStatsData(lastWeek, projects);
   const formattedThisWeek = prepareStatsData(thisWeek, projects);
+
   const formattedLastWeekProject = pickProject(
     formattedLastWeek,
     req.query.project
@@ -82,16 +73,17 @@ exports.getMotivationData = async (req, res) => {
 
 exports.getData = async (req, res) => {
   const { start, end } = req.query;
-  const startDate = `${start} 00:00:00`;
-  const endDate = `${end} 23:59:59`;
+
   const getTimelogs = await Timelog.getProjects(
     req.user._id,
-    new Date(startDate),
-    new Date(endDate)
+    new Date(+start),
+    new Date(+end)
   );
 
-  const data = formatLogs(getTimelogs);
+  console.log(new Date(+start));
+  console.log(new Date(+end));
 
+  const data = formatLogs(getTimelogs);
   const projects = await Project.find({ author: req.user._id }).lean();
 
   const prepared = prepareStatsData(data, projects);

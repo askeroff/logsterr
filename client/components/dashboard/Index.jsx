@@ -28,17 +28,14 @@ class Dashboard extends React.Component<Props, State> {
   state = {
     dashboard: [],
     defaultShow: 'today',
-    startDate: moment(new Date()),
-    endDate: moment(new Date()),
+    startDate: moment(new Date()).startOf('day'),
+    endDate: moment(new Date()).endOf('day'),
     focusedInput: null
   };
 
   componentDidMount() {
     const { startDate, endDate } = this.state;
-    this.props.handleDashboardData(
-      startDate.format('YYYY-MM-DD'),
-      endDate.format('YYYY-MM-DD')
-    );
+    this.props.handleDashboardData(startDate.valueOf(), endDate.valueOf());
   }
 
   componentDidUpdate({ dashboardData }: Props) {
@@ -54,8 +51,8 @@ class Dashboard extends React.Component<Props, State> {
 
   setDates = (startDate, endDate) => {
     this.setState({
-      startDate: moment(startDate),
-      endDate: moment(endDate)
+      startDate: moment(startDate).startOf('day'),
+      endDate: moment(endDate).endOf('day')
     });
   };
 

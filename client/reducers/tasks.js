@@ -6,7 +6,7 @@ import {
   DELETE_TASK,
   EDIT_TASK,
   TASKS_DELETE_LOG,
-  ADD_TIME_TO_PROJECT,
+  ADD_TIME_TO_TASK_PROJECT,
   TOGGLE_DONE,
   FETCH_TASKS,
   ADD_TIMELOG
@@ -154,7 +154,16 @@ export function tasks(state = { list: [] }, action) {
 
       return { ...state, list: newList };
     }
-    case ADD_TIME_TO_PROJECT:
+    case ADD_TIME_TO_TASK_PROJECT: {
+      const newList = state.list.map(item => {
+        const newItem = deepClone(item);
+        if (newItem.project._id === action.id) {
+          newItem.project.timeSpent += action.seconds;
+        }
+        return newItem;
+      });
+      return { ...state, list: newList };
+    }
     case ADD_TIMELOG: {
       const projects = action.data.projects.map(item => item.id);
       const newList = state.list.map(item => {

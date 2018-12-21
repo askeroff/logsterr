@@ -12,7 +12,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'TimeTracker App',
+      title: 'Logsterr — Time Tracking App',
       template: 'assets/template.html',
       favicon: 'assets/favicon.png'
     })

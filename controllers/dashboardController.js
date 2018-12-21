@@ -38,16 +38,20 @@ function formatLogs(logs) {
 exports.getMotivationData = async (req, res) => {
   const lastSunday = moment(+req.query.date)
     .isoWeekday(0)
-    .endOf('day')._d;
+    .endOf('day')
+    .valueOf();
   const lastMonday = moment(+req.query.date)
     .isoWeekday(-6)
-    .startOf('day')._d;
+    .startOf('day')
+    .valueOf();
   const thisMonday = moment(+req.query.date)
     .isoWeekday(1)
-    .startOf('day')._d;
+    .startOf('day')
+    .valueOf();
   const thisSunday = moment(+req.query.date)
     .isoWeekday(7)
-    .endOf('day')._d;
+    .endOf('day')
+    .valueOf();
 
   const getTimelogs = await Timelog.getProjects(
     req.user._id,

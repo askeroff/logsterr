@@ -35,10 +35,7 @@ class Dashboard extends React.Component<Props, State> {
 
   componentDidMount() {
     const { startDate, endDate } = this.state;
-    this.props.handleDashboardData(
-      startDate.format('YYYY-MM-DD HH:mm:ss'),
-      endDate.format('YYYY-MM-DD HH:mm:ss')
-    );
+    this.props.handleDashboardData(startDate.valueOf(), endDate.valueOf());
   }
 
   componentDidUpdate({ dashboardData }: Props) {

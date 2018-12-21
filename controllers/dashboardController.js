@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const filterData = require('./common/filterData');
 const prepareStatsData = require('./common/prepareStatsData');
 
@@ -82,12 +82,11 @@ exports.getMotivationData = async (req, res) => {
 
 exports.getData = async (req, res) => {
   const { start, end } = req.query;
-  // const startDate = `${start} 00:00:00`;
-  // const endDate = `${end} 23:59:59`;
+
   const getTimelogs = await Timelog.getProjects(
     req.user._id,
-    new Date(start),
-    new Date(end)
+    new Date(+start),
+    new Date(+end)
   );
 
   const data = formatLogs(getTimelogs);

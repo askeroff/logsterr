@@ -68964,7 +68964,7 @@ var Dashboard = function (_React$Component) {
           startDate = _state.startDate,
           endDate = _state.endDate;
 
-      this.props.handleDashboardData(startDate.format('YYYY-MM-DD HH:mm:ss'), endDate.format('YYYY-MM-DD HH:mm:ss'));
+      this.props.handleDashboardData(startDate.valueOf(), endDate.valueOf());
     }
   }, {
     key: 'componentDidUpdate',
@@ -69718,7 +69718,7 @@ var DatePicker = function (_Component) {
       var startDate = _ref2.startDate,
           endDate = _ref2.endDate;
 
-      _this.props.loadData(startDate.startOf('day').format('YYYY-MM-DD HH:mm:ss'), endDate.startOf('day').format('YYYY-MM-DD HH:mm:ss'));
+      _this.props.loadData(startDate.startOf('day').valueOf(), endDate.startOf('day').valueOf());
       _this.props.setDates(startDate, endDate);
     }, _this.changeData = function (event) {
       _this.props.setDefaultShow(event.target.value);

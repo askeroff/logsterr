@@ -81320,10 +81320,9 @@ var Task = function (_React$Component) {
         });
       }
     }, _this.handleEnterButton = function (id, name) {
-      _this.props.handleRename({ id: id, name: name, newProject: _this.state.categoryID });
+      _this.handleRenaming({ id: id, name: name, newProject: _this.state.categoryID });
       _this.setState({
-        showInput: false,
-        spinner: true
+        showInput: false
       });
     }, _this.changeSelect = function (e) {
       _this.setState({

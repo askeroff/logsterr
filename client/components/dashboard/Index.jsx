@@ -94,11 +94,12 @@ class Dashboard extends React.Component<Props, State> {
   };
 
   render() {
+    const buttonText = this.state.chartView ? 'Text' : 'Charts';
     return (
       <div className="dashboard">
         <div className="dashboard__header">
           <button onClick={this.toggleView} className="dashboard__button">
-            View Charts
+            {`View ${buttonText}`}
           </button>
           <DatePicker
             setDates={this.setDates}

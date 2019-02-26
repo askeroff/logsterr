@@ -52,7 +52,6 @@ class Charts extends Component<Props, State> {
     if (prevProps.dashboard.timestamp !== this.props.dashboard.timestamp) {
       const drilldownData = getDrilldown(this.props.dashboard.data);
       const prepared = prepareData(this.props.dashboard.data, drilldownData);
-      console.log(prepared);
       this.setState(state => ({ options: { ...state.options, ...prepared } }));
     }
   }

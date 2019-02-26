@@ -5709,6 +5709,8 @@ var FETCH_DASHBOARD = exports.FETCH_DASHBOARD = 'FETCH_DASHBOARD';
 var FETCH_PROJECTS = exports.FETCH_PROJECTS = 'FETCH_PROJECTS';
 var FETCH_TASKS = exports.FETCH_TASKS = 'FETCH_TASKS';
 
+var SAVE_SETTINGS = exports.SAVE_SETTINGS = 'SAVE_SETTINGS';
+
 /***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -7074,6 +7076,8 @@ exports.isLoggedIn = isLoggedIn;
 exports.signUpError = signUpError;
 exports.signUpSuccess = signUpSuccess;
 exports.signUp = signUp;
+exports.saveSettingsSuccess = saveSettingsSuccess;
+exports.saveSettings = saveSettings;
 exports.forgotSuccess = forgotSuccess;
 exports.forgot = forgot;
 exports.getResetSuccess = getResetSuccess;
@@ -7184,6 +7188,23 @@ function signUp(user) {
       dispatch(signUpSuccess(loggedUser));
     }).catch(function (err) {
       dispatch(signUpError(err));
+    });
+  };
+}
+
+function saveSettingsSuccess(user) {
+  return {
+    type: _actionTypes.SAVE_SETTINGS,
+    user: user
+  };
+}
+
+function saveSettings(settings) {
+  return function (dispatch) {
+    return _axios2.default.post('/settings', { settings: settings }).then(function (res) {
+      dispatch(saveSettingsSuccess(res.data.user));
+    }).catch(function (err) {
+      console.err(err);
     });
   };
 }
@@ -30027,11 +30048,11 @@ function getMotivationError(response) {
   };
 }
 
-function getMotivationData(id) {
-  var lastSunday = (0, _momentTimezone2.default)().isoWeekday(0).endOf('day').valueOf();
-  var lastMonday = (0, _momentTimezone2.default)().isoWeekday(-6).startOf('day').valueOf();
-  var thisMonday = (0, _momentTimezone2.default)().isoWeekday(1).startOf('day').valueOf();
-  var thisSunday = (0, _momentTimezone2.default)().isoWeekday(7).endOf('day').valueOf();
+function getMotivationData(id, hour) {
+  var lastSunday = (0, _momentTimezone2.default)().isoWeekday(0).add(1, 'days').set({ hour: hour, minute: 0, second: 0, millisecond: 0 }).valueOf();
+  var lastMonday = (0, _momentTimezone2.default)().isoWeekday(-6).set({ hour: hour, minute: 0, second: 0, millisecond: 0 }).valueOf();
+  var thisMonday = (0, _momentTimezone2.default)().isoWeekday(1).set({ hour: hour, minute: 0, second: 0, millisecond: 0 }).valueOf();
+  var thisSunday = (0, _momentTimezone2.default)().isoWeekday(7).add(1, 'days').set({ hour: hour, minute: 0, second: 0, millisecond: 0 }).valueOf();
   var dateString = 'lastSunday=' + lastSunday + '&lastMonday=' + lastMonday + '&thisMonday=' + thisMonday + '&thisSunday=' + thisSunday;
   return function (dispatch) {
     return _axios2.default.get('/dashboard/getmotivation?project=' + id + '&' + dateString).then(function (res) {
@@ -39073,6 +39094,10 @@ var _Login = __webpack_require__(652);
 
 var _Login2 = _interopRequireDefault(_Login);
 
+var _Settings = __webpack_require__(683);
+
+var _Settings2 = _interopRequireDefault(_Settings);
+
 var _Logout = __webpack_require__(655);
 
 var _Logout2 = _interopRequireDefault(_Logout);
@@ -39099,7 +39124,6 @@ __webpack_require__(679);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* global document */
 var Root = function Root() {
   return _react2.default.createElement(
     _reactRedux.Provider,
@@ -39116,12 +39140,14 @@ var Root = function Root() {
         _react2.default.createElement(_reactRouterDom.Route, { path: '/reset/:token', component: _Reset2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/logmeout', component: _Logout2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/projects', component: _ProjectsRoutes2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/settings', component: _Settings2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/timelog/:page', component: _Timelog2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { component: _NotFound2.default })
       )
     )
   );
 }; // eslint-disable-line import/first
+/* global document */
 
 
 (0, _reactDom.render)(_react2.default.createElement(Root, null), document.getElementById('app'));
@@ -62319,7 +62345,7 @@ var history = exports.history = (0, _createBrowserHistory2.default)();
 
 var historyMiddleware = (0, _reactRouterRedux.routerMiddleware)(history);
 
-var store = exports.store = (0, _redux.createStore)(_rootReducer2.default, (0, _redux.compose)((0, _redux.applyMiddleware)(historyMiddleware, _reduxThunk2.default), (typeof window === 'undefined' ? 'undefined' : (0, _typeof3.default)(window)) === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : function (f) {
+var store = exports.store = (0, _redux.createStore)(_rootReducer2.default, (0, _redux.compose)((0, _redux.applyMiddleware)(historyMiddleware, _reduxThunk2.default), (typeof window === 'undefined' ? 'undefined' : (0, _typeof3.default)(window)) === 'object' && typeof window.window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ? window.window.__REDUX_DEVTOOLS_EXTENSION__() : function (f) {
   return f;
 }) // eslint-disable-line comma-dangle
 );
@@ -63032,6 +63058,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = __webpack_require__(38);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _assign = __webpack_require__(78);
 
 var _assign2 = _interopRequireDefault(_assign);
@@ -63051,6 +63081,8 @@ function user() {
       return (0, _assign2.default)({ loggedIn: true }, state, action.user);
     case _actionTypes.LOG_IN_ERROR:
       return (0, _assign2.default)({}, state, { error: 'Wrong email/password' });
+    case _actionTypes.SAVE_SETTINGS:
+      return (0, _extends3.default)({}, state, action.user);
     case _actionTypes.IS_LOGGED_IN:
       return (0, _assign2.default)({}, state, action.user);
     case _actionTypes.SIGN_UP:
@@ -65026,6 +65058,7 @@ var Header = function (_React$Component) {
         _react2.default.createElement(_ListItem2.default, { myClassName: 'nav__item', url: '/', linkText: 'Dashboard' }),
         _react2.default.createElement(_ListItem2.default, { myClassName: 'nav__item', url: '/projects', linkText: 'Projects' }),
         _react2.default.createElement(_ListItem2.default, { myClassName: 'nav__item', url: '/timelog/1', linkText: 'Timelog' }),
+        _react2.default.createElement(_ListItem2.default, { myClassName: 'nav__item', url: '/settings', linkText: 'Settings' }),
         _react2.default.createElement(_ListItem2.default, { myClassName: 'nav__item', url: '/logmeout', linkText: 'Log Out' }),
         _react2.default.createElement(
           'li',
@@ -68983,14 +69016,24 @@ var Dashboard = function (_React$Component) {
       dashboard: [],
       chartView: false,
       defaultShow: 'today',
-      startDate: (0, _momentTimezone2.default)(new Date()).startOf('day'),
-      endDate: (0, _momentTimezone2.default)(new Date()).endOf('day'),
+      startDate: (0, _momentTimezone2.default)(new Date()),
+      endDate: (0, _momentTimezone2.default)(new Date()),
       focusedInput: null
     }, _this.setDates = function (startDate, endDate) {
       _this.setState({
-        startDate: (0, _momentTimezone2.default)(startDate).startOf('day'),
-        endDate: (0, _momentTimezone2.default)(endDate).endOf('day')
+        startDate: (0, _momentTimezone2.default)(startDate),
+        endDate: (0, _momentTimezone2.default)(endDate)
       });
+    }, _this.loadData = function (startDate, endDate) {
+      var hour = _this.props.user.startsDay || 0;
+      var start = (0, _momentTimezone2.default)(startDate).set({
+        hour: hour,
+        minute: 0,
+        second: 0,
+        millisecond: 0
+      });
+      var end = (0, _momentTimezone2.default)(endDate).add(1, 'days').set({ hour: hour, minute: 0, second: 0, millisecond: 0 });
+      _this.props.handleDashboardData(start.valueOf(), end.valueOf());
     }, _this.setDefaultShow = function (str) {
       _this.setState({
         defaultShow: str
@@ -69026,7 +69069,7 @@ var Dashboard = function (_React$Component) {
           startDate = _state.startDate,
           endDate = _state.endDate;
 
-      this.props.handleDashboardData(startDate.valueOf(), endDate.valueOf());
+      this.loadData(startDate, endDate);
     }
   }, {
     key: 'componentDidUpdate',
@@ -69062,7 +69105,7 @@ var Dashboard = function (_React$Component) {
             defaultShow: this.state.defaultShow,
             focusedInput: this.state.focusedInput,
             setFocusedInput: this.setFocusedInput,
-            loadData: this.props.handleDashboardData
+            loadData: this.loadData
           })
         ),
         this.getView()
@@ -69079,7 +69122,8 @@ Dashboard.defaultProps = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    dashboardData: state.dashboard
+    dashboardData: state.dashboard,
+    user: state.user
   };
 };
 
@@ -69787,7 +69831,7 @@ var DatePicker = function (_Component) {
       var startDate = _ref2.startDate,
           endDate = _ref2.endDate;
 
-      _this.props.loadData(startDate.startOf('day').valueOf(), endDate.endOf('day').valueOf());
+      _this.props.loadData(startDate, endDate);
       _this.props.setDates(startDate, endDate);
     }, _this.changeData = function (event) {
       _this.props.setDefaultShow(event.target.value);
@@ -80952,10 +80996,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(17);
 
-var _momentTimezone = __webpack_require__(117);
-
-var moment = _interopRequireWildcard(_momentTimezone);
-
 var _dashboard = __webpack_require__(305);
 
 var _timelog = __webpack_require__(86);
@@ -80981,8 +81021,6 @@ var _types = __webpack_require__(15);
 var _ProjectInfo = __webpack_require__(674);
 
 var _ProjectInfo2 = _interopRequireDefault(_ProjectInfo);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81023,7 +81061,9 @@ var Project = function (_React$Component) {
         this.isReady = true;
       }
       this.loadData();
-      this.props.handleDashboardData(this.props.match.params.id);
+      var id = this.props.match.params.id;
+
+      this.props.handleDashboardData(id, this.props.user.startsDay || 0);
     }
   }, {
     key: 'componentDidUpdate',
@@ -81108,9 +81148,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     handleGettingProjects: function handleGettingProjects() {
       dispatch((0, _projects.getProjects)());
     },
-    handleDashboardData: function handleDashboardData(id, timezone) {
+    handleDashboardData: function handleDashboardData(id, startsDay) {
       dispatch((0, _dashboard.fetchPosts)());
-      dispatch((0, _dashboard.getMotivationData)(id, timezone));
+      dispatch((0, _dashboard.getMotivationData)(id, startsDay));
     },
     handleAddingTimeToProject: function handleAddingTimeToProject(id, time) {
       dispatch((0, _projects.addTimeToProject)(id, time));
@@ -85281,7 +85321,7 @@ if(false) {
 
 exports = module.exports = __webpack_require__(119)(false);
 // Module
-exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n  --mainBlue: #1c3144;\n  --secondBlue: #2f4858;\n  --myOrange: #e56140;\n  --myRed: #a20021;\n  --myGrey: #e8e9eb;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n  max-width: 1200px;\n}\n.hide {\n  display: none !important;\n}\n.landing-content {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.landing-video {\n  width: 600px;\n  height: 300px;\n  margin: auto;\n  display: block;\n}\n.landing-block--main {\n  grid-column: 1/-1;\n}\n.highlight {\n  background-color: var(--myRed);\n  height: 15px;\n  position: relative;\n  top: -34px;\n  left: -10px;\n  width: 120%;\n  max-width: 32vw;\n  margin: auto;\n}\n.landing-block {\n  color: #fff;\n  padding: 10px;\n  line-height: 2em;\n  background: var(--mainBlue);\n  margin-bottom: 10px;\n}\n.landing-block a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 2px dashed var(--myOrange);\n}\n.landing-block a:hover {\n  border: none;\n}\n.landing-block .page-title {\n  color: #fff;\n  z-index: 999999;\n  position: relative;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: var(--mainBlue);\n  margin-left: 0;\n  margin-right: 0;\n}\n.secondblue {\n  background: var(--secondBlue);\n}\n.myred {\n  background: var(--myRed);\n}\n.white {\n  background-color: #fff;\n}\n.orange {\n  background: var(--myOrange);\n}\n.landing-block.white {\n  color: #333;\n}\n.white .page-title {\n  color: #333;\n}\n.swal2-title {\n  font-size: 1.2rem;\n}\n.swal2-content .timeoptions {\n  font-size: 0.8rem;\n}\n.swal2-content input {\n  margin-left: 6px;\n}\n/* HEADER */\n.header {\n  background: var(--mainBlue);\n  border-bottom: 5px solid var(--myOrange);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav {\n  margin-left: 0;\n  padding-left: 0;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 10px 0 0;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n  display: block;\n  margin-top: 10px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  padding: 0;\n  margin: 0;\n}\n.projects-titlewrapper {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  justify-items: center;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done {\n  list-style: none;\n  padding: 5px 8px;\n  display: grid;\n  margin-bottom: 8px;\n  grid-template-columns: 1fr 1fr 1fr;\n  height: 34px;\n}\n.project__item--parent {\n  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2);\n  background: var(--myGrey);\n}\n.projects--topbuttons {\n  display: flex;\n  justify-content: center;\n}\n.projects__item--edit {\n  grid-template-columns: 1fr 1fr;\n}\n.projects__item--edit input,\n.projects__item--edit select {\n  height: 22px;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.projects__item .name-input {\n  grid-column: 1/3;\n  max-width: 380px;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: var(--myBlue);\n  align-self: center;\n}\n.projects__item-title:hover {\n  color: var(--secondBlue);\n}\n.projects__item-title .pretty-time {\n  color: var(--myOrange);\n  background: var(--mainBlue);\n  font-size: 0.7em;\n  font-weight: bold;\n  margin-left: 20px;\n  transform: rotate(-3deg);\n  display: inline-block;\n}\n.form__newproject {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n.projects__list .buttons-group {\n  display: none;\n}\n.projects__item:hover .buttons-group {\n  display: block;\n}\n.project__info .page-title .pretty-time {\n  color: var(--myGrey);\n  transform: rotate(2deg);\n  display: inline-block;\n  padding: 8px;\n  border-bottom: 2px solid var(--myOrange);\n}\n.project-name {\n  display: flex;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item,\n.tasks__list-item--done {\n  height: auto;\n  border-bottom: 1px solid #ededed;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title,\n.tasks__list-input {\n  grid-column: 1/3;\n}\n.tasks__list-input input,\n.project-select {\n  height: 20px;\n  box-sizing: content-box;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n.tasks__list-item .buttons-group {\n  display: none;\n}\n.tasks__list-item .buttons-group.buttons-group--show {\n  display: block;\n}\n.tasks__list-item:hover .buttons-group {\n  display: block;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name,\n  .tasks__list-input {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: var(--myGrey);\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--mainBlue);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--secondBlue);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.timelogs__item {\n  border-top: 1px solid #f1f1f1;\n}\n.timelogs__item td {\n  padding: 20px 0;\n  padding-left: 5px;\n}\n.timelogs__title {\n  text-align: left;\n  background: #f1f1f1;\n  padding: 15px 0;\n  padding-left: 5px;\n  text-transform: uppercase;\n  color: #4a4a4a;\n  font-weight: 600;\n}\n.timelogs__deletecell {\n  visibility: hidden;\n}\n.timelogs__item:hover .timelogs__deletecell {\n  visibility: visible;\n}\n.timelogs__item:hover {\n  background: #fcf8f8;\n  cursor: pointer;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n/* DASHBOARD */\n.dashboard__parent .dashboard__item-title {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 8px;\n  border: none;\n}\n.dashboard__item-title {\n  color: var(--mainBlue);\n  border-left: 4px solid var(--myOrange);\n  padding: 8px;\n}\n.dashboard__button {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 12px;\n  background: var(--mainBlue);\n  border-right: 1px solid var(--myGrey);\n  color: var(--myGrey);\n  margin-right: 5px;\n  width: 200px;\n  text-align: center;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  padding: 5px;\n}\n.dashboard__select {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n}\n.dashboard__title {\n  text-transform: uppercase;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: flex-start;\n  margin: 30px 0px;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n  align-self: center;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 10px;\n  border: 0;\n  border-bottom: 2px solid var(--myOrange);\n  text-align: center;\n}\n.button-addproject {\n  width: 70px;\n  font-size: 2em;\n  line-height: 1em;\n  align-self: center;\n  height: 50px;\n  border-radius: 30px;\n  color: #fff;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  box-sizing: content-box;\n  border-radius: 5px;\n}\n.button--danger {\n  background: var(--myRed);\n  color: var(--myGrey);\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* FOOTER */\nfooter {\n  background: var(--mainBlue);\n  border-top: 5px solid var(--myOrange);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 720px) and (max-device-width: 720px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n  .dashboard__header {\n    display: grid;\n    justify-content: center;\n  }\n  .dashboard__select {\n    padding: 10px;\n  }\n  .projects__item,\n  .projects__item--done,\n  .tasks__list-item,\n  .tasks__list-item--done {\n    padding: 16px 8px;\n    height: 70px;\n  }\n  .projects__item:hover .buttons-group {\n    display: grid;\n    justify-self: end;\n  }\n  .project-name {\n    display: grid;\n  }\n  .tasks__list-item {\n    height: auto;\n  }\n  .tasks__list-input {\n    margin-bottom: 10px;\n  }\n  .landing-content {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .landing-video {\n    width: auto;\n    max-width: 600px;\n    min-width: 300px;\n  }\n}\n", ""]);
+exports.push([module.i, ":root {\n  --main-color: #006989;\n  --second-color: #065371;\n  --danger: #dc3545;\n  --info: #17a2b8;\n  --info-text: #fff;\n  --mainBlue: #1c3144;\n  --secondBlue: #2f4858;\n  --myOrange: #e56140;\n  --myRed: #a20021;\n  --myGrey: #e8e9eb;\n}\nhtml,\nbody {\n  height: 100%;\n  min-height: 100%;\n  margin: 0;\n  padding: 0;\n  line-height: 1;\n}\nbody {\n  color: #666;\n  font-family: Arial, Helvetica, sans-serif;\n  font-size: 16px;\n}\nbutton:focus {\n  outline: 0;\n}\n#app {\n  height: 100%;\n  min-height: 100%;\n}\n.wrapper {\n  display: grid;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100%;\n}\n.content-wrapper {\n  width: 80%;\n  margin: 0 auto;\n  max-width: 1200px;\n}\n.hide {\n  display: none !important;\n}\n.landing-content {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.landing-video {\n  width: 600px;\n  height: 300px;\n  margin: auto;\n  display: block;\n}\n.landing-block--main {\n  grid-column: 1/-1;\n}\n.highlight {\n  background-color: var(--myRed);\n  height: 15px;\n  position: relative;\n  top: -34px;\n  left: -10px;\n  width: 120%;\n  max-width: 32vw;\n  margin: auto;\n}\n.landing-block {\n  color: #fff;\n  padding: 10px;\n  line-height: 2em;\n  background: var(--mainBlue);\n  margin-bottom: 10px;\n}\n.landing-block a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 2px dashed var(--myOrange);\n}\n.landing-block a:hover {\n  border: none;\n}\n.landing-block .page-title {\n  color: #fff;\n  z-index: 999999;\n  position: relative;\n}\n.page-title {\n  text-align: center;\n  text-transform: uppercase;\n  color: var(--mainBlue);\n  margin-left: 0;\n  margin-right: 0;\n}\n.secondblue {\n  background: var(--secondBlue);\n}\n.myred {\n  background: var(--myRed);\n}\n.white {\n  background-color: #fff;\n}\n.orange {\n  background: var(--myOrange);\n}\n.landing-block.white {\n  color: #333;\n}\n.white .page-title {\n  color: #333;\n}\n.swal2-title {\n  font-size: 1.2rem;\n}\n.swal2-content .timeoptions {\n  font-size: 0.8rem;\n}\n.swal2-content input {\n  margin-left: 6px;\n}\n/* HEADER */\n.header {\n  background: var(--mainBlue);\n  border-bottom: 5px solid var(--myOrange);\n  padding: 5px;\n  margin-bottom: 10px;\n}\n.nav {\n  margin-left: 0;\n  padding-left: 0;\n}\n.nav__item {\n  list-style: none;\n  display: inline-block;\n  padding: 0 10px 0 0;\n  color: #fff;\n}\n.nav__item a {\n  color: #fafafa;\n  text-decoration: none;\n}\n.nav__item a:hover {\n  color: #eaebed;\n  border-bottom: 1px solid #a3bac3;\n}\n.nav__user {\n  font-style: italic;\n  font-size: 12px;\n  display: block;\n  margin-top: 10px;\n}\nlabel {\n  display: block;\n  padding: 5px;\n  font-weight: bold;\n  text-align: center;\n}\ninput[type=\"submit\"]:hover,\ninput[type=\"button\"]:hover,\nbutton:hover {\n  cursor: pointer;\n}\n.form__signup,\n.form__login {\n  display: grid;\n  justify-content: center;\n}\n.text-field {\n  border: 1px solid #a3bac3;\n  padding: 10px;\n  color: #383a3f;\n}\n.server-response {\n  text-align: center;\n  font-weight: bold;\n  padding: 10px;\n}\n.inline-form {\n  display: inline-block;\n}\n.sign:hover {\n  cursor: pointer;\n}\n.edit-form {\n  width: auto;\n}\n.edit-form .text-field {\n  display: inline-block;\n}\n.strikethrough {\n  text-decoration: line-through;\n  color: #ccc;\n}\n.message {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: 0.25rem;\n  font-weight: 400;\n  line-height: 1.3;\n}\n.message p {\n  margin: 0;\n  padding: 4px 0px;\n}\n.message--info a,\n.message--error a {\n  color: #fff;\n  text-decoration: none;\n  border-bottom: 1px solid var(--info-text);\n}\n.message--info {\n  background: var(--info);\n  color: var(--info-text);\n}\n.message--error {\n  background: var(--danger);\n  color: var(--info-text);\n}\n.pretty-time {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 5px;\n  margin-left: 10px;\n}\n.pagination {\n  margin-top: 10px;\n  text-align: center;\n  display: flex;\n  justify-content: space-between;\n}\n.pagination a {\n  background: #353f51;\n  color: #fafafa;\n  padding: 6px;\n}\n/* PROJECTS */\n.projects {\n  display: grid;\n  grid-gap: 20px;\n}\n.projects__list,\n.tasks__list,\n.tasks__list--done {\n  padding: 0;\n  margin: 0;\n}\n.projects-titlewrapper {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  justify-items: center;\n}\n.projects__item,\n.projects__item--done,\n.tasks__list-item,\n.tasks__list-item--done {\n  list-style: none;\n  padding: 5px 8px;\n  display: grid;\n  margin-bottom: 8px;\n  grid-template-columns: 1fr 1fr 1fr;\n  height: 34px;\n}\n.project__item--parent {\n  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2);\n  background: var(--myGrey);\n}\n.projects--topbuttons {\n  display: flex;\n  justify-content: center;\n}\n.projects__item--edit {\n  grid-template-columns: 1fr 1fr;\n}\n.projects__item--edit input,\n.projects__item--edit select {\n  height: 22px;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.projects__item .name-input {\n  grid-column: 1/3;\n  max-width: 380px;\n}\n.projects__item-title {\n  text-decoration: none;\n  display: block;\n  color: var(--myBlue);\n  align-self: center;\n}\n.projects__item-title:hover {\n  color: var(--secondBlue);\n}\n.projects__item-title .pretty-time {\n  color: var(--myOrange);\n  background: var(--mainBlue);\n  font-size: 0.7em;\n  font-weight: bold;\n  margin-left: 20px;\n  transform: rotate(-3deg);\n  display: inline-block;\n}\n.form__newproject {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n}\n.project__description {\n  display: grid;\n  grid-gap: 20px;\n  grid-template-columns: 1fr 1fr;\n  margin: 50px 0px;\n  color: #333;\n  padding: 10px;\n  border-bottom: 4px solid #006889;\n}\n.project__motivation {\n  background: #fffdfd;\n  display: grid;\n  padding-left: 10px;\n  border-left: 4px solid #006889;\n}\n.motivation-paragraph {\n  justify-self: center;\n  align-self: center;\n}\n.project__motivation a {\n  color: #006989;\n  text-decoration: none;\n  border-bottom: 1px solid #006989;\n}\n.project__motivation a:hover {\n  color: #a3bac2;\n}\n.projects__list .buttons-group {\n  display: none;\n}\n.projects__item:hover .buttons-group {\n  display: block;\n}\n.project__info .page-title .pretty-time {\n  color: var(--myGrey);\n  transform: rotate(2deg);\n  display: inline-block;\n  padding: 8px;\n  border-bottom: 2px solid var(--myOrange);\n}\n.project-name {\n  display: flex;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .project__description {\n    grid-template-columns: 1fr;\n  }\n  .project__motivation {\n    border-left: none;\n    padding-left: 0;\n  }\n}\n/* TASKS */\n.tasks__list--done {\n  margin-top: 20px;\n}\n.tasks__list-item,\n.tasks__list-item--done {\n  height: auto;\n  border-bottom: 1px solid #ededed;\n}\n.tasks__list-item--done {\n  grid-template-columns: 1fr 1fr;\n}\n.tasks__list-item--done .tasks__list-name {\n  display: grid;\n  grid-gap: 10px 0;\n}\n.tasks__list-item--done .pretty-time {\n  margin: 0;\n}\n.tasks__list-date {\n  justify-self: center;\n  align-self: center;\n}\n.form__newtask {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}\n.form__title {\n  grid-column: 1/-1;\n}\n.tasks__list-name,\n.projects__item-title,\n.tasks__list-input {\n  grid-column: 1/3;\n}\n.tasks__list-input input,\n.project-select {\n  height: 20px;\n  box-sizing: content-box;\n  padding: 5px;\n  border: 1px solid #ddd;\n}\n.tasks__list-item--done .tasks__list-name {\n  grid-column: 1;\n}\n.tasks__list-item .buttons-group {\n  display: none;\n}\n.tasks__list-item .buttons-group.buttons-group--show {\n  display: block;\n}\n.tasks__list-item:hover .buttons-group {\n  display: block;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .tasks__list-item,\n  .tasks__list-item--done {\n    grid-template-columns: 1fr;\n  }\n  .tasks__list-name,\n  .tasks__list-input {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .pretty-time {\n    margin-left: 0;\n    margin-top: 10px;\n  }\n}\n/* TIMER */\n.timer {\n  background: var(--myGrey);\n  margin-top: 10px;\n  color: #fff;\n  height: 3em;\n  border-bottom: none;\n  grid-column: 1/-1;\n  display: flex;\n  justify-content: space-between;\n}\n.timer__buttons {\n  display: flex;\n}\n.timer__buttons-item {\n  border: none;\n  width: 90px;\n  height: 3em;\n  background: var(--mainBlue);\n  color: #fff;\n  font-weight: bold;\n  text-transform: uppercase;\n}\n.timer__buttons-item:hover {\n  background: var(--secondBlue);\n}\n.timer__buttons-item--green {\n  background: #1f9454;\n}\n.timer__buttons-item--green:hover {\n  background: #2c735d;\n}\n.timer__time {\n  font-weight: bold;\n  padding-right: 20px;\n  color: var(--main-color);\n  font-size: 2em;\n  align-self: center;\n}\n.timer:last-child {\n  padding-right: 10px;\n}\n.timer__addTimeForm {\n  align-self: center;\n  color: var(--main-color);\n  display: flex;\n  justify-content: space-between;\n}\n.timer__addTimeForm-project {\n  justify-content: center;\n  margin-top: 10px;\n}\n.timer__addTimeForm-input {\n  width: 30px;\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  color: var(--main-color);\n  text-align: center;\n}\n.timer__addTimeForm-submit {\n  border: 2px solid var(--main-color);\n  font-weight: bold;\n  text-align: center;\n  color: var(--main-color);\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .timer {\n    display: grid;\n    height: auto;\n    justify-content: unset;\n  }\n  .timer:last-child {\n    padding-right: 0;\n  }\n  .timer__buttons {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n  }\n  .timer__buttons-item {\n    width: auto;\n  }\n  .timer__time {\n    text-align: center;\n    padding-right: 0;\n    margin: 10px 0px;\n  }\n  .timer__addTimeForm {\n    justify-content: center;\n    margin: 10px 0px;\n  }\n}\n/* TIMELOGS */\n.timelogs {\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  border-collapse: collapse;\n}\n.timelogs__item {\n  border-top: 1px solid #f1f1f1;\n}\n.timelogs__item td {\n  padding: 20px 0;\n  padding-left: 5px;\n}\n.timelogs__title {\n  text-align: left;\n  background: #f1f1f1;\n  padding: 15px 0;\n  padding-left: 5px;\n  text-transform: uppercase;\n  color: #4a4a4a;\n  font-weight: 600;\n}\n.timelogs__deletecell {\n  visibility: hidden;\n}\n.timelogs__item:hover .timelogs__deletecell {\n  visibility: visible;\n}\n.timelogs__item:hover {\n  background: #fcf8f8;\n  cursor: pointer;\n}\n.timelogs__item-delete {\n  border: 0;\n  border-radius: 3px;\n  margin-left: 5px;\n}\n/* DASHBOARD */\n.dashboard__parent .dashboard__item-title {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 8px;\n  border: none;\n}\n.dashboard__item-title {\n  color: var(--mainBlue);\n  border-left: 4px solid var(--myOrange);\n  padding: 8px;\n}\n.dashboard__button {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 12px;\n  background: var(--mainBlue);\n  border-right: 1px solid var(--myGrey);\n  color: var(--myGrey);\n  margin-right: 5px;\n  width: 200px;\n  text-align: center;\n}\n.dashboard__item-tasks {\n  padding-left: 15px;\n}\n.dashboard__item-task {\n  padding: 5px;\n}\n.dashboard__select {\n  outline: 0;\n  text-transform: uppercase;\n  border: 1px solid #dbdbdb;\n  border-radius: 2px;\n}\n.dashboard__title {\n  text-transform: uppercase;\n}\n.dashboard__select:hover {\n  cursor: pointer;\n}\n.dashboard__header {\n  display: flex;\n  justify-content: flex-start;\n  margin: 30px 0px;\n}\n/* BUTTONS STUFF */\n.project__buttons {\n  display: grid;\n  justify-content: center;\n  grid-template-columns: auto auto;\n  grid-gap: 10px;\n}\n.buttons-group {\n  justify-self: end;\n  align-self: center;\n}\n.tasks__list--done .buttons-group {\n  align-self: center;\n}\n.button--submit {\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  padding: 10px;\n  border: 0;\n  border-bottom: 2px solid var(--myOrange);\n  text-align: center;\n}\n.button-addproject {\n  width: 70px;\n  font-size: 2em;\n  line-height: 1em;\n  align-self: center;\n  height: 50px;\n  border-radius: 30px;\n  color: #fff;\n}\n.link-button {\n  text-decoration: none;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  margin: 10px auto;\n}\n.button--info {\n  width: 60px;\n  height: 20px;\n  border: 1px solid #ededed;\n  text-align: center;\n  background: var(--mainBlue);\n  color: var(--myGrey);\n  box-sizing: content-box;\n  border-radius: 5px;\n}\n.button--danger {\n  background: var(--myRed);\n  color: var(--myGrey);\n}\n.button--small {\n  width: 30px;\n}\n@media (max-width: 960px) and (max-device-width: 960px) {\n  .buttons-group {\n    justify-self: start;\n  }\n  .project__buttons {\n    grid-template-columns: 1fr;\n  }\n}\n/* SETTINGS STUFF */\n.settings--select {\n  padding: 10px;\n  border: 2px solid var(--mainBlue);\n}\n/* FOOTER */\nfooter {\n  background: var(--mainBlue);\n  border-top: 5px solid var(--myOrange);\n  color: #fafafa;\n  text-align: center;\n  margin-top: 30px;\n}\n.footer__link {\n  color: #fafafa;\n  text-decoration: none;\n  border-bottom: 1px solid #eee;\n}\n@media (max-width: 720px) and (max-device-width: 720px) {\n  .content-wrapper {\n    margin: 0;\n    width: auto;\n  }\n  .dashboard__header {\n    display: grid;\n    justify-content: center;\n  }\n  .dashboard__select {\n    padding: 10px;\n  }\n  .projects__item,\n  .projects__item--done,\n  .tasks__list-item,\n  .tasks__list-item--done {\n    padding: 16px 8px;\n    height: 70px;\n  }\n  .projects__item:hover .buttons-group {\n    display: grid;\n    justify-self: end;\n  }\n  .project-name {\n    display: grid;\n  }\n  .tasks__list-item {\n    height: auto;\n  }\n  .tasks__list-input {\n    margin-bottom: 10px;\n  }\n  .landing-content {\n    display: grid;\n    grid-template-columns: 1fr;\n  }\n  .landing-video {\n    width: auto;\n    max-width: 600px;\n    min-width: 300px;\n  }\n}\n", ""]);
 
 
 
@@ -85411,6 +85451,152 @@ var prepareData = exports.prepareData = function prepareData(data, drilldown) {
     }
   };
 };
+
+/***/ }),
+/* 683 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _getPrototypeOf = __webpack_require__(4);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(5);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(6);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(7);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(8);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(17);
+
+var _user = __webpack_require__(57);
+
+var _Layout = __webpack_require__(28);
+
+var _Layout2 = _interopRequireDefault(_Layout);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Settings = function (_React$Component) {
+  (0, _inherits3.default)(Settings, _React$Component);
+
+  function Settings() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    (0, _classCallCheck3.default)(this, Settings);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Settings.__proto__ || (0, _getPrototypeOf2.default)(Settings)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      hour: +_this.props.user.startsDay || 0
+    }, _this.handleSubmit = function (e) {
+      e.preventDefault();
+      _this.props.handleSubmit({ startsDay: _this.state.hour });
+    }, _this.handleChange = function (e) {
+      _this.setState({ hour: +e.target.value });
+    }, _this.selectView = function () {
+      var options = [];
+      for (var i = 0; i <= 23; i += 1) {
+        var val = i < 10 ? '0' + i : i;
+        options.push(_react2.default.createElement(
+          'option',
+          { value: i, key: i },
+          val + ':00'
+        ));
+      }
+      return _react2.default.createElement(
+        'select',
+        {
+          className: 'settings--select',
+          value: _this.state.hour,
+          onChange: _this.handleChange
+        },
+        options
+      );
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(Settings, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.user.startsDay !== this.props.user.startsDay) {
+        this.setState({ hour: this.props.user.startsDay });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _Layout2.default,
+        null,
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this.handleSubmit },
+          _react2.default.createElement(
+            'fieldset',
+            null,
+            _react2.default.createElement(
+              'legend',
+              null,
+              'Start of the day'
+            ),
+            this.selectView()
+          ),
+          _react2.default.createElement(
+            'label',
+            { htmlFor: 'submit' },
+            _react2.default.createElement(
+              'button',
+              { className: 'button--submit', type: 'submit' },
+              'Save'
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return Settings;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    handleSubmit: function handleSubmit(settings) {
+      dispatch((0, _user.saveSettings)(settings));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Settings);
 
 /***/ })
 /******/ ]);

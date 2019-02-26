@@ -30,14 +30,14 @@ class Dashboard extends React.Component<Props, State> {
     dashboard: [],
     chartView: false,
     defaultShow: 'today',
-    startDate: moment(new Date()).startOf('day'),
-    endDate: moment(new Date()).endOf('day'),
+    startDate: moment(new Date()),
+    endDate: moment(new Date()),
     focusedInput: null
   };
 
   componentDidMount() {
     const { startDate, endDate } = this.state;
-    this.props.handleDashboardData(startDate.valueOf(), endDate.valueOf());
+    this.loadData(startDate, endDate);
   }
 
   componentDidUpdate({ dashboardData }: Props) {
@@ -53,9 +53,23 @@ class Dashboard extends React.Component<Props, State> {
 
   setDates = (startDate, endDate) => {
     this.setState({
-      startDate: moment(startDate).startOf('day'),
-      endDate: moment(endDate).endOf('day')
+      startDate: moment(startDate),
+      endDate: moment(endDate)
     });
+  };
+
+  loadData = (startDate, endDate) => {
+    const hour = this.props.user.startsDay || 0;
+    const start = moment(startDate).set({
+      hour,
+      minute: 0,
+      second: 0,
+      millisecond: 0
+    });
+    const end = moment(endDate)
+      .add(1, 'days')
+      .set({ hour, minute: 0, second: 0, millisecond: 0 });
+    this.props.handleDashboardData(start.valueOf(), end.valueOf());
   };
 
   setDefaultShow = (str: Shows) => {
@@ -109,7 +123,7 @@ class Dashboard extends React.Component<Props, State> {
             defaultShow={this.state.defaultShow}
             focusedInput={this.state.focusedInput}
             setFocusedInput={this.setFocusedInput}
-            loadData={this.props.handleDashboardData}
+            loadData={this.loadData}
           />
         </div>
         {this.getView()}
@@ -119,7 +133,8 @@ class Dashboard extends React.Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  dashboardData: state.dashboard
+  dashboardData: state.dashboard,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -11,10 +11,14 @@ const userSchema = new Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    required: 'Please, provide a valid email address',
+    required: 'Please, provide a valid email address'
+  },
+  startsDay: {
+    type: Number,
+    default: 0
   },
   resetPasswordToken: String,
-  resetPasswordExpires: Date,
+  resetPasswordExpires: Date
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });

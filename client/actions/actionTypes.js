@@ -44,3 +44,6 @@ export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
 export const FETCH_DASHBOARD = 'FETCH_DASHBOARD';
 export const FETCH_PROJECTS = 'FETCH_PROJECTS';
 export const FETCH_TASKS = 'FETCH_TASKS';
+
+
+export const SAVE_SETTINGS = 'SAVE_SETTINGS';

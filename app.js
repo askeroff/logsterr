@@ -97,6 +97,12 @@ app.post(
 app.post('/login', passport.authenticate('local'), authController.login);
 
 app.post(
+  '/settings',
+  authController.isLoggedIn,
+  catchErrors(userController.saveSettings)
+);
+
+app.post(
   '/projects/add',
   authController.isLoggedIn,
   catchErrors(projectsController.add)

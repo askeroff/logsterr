@@ -22,6 +22,7 @@ class Header extends React.Component<Props> {
         <Li myClassName="nav__item" url="/" linkText="Dashboard" />
         <Li myClassName="nav__item" url="/projects" linkText="Projects" />
         <Li myClassName="nav__item" url="/timelog/1" linkText="Timelog" />
+        <Li myClassName="nav__item" url="/settings" linkText="Settings" />
         <Li myClassName="nav__item" url="/logmeout" linkText="Log Out" />
         <li className="nav__item">
           <span className="nav__user">

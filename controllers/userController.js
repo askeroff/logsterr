@@ -33,6 +33,7 @@ exports.validateSignup = async (req, res, next) => {
       });
     }
   }
+  return true;
 };
 
 exports.signup = async (req, res, next) => {
@@ -65,6 +66,20 @@ exports.forgot = async (req, res) => {
     resetURL
   });
   res.json({ message });
+};
+
+exports.saveSettings = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  user.startsDay = req.body.settings.startsDay;
+  await user.save();
+  res.json({
+    success: true,
+    user: {
+      email: user.email,
+      startsDay: user.startsDay,
+      _id: user._id
+    }
+  });
 };
 
 exports.getReset = async (req, res) => {

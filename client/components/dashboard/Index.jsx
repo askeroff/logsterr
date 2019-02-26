@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import { getDashboardData, fetchPosts } from '../../actions/dashboard';
 import DatePicker from './DatePicker';
 import RenderData from './RenderData';
+import Charts from './Charts';
 
 type Props = {
   handleDashboardData: (start: string, end: string) => void,
@@ -27,6 +28,7 @@ class Dashboard extends React.Component<Props, State> {
   };
   state = {
     dashboard: [],
+    chartView: false,
     defaultShow: 'today',
     startDate: moment(new Date()).startOf('day'),
     endDate: moment(new Date()).endOf('day'),
@@ -66,23 +68,50 @@ class Dashboard extends React.Component<Props, State> {
     this.setState({ focusedInput: input });
   };
 
+  toggleView = () => {
+    this.setState(state => ({
+      chartView: !state.chartView
+    }));
+  };
+
+  getView = () => {
+    if (this.state.chartView) {
+      return (
+        <Charts
+          dashboard={{
+            data: this.state.dashboard,
+            timestamp: Date.now()
+          }}
+        />
+      );
+    }
+    return (
+      <RenderData
+        isFetching={this.props.dashboardData.isFetching}
+        data={this.state.dashboard}
+      />
+    );
+  };
+
   render() {
     return (
       <div className="dashboard">
-        <DatePicker
-          setDates={this.setDates}
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
-          setDefaultShow={this.setDefaultShow}
-          defaultShow={this.state.defaultShow}
-          focusedInput={this.state.focusedInput}
-          setFocusedInput={this.setFocusedInput}
-          loadData={this.props.handleDashboardData}
-        />
-        <RenderData
-          isFetching={this.props.dashboardData.isFetching}
-          data={this.state.dashboard}
-        />
+        <div className="dashboard__header">
+          <button onClick={this.toggleView} className="dashboard__button">
+            View Charts
+          </button>
+          <DatePicker
+            setDates={this.setDates}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            setDefaultShow={this.setDefaultShow}
+            defaultShow={this.state.defaultShow}
+            focusedInput={this.state.focusedInput}
+            setFocusedInput={this.setFocusedInput}
+            loadData={this.props.handleDashboardData}
+          />
+        </div>
+        {this.getView()}
       </div>
     );
   }

@@ -134,10 +134,9 @@ class Task extends React.Component<TaskProps, TaskState> {
   };
 
   handleEnterButton = (id: string, name: string) => {
-    this.props.handleRename({ id, name, newProject: this.state.categoryID });
+    this.handleRenaming({ id, name, newProject: this.state.categoryID });
     this.setState({
-      showInput: false,
-      spinner: true
+      showInput: false
     });
   };
 

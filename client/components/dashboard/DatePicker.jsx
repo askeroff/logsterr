@@ -69,7 +69,7 @@ class DatePicker extends Component<Props, {}> {
 
   render() {
     return (
-      <div className="dashboard__header">
+      <React.Fragment>
         <select
           className="dashboard__select"
           onChange={this.changeData}
@@ -95,7 +95,7 @@ class DatePicker extends Component<Props, {}> {
             this.props.setFocusedInput(focusedInput)
           }
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

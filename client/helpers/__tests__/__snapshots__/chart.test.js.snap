@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Drilldown is the right shape 1`] = `
+Array [
+  Object {
+    "data": Array [
+      Object {
+        "drilldown": null,
+        "name": "Project 2",
+        "y": 16.546944444444446,
+      },
+      Object {
+        "drilldown": null,
+        "name": "Project 5",
+        "y": 0.36666666666666664,
+      },
+    ],
+    "drilldown": null,
+    "id": "5a281df108567500ade59253",
+    "name": "Project 1",
+  },
+  Object {
+    "data": Array [
+      Object {
+        "drilldown": null,
+        "name": "Project 10",
+        "y": 3.143611111111111,
+      },
+      Object {
+        "drilldown": null,
+        "name": "Learning Songs",
+        "y": 4.273055555555556,
+      },
+    ],
+    "drilldown": null,
+    "id": "5a2a1703a2efd310b8225595",
+    "name": "Project 8",
+  },
+]
+`;
+
+exports[`Prepare data is correct 1`] = `
+Object {
+  "drilldown": Object {
+    "series": Array [
+      Object {
+        "data": Array [
+          Object {
+            "drilldown": null,
+            "name": "Project 2",
+            "y": 16.546944444444446,
+          },
+          Object {
+            "drilldown": null,
+            "name": "Project 5",
+            "y": 0.36666666666666664,
+          },
+        ],
+        "drilldown": null,
+        "id": "5a281df108567500ade59253",
+        "name": "Project 1",
+      },
+      Object {
+        "data": Array [
+          Object {
+            "drilldown": null,
+            "name": "Project 10",
+            "y": 3.143611111111111,
+          },
+          Object {
+            "drilldown": null,
+            "name": "Learning Songs",
+            "y": 4.273055555555556,
+          },
+        ],
+        "drilldown": null,
+        "id": "5a2a1703a2efd310b8225595",
+        "name": "Project 8",
+      },
+    ],
+  },
+  "series": Array [
+    Object {
+      "colorByPoint": true,
+      "data": Array [
+        Object {
+          "drilldown": "5a281df108567500ade59253",
+          "name": "Project 1",
+          "y": 24.85638888888889,
+        },
+        Object {
+          "drilldown": null,
+          "name": "Project 7",
+          "y": 1.2355555555555555,
+        },
+        Object {
+          "drilldown": "5a2a1703a2efd310b8225595",
+          "name": "Project 8",
+          "y": 7.416666666666667,
+        },
+        Object {
+          "drilldown": null,
+          "name": "Project 11",
+          "y": 2.799722222222222,
+        },
+      ],
+      "name": "Projects",
+    },
+  ],
+  "xAxis": Object {
+    "type": "category",
+  },
+}
+`;

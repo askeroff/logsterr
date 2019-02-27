@@ -6,7 +6,9 @@ import Layout from './layout/Layout';
 
 class Settings extends React.Component<Props> {
   state = {
-    hour: +this.props.user.startsDay || 0
+    hour: +this.props.user.startsDay || 0,
+    oldPassword: '',
+    newPassword: ''
   };
 
   componentDidUpdate(prevProps) {
@@ -17,11 +19,21 @@ class Settings extends React.Component<Props> {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.handleSubmit({ startsDay: this.state.hour });
+    this.props.handleSubmit({
+      startsDay: this.state.hour,
+      oldPassword: this.state.oldPassword,
+      newPassword: this.state.newPassword
+    });
+  };
+
+  handleSelectChange = e => {
+    this.setState({ hour: +e.target.value });
   };
 
   handleChange = e => {
-    this.setState({ hour: +e.target.value });
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
 
   selectView = () => {
@@ -34,7 +46,7 @@ class Settings extends React.Component<Props> {
       <select
         className="settings--select"
         value={this.state.hour}
-        onChange={this.handleChange}
+        onChange={this.handleSelectChange}
       >
         {options}
       </select>
@@ -42,15 +54,44 @@ class Settings extends React.Component<Props> {
   };
 
   render() {
+    const labelStyle = { textAlign: 'left' };
     return (
       <Layout>
-        <form onSubmit={this.handleSubmit}>
-          <fieldset>
-            <legend>Start of the day</legend>
+        <form className="settings" onSubmit={this.handleSubmit}>
+          <fieldset className="settings--field">
+            <legend className="settings--legend">Start of the day</legend>
             {this.selectView()}
           </fieldset>
-          <label htmlFor="submit">
-            <button className="button--submit" type="submit">
+          <fieldset className="settings--field">
+            <legend className="settings--legend">Change Password</legend>
+            <label style={labelStyle} htmlFor="oldPassword">
+              Old Password
+            </label>
+            <input
+              name="oldPassword"
+              type="password"
+              className="settings-input"
+              onChange={this.handleChange}
+              value={this.state.oldPassword}
+            />
+
+            <label style={labelStyle} htmlFor="newPassword">
+              New Password
+            </label>
+            <input
+              name="newPassword"
+              type="password"
+              className="settings-input"
+              onChange={this.handleChange}
+              value={this.state.newPassword}
+            />
+          </fieldset>
+
+          <label style={labelStyle} htmlFor="submit">
+            <button
+              className="button--submit settings-submit"
+              type="submit"
+            >
               Save
             </button>
           </label>

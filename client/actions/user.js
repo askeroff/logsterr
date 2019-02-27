@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 import {
   LOG_OUT,
   LOG_IN,
@@ -120,10 +122,15 @@ export function saveSettings(settings) {
     axios
       .post('/settings', { settings })
       .then(res => {
-        dispatch(saveSettingsSuccess(res.data.user));
+        if (res.data.error) {
+          toast.error(res.data.error);
+        } else {
+          dispatch(saveSettingsSuccess(res.data.user));
+          toast.success('Settings Saved');
+        }
       })
-      .catch(err => {
-        console.err(err);
+      .catch(() => {
+        toast.error('Something went wrong!');
       });
 }
 

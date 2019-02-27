@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { isLoggedIn } from '../../actions/user';
 import Header from './Header';
 import Footer from './Footer';
@@ -55,6 +57,7 @@ class Layout extends React.Component<Props> {
           </div>
           {this.getContent()}
         </div>
+        <ToastContainer />
         <Footer />
       </div>
     );

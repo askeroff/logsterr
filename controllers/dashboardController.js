@@ -42,6 +42,14 @@ exports.getMotivationData = async (req, res) => {
     new Date(+req.query.lastSunday)
   );
 
+  if (getTimelogs.length === 0) {
+    return res.send({
+      lastWeek: [],
+      thisWeek: [],
+      dataSent: true
+    });
+  }
+
   const getTimelogs2 = await Timelog.getProjects(
     req.user._id,
     new Date(+req.query.thisMonday),
@@ -64,7 +72,7 @@ exports.getMotivationData = async (req, res) => {
     formattedThisWeek,
     req.query.project
   );
-  res.send({
+  return res.send({
     lastWeek: formattedLastWeekProject,
     thisWeek: formattedThisWeekProject,
     dataSent: true
@@ -79,9 +87,6 @@ exports.getData = async (req, res) => {
     new Date(+start),
     new Date(+end)
   );
-
-  console.log(new Date(+start));
-  console.log(new Date(+end));
 
   const data = formatLogs(getTimelogs);
   const projects = await Project.find({ author: req.user._id }).lean();

@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
-import * as moment from 'moment-timezone';
 import { getMotivationData, fetchPosts } from '../../actions/dashboard';
 import { clearLogs } from '../../actions/timelog';
 import { addTimeToProject, getProjects } from '../../actions/projects';
@@ -45,11 +44,8 @@ class Project extends React.Component<ProjectProps> {
       this.isReady = true;
     }
     this.loadData();
-    this.props.handleDashboardData(
-      this.props.match.params.id,
-
-
-    );
+    const { id } = this.props.match.params;
+    this.props.handleDashboardData(id, this.props.user.startsDay || 0);
   }
 
   componentDidUpdate() {
@@ -124,9 +120,9 @@ const mapDispatchToProps = dispatch => ({
   handleGettingProjects() {
     dispatch(getProjects());
   },
-  handleDashboardData(id, timezone) {
+  handleDashboardData(id, startsDay) {
     dispatch(fetchPosts());
-    dispatch(getMotivationData(id, timezone));
+    dispatch(getMotivationData(id, startsDay));
   },
   handleAddingTimeToProject(id, time) {
     dispatch(addTimeToProject(id, time));

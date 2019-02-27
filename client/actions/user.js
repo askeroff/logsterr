@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 import {
   LOG_OUT,
   LOG_IN,
@@ -9,6 +11,7 @@ import {
   POST_RESET,
   LOG_IN_ERROR,
   SIGN_UP_ERROR,
+  SAVE_SETTINGS,
   ADD_MESSAGE
 } from './actionTypes';
 
@@ -104,6 +107,30 @@ export function signUp(user) {
       })
       .catch(err => {
         dispatch(signUpError(err));
+      });
+}
+
+export function saveSettingsSuccess(user) {
+  return {
+    type: SAVE_SETTINGS,
+    user
+  };
+}
+
+export function saveSettings(settings) {
+  return dispatch =>
+    axios
+      .post('/settings', { settings })
+      .then(res => {
+        if (res.data.error) {
+          toast.error(res.data.error);
+        } else {
+          dispatch(saveSettingsSuccess(res.data.user));
+          toast.success('Settings Saved');
+        }
+      })
+      .catch(() => {
+        toast.error('Something went wrong!');
       });
 }
 

@@ -63,22 +63,24 @@ export function getMotivationError(response) {
   };
 }
 
-export function getMotivationData(id) {
+export function getMotivationData(id, hour) {
   const lastSunday = moment()
     .isoWeekday(0)
-    .endOf('day')
+    .add(1, 'days')
+    .set({ hour, minute: 0, second: 0, millisecond: 0 })
     .valueOf();
   const lastMonday = moment()
     .isoWeekday(-6)
-    .startOf('day')
+    .set({ hour, minute: 0, second: 0, millisecond: 0 })
     .valueOf();
   const thisMonday = moment()
     .isoWeekday(1)
-    .startOf('day')
+    .set({ hour, minute: 0, second: 0, millisecond: 0 })
     .valueOf();
   const thisSunday = moment()
     .isoWeekday(7)
-    .endOf('day')
+    .add(1, 'days')
+    .set({ hour, minute: 0, second: 0, millisecond: 0 })
     .valueOf();
   const dateString = `lastSunday=${lastSunday}&lastMonday=${lastMonday}&thisMonday=${thisMonday}&thisSunday=${thisSunday}`;
   return dispatch =>

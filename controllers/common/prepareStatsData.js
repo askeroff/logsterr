@@ -34,7 +34,7 @@ function addTimeToParents(myProjects, myParent, mySeconds) {
         if (project.parent_id !== '') {
           recursive(myProjects, project.parent_id, seconds);
         }
-      } else if (project.children.length > 0) {
+      } else if (project.children && project.children.length > 0) {
         recursive(project.children, parentID, seconds);
       }
     });
@@ -53,7 +53,7 @@ function putTimeLog(projects, timelog) {
         }
         project.seconds = (project.seconds || 0) + timelog.seconds;
         addTimeToParents(projects, project.parent_id, timelog.seconds);
-      } else if (project.children.length > 0) {
+      } else if (project.children && project.children.length > 0) {
         recursive(project.children, timelog);
       }
     });

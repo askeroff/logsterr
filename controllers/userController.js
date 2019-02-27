@@ -33,6 +33,7 @@ exports.validateSignup = async (req, res, next) => {
       });
     }
   }
+  return true;
 };
 
 exports.signup = async (req, res, next) => {
@@ -65,6 +66,29 @@ exports.forgot = async (req, res) => {
     resetURL
   });
   res.json({ message });
+};
+
+exports.saveSettings = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const { oldPassword, startsDay, newPassword = '' } = req.body.settings;
+  user.startsDay = startsDay;
+  await user.save();
+  if (newPassword.length > 0) {
+    const changePassword = promisify(user.changePassword, user);
+    try {
+      await changePassword(oldPassword, newPassword);
+    } catch (err) {
+      return res.json({ error: 'Old password is incorrect' });
+    }
+  }
+  return res.json({
+    success: true,
+    user: {
+      email: user.email,
+      startsDay: user.startsDay,
+      _id: user._id
+    }
+  });
 };
 
 exports.getReset = async (req, res) => {

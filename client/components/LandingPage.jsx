@@ -97,7 +97,7 @@ class LandingPage extends Component {
             <iframe
               className="landing-video"
               title="demo"
-              src="https://www.youtube.com/embed/ZNZA-a-KZak"
+              src="https://www.youtube.com/embed/Rcp6CY7QA2s"
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

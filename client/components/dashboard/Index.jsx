@@ -66,6 +66,9 @@ class Dashboard extends React.Component<Props, State> {
       second: 0,
       millisecond: 0
     });
+    if (moment(start).isAfter(new Date())) {
+      start.subtract(1, 'days');
+    }
     const end = moment(endDate)
       .add(1, 'days')
       .set({ hour, minute: 0, second: 0, millisecond: 0 });

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class LandingPage extends Component {
   state = {
-    test: 'test'
+    test: ''
   };
   render() {
     return (

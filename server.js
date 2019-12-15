@@ -2,11 +2,14 @@ const mongoose = require('mongoose');
 
 require('dotenv').config({ path: 'variables.env' });
 
-mongoose.connect(process.env.DATABASE, {
-  useMongoClient: true,
-  reconnectTries: Number.MAX_VALUE,
-  reconnectInterval: 500,
-});
+mongoose.connect(
+  process.env.DATABASE,
+  {
+    useMongoClient: true,
+    reconnectTries: Number.MAX_VALUE,
+    reconnectInterval: 500
+  }
+);
 
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', err => {
@@ -17,6 +20,7 @@ require('./models/User');
 require('./models/Project');
 require('./models/Task');
 require('./models/Timelog');
+require('./models/Invite');
 
 const app = require('./app');
 

@@ -1,32 +1,46 @@
-.dashboard__title
-  text-align center
-  text-transform uppercase
-  color #ffffff
-  background #006989
-  margin 10px 0
-  padding 10px 0
 
-.dashboard__item
-  border-bottom 1px solid #006989
+.dashboard__parent .dashboard__item-title
+  background var(--mainBlue)
+  color var(--myGrey)
+  padding 8px
+  border none
 
 .dashboard__item-title
-  color #006989
+  color var(--mainBlue)
+  border-left 4px solid var(--myOrange)
+  padding 8px
+
+.dashboard__button
+  outline 0
+  text-transform uppercase
+  border 1px solid #dbdbdb
+  border-radius 12px
+  background var(--mainBlue)
+  border-right 1px solid var(--myGrey)
+  color var(--myGrey)
+  margin-right 5px
+  width 200px
+  text-align center
 
 .dashboard__item-tasks
   padding-left 15px
 
 .dashboard__item-task
-  border-left 4px dotted #a3bac3
   padding 5px
 
 .dashboard__select
-  margin-left 10px
-  border none
-  background #006889
-  color #fff
   outline 0
   text-transform uppercase
-  font-weight bold
+  border 1px solid #dbdbdb
+  border-radius 2px
+
+.dashboard__title
+  text-transform uppercase
 
 .dashboard__select:hover
   cursor pointer
+
+.dashboard__header
+  display flex
+  justify-content flex-start
+  margin 30px 0px

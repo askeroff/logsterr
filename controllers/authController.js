@@ -20,6 +20,7 @@ exports.getClientAUser = (req, res) => {
   if (req.user) {
     user._id = req.user._id;
     user.email = req.user.email;
+    user.startsDay = req.user.startsDay;
     user.__v = req.user.__v;
     user.loggedIn = true;
     user.error = '';

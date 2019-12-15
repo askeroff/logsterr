@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Home Component renders correctly 1`] = `
-<Connect(Layout)>
-  <h1>
-    Home Page
-  </h1>
-</Connect(Layout)>
-`;

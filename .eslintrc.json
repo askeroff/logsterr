@@ -1,18 +1,31 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": ["plugin:flowtype/recommended", "airbnb"],
+  "plugins": ["flowtype"],
   "rules": {
     "no-console": "off",
+    "no-bitwise": "off",
+    "no-debugger": "off",
+    "no-restricted-syntax": "off",
+    "react/prop-types": "off",
     "jsx-a11y/href-no-hash": "off",
     "react/jsx-filename-extension": "off",
     "linebreak-style": ["error", "windows"],
     "class-methods-use-this": "off",
     "react/forbid-prop-types": "off",
+    "react/no-did-update-set-state": "off",
     "jsx-a11y/label-has-for": "off",
     "arrow-parens": "off",
     "comma-dangle": "off",
+    "react/sort-comp": "off",
     "no-underscore-dangle": "off",
+    "react/no-danger": "off",
     "no-mixed-operators": "off"
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
   },
   "env": {
     "es6": true,

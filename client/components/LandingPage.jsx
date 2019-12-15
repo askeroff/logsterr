@@ -12,7 +12,7 @@ class LandingPage extends Component {
             <h2 className="page-title">What is this?</h2>
             <div className="highlight orange" />
             <p className="landing-paragraph">
-              <strong>Logsterr</strong> is an app, I have built to keep track of
+              <strong>LogifyTime</strong> is an app, I have built to keep track of
               certain projects I am working on. In another words, it is a side
               project of mine. More details below.
             </p>

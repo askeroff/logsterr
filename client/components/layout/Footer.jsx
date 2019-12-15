@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => (
   <footer>
     <p>
-      <span>Logsterr / </span>
+      <span>LogifyTime / </span>
       <span>
         The source is on{' '}
         <a

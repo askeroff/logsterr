@@ -61,6 +61,7 @@ export function addTimelog(data, seconds) {
     axios
       .post('/projects/timelog', data)
       .then(res => {
+        console.log(res, 'RESPONSE ADD TIMELOG');
         if (res.data.success === true) {
           dispatch(addTimelogSuccess(res.data, seconds));
           dispatch(addTimeToProjects(res.data, seconds));

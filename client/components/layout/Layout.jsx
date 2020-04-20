@@ -1,80 +1,78 @@
-// @flow
-import React from 'react';
-import { connect } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { isLoggedIn } from '../../actions/user';
-import Header from './Header';
-import Footer from './Footer';
-import Spinner from './Spinner';
-import ShowLostTime from './ShowLostTime';
-import ShowMessages from './ShowMessages';
-import { IUser } from '../../types';
-import NotLoggedIn from '../NotLoggedIn';
-
-type Props = {
-  children: any[],
-  user: IUser,
-  showToGuests: boolean,
-  showSpinner: boolean,
-  getUserData: () => void
-};
-
-class Layout extends React.Component<Props> {
-  componentDidMount() {
-    if (this.props.user.loggedIn === undefined) {
-      this.props.getUserData();
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var React = require("react");
+var react_redux_1 = require("react-redux");
+var react_toastify_1 = require("react-toastify");
+require("react-toastify/dist/ReactToastify.css");
+var user_1 = require("../../actions/user");
+var Header_1 = require("./Header");
+var Footer_1 = require("./Footer");
+var Spinner_1 = require("./Spinner");
+var ShowLostTime_1 = require("./ShowLostTime");
+var ShowMessages_1 = require("./ShowMessages");
+var NotLoggedIn_1 = require("../NotLoggedIn");
+var Layout = /** @class */ (function (_super) {
+    __extends(Layout, _super);
+    function Layout() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.getContent = function () {
+            if (_this.props.showSpinner && _this.props.user && _this.props.user.loggedIn) {
+                return <Spinner_1.default />;
+            }
+            if ((_this.props.user && _this.props.user.loggedIn) ||
+                _this.props.showToGuests) {
+                return _this.props.children;
+            }
+            return <NotLoggedIn_1.default />;
+        };
+        return _this;
     }
-  }
-
-  getContent = () => {
-    if (this.props.showSpinner && this.props.user && this.props.user.loggedIn) {
-      return <Spinner />;
-    }
-    if (
-      (this.props.user && this.props.user.loggedIn) ||
-      this.props.showToGuests
-    ) {
-      return this.props.children;
-    }
-    return <NotLoggedIn />;
-  };
-
-  render() {
-    if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
-      return <Spinner />;
-    }
-    const contentClass = this.props.contentClass
-      ? this.props.contentClass
-      : 'content-wrapper';
-    return (
-      <div className="wrapper">
-        <Header userEmail={this.props.user.email} />
+    Layout.prototype.componentDidMount = function () {
+        if (this.props.user.loggedIn === undefined) {
+            this.props.getUserData();
+        }
+    };
+    Layout.prototype.render = function () {
+        if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
+            return <Spinner_1.default />;
+        }
+        var contentClass = this.props.contentClass
+            ? this.props.contentClass
+            : 'content-wrapper';
+        return (<div className="wrapper">
+        <Header_1.default userEmail={this.props.user.email}/>
         <div className={contentClass}>
           <div className="important-messages">
-            <ShowLostTime />
-            <ShowMessages />
+            <ShowLostTime_1.default />
+            <ShowMessages_1.default />
           </div>
           {this.getContent()}
         </div>
-        <ToastContainer />
-        <Footer />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-const mapDispatchToProps = dispatch => ({
-  getUserData() {
-    dispatch(isLoggedIn());
-  }
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Layout);
+        <react_toastify_1.ToastContainer />
+        <Footer_1.default />
+      </div>);
+    };
+    return Layout;
+}(React.Component));
+var mapStateToProps = function (state) { return ({
+    user: state.user
+}); };
+var mapDispatchToProps = function (dispatch) { return ({
+    getUserData: function () {
+        dispatch(user_1.isLoggedIn());
+    }
+}); };
+exports["default"] = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Layout);

@@ -1,16 +1,34 @@
-import React, { Component } from 'react';
-
-class LandingPage extends Component {
-  state = {
-    test: ''
-  };
-  render() {
-    return (
-      <div className="landing-content">
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var react_1 = require("react");
+var LandingPage = /** @class */ (function (_super) {
+    __extends(LandingPage, _super);
+    function LandingPage() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = {
+            test: ''
+        };
+        return _this;
+    }
+    LandingPage.prototype.render = function () {
+        return (<div className="landing-content">
         <div className="landing-block white landing-block--main">
           <div className="content-wrapper">
             <h2 className="page-title">What is this?</h2>
-            <div className="highlight orange" />
+            <div className="highlight orange"/>
             <p className="landing-paragraph">
               <strong>LogifyTime</strong> is an app, I have built to keep track of
               certain projects I am working on. In another words, it is a side
@@ -21,7 +39,7 @@ class LandingPage extends Component {
         <div className="landing-block">
           <div className="content-wrapper">
             <h2 className="page-title">What does this app do?</h2>
-            <div className="highlight" />
+            <div className="highlight"/>
             <div className="landing-paragraph">
               <p>
                 You can create projects (and projects within those projects),
@@ -57,7 +75,7 @@ class LandingPage extends Component {
         <div className="landing-block myred">
           <div className="content-wrapper">
             <h2 className="page-title">Can I sign up?</h2>
-            <div className="highlight secondblue" />
+            <div className="highlight secondblue"/>
             <div className="landing-paragraph">
               <p>
                 Sort of. The app is not fully ready yet. I am the only user
@@ -78,7 +96,7 @@ class LandingPage extends Component {
             </div>
 
             <h2 className="page-title">Is there mobile version?</h2>
-            <div className="highlight secondblue" />
+            <div className="highlight secondblue"/>
             <div className="landing-paragraph">
               <p>
                 Not yet. It&apos;s primarily desktop focused browser version.
@@ -93,20 +111,12 @@ class LandingPage extends Component {
         <div className="landing-block white landing-block--main">
           <div className="content-wrapper">
             <h2 className="page-title">Quick Video Tour!</h2>
-            <div className="highlight orange" />
-            <iframe
-              className="landing-video"
-              title="demo"
-              src="https://www.youtube.com/embed/Rcp6CY7QA2s"
-              frameBorder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            <div className="highlight orange"/>
+            <iframe className="landing-video" title="demo" src="https://www.youtube.com/embed/Rcp6CY7QA2s" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/>
           </div>
         </div>
-      </div>
-    );
-  }
-}
-
-export default LandingPage;
+      </div>);
+    };
+    return LandingPage;
+}(react_1.Component));
+exports["default"] = LandingPage;

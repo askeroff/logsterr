@@ -1,19 +1,13 @@
-// @flow
-import React from 'react';
-import { formatTime } from '../../helpers';
-
-type Props = {
-  tasks: any[]
-};
-
-const Tasks = (props: Props): any =>
-  props.tasks.map(item => (
-    <p className="dashboard__item-task" key={item._id}>
+"use strict";
+exports.__esModule = true;
+var React = require("react");
+var helpers_1 = require("../../helpers");
+var Tasks = function (props) {
+    return props.tasks.map(function (item) { return (<p className="dashboard__item-task" key={item._id}>
       <span>
         <strong>{item.taskName}: </strong>
-        <span>{formatTime(item.seconds)}</span>
+        <span>{helpers_1.formatTime(item.seconds)}</span>
       </span>
-    </p>
-  ));
-
-export default Tasks;
+    </p>); });
+};
+exports["default"] = Tasks;

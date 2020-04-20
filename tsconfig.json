@@ -1,0 +1,6 @@
+{
+  "strict": false,
+  "compilerOptions": {
+    "jsx": "preserve"
+  }
+}

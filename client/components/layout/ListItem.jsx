@@ -1,27 +1,16 @@
-// @flow
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-type Props = {
-  myClassName: string,
-  url: string,
-  linkText: string,
-  trigger?: () => void
-};
-
-const Li = (props: Props) => (
-  <li className={props.myClassName}>
-    <Link onClick={props.trigger} to={props.url}>
+"use strict";
+exports.__esModule = true;
+var React = require("react");
+var react_router_dom_1 = require("react-router-dom");
+var Li = function (props) { return (<li className={props.myClassName}>
+    <react_router_dom_1.Link onClick={props.trigger} to={props.url}>
       {props.linkText}
-    </Link>
-  </li>
-);
-
+    </react_router_dom_1.Link>
+  </li>); };
 Li.defaultProps = {
-  myClassName: '',
-  url: '/',
-  linkText: 'default text',
-  trigger: () => {}
+    myClassName: '',
+    url: '/',
+    linkText: 'default text',
+    trigger: function () { }
 };
-
-export default Li;
+exports["default"] = Li;

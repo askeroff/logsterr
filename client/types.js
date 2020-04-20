@@ -1,4 +1,4 @@
-// @flow
+
 
 export interface ITask {
   _id: string;

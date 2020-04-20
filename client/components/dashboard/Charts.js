@@ -1,4 +1,4 @@
-// @flow
+
 import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import drilldown from 'highcharts/modules/drilldown';
@@ -6,12 +6,12 @@ import HighchartsReact from 'highcharts-react-official';
 import { formatTime } from '../../helpers';
 import { getDrilldown, prepareData } from '../../helpers/chart';
 
-type Props = {
+interface Props {
   dashboard: {
     timestamp: number,
     data: Array<mixed>
   }
-};
+}
 
 type State = {
   options: any

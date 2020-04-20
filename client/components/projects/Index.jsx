@@ -1,116 +1,92 @@
-// @flow
-import React from 'react';
-import { connect } from 'react-redux';
-import {
-  getProjects,
-  addProject,
-  clearProjects,
-  fetchProjects
-} from '../../actions/projects';
-import Layout from '../layout/Layout';
-import Spinner from '../layout/Spinner';
-import ProjectsList from './ProjectsList';
-import AddForm from './AddForm';
-import { IUser, IProject } from '../../types';
-
-type State = {
-  parentID: string,
-  showForm: boolean,
-  formInput: string,
-  showArchived: boolean
-};
-
-type IndexProps = {
-  handleProjects: () => void,
-  handleAdding: (name: string, id: string) => void,
-  clearProjectsList: () => void,
-  user: IUser,
-  projects: { list: IProject[], isFetching: boolean }
-};
-
-class Index extends React.Component<IndexProps, State> {
-  static defaultProps = {
-    user: {},
-    projects: []
-  };
-
-  state = {
-    parentID: '',
-    showForm: false,
-    formInput: '',
-    showArchived: false
-  };
-
-  componentDidMount() {
-    if (this.props.projects.isFetching === undefined) {
-      this.props.clearProjectsList();
-      this.props.handleProjects();
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var React = require("react");
+var react_redux_1 = require("react-redux");
+var projects_1 = require("../../actions/projects");
+var Layout_1 = require("../layout/Layout");
+var Spinner_1 = require("../layout/Spinner");
+var ProjectsList_1 = require("./ProjectsList");
+var AddForm_1 = require("./AddForm");
+var Index = /** @class */ (function (_super) {
+    __extends(Index, _super);
+    function Index() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = {
+            parentID: '',
+            showForm: false,
+            formInput: '',
+            showArchived: false
+        };
+        _this.getAddFormProps = function () { return ({
+            inputValue: _this.state.formInput,
+            handleInput: _this.handleFormInput,
+            className: 'form form__newproject',
+            clickHandler: function (e) {
+                e.preventDefault();
+                _this.addProject(_this.state.formInput, _this.state.parentID);
+            },
+            changeSelect: function (e) {
+                _this.selectParent(e);
+            },
+            parentID: _this.state.parentID,
+            projects: _this.props.projects.list,
+            labelName: 'Name Of Your New Project'
+        }); };
+        _this.selectParent = function (event) {
+            _this.setState({
+                parentID: event.currentTarget.value
+            });
+        };
+        _this.showAddForm = function () {
+            _this.setState({
+                showForm: !_this.state.showForm
+            });
+        };
+        _this.addProject = function (name, id) {
+            _this.props.handleAdding(name, id);
+            _this.setState({
+                showForm: false,
+                formInput: ''
+            });
+        };
+        _this.toggleArchived = function () {
+            _this.setState({
+                showArchived: !_this.state.showArchived
+            });
+        };
+        _this.handleFormInput = function (event) {
+            _this.setState({ formInput: event.currentTarget.value });
+        };
+        return _this;
     }
-  }
-
-  getAddFormProps = () => ({
-    inputValue: this.state.formInput,
-    handleInput: this.handleFormInput,
-    className: 'form form__newproject',
-    clickHandler: e => {
-      e.preventDefault();
-      this.addProject(this.state.formInput, this.state.parentID);
-    },
-    changeSelect: e => {
-      this.selectParent(e);
-    },
-    parentID: this.state.parentID,
-    projects: this.props.projects.list,
-    labelName: 'Name Of Your New Project'
-  });
-
-  selectParent = (event: SyntheticEvent<HTMLSelectElement>) => {
-    this.setState({
-      parentID: event.currentTarget.value
-    });
-  };
-
-  showAddForm = () => {
-    this.setState({
-      showForm: !this.state.showForm
-    });
-  };
-
-  addProject = (name, id) => {
-    this.props.handleAdding(name, id);
-    this.setState({
-      showForm: false,
-      formInput: ''
-    });
-  };
-
-  toggleArchived = () => {
-    this.setState({
-      showArchived: !this.state.showArchived
-    });
-  };
-
-  handleFormInput = (event: SyntheticEvent<HTMLInputElement>) => {
-    this.setState({ formInput: event.currentTarget.value });
-  };
-
-  render() {
-    const addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
-    const archivedText = this.state.showArchived
-      ? 'Hide Archived Projects'
-      : 'Show Archived Projects';
-
-    const projects = (
-      <ul className="projects__list">
-        <ProjectsList
-          showArchived={this.state.showArchived}
-          projects={this.props.projects.list}
-        />
-      </ul>
-    );
-
-    return (
-      <Layout>
+    Index.prototype.componentDidMount = function () {
+        if (this.props.projects.isFetching === undefined) {
+            this.props.clearProjectsList();
+            this.props.handleProjects();
+        }
+    };
+    Index.prototype.render = function () {
+        var addLinkText = this.state.showForm ? 'Hide The Form' : 'Add New One';
+        var archivedText = this.state.showArchived
+            ? 'Hide Archived Projects'
+            : 'Show Archived Projects';
+        var projects = (<ul className="projects__list">
+        <ProjectsList_1.default showArchived={this.state.showArchived} projects={this.props.projects.list}/>
+      </ul>);
+        return (<Layout_1.default>
         <div className="projects">
           <h1 className="page-title">Projects</h1>
           <div className="projects--topbuttons">
@@ -121,39 +97,36 @@ class Index extends React.Component<IndexProps, State> {
               {archivedText}
             </button>
           </div>
-          {this.state.showForm ? <AddForm {...this.getAddFormProps()} /> : null}
-          {this.props.projects.isFetching ? <Spinner /> : null}
+          {this.state.showForm ? <AddForm_1.default {...this.getAddFormProps()}/> : null}
+          {this.props.projects.isFetching ? <Spinner_1.default /> : null}
           {projects}
         </div>
-      </Layout>
-    );
-  }
-}
-
+      </Layout_1.default>);
+    };
+    Index.defaultProps = {
+        user: {},
+        projects: []
+    };
+    return Index;
+}(React.Component));
 Index.defaultProps = {
-  user: {},
-  projects: {}
+    user: {},
+    projects: {}
 };
-
-const mapStateToProps = state => ({
-  projects: state.projects,
-  user: state.user
-});
-
-const mapDispatchToProps = dispatch => ({
-  handleProjects() {
-    dispatch(fetchProjects());
-    dispatch(getProjects());
-  },
-  handleAdding(name, id) {
-    dispatch(addProject(name, id));
-  },
-  clearProjectsList() {
-    dispatch(clearProjects());
-  }
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Index);
+var mapStateToProps = function (state) { return ({
+    projects: state.projects,
+    user: state.user
+}); };
+var mapDispatchToProps = function (dispatch) { return ({
+    handleProjects: function () {
+        dispatch(projects_1.fetchProjects());
+        dispatch(projects_1.getProjects());
+    },
+    handleAdding: function (name, id) {
+        dispatch(projects_1.addProject(name, id));
+    },
+    clearProjectsList: function () {
+        dispatch(projects_1.clearProjects());
+    }
+}); };
+exports["default"] = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Index);

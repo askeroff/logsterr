@@ -1,32 +1,23 @@
-// @flow
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-type Props = {
-  page: number,
-  pages: number,
-  count: number
-};
-
-const Pagination = (props: Props) => {
-  let prevLink = null;
-  let nextLink = null;
-  const { page, pages, count } = props;
-  if (page > 1) {
-    prevLink = <Link to={`/timelog/${page - 1}`}>Prev</Link>;
-  }
-  if (page < pages) {
-    nextLink = <Link to={`/timelog/${parseFloat(page) + 1}`}>Next</Link>;
-  }
-  return (
-    <div className="pagination">
+"use strict";
+exports.__esModule = true;
+var React = require("react");
+var react_router_dom_1 = require("react-router-dom");
+var Pagination = function (props) {
+    var prevLink = null;
+    var nextLink = null;
+    var page = props.page, pages = props.pages, count = props.count;
+    if (page > 1) {
+        prevLink = <react_router_dom_1.Link to={"/timelog/" + (page - 1)}>Prev</react_router_dom_1.Link>;
+    }
+    if (page < pages) {
+        nextLink = <react_router_dom_1.Link to={"/timelog/" + (parseFloat(page) + 1)}>Next</react_router_dom_1.Link>;
+    }
+    return (<div className="pagination">
       <span>{prevLink}</span>
       <span>
         Page {page} of {pages} — {count} total results
       </span>
       <span>{nextLink}</span>
-    </div>
-  );
+    </div>);
 };
-
-export default Pagination;
+exports["default"] = Pagination;

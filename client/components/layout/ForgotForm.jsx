@@ -1,34 +1,17 @@
-// @flow
-import React from 'react';
-import FormInput from './FormInput';
-
-type Props = {
-  myClassName: string,
-  emailValue: string,
-  handleEmailChange: (event: SyntheticEvent<HTMLInputElement>) => void,
-  handleSubmit: (event: SyntheticEvent<HTMLFormElement>) => void
-};
-
-const ForgotForm = (props: Props) => (
-  <form onSubmit={props.handleSubmit} className={props.myClassName}>
+"use strict";
+exports.__esModule = true;
+var React = require("react");
+var FormInput_1 = require("./FormInput");
+var ForgotForm = function (props) { return (<form onSubmit={props.handleSubmit} className={props.myClassName}>
     <label htmlFor="email">E-mail:</label>
-    <FormInput
-      inputType="email"
-      inputName="forgot-email"
-      inputId="forgot-email"
-      inputValue={props.emailValue}
-      handleInput={props.handleEmailChange}
-    />
-    <input type="submit" value="Send a Reset" className="button--submit" />
-  </form>
-);
-
+    <FormInput_1.default inputType="email" inputName="forgot-email" inputId="forgot-email" inputValue={props.emailValue} handleInput={props.handleEmailChange}/>
+    <input type="submit" value="Send a Reset" className="button--submit"/>
+  </form>); };
 ForgotForm.defaultProps = {
-  myClassName: '',
-  emailValue: '',
-  handleEmailChange: null,
-  handlePasswordChange: null,
-  handleSubmit: null
+    myClassName: '',
+    emailValue: '',
+    handleEmailChange: null,
+    handlePasswordChange: null,
+    handleSubmit: null
 };
-
-export default ForgotForm;
+exports["default"] = ForgotForm;

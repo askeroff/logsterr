@@ -1,20 +1,15 @@
-import React from 'react';
-
-const Footer = () => (
-  <footer>
+"use strict";
+exports.__esModule = true;
+var React = require("react");
+var Footer = function () { return (<footer>
     <p>
       <span>LogifyTime / </span>
       <span>
         The source is on{' '}
-        <a
-          className="footer__link"
-          href="https://github.com/askeroff/timetracker"
-        >
+        <a className="footer__link" href="https://github.com/askeroff/timetracker">
           Github
         </a>
       </span>
     </p>
-  </footer>
-);
-
-export default Footer;
+  </footer>); };
+exports["default"] = Footer;

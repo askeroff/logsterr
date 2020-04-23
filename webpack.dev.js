@@ -1,18 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './client/index.jsx',
+  entry: './client/index.tsx',
+  mode: 'development',
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       DEBUG: false
     }),
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Logsterr — Time Tracking App',
+      title: 'Logify — Time Tracking App',
       template: 'assets/template.html',
       favicon: 'assets/favicon.png'
     })
@@ -27,7 +29,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader'
@@ -45,6 +47,6 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.jsx', '.js', 'json', 'css', 'sass']
+    extensions: ['.tsx', '.ts', '.js', 'json', 'css', 'sass']
   }
 };

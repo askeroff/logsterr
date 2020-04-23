@@ -1,8 +1,9 @@
 {
   "presets": [
-    "react",
+    "@babel/preset-react",
+    "@babel/preset-typescript",
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
           "browsers": "last 2 versions"
@@ -11,9 +12,6 @@
     ]
   ],
   "plugins": [
-    "transform-class-properties",
-    "transform-react-display-name",
-    "transform-object-rest-spread",
-    "transform-runtime"
+    "@babel/plugin-proposal-class-properties"
   ]
 }

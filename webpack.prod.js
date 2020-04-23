@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  entry: './client/index.jsx',
+  entry: './client/index.tsx',
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
@@ -48,6 +48,6 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.jsx', '.js', 'json', 'css', 'sass']
+    extensions: ['.tsx', '.ts', '.jsx', '.js', 'json', 'css', 'sass']
   }
 };

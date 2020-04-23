@@ -1,7 +1,10 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["airbnb"],
-  "plugins": [],
+  "parser": "@typescript-eslint/parser",
+  "root": true,
+  "extends": ["airbnb", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "rules": {
     "no-console": "off",
     "no-bitwise": "off",
@@ -21,12 +24,31 @@
     "react/sort-comp": "off",
     "no-underscore-dangle": "off",
     "react/no-danger": "off",
-    "no-mixed-operators": "off"
+    "no-mixed-operators": "off",
+    "indent": ["error", 2, {"ignoredNodes": ["JSXElement"]}],
+    "react/jsx-indent": ["error", 2],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   },
   "env": {
     "es6": true,
     "browser": true,
     "node": true,
     "jest": true
+  },
+  "settings": {
+    "import/resolver": {
+    "node": {
+      "extensions": [".js", ".jsx", ".ts", ".tsx"]
+    }
+  }
   }
 }

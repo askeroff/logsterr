@@ -2,7 +2,7 @@
 import * as React from 'react';
 import * as Highcharts from 'highcharts';
 import drilldown from 'highcharts/modules/drilldown';
-import * as HighchartsReact from 'highcharts-react-official';
+import HighchartsReact from 'highcharts-react-official';
 import { formatTime } from '../../helpers/';
 import { getDrilldown, prepareData } from '../../helpers/chart';
 
@@ -37,7 +37,7 @@ class Charts extends React.Component<Props, State> {
         text: 'Dashboard data'
       },
       tooltip: {
-        formatter() {
+        formatter(): string {
           return `<strong>${formatTime(this.y * 3600)}</strong>`;
         }
       },
@@ -48,18 +48,17 @@ class Charts extends React.Component<Props, State> {
     }
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps): void {
     if (prevProps.dashboard.timestamp !== this.props.dashboard.timestamp) {
       const drilldownData = getDrilldown(this.props.dashboard.data);
       const prepared = prepareData(this.props.dashboard.data, drilldownData);
       this.setState(state => ({ options: { ...state.options, ...prepared } }));
     }
   }
-  render() {
+  render(): JSX.Element {
     return (
       <div>
-        {/* <HighchartsReact highcharts={Highcharts} options={this.state.options} /> */}
-        Charts
+        <HighchartsReact highcharts={Highcharts} options={this.state.options} />
       </div>
     );
   }

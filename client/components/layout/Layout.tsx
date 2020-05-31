@@ -12,12 +12,12 @@ import { IUser } from '../../types';
 import NotLoggedIn from '../NotLoggedIn';
 
 interface Props {
-  children: any[],
-  user: IUser,
-  contentClass: string,
-  showToGuests: boolean,
-  showSpinner: boolean,
-  getUserData: () => void
+  children: any | any[];
+  user: IUser;
+  contentClass: string;
+  showToGuests: boolean;
+  showSpinner: boolean;
+  getUserData: () => void;
 }
 
 class Layout extends React.Component<Props> {

@@ -1,26 +1,36 @@
 
 import * as React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment-timezone';
+import * as moment from 'moment-timezone';
 import { getDashboardData, fetchPosts } from '../../actions/dashboard';
 import DatePicker from './DatePicker';
 import RenderData from './RenderData';
 import Charts from './Charts';
+import { IUser } from '../../types';
 
 interface Props {
-  handleDashboardData: (start: string, end: string) => void,
-  dashboardData: any
+  handleDashboardData: (start: number, end: number) => void;
+  dashboardData: any;
+  user: IUser;
 }
 
-export type Shows = 'lastweek' | 'today' | 'month' | 'thisweek';
+// export type Shows = 'lastweek' | 'today' | 'month' | 'thisweek';
 
-type State = {
-  dashboard: Array<mixed>,
-  startDate: any,
-  focusedInput: any,
-  endDate: any,
-  defaultShow: Shows
-};
+export enum Shows {
+  lastweek,
+  today,
+  month,
+  thisweek
+}
+
+interface State {
+  dashboard: Array<any>;
+  startDate: any;
+  focusedInput: any;
+  endDate: any;
+  chartView: boolean;
+  defaultShow: Shows;
+}
 
 class Dashboard extends React.Component<Props, State> {
   static defaultProps = {
@@ -29,7 +39,7 @@ class Dashboard extends React.Component<Props, State> {
   state = {
     dashboard: [],
     chartView: false,
-    defaultShow: 'today',
+    defaultShow: Shows.today,
     startDate: moment(new Date()),
     endDate: moment(new Date()),
     focusedInput: null
@@ -91,7 +101,7 @@ class Dashboard extends React.Component<Props, State> {
     }));
   };
 
-  getView = () => {
+  getView = (): any => {
     if (this.state.chartView) {
       return (
         <Charts
@@ -110,7 +120,7 @@ class Dashboard extends React.Component<Props, State> {
     );
   };
 
-  render() {
+  render(): JSX.Element {
     const buttonText = this.state.chartView ? 'Text' : 'Charts';
     return (
       <div className="dashboard">
@@ -141,7 +151,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleDashboardData(start, end) {
+  handleDashboardData(start, end): void {
     dispatch(fetchPosts());
     dispatch(getDashboardData(start, end));
   }

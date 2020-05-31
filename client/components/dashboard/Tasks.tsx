@@ -3,7 +3,7 @@ import * as React from 'react';
 import { formatTime } from '../../helpers';
 
 interface Props {
-  tasks: any[]
+  tasks: any[];
 }
 
 const Tasks = (props: Props): any =>

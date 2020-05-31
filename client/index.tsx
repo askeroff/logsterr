@@ -19,7 +19,9 @@ import ProjectsRoutes from './components/projects/ProjectsRoutes';
 import 'normalize.css'; // eslint-disable-line import/first
 import './styles/index.styl';
 
-const Root = () => (
+export interface RootProps { compiler: string; framework: string }
+
+const Root = (props: RootProps) => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
@@ -37,4 +39,4 @@ const Root = () => (
   </Provider>
 );
 
-render(<Root />, document.getElementById('app'));
+render(<Root compiler="TypeScript" framework="React" />, document.getElementById('app'));

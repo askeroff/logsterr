@@ -7,8 +7,8 @@ import { IUser } from '../types';
 import LandingPage from './LandingPage';
 
 interface Props {
-  user: IUser,
-  history: any
+  user: IUser;
+  history: any;
 }
 
 class Home extends React.Component<Props, any> {

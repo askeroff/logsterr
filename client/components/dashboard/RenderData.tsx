@@ -1,16 +1,16 @@
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import Tasks from './Tasks';
 import { formatTime } from '../../helpers';
 import Spinner from '../layout/Spinner';
 
 interface Props {
-  data: Array<any>,
-  isFetching: boolean
+  data: Array<any>;
+  isFetching: boolean;
 }
 
-class RenderData extends Component<Props, {}> {
-  showData(myData: any) {
+export default class RenderData extends React.Component<Props, {}> {
+  showData(myData: any): JSX.Element | JSX.Element[] {
     const result = [];
     const recursive = (data: any, padding = 0) => {
       data.forEach(project => {
@@ -44,7 +44,7 @@ class RenderData extends Component<Props, {}> {
     }
     return result;
   }
-  render() {
+  render(): JSX.Element | JSX.Element[] {
     if (this.props.isFetching) {
       return <Spinner />;
     }
@@ -52,4 +52,3 @@ class RenderData extends Component<Props, {}> {
   }
 }
 
-export default RenderData;

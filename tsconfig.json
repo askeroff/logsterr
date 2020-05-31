@@ -1,6 +1,10 @@
 {
   "strict": false,
   "compilerOptions": {
-    "jsx": "preserve"
+    "outDir": "./dist/",
+    "module": "commonjs",
+    "target": "es6",
+    "jsx": "react",
+    "sourceMap": true
   }
 }

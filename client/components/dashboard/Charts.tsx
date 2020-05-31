@@ -19,7 +19,7 @@ interface State {
 
 drilldown(Highcharts);
 
-class Charts extends React.Component<Props, State> {
+export default class Charts extends React.Component<Props, State> {
   state = {
     options: {
       chart: {
@@ -57,11 +57,11 @@ class Charts extends React.Component<Props, State> {
   }
   render(): JSX.Element {
     return (
-      <div>
-        <HighchartsReact highcharts={Highcharts} options={this.state.options} />
-      </div>
+      <React.Fragment>
+        {/* <HighchartsReact highcharts={Highcharts} options={this.state.options} /> */}
+        <span>text</span>
+      </React.Fragment>
     );
   }
 }
 
-export default Charts;

@@ -26,7 +26,7 @@ class DatePicker extends React.Component<Props, {}> {
   changeData = (event: any) => {
     this.props.setDefaultShow(event.target.value);
     switch (event.target.value) {
-    case 'lastweek': {
+    case Shows.lastweek: {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       const lastSunday = moment().isoWeekday(0)._d;
@@ -39,19 +39,19 @@ class DatePicker extends React.Component<Props, {}> {
       });
       break;
     }
-    case 'today': {
+    case Shows.today: {
       const today = moment(new Date());
       this.onDatesChange({ startDate: today, endDate: today });
       break;
     }
-    case 'month': {
+    case Shows.month: {
       this.onDatesChange({
         startDate: moment().startOf('month'),
         endDate: moment().endOf('month')
       });
       break;
     }
-    case 'thisweek': {
+    case Shows.thisweek: {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       const thisMonday = moment().isoWeekday(1)._d;

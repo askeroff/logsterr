@@ -24,6 +24,7 @@ export interface IProject {
 export interface IUser {
   loggedIn: boolean;
   _id: string;
+  startsDay: number;
   email: string;
   error: string;
 }

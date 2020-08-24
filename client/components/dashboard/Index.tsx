@@ -45,12 +45,12 @@ class Dashboard extends React.Component<Props, State> {
     focusedInput: null
   };
 
-  componentDidMount() {
+  componentDidMount(): void {
     const { startDate, endDate } = this.state;
     this.loadData(startDate, endDate);
   }
 
-  componentDidUpdate({ dashboardData }: Props) {
+  componentDidUpdate({ dashboardData }: Props): void {
     if (
       this.props.dashboardData.isFetching === false &&
       dashboardData.isFetching === true
@@ -61,14 +61,14 @@ class Dashboard extends React.Component<Props, State> {
     }
   }
 
-  setDates = (startDate, endDate) => {
+  setDates = (startDate, endDate): void => {
     this.setState({
       startDate: moment(startDate),
       endDate: moment(endDate)
     });
   };
 
-  loadData = (startDate, endDate) => {
+  loadData = (startDate, endDate): void => {
     const hour = this.props.user.startsDay || 0;
     const start = moment(startDate).set({
       hour,
@@ -85,23 +85,23 @@ class Dashboard extends React.Component<Props, State> {
     this.props.handleDashboardData(start.valueOf(), end.valueOf());
   };
 
-  setDefaultShow = (str: Shows) => {
+  setDefaultShow = (str: Shows): void => {
     this.setState({
       defaultShow: str
     });
   };
 
-  setFocusedInput = (input: any) => {
+  setFocusedInput = (input: any): void => {
     this.setState({ focusedInput: input });
   };
 
-  toggleView = () => {
+  toggleView = (): void => {
     this.setState(state => ({
       chartView: !state.chartView
     }));
   };
 
-  getView = (): any => {
+  getView = (): JSX.Element => {
     if (this.state.chartView) {
       return (
         <Charts

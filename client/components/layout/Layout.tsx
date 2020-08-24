@@ -21,13 +21,13 @@ interface Props {
 }
 
 class Layout extends React.Component<Props> {
-  componentDidMount() {
+  componentDidMount(): void {
     if (this.props.user.loggedIn === undefined) {
       this.props.getUserData();
     }
   }
 
-  getContent = () => {
+  getContent = (): JSX.Element | JSX.Element[] => {
     if (this.props.showSpinner && this.props.user && this.props.user.loggedIn) {
       return <Spinner />;
     }
@@ -40,7 +40,7 @@ class Layout extends React.Component<Props> {
     return <NotLoggedIn />;
   };
 
-  render() {
+  render(): JSX.Element | JSX.Element[] {
     if (!Object.prototype.hasOwnProperty.call(this.props.user, 'loggedIn')) {
       return <Spinner />;
     }

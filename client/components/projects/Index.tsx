@@ -11,7 +11,7 @@ import Layout from '../layout/Layout';
 import Spinner from '../layout/Spinner';
 import ProjectsList from './ProjectsList';
 import AddForm from './AddForm';
-import { IUser, IProject } from '../../types';
+import { User, Project } from '../../types';
 
 type State = {
   parentID: string,
@@ -24,8 +24,8 @@ type IndexProps = {
   handleProjects: () => void,
   handleAdding: (name: string, id: string) => void,
   clearProjectsList: () => void,
-  user: IUser,
-  projects: { list: IProject[], isFetching: boolean }
+  user: User,
+  projects: { list: Project[], isFetching: boolean }
 };
 
 class Index extends React.Component<IndexProps, State> {

@@ -1,13 +1,13 @@
 
 import * as React from 'react';
 import ProjectsSelect from '../../projects/ProjectsSelect';
-import { IProject } from '../../../types';
+import { Project } from '../../../types';
 
 interface Props {
   id: string,
   editName: string,
   categoryID: string,
-  projects: IProject[],
+  projects: Project[],
   handleNameInput: (e: any) => void,
   handleEnterButton: (id: string, name: string, categoryID: string) => void,
   changeSelect: (e: any) => void,

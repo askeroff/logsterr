@@ -1,9 +1,9 @@
 
 import * as React from 'react';
-import { IProject } from '../../types';
+import { Project } from '../../types';
 
 interface Props {
-  projects: IProject[],
+  projects: Project[],
   parentID: string,
   disableItself?: boolean,
   itselfID?: string,

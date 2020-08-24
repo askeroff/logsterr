@@ -8,14 +8,14 @@ import { getTasks, newTask, clearTasks, fetchTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
-import { IMatch, IUser } from '../../types';
+import { Match, User } from '../../types';
 import ProjectInfo from './ProjectInfo';
 
 type ProjectProps = {
-  match: IMatch,
+  match: Match,
   dashboardData: {},
   tasks: { list: [], isFetching?: boolean },
-  user: IUser,
+  user: User,
   projects: { list: [] },
   location: { pathname: string },
   handleAddingTimeToProject: (projectID: string, time: number) => void,

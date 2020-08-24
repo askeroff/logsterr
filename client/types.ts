@@ -1,6 +1,4 @@
-
-
-export interface ITask {
+export interface Task {
   _id: string;
   name: string;
   project: string;
@@ -11,7 +9,7 @@ export interface ITask {
   done: boolean;
 }
 
-export interface IProject {
+export interface Project {
   _id: string;
   name: string;
   author: string;
@@ -21,7 +19,7 @@ export interface IProject {
   timeSpent: number;
 }
 
-export interface IUser {
+export interface User {
   loggedIn: boolean;
   _id: string;
   startsDay: number;
@@ -29,16 +27,16 @@ export interface IUser {
   error: string;
 }
 
-export interface IMatch {
+export interface Match {
   isExact: boolean;
   params: {
-    id: string
+    id: string;
   };
   path: string;
   url: string;
 }
 
-export interface IRenameTask {
+export interface RenameTask {
   id: string;
   name: string;
   newProject: string;
@@ -48,7 +46,7 @@ export interface IRenameTask {
   deleteTime?: boolean;
 }
 
-export interface ITimeLogData {
+export interface TimeLogData {
   seconds: number;
   task: string;
   done: boolean;

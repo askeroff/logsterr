@@ -1,15 +1,14 @@
-
 import * as React from 'react';
 import FormInput from './FormInput';
 
 interface Props {
-  myClassName: string,
-  passwordValue: string,
-  handlePasswordChange: (event: any) => void,
-  handleSubmit: (event: any) => void
+  myClassName: string;
+  passwordValue: string;
+  handlePasswordChange: (event: any) => void;
+  handleSubmit: (event: any) => void;
 }
 
-const ResetForm = (props: Props) => (
+const ResetForm = (props: Props): JSX.Element => (
   <form onSubmit={props.handleSubmit} className={props.myClassName}>
     <label htmlFor="password">Your New Password:</label>
     <FormInput

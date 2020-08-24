@@ -1,19 +1,18 @@
-
 import * as React from 'react';
 import FormInput from './FormInput';
 
 interface Props {
-  myClassName: string,
-  emailValue: string,
-  inviteValue: string,
-  passwordValue: string,
-  handleEmailChange: (event: any) => void,
-  handlePasswordChange: (event: any) => void,
-  handleInviteChange: (event: any) => void,
-  handleSubmit: (event:any) => void
+  myClassName: string;
+  emailValue: string;
+  inviteValue: string;
+  passwordValue: string;
+  handleEmailChange: (event: any) => void;
+  handlePasswordChange: (event: any) => void;
+  handleInviteChange: (event: any) => void;
+  handleSubmit: (event: any) => void;
 }
 
-const SignupForm = (props: Props) => (
+const SignupForm = (props: Props): JSX.Element => (
   <form onSubmit={props.handleSubmit} className={props.myClassName}>
     <label htmlFor="email">E-mail:</label>
     <FormInput

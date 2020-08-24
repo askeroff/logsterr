@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import Layout from './layout/Layout';
 import Dashboard from './dashboard/Index';
 import Spinner from './layout/Spinner';
-import { IUser } from '../types';
+import { User } from '../types';
 import LandingPage from './LandingPage';
 
 interface Props {
-  user: IUser;
+  user: User;
   history: any;
 }
 

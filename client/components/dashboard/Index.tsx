@@ -6,12 +6,12 @@ import { getDashboardData, fetchPosts } from '../../actions/dashboard';
 import DatePicker from './DatePicker';
 import RenderData from './RenderData';
 import Charts from './Charts';
-import { IUser } from '../../types';
+import { User } from '../../types';
 
 interface Props {
   handleDashboardData: (start: number, end: number) => void;
   dashboardData: any;
-  user: IUser;
+  user: User;
 }
 
 // export type Shows = 'lastweek' | 'today' | 'month' | 'thisweek';

@@ -2,12 +2,12 @@
 import * as React from 'react';
 import FormInput from '../layout/FormInput';
 import ProjectsSelect from './ProjectsSelect';
-import { IProject } from '../../types';
+import { Project } from '../../types';
 
 type AddFormProps = {
   inputValue: string,
   handleInput: (e: React.MouseEvent<HTMLInputElement>) => void,
-  projects: IProject[],
+  projects: Project[],
   clickHandler: (e: SyntheticEvent<HTMLFormElement>) => void,
   labelName: string,
   parentID: string,

@@ -12,8 +12,8 @@ interface IMessage {
 interface State { show: string }
 
 interface Props {
-  messages: IMessage[],
-  handleRemoveMessage: (name: string) => void
+  messages: IMessage[];
+  handleRemoveMessage: (name: string) => void;
 }
 
 class ShowMessages extends React.Component<Props, State> {
@@ -26,11 +26,11 @@ class ShowMessages extends React.Component<Props, State> {
     show: 'block'
   };
 
-  close = name => {
+  close = (name): void => {
     this.props.handleRemoveMessage(name);
   };
 
-  render() {
+  render(): JSX.Element[] {
     const messages = this.props.messages.map(item => (
       <MessageItem
         key={item.name}

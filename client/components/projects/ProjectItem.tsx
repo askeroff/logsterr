@@ -3,11 +3,11 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { formatTime } from '../../helpers';
 import ProjectsSelect from './ProjectsSelect';
-import { IProject } from '../../types';
+import { Project } from '../../types';
 
 interface Props {
-  project: IProject,
-  projectsList: IProject[],
+  project: Project,
+  projectsList: Project[],
   onDelete: (projectId: string) => void,
   renameMe: (id: string, name: string, parentId: string) => void,
   toggleDone: (id: string) => void,

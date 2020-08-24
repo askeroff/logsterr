@@ -7,11 +7,11 @@ import { getTasks, fetchTasks } from '../../actions/tasks';
 import Layout from '../layout/Layout';
 import NotFound from '../NotFound';
 import TasksList from '../tasks/TasksList';
-import { IMatch, IUser } from '../../types';
+import { Match, User } from '../../types';
 
 interface Props {
-  match: IMatch,
-  user: IUser,
+  match: Match,
+  user: User,
   handleProjects: () => void,
   handleTasks: (projectID: string) => void
 }

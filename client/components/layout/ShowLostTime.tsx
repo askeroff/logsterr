@@ -1,12 +1,11 @@
-
 import * as React from 'react';
-import moment from 'moment';
+import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 import timestorage from '../scripts/timestorage';
 import { formatTime } from '../../helpers';
 
 type State = {
-  show: string
+  show: string;
 };
 
 class ShowLostTime extends React.Component<{}, State> {
@@ -14,13 +13,15 @@ class ShowLostTime extends React.Component<{}, State> {
     show: 'block'
   };
 
-  close = () => {
+  close = (): void => {
     timestorage.reset();
     this.setState({
       show: 'none'
     });
   };
-  render() {
+
+
+  render(): JSX.Element {
     const getStorageData = timestorage.get();
     if (getStorageData !== null && getStorageData !== undefined) {
       const now = moment();

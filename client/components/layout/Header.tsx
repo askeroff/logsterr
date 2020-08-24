@@ -1,13 +1,12 @@
-
 import * as React from 'react';
 import Li from './ListItem';
 
 interface Props {
-  userEmail: string
+  userEmail: string;
 }
 
 class Header extends React.Component<Props> {
-  guestLinks = () => {
+  guestLinks = (): JSX.Element => {
     if (!this.props.userEmail) {
       return (
         <ul className="nav">
@@ -33,7 +32,7 @@ class Header extends React.Component<Props> {
     );
   };
 
-  render() {
+  render(): JSX.Element {
     return (
       <header className="header">
         <div className="content-wrapper">{this.guestLinks()}</div>

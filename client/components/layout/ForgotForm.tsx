@@ -3,13 +3,13 @@ import * as React from 'react';
 import FormInput from './FormInput';
 
 interface Props {
-  myClassName: string,
-  emailValue: string,
-  handleEmailChange: (event: any) => void,
-  handleSubmit: (event: any) => void
+  myClassName: string;
+  emailValue: string;
+  handleEmailChange: (event: any) => void;
+  handleSubmit: (event: any) => void;
 }
 
-const ForgotForm = (props: Props) => (
+const ForgotForm = (props: Props): JSX.Element => (
   <form onSubmit={props.handleSubmit} className={props.myClassName}>
     <label htmlFor="email">E-mail:</label>
     <FormInput

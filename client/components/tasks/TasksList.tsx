@@ -6,17 +6,17 @@ import swal from 'sweetalert';
 import { deleteTask, renameTask, toggleDone } from '../../actions/tasks';
 import { addTimelog } from '../../actions/timelog';
 import Task from './task/Task';
-import { ITask, IProject, IRenameTask, ITimeLogData } from '../../types';
+import { Task, Project, RenameTask, TimeLogData } from '../../types';
 
 type TasksListProps = {
-  tasks: { list: ITask[], doneList?: ITask[] },
+  tasks: { list: Task[], doneList?: Task[] },
   handleDeleting: (id: string, projectId: string) => void,
   projectId: string,
-  projects: { list: IProject[] },
-  handleEditing: (params: IRenameTask) => void,
+  projects: { list: Project[] },
+  handleEditing: (params: RenameTask) => void,
   handleDone: (id: string, projectId: string) => void,
   showDone: boolean,
-  handleAddingTimeLog: (data: ITimeLogData, seconds: number) => void
+  handleAddingTimeLog: (data: TimeLogData, seconds: number) => void
 };
 
 class TasksList extends React.Component<TasksListProps> {
@@ -52,7 +52,7 @@ class TasksList extends React.Component<TasksListProps> {
     });
   };
 
-  mapItems(items?: ITask[] = []) {
+  mapItems(items?: Task[] = []) {
     if (items.length === 0) {
       return <li>No tasks yet</li>;
     }
@@ -76,7 +76,7 @@ const mapDispatchToProps = dispatch => ({
   handleDeleting(id, projectId) {
     dispatch(deleteTask(id, projectId));
   },
-  handleEditing(params: IRenameTask) {
+  handleEditing(params: RenameTask) {
     dispatch(renameTask(params));
   },
   handleDone(id, projectId) {

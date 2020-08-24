@@ -8,22 +8,22 @@ import Spinner from '../../layout/Spinner';
 import { formatDate, formatTime } from '../../../helpers';
 import Input from './Input';
 import TimeAddOptions from './TimeAddOptions';
-import { IProject, IRenameTask, ITimeLogData } from '../../../types';
+import { Project, RenameTask, TimeLogData } from '../../../types';
 
 const MySwal: any = withReactContent(Swal);
 
 interface TaskProps {
   name: string,
   handleDelete: (id: string) => void,
-  handleRename: (params: IRenameTask) => void,
+  handleRename: (params: RenameTask) => void,
   taskDone: (id: string, projectId: string) => void,
   done: boolean,
   id: string,
   updated?: string,
   projectId: string,
   timeSpent: number,
-  projects: { list: IProject[] },
-  handleAddingTimeLog?: (data: ITimeLogData, seconds: number) => void
+  projects: { list: Project[] },
+  handleAddingTimeLog?: (data: TimeLogData, seconds: number) => void
 }
 
 interface TaskState {
@@ -90,7 +90,7 @@ class Task extends React.Component<TaskProps, TaskState> {
     });
   };
 
-  handleRenaming = (params: IRenameTask) => {
+  handleRenaming = (params: RenameTask) => {
     const { id, name, newProject } = params;
     if (this.props.projectId !== params.newProject) {
       MySwal.fire({

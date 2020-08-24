@@ -6,10 +6,10 @@ import LoginForm from './layout/LoginForm';
 import ForgotForm from './layout/ForgotForm';
 import Layout from './layout/Layout';
 import Spinner from './layout/Spinner';
-import { IUser } from '../types';
+import { User } from '../types';
 
 interface Props {
-  user: IUser,
+  user: User,
   history: any,
   error: string,
   handleLogin: ({ email: string, password: string }) => void,

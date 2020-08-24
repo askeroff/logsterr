@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 interface Props {
-  inputType: string,
-  inputName: string,
-  inputId: string,
-  inputValue: string,
-  handleInput: (e: any) => void
+  inputType: string;
+  inputName: string;
+  inputId: string;
+  inputValue: string;
+  handleInput: (e: any) => void;
 }
 
-const FormInput = (props: Props) => (
+const FormInput = (props: Props): JSX.Element => (
   <input
     type={props.inputType}
     name={props.inputName}

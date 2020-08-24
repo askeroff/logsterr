@@ -8,12 +8,12 @@ import Footer from './Footer';
 import Spinner from './Spinner';
 import ShowLostTime from './ShowLostTime';
 import ShowMessages from './ShowMessages';
-import { IUser } from '../../types';
+import { User } from '../../types';
 import NotLoggedIn from '../NotLoggedIn';
 
 interface Props {
   children: any | any[];
-  user: IUser;
+  user: User;
   contentClass: string;
   showToGuests: boolean;
   showSpinner: boolean;

@@ -8,10 +8,10 @@ import {
   toggleDone
 } from '../../actions/projects';
 import ProjectItem from './ProjectItem';
-import { IProject } from '../../types';
+import { Project } from '../../types';
 
 interface Props {
-  projects: IProject[],
+  projects: Project[],
   showArchived: boolean,
   handleDeleting: (projectID: string) => void,
   handleRenaming: (id: string, name: string, parentID: string) => void,

@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 interface Props {
-  close: (event: React.MouseEvent<HTMLInputElement>) => void,
-  type: string,
-  id: string,
-  message: string
+  close: (event: React.MouseEvent<HTMLInputElement>) => void;
+  type: string;
+  id: string;
+  message: string;
 }
 
-const MessageItem = (props: Props) => (
+const MessageItem = (props: Props): JSX.Element => (
   <div className={`message message--${props.type}`}>
     <p>{props.message}</p>
     <input

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import swal from 'sweetalert';
-import { ITimeLogData } from '../../types';
+import { TimeLogData } from '../../types';
 
 interface Props {
   task: string,
   from: string,
   project: string,
   addProjectTime?: (projectID: string, seconds: number) => void,
-  addTaskTime?: (data: ITimeLogData, seconds: number) => void,
+  addTaskTime?: (data: TimeLogData, seconds: number) => void,
   formToggle: () => void
 }
 

@@ -4,10 +4,10 @@ import { Route, Switch } from 'react-router-dom';
 import Index from './Index';
 import Project from './Project';
 import Archive from '../tasks/Archive';
-import { IMatch } from '../../types';
+import { Match } from '../../types';
 
 interface Props {
-  match: IMatch,
+  match: Match,
 }
 
 const ProjectsRoutes = ({ match }: Props) => (

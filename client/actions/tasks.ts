@@ -11,7 +11,7 @@ import {
   FETCH_TASKS,
   SUBTRACT_PROJECT_TIME
 } from '../actions/actionTypes';
-import { IRenameTask } from '../types';
+import { RenameTask } from '../types';
 
 export function getTasksSuccess(response: any) {
   return {
@@ -119,21 +119,21 @@ export function deleteTask(id: string, projectId: string) {
       .catch(() => dispatch(taskError(error)));
 }
 
-export function renameTaskSuccess(params: IRenameTask) {
+export function renameTaskSuccess(params: RenameTask) {
   return {
     type: EDIT_TASK,
     ...params
   };
 }
 
-export function subtractProjectTime(params: IRenameTask) {
+export function subtractProjectTime(params: RenameTask) {
   return {
     type: SUBTRACT_PROJECT_TIME,
     params
   };
 }
 
-export function renameTask(params: IRenameTask) {
+export function renameTask(params: RenameTask) {
   const error = {
     message:
       'Something went wrong. Could not rename the task. Try again or reload the page',

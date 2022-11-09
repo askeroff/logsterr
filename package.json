@@ -35,7 +35,7 @@
     "highcharts-react-official": "^2.0.0",
     "history": "^4.7.2",
     "html-to-text": "^3.3.0",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^5.5.0",
     "juice": "^5.0.1",
     "lodash.clonedeep": "^4.5.0",
     "moment": "^2.22.2",
